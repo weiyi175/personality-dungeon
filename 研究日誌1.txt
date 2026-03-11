@@ -1,0 +1,755 @@
+Personality Vector（建議 12 維）
+維度	功能影響
+熱血	主動戰鬥機率
+謹慎	遭遇危險時撤退傾向
+貪婪	搜刮與風險探索
+樂觀	低血時仍繼續前進
+多疑	是否相信可疑事件
+執著	重複嘗試同類事件
+隨機性	決策波動
+求穩	是否優先累積小優勢
+野心	是否挑戰高階區域
+耐心	是否長時間農資源
+好奇	探索隱藏房間機率
+恐懼	遭受創傷後保守程度
+
+------------------------------------------------------------------------------------------------------
+personality-dungeon/
+│
+├── README.md
+├── requirements.txt
+├── config/
+│   ├── game_config.yaml
+│   ├── evolution_config.yaml
+│   └── risk_config.yaml
+│
+├── core/                       # 核心博弈引擎
+│   ├── game_engine.py
+│   ├── state.py
+│   ├── strategy.py
+│   ├── utility.py
+│   ├── equilibrium.py
+│   └── stackelberg.py
+│
+├── players/                    # 玩家人格模型
+│   ├── base_player.py
+│   ├── personality_traits.py
+│   ├── strategy_library.py
+│   └── adaptive_player.py
+│
+├── dungeon/                    # 地下城控制邏輯（GAI）
+│   ├── dungeon_ai.py
+│   ├── popularity_penalty.py
+│   ├── rule_mutator.py
+│   └── event_generator.py
+│
+├── evolution/                  # 演化博弈層
+│   ├── replicator_dynamics.py
+│   ├── population_model.py
+│   └── mutation.py
+│
+├── simulation/
+│   ├── run_simulation.py
+│   ├── experiment_runner.py
+│   └── logger.py
+│
+├── analysis/
+│   ├── metrics.py
+│   ├── visualization.py
+│   └── convergence_test.py
+│
+├── api/                        # 若未來對外開放
+│   ├── server.py
+│   └── schemas.py
+│
+└── tests/
+    ├── test_engine.py
+    ├── test_evolution.py
+    └── test_equilibrium.py
+
+-----------------------------------------------------------------------------
+
+怎麼用（你要的研究流程）
+1) 跑模擬並輸出 CSV
+python3 -m simulation.run_simulation --out outputs/timeseries.csv
+
+你也可以掃參數（方便做實驗矩陣）：
+python3 -m simulation.run_simulation --gamma 0.2 --selection-strength 0.08 --out outputs/g0.2_s0.08.csv
+
+2) 不裝任何套件的快速檢視（ASCII）
+python3 -m analysis.plot_timeseries outputs/timeseries.csv
+
+我已驗證這個可以正常讀取並印出最後幾回合比例＋簡單 bar。
+
+我做的小幅優化（保持架構乾淨）
+simulation 加了 argparse 參數（players/rounds/gamma/selection_strength/out），不用改程式就能批次跑
+CSV 寫入包含 比例 + 權重 + reward/utility，後續你用 notebook 想畫什麼都夠
+analysis 端先提供零依賴的 quick look，避免你還沒決定要不要加 matplotlib/pandas 就被卡住
+需求對照
+方案 B：simulation 輸出 raw data CSV：✅ Done
+保持分層乾淨（analysis 只被 simulation 呼叫、無循環依賴）：✅ Done
+之後可批量實驗/掃參數/存多個 CSV：✅ Done（已參數化）
+
+
+------------------------------------------------------------------------------------------------
+
+我會照你建議的「研究期先用 Notebook、但保持分層乾淨」把兩者並存建好：Notebook 只負責互動分析，所有讀 CSV/畫圖邏輯集中在 visualization.py，simulation 完全不碰 matplotlib。
+
+ 更新 visualization.py：讀取 CSV + matplotlib 繪圖 helper（可選依賴）
+ 新增 notebook.ipynb：讀 timeseries.csv 畫策略比例/平均效用/平均 reward
+ requirements.txt 註記可選的 matplotlib
+ 實測 analysis.visualization 可 import（不需要 matplotlib 就能 import）
+你現在多了哪些檔案
+visualization.py：load_timeseries_csv()、plot_proportions()、plot_avg_utility()、plot_avg_reward() 等
+notebook.ipynb：研究用範本（讀 CSV、繪圖、下一步參數掃描提示）
+requirements.txt：加了 optional 註解 # matplotlib（不強制）
+怎麼用（Notebook）
+先跑出 CSV（你已經有 timeseries.csv 的話可跳過）：
+python -m simulation.run_simulation --out outputs/timeseries.csv
+開 notebook.ipynb，依序跑：
+第 3 個 cell：import + 指定 csv_path
+第 4 個 cell：載入並檢查策略欄位
+第 6、8 個 cell：畫圖
+matplotlib（可選）
+如果你要畫圖才需要裝：
+pip install matplotlib
+
+
+----------------------------------------------------------------------------------------------
+
+很好。既然正式選擇 目標 B：內部極限環（循環動態），下面給你一份完整的理論說明，從數學基礎到架構意義，全部系統化整理。
+
+1️⃣ 數學結構
+1.1 基本形式
+
+我們在 simplex 上考慮三策略比例：
+
+𝑥
+=
+(
+𝑥
+1
+,
+𝑥
+2
+,
+𝑥
+3
+)
+,
+𝑥
+𝑖
+≥
+0
+,
+∑
+𝑥
+𝑖
+=
+1
+x=(x
+1
+	​
+
+,x
+2
+	​
+
+,x
+3
+	​
+
+),x
+i
+	​
+
+≥0,∑x
+i
+	​
+
+=1
+
+replicator dynamics：
+
+𝑥
+˙
+𝑖
+=
+𝑥
+𝑖
+(
+𝑈
+𝑖
+−
+𝑈
+ˉ
+)
+x
+˙
+i
+	​
+
+=x
+i
+	​
+
+(U
+i
+	​
+
+−
+U
+ˉ
+)
+
+其中
+
+𝑈
+=
+𝐴
+𝑥
+U=Ax
+
+矩陣設為：
+
+𝐴
+=
+(
+0
+	
+𝑎
+	
+−
+𝑏
+
+
+−
+𝑏
+	
+0
+	
+𝑎
+
+
+𝑎
+	
+−
+𝑏
+	
+0
+)
+A=
+	​
+
+0
+−b
+a
+	​
+
+a
+0
+−b
+	​
+
+−b
+a
+0
+	​
+
+	​
+
+
+這可以分解為：
+
+𝐴
+=
+𝑆
++
+𝑅
+A=S+R
+
+𝑆
+S：對稱部分（potential component）
+
+𝑅
+R：反對稱部分（rotation component）
+
+1.2 關鍵性質
+(1) 非對稱性
+𝐴
+≠
+𝐴
+𝑇
+A
+
+=A
+T
+
+→ 非 potential game
+→ 不再是梯度下降系統
+
+這一點非常重要。
+
+----------------------------------------------------------------------------------------------
+
+（落地到本專案的最小實作：matrix payoff 模式）
+
+目的：把「目標 B：內部極限環」從概念變成可直接跑的結構。
+
+我們新增一個最小可切換的 payoff mode：
+
+- `payoff_mode=count_cycle`（預設）：你原本的結構（擁擠懲罰 + 可選 ε 環狀交叉項，使用 counts n）
+- `payoff_mode=matrix_ab`：理論版 `U = A x`（使用上一輪比例 x；三策略固定內點 (1/3,1/3,1/3) 存在）
+
+### 直接跑（matrix_ab）
+
+```bash
+python3 -m simulation.run_simulation \
+	--payoff-mode matrix_ab \
+	--a 1.0 --b 1.2 \
+	--selection-strength 0.02 \
+	--players 500 --rounds 12000 \
+	--out outputs/matrix_ab_a1_b1p2.csv
+```
+
+### A 矩陣（依策略順序 aggressive, defensive, balanced）
+
+`matrix_ab` 使用：
+
+```
+A = [[ 0,  a, -b],
+		 [-b,  0,  a],
+		 [ a, -b,  0]]
+U = A @ x
+```
+
+其中 x 是「上一輪」的策略比例向量（由 popularity counts 正規化得到）。
+
+### 參數直覺
+
+- δ = a - b
+	- a = b：接近零和結構（偏中性循環）
+	- a < b：偏收斂
+	- a > b：偏發散（更容易出現穩定極限環／強循環）
+
+備註：本專案的演化更新仍是離散時間＋有限族群抽樣（玩家用權重抽樣策略），所以你看到的會是
+「理論 replicator」的隨機離散近似；但 payoff 結構本身已經是你要的 non-potential 旋轉結構。
+
+(2) 內部固定點
+
+由對稱結構可得：
+
+𝑥
+∗
+=
+(
+1
+/
+3
+,
+1
+/
+3
+,
+1
+/
+3
+)
+x
+∗
+=(1/3,1/3,1/3)
+
+始終存在。
+
+(3) Jacobian 特徵值
+
+在內點做線性化。
+
+特徵值型態為：
+
+𝜆
+=
+𝛼
+±
+𝑖
+𝜔
+λ=α±iω
+
+若 
+𝛼
+<
+0
+α<0 → 吸引螺旋
+
+若 
+𝛼
+>
+0
+α>0 → 發散螺旋
+
+若 
+𝛼
+=
+0
+α=0 → 中性循環
+
+當參數改變使：
+
+𝛼
+ 穿越 
+0
+α 穿越 0
+
+即發生：
+
+Hopf bifurcation
+
+→ 產生 limit cycle
+
+1.3 參數角色
+
+設：
+
+𝛿
+=
+𝑎
+−
+𝑏
+δ=a−b
+
+若 
+𝑎
+=
+𝑏
+a=b → 零和 → 中性循環
+
+若 
+𝑎
+>
+𝑏
+a>b → 發散
+
+若 
+𝑎
+<
+𝑏
+a<b → 收斂
+
+這提供你一個「單一可控參數」。
+
+2️⃣ 動態行為
+2.1 三種區域
+(A) 收斂區
+
+內點穩定
+
+螺旋收斂
+
+無極限環
+
+行為平穩。
+
+(B) 臨界區
+
+Jacobian 純虛數
+
+封閉軌道
+
+能量守恆型循環
+
+類似零和博弈。
+
+(C) 發散區
+
+內點不穩定
+
+軌道遠離中心
+
+可能形成穩定極限環
+
+這是你真正想要的 meta-cycle。
+
+2.2 與你現有模型的差異
+目前模型	方案 B
+自我抑制	策略間循環壓制
+potential	non-potential
+單吸引子	可能極限環
+無結構震盪	結構性震盪
+2.3 物理解釋
+
+這類系統等價於：
+
+角動量守恆系統 + 阻尼
+
+或 Lotka–Volterra 捕食循環
+
+其本質不是「收斂」，而是：
+
+旋轉 + 調節
+
+3️⃣ 建模與實作成本
+3.1 實作成本
+
+非常低。
+
+你只需要：
+
+U = A @ x
+
+替代原 reward 計算。
+
+其他 replicator 邏輯不變。
+
+3.2 分析成本
+
+中等。
+
+需要：
+
+線性穩定分析
+
+計算 Jacobian
+
+掃描 a-b
+
+但這是一次性工作。
+
+3.3 模擬成本
+
+中等。
+
+需要較長時間尺度
+
+需要足夠小 step size
+
+需要觀察 phase portrait
+
+3.4 可控性
+
+極高。
+
+你只有兩個關鍵參數：
+
+旋轉強度
+
+收縮/發散強度
+
+可以精確調節。
+
+4️⃣ 與「個性地下城」的匹配度
+
+現在談架構意義。
+
+4.1 你的核心理念
+
+玩家策略影響地下城
+
+地下城影響玩家收益
+
+系統形成長期行為模式
+
+這是典型：
+
+Reflexive adaptive ecosystem
+
+4.2 為什麼方案 B 完美匹配
+(1) 形成 meta 週期
+
+例如：
+
+Aggressive 多 → Defensive 有利
+
+Defensive 多 → Balanced 有利
+
+Balanced 多 → Aggressive 有利
+
+這正是循環矩陣含義。
+
+(2) 不需要硬寫規則
+
+地下城不需要說：
+
+「當A多時懲罰A」
+
+系統自然形成流行輪替。
+
+(3) 可產生“個性”
+
+不同參數 → 不同地下城性格：
+
+參數區域	地下城個性
+收斂	穩定型
+中性	動態型
+極限環	輪替型
+強發散	激進型
+
+這直接對應「個性」。
+
+(4) 可長期擴展
+
+未來你可以：
+
+加入 mutation
+
+加入外生 shock
+
+加入玩家學習速度差異
+
+加入 Stackelberg boss
+
+核心動力不變。
+
+5️⃣ 更深入的補充
+5.1 與生態學對應
+
+此模型等價於：
+
+Lotka–Volterra 競爭模型。
+
+這意味：
+
+有成熟理論
+
+可引用穩定性結果
+
+可發展到多策略
+
+5.2 可研究問題
+
+Hopf bifurcation 點在哪？
+
+極限環半徑如何依參數變化？
+
+是否存在異宿循環？
+
+加入小 mutation 後是否形成準穩態？
+
+5.3 系統層級意義
+
+方案 B 讓地下城從：
+
+被動回應玩家
+
+升級為：
+
+主動形成演化節奏
+
+這是質的提升。
+
+6️⃣ 成長潛力總評
+面向	評估
+數學深度	高
+模型可控性	高
+實作難度	低
+可擴展性	非常高
+架構契合度	極高
+7️⃣ 核心結論
+
+方案 B 的本質是：
+
+在 simple replicator 架構上加入最小非對稱旋轉結構。
+
+它是：
+
+成本最低
+
+收益最大
+
+理論最乾淨
+
+最符合“個性地下城”長期發展的方向
+
+
+我會把你這套「目標 B：內部極限環」理論，落成兩件可直接用的東西：先把重點整理進 研究流程1.txt（變成專案的設計規格），再在程式端加一個最小、可切換的「矩陣 payoff（a,b）」模式，讓模型真的是 
+U
+=
+A
+x
+U=Ax（而且不會破壞你現有的 γ/ε 研究流程）。
+
+我會把你「方案 B：
+U
+=
+A
+x
+U=Ax、用 
+a
+−
+b
+a−b 控制收斂/發散」真正落到程式：新增一個最小的 --payoff-mode matrix_ab --a ... --b ...，讓 DungeonAI 直接用上一輪比例 
+x
+x 計算 payoff（不改 replicator 更新、不破壞既有 γ/ε 模式），並在 研究流程1.txt 補上對應的 CLI 用法與參數意義。
+
+已完成兩件關鍵落地：1) DungeonAI 新增 payoff_mode=matrix_ab 並依 
+U
+=
+A
+x
+U=Ax 用上一輪比例計算 payoff；2) simulation.run_simulation CLI 加上 --payoff-mode/--a/--b。接下來我會跑一次快速 smoke test（跑 50 rounds 看 CSV 能寫、程式不崩），再跑 pytest 確保不影響既有測試。
+
+/home/user/personality-dungeon/venv/bin/python -m simulation.run_simulation --payoff-mode matrix_ab --a 1.0 --b 1.2 --selection-strength 0.02 --players 50 --rounds 50 --out outputs/_smoke_matrix_ab.csv
+ Enable shell integration to improve command detection
+
+/home/user/personality-dungeon/venv/bin/python -m pytest -q
+ Enable shell integration to improve command detection
+
+pytest 在這個 venv 裡沒裝（所以 python -m pytest 找不到模組）。我改用標準庫的 unittest 直接跑 tests（不需要額外安裝套件）來確認不會破壞既有測試。
+
+/home/user/personality-dungeon/venv/bin/python -m unittest discover -s tests -p 'test_*.py' -v
+ Enable shell integration to improve command detection
+
+目前 tests 檔名雖然像 unittest，但實際上沒有被 unittest discovery 找到（0 tests），而且原本應該是走 pytest。為了真的驗證不破壞測試，我會用工具在 venv 裝 pytest，然後再跑一次 pytest -q。
+
+/home/user/personality-dungeon/venv/bin/python -m pytest -q
+ Enable shell integration to improve command detection
+
+你選定「目標 B：內部極限環」後，我們現在已經把它從理論規格，落成專案內可直接跑的「乾淨結構」了。
+
+我們做到哪個階段了（以目標 B 的標準）
+
+已完成「最小 non‑potential 旋轉結構」的工程落地：現在模型可以真的跑 
+U
+=
+A
+x
+U=Ax（不是用擁擠懲罰硬湊出循環）。
+已把你給的理論整理進研究文件，變成可執行的設計規格＋CLI 使用方式。
+程式端維持向後相容：原本的 gamma/epsilon（count-based）研究流程完全不會被破壞，你可以並行比較「擁擠懲罰」與「理論矩陣博弈」。
+我實作了什麼
+
+新增 matrix_ab payoff mode（
+U
+=
+A
+x
+U=Ax）：
+dungeon_ai.py 加入 payoff_mode，支援：
+count_cycle（原本模式，預設）
+matrix_ab（新模式，三策略、用上一輪比例 
+x
+x 算 
+U
+=
+A
+x
+U=Ax）
+CLI 可切換模式與參數：
+run_simulation.py 新增：
+--payoff-mode {count_cycle,matrix_ab}
+--a, --b（給 matrix_ab 用）
+文件落地（你貼的理論後面直接接「怎麼跑」）：
+研究流程1.txt 補上 matrix_ab 的 CLI 範例、A 矩陣定義、以及 
+δ
+=
+a
+−
+b
+δ=a−b 的直覺。
+驗證
+
+我跑過一次 smoke run：matrix_ab 能正常寫 CSV、流程完整跑完。
+安裝 pytest 後跑測試：3 passed（不影響既有行為）。
+你現在可以怎麼用（目標 B 的最小入口）
+
+直接跑：
+python3 -m simulation.run_simulation --payoff-mode matrix_ab --a 1.0 --b 1.2 --selection-strength 0.02 --players 500 --rounds 12000 --out outputs/matrix_ab.csv

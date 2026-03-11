@@ -1,0 +1,6 @@
+
+# Optional (for plotting in analysis/notebook.ipynb)
+# matplotlib
+
+# Dev/Test
+pytest

@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Local env
+.env
+.env.*
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Test cache
+.pytest_cache/
+
+# VSCode
+.vscode/
+
+# Output data
+outputs/
+
+# Mac / Linux
+.DS_Store
