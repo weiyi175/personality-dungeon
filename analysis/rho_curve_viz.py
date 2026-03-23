@@ -441,6 +441,254 @@ def _collapse_score(
 	return float(sum(vars_) / float(len(vars_)))
 
 
+def _interp_k_at_p(seq: Sequence[Tuple[float, float]], y: float) -> float | None:
+	if not seq:
+		return None
+	y = float(y)
+	best = None
+	best_span = None
+	for (k0, p0), (k1, p1) in zip(seq, seq[1:]):
+		p0 = float(p0)
+		p1 = float(p1)
+		if not (math.isfinite(p0) and math.isfinite(p1)):
+			continue
+		if (p0 - y) == 0.0:
+			return float(k0)
+		if (p1 - y) == 0.0:
+			return float(k1)
+		if (p0 - y) * (p1 - y) > 0.0:
+			continue
+		den = (p1 - p0)
+		if abs(den) <= 1e-15:
+			continue
+		t = (y - p0) / den
+		if not math.isfinite(t):
+			continue
+		kk = float(k0) + float(t) * (float(k1) - float(k0))
+		span = abs(p0 - y) + abs(p1 - y)
+		if best is None or float(span) < float(best_span):
+			best = float(kk)
+			best_span = float(span)
+	return best
+
+
+def _collapse_score_ygrid(
+	by: Dict[int, List[Tuple[float, float]]],
+	*,
+	k_inf: float,
+	beta: float,
+	y_grid: Sequence[float],
+	p3_min: float = 0.0,
+	p3_max: float = 1.0,
+	min_ns_per_y: int = 2,
+) -> float | None:
+	"""Robust collapse score using interpolation in y=P(Level3).
+
+	For each y in y_grid, interpolate k_N(y) along each N curve and compare
+	x_N(y)=(k_N(y)-k_inf)N^beta across N. Score is mean cross-N variance.
+	"""
+	lo = float(p3_min)
+	hi = float(p3_max)
+	grid = [float(y) for y in y_grid if lo <= float(y) <= hi and math.isfinite(float(y))]
+	if len(grid) < 3:
+		return None
+
+	filtered: Dict[int, List[Tuple[float, float]]] = {}
+	for n, seq in by.items():
+		if not seq:
+			continue
+		pts = [(float(k), float(p)) for (k, p) in seq if math.isfinite(float(k)) and math.isfinite(float(p))]
+		if not pts:
+			continue
+		pts.sort(key=lambda kv: kv[0])
+		pts2 = [(k, p) for (k, p) in pts if (p >= lo - 1e-12 and p <= hi + 1e-12)]
+		if len(pts2) >= 2:
+			filtered[int(n)] = pts2
+	if len(filtered) < 2:
+		return None
+
+	vars_: list[float] = []
+	for y in grid:
+		xs: list[float] = []
+		for n, seq in filtered.items():
+			kk = _interp_k_at_p(seq, y)
+			if kk is None:
+				continue
+			x = (float(kk) - float(k_inf)) * (float(n) ** float(beta))
+			if math.isfinite(x):
+				xs.append(float(x))
+		if len(xs) < int(min_ns_per_y):
+			continue
+		m = sum(xs) / float(len(xs))
+		v = sum((a - m) * (a - m) for a in xs) / float(len(xs) - 1) if len(xs) > 1 else 0.0
+		if math.isfinite(v):
+			vars_.append(float(v))
+	if len(vars_) < 3:
+		return None
+	return float(sum(vars_) / float(len(vars_)))
+
+
+def _interp_y_at_x(seq_xy: Sequence[Tuple[float, float]], x: float) -> float | None:
+	if not seq_xy:
+		return None
+	x = float(x)
+	x0 = float(seq_xy[0][0])
+	x1 = float(seq_xy[-1][0])
+	if x < min(x0, x1) - 1e-12 or x > max(x0, x1) + 1e-12:
+		return None
+	for (xa, ya), (xb, yb) in zip(seq_xy, seq_xy[1:]):
+		xa = float(xa)
+		xb = float(xb)
+		if (xa - x) == 0.0:
+			return float(ya)
+		if (xb - x) == 0.0:
+			return float(yb)
+		if (xa - x) * (xb - x) > 0.0:
+			continue
+		den = (xb - xa)
+		if abs(den) <= 1e-15:
+			continue
+		t = (x - xa) / den
+		if not math.isfinite(t):
+			continue
+		yy = float(ya) + float(t) * (float(yb) - float(ya))
+		return float(yy)
+	return None
+
+
+def _collapse_score_xgrid(
+	by: Dict[int, List[Tuple[float, float]]],
+	*,
+	k_inf: float,
+	beta: float,
+	x_grid_n: int = 41,
+	p3_min: float = 0.0,
+	p3_max: float = 1.0,
+	min_ns_per_x: int = 2,
+) -> float | None:
+	lo = float(p3_min)
+	hi = float(p3_max)
+	span = float(hi - lo)
+	win_lo = float(lo + 0.10 * span)
+	win_hi = float(hi - 0.10 * span)
+	if not (win_hi > win_lo + 1e-12):
+		win_lo = lo
+		win_hi = hi
+	seqs: Dict[int, List[Tuple[float, float]]] = {}
+	x_at_lo: list[float] = []
+	x_at_hi: list[float] = []
+	for n, seq in by.items():
+		if not seq:
+			continue
+		kp = [(float(k), float(p)) for (k, p) in seq if math.isfinite(float(k)) and math.isfinite(float(p))]
+		if len(kp) < 2:
+			continue
+		kp.sort(key=lambda kv: kv[0])
+		kp2 = [(k, p) for (k, p) in kp if (p >= lo - 1e-12 and p <= hi + 1e-12)]
+		if len(kp2) >= 2:
+			k_lo = _interp_k_at_p(kp2, win_lo)
+			k_hi = _interp_k_at_p(kp2, win_hi)
+			if k_lo is not None and k_hi is not None:
+				x_at_lo.append((float(k_lo) - float(k_inf)) * (float(n) ** float(beta)))
+				x_at_hi.append((float(k_hi) - float(k_inf)) * (float(n) ** float(beta)))
+		pts = []
+		for k, p in seq:
+			pp = float(p)
+			if not (pp >= lo and pp <= hi):
+				continue
+			x = (float(k) - float(k_inf)) * (float(n) ** float(beta))
+			if math.isfinite(x) and math.isfinite(pp):
+				pts.append((float(x), float(pp)))
+		if len(pts) < 2:
+			continue
+		pts.sort(key=lambda kv: kv[0])
+		uniq: Dict[float, float] = {}
+		for x, y in pts:
+			uniq[float(x)] = float(y)
+		pts2 = sorted(uniq.items(), key=lambda kv: kv[0])
+		if len(pts2) < 2:
+			continue
+		seqs[int(n)] = [(float(x), float(y)) for (x, y) in pts2]
+	if len(seqs) < 2:
+		return None
+	if len(x_at_lo) < 3 or len(x_at_hi) < 3:
+		return None
+	x_at_lo.sort()
+	x_at_hi.sort()
+	def _pct(xs: list[float], q: float) -> float:
+		q = max(0.0, min(1.0, float(q)))
+		idx = int(round(q * float(len(xs) - 1)))
+		idx = max(0, min(len(xs) - 1, idx))
+		return float(xs[idx])
+	q_pairs = [(0.80, 0.20), (0.70, 0.30), (0.65, 0.35), (0.60, 0.40), (0.55, 0.45), (0.50, 0.50)]
+	x_lo = None
+	x_hi = None
+	for qlo, qhi in q_pairs:
+		lo_q = _pct(x_at_lo, qlo)
+		hi_q = _pct(x_at_hi, qhi)
+		if math.isfinite(lo_q) and math.isfinite(hi_q) and hi_q > lo_q + 1e-12:
+			x_lo = float(lo_q)
+			x_hi = float(hi_q)
+			break
+	if x_lo is None or x_hi is None:
+		return None
+	if not (math.isfinite(x_lo) and math.isfinite(x_hi)):
+		return None
+	if x_hi <= x_lo + 1e-12:
+		return None
+
+	nx = max(11, int(x_grid_n))
+	step = (x_hi - x_lo) / float(nx - 1)
+	vars_: list[float] = []
+	for i in range(nx):
+		x = x_lo + float(i) * step
+		ys: list[float] = []
+		for _n, sxy in seqs.items():
+			y = _interp_y_at_x(sxy, x)
+			if y is None:
+				continue
+			if math.isfinite(float(y)):
+				ys.append(float(y))
+		if len(ys) < int(min_ns_per_x):
+			continue
+		m = sum(ys) / float(len(ys))
+		v = sum((a - m) * (a - m) for a in ys) / float(len(ys) - 1) if len(ys) > 1 else 0.0
+		if math.isfinite(v):
+			vars_.append(float(v))
+	if len(vars_) < max(3, int(0.3 * float(nx))):
+		return None
+	return float(sum(vars_) / float(len(vars_)))
+
+
+def _parse_grid_spec(spec: str) -> list[float]:
+	s = str(spec).strip()
+	if ":" in s:
+		parts = [p.strip() for p in s.split(":")]
+		if len(parts) != 3:
+			raise ValueError("grid must be lo:hi:step")
+		lo = float(parts[0])
+		hi = float(parts[1])
+		st = float(parts[2])
+		if st <= 0:
+			raise ValueError("step must be >0")
+		out: list[float] = []
+		x = lo
+		k = 0
+		while x <= hi + 1e-12 and k < 100000:
+			out.append(float(x))
+			k += 1
+			x = lo + k * st
+		return out
+	# comma list
+	out: list[float] = []
+	for part in s.split(","):
+		part = part.strip()
+		if not part:
+			continue
+		out.append(float(part))
+	return out
+
+
 def _plot_heatmap(by: Dict[int, List[Tuple[float, float]]], *, outpath: Path, title: str) -> None:
 	_ensure_matplotlib()
 	import matplotlib.pyplot as plt
@@ -574,6 +822,18 @@ def main(argv: Optional[Sequence[str]] = None) -> None:
 		default=0.9,
 		help="Only use points with P(Level3) <= this for collapse scoring (default: 0.9)",
 	)
+	p.add_argument(
+		"--collapse-score-method",
+		choices=["xbins", "xgrid", "ygrid"],
+		default="xbins",
+		help="Collapse score method: xbins (legacy), xgrid (robust), or ygrid (experimental) (default: xbins)",
+	)
+	p.add_argument("--collapse-x-grid-n", type=int, default=41, help="For xgrid: number of x grid points (default: 41)")
+	p.add_argument(
+		"--collapse-y-grid",
+		default=None,
+		help="For ygrid method: y values as lo:hi:step or comma list (default: use collapse-pmin..collapse-pmax step 0.02)",
+	)
 	args = p.parse_args(list(argv) if argv is not None else None)
 
 	prefix = str(args.prefix)
@@ -634,6 +894,17 @@ def main(argv: Optional[Sequence[str]] = None) -> None:
 		k_inf = float(fit["k_inf"])
 	if k_inf is not None and betas:
 		scores: dict[str, float] = {}
+		score_method = str(args.collapse_score_method)
+		if score_method == "ygrid":
+			if args.collapse_y_grid is None:
+				y_grid = _parse_grid_spec(f"{float(args.collapse_pmin)}:{float(args.collapse_pmax)}:0.02")
+				y_grid_spec = f"{float(args.collapse_pmin)}:{float(args.collapse_pmax)}:0.02"
+			else:
+				y_grid = _parse_grid_spec(str(args.collapse_y_grid))
+				y_grid_spec = str(args.collapse_y_grid)
+		else:
+			y_grid = []
+			y_grid_spec = None
 		for b in betas:
 			_plot_collapse_k(
 				by,
@@ -642,19 +913,54 @@ def main(argv: Optional[Sequence[str]] = None) -> None:
 				outpath=figdir / f"{prefix}_collapse_k_kInf_{k_inf:.4f}_beta_{b:g}.png",
 				title=f"Collapse attempt: (k-k_inf)N^beta (k_inf={k_inf:.4f}, beta={b:g})",
 			)
-			s = _collapse_score(
-				by,
-				k_inf=float(k_inf),
-				beta=float(b),
-				p3_min=float(args.collapse_pmin),
-				p3_max=float(args.collapse_pmax),
-			)
+			if score_method == "ygrid":
+				s = _collapse_score_ygrid(
+					by,
+					k_inf=float(k_inf),
+					beta=float(b),
+					y_grid=y_grid,
+					p3_min=float(args.collapse_pmin),
+					p3_max=float(args.collapse_pmax),
+				)
+			elif score_method == "xgrid":
+				s = _collapse_score_xgrid(
+					by,
+					k_inf=float(k_inf),
+					beta=float(b),
+					x_grid_n=int(args.collapse_x_grid_n),
+					p3_min=float(args.collapse_pmin),
+					p3_max=float(args.collapse_pmax),
+				)
+			else:
+				s = _collapse_score(
+					by,
+					k_inf=float(k_inf),
+					beta=float(b),
+					p3_min=float(args.collapse_pmin),
+					p3_max=float(args.collapse_pmax),
+				)
 			if s is not None:
 				scores[f"{float(b):g}"] = float(s)
 		if scores:
 			best_beta = min(scores.items(), key=lambda kv: kv[1])[0]
 			out_json = figdir / f"{prefix}_collapse_scores_kInf_{k_inf:.4f}.json"
-			out_json.write_text(json.dumps({"k_inf": float(k_inf), "scores": scores, "best_beta": best_beta}, indent=2), encoding="utf-8")
+			out_json.write_text(
+				json.dumps(
+					{
+						"k_inf": float(k_inf),
+						"scores": scores,
+						"best_beta": best_beta,
+						"score_method": score_method,
+						"collapse_pmin": float(args.collapse_pmin),
+						"collapse_pmax": float(args.collapse_pmax),
+						"x_grid_n": int(args.collapse_x_grid_n),
+						"y_grid_spec": y_grid_spec,
+						"y_grid": y_grid if score_method == "ygrid" else None,
+					},
+					indent=2,
+				),
+				encoding="utf-8",
+			)
 			print(f"Collapse scores: wrote {out_json} (best_beta={best_beta})")
 
 	# per-N diagnostics CSV

@@ -20,6 +20,27 @@ def test_matrix_ab_payoff_matches_expected_U_equals_Ax():
 	assert d.evaluate("balanced") == pytest.approx(9.6)
 
 
+def test_matrix_ab_cross_coupling_penalizes_a_d_and_rewards_b():
+	cycle = ["aggressive", "defensive", "balanced"]
+	d = DungeonAI(
+		payoff_mode="matrix_ab",
+		a=1.0,
+		b=2.0,
+		matrix_cross_coupling=0.5,
+		base_reward=10.0,
+		strategy_cycle=cycle,
+	)
+
+	# x = (0.2, 0.3, 0.5)
+	d.popularity = {"aggressive": 2, "defensive": 3, "balanced": 5}
+
+	# Base U = (-0.7, 0.1, -0.4)
+	# Cross = (-0.5*0.3, -0.5*0.2, 0.5*(0.2+0.3)) = (-0.15, -0.1, 0.25)
+	assert d.evaluate("aggressive") == pytest.approx(9.15)
+	assert d.evaluate("defensive") == pytest.approx(10.0)
+	assert d.evaluate("balanced") == pytest.approx(9.85)
+
+
 def test_matrix_ab_requires_three_strategies():
 	with pytest.raises(ValueError):
 		DungeonAI(payoff_mode="matrix_ab", a=1.0, b=1.0, strategy_cycle=["a", "b"])  # len != 3

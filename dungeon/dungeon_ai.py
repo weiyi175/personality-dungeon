@@ -1,3 +1,6 @@
+import random
+
+
 class DungeonAI:
 	"""Dungeon payoff with popularity penalty and optional cyclic cross-payoff.
 
@@ -18,15 +21,21 @@ class DungeonAI:
 		epsilon: float = 0.0,
 		a: float = 0.0,
 		b: float = 0.0,
+		matrix_cross_coupling: float = 0.0,
 		strategy_cycle: list[str] | None = None,
 		base_reward: float = 10.0,
+		event_loader: object | None = None,
+		event_rng: random.Random | None = None,
 	):
 		self.payoff_mode = str(payoff_mode)
 		self.gamma = float(gamma)
 		self.epsilon = float(epsilon)
 		self.a = float(a)
 		self.b = float(b)
+		self.matrix_cross_coupling = float(matrix_cross_coupling)
 		self.base_reward = float(base_reward)
+		self.event_loader = event_loader
+		self._event_rng = event_rng if event_rng is not None else random.Random()
 		# cycle defines (prev, next) neighbors in a directed ring.
 		self.strategy_cycle = list(strategy_cycle) if strategy_cycle is not None else []
 		self.popularity: dict[str, int] = {}
@@ -49,6 +58,8 @@ class DungeonAI:
 			# A = [[0, a, -b],
 			#      [-b, 0, a],
 			#      [a, -b, 0]]
+			# Optional cross coupling c_AD penalizes aggressive-defensive coexistence
+			# and transfers that pressure to balanced.
 			# where x is last-round strategy proportions in the order of strategy_cycle.
 			if strategy not in self.strategy_cycle:
 				return float(self.base_reward)
@@ -61,6 +72,10 @@ class DungeonAI:
 				(self.a, -self.b, 0.0),
 			)
 			u = A[idx][0] * x[0] + A[idx][1] * x[1] + A[idx][2] * x[2]
+			c = self.matrix_cross_coupling
+			if c != 0.0:
+				cross = (-c * x[1], -c * x[0], c * (x[0] + x[1]))
+				u += cross[idx]
 			return float(self.base_reward + u)
 
 		n_i = float(self.popularity.get(strategy, 0))
@@ -81,4 +96,23 @@ class DungeonAI:
 		self.popularity = {}
 		for s in chosen_strategies:
 			self.popularity[s] = self.popularity.get(s, 0) + 1
+
+	def resolve_player_outcome(self, player: object, strategy: str) -> dict[str, object]:
+		base_reward = float(self.evaluate(strategy))
+		if self.event_loader is None:
+			return {
+				"reward": base_reward,
+				"base_reward": base_reward,
+				"event_result": None,
+			}
+		event_result = self.event_loader.process_turn(player, rng=self._event_rng, strategy=strategy)
+		total_reward = base_reward + float(event_result.get("utility_delta", 0.0))
+		return {
+			"reward": total_reward,
+			"base_reward": base_reward,
+			"event_result": event_result,
+		}
+
+	def evaluate_player(self, player: object, strategy: str) -> float:
+		return float(self.resolve_player_outcome(player, strategy)["reward"])
 

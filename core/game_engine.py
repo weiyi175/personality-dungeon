@@ -38,15 +38,33 @@ class GameEngine:
 		# Convert mean weights into a probability-like mass (will be normalized downstream).
 		return {k: (v / float(n)) for k, v in totals.items()}
 
-	def step(self) -> None:
+	def step(self) -> list[dict[str, object]]:
 		chosen_strategies: list[str] = []
+		step_records: list[dict[str, object]] = []
 
 		# 玩家選策略並獲得 reward
 		for player in self.players:
 			strategy = player.choose_strategy()
 			chosen_strategies.append(strategy)
 
-			reward = self.dungeon.evaluate(strategy)
+			if hasattr(self.dungeon, "resolve_player_outcome"):
+				outcome = self.dungeon.resolve_player_outcome(player, strategy)
+				reward = outcome["reward"]
+				event_result = outcome.get("event_result")
+				step_records.append(
+					{
+						"strategy": strategy,
+						"reward": float(reward),
+						"base_reward": float(outcome.get("base_reward", reward)),
+						"event_result": event_result,
+					}
+				)
+			elif hasattr(self.dungeon, "evaluate_player"):
+				reward = self.dungeon.evaluate_player(player, strategy)
+				step_records.append({"strategy": strategy, "reward": float(reward), "base_reward": float(reward), "event_result": None})
+			else:
+				reward = self.dungeon.evaluate(strategy)
+				step_records.append({"strategy": strategy, "reward": float(reward), "base_reward": float(reward), "event_result": None})
 			player.update_utility(reward)
 
 		# 更新地下城 popularity 統計
@@ -54,4 +72,6 @@ class GameEngine:
 			self.dungeon.update_popularity(chosen_strategies)
 		else:  # expected
 			self.dungeon.popularity = self._expected_popularity()
+
+		return step_records
 

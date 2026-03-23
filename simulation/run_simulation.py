@@ -1,11 +1,13 @@
 from core.game_engine import GameEngine
 from dungeon.dungeon_ai import DungeonAI
+from dungeon.event_loader import EventLoader
 from analysis.metrics import average_reward, average_utility, strategy_distribution
 from evolution.replicator_dynamics import replicator_step
 from players.base_player import BasePlayer
 
 import argparse
 import csv
+import json
 import random
 from dataclasses import dataclass
 from pathlib import Path
@@ -25,11 +27,29 @@ class SimConfig:
 	epsilon: float
 	a: float
 	b: float
+	matrix_cross_coupling: float
 	init_bias: float
 	evolution_mode: str
 	payoff_lag: int
 	selection_strength: float
+	enable_events: bool
+	events_json: Path | None
 	out_csv: Path
+	event_failure_threshold: float | None = None
+	event_health_penalty: float | None = None
+	event_stress_risk_coefficient: float | None = None
+	risk_ma_alpha: float | None = None
+	risk_ma_multiplier: float | None = None
+	stress_decay_c: float | None = None
+	stress_decay_beta: float | None = None
+	adaptive_ft_strength: float | None = None
+	ft_update_interval: int | None = None
+	adaptive_payoff_strength: float = 0.0
+	payoff_update_interval: int = 500
+	adaptive_payoff_target: float = 0.30
+
+
+DEFAULT_EVENTS_JSON = Path(__file__).resolve().parents[1] / "docs" / "personality_dungeon_v1" / "02_event_templates_v1.json"
 
 
 def _initial_weights(*, strategy_space: list[str], init_bias: float) -> dict[str, float]:
@@ -93,6 +113,12 @@ def _parse_args() -> SimConfig:
 	p.add_argument("--a", type=float, default=0.0, help="matrix_ab only: payoff matrix parameter a")
 	p.add_argument("--b", type=float, default=0.0, help="matrix_ab only: payoff matrix parameter b")
 	p.add_argument(
+		"--matrix-cross-coupling",
+		type=float,
+		default=0.0,
+		help="matrix_ab only: aggressive-defensive coexistence penalty strength c_AD (default: 0.0)",
+	)
+	p.add_argument(
 		"--init-bias",
 		type=float,
 		default=0.0,
@@ -100,10 +126,93 @@ def _parse_args() -> SimConfig:
 	)
 	p.add_argument("--selection-strength", type=float, default=0.05)
 	p.add_argument(
+		"--enable-events",
+		action="store_true",
+		help="Enable Personality Dungeon event processing using the event schema JSON.",
+	)
+	p.add_argument(
+		"--events-json",
+		type=Path,
+		default=None,
+		help="Path to the Personality Dungeon event schema JSON. Defaults to docs/personality_dungeon_v1/02_event_templates_v1.json when --enable-events is set.",
+	)
+	p.add_argument(
 		"--out",
 		type=Path,
 		default=Path("outputs") / "timeseries.csv",
 		help="CSV output path (will create parent dirs)",
+	)
+	p.add_argument(
+		"--event-failure-threshold",
+		type=float,
+		default=None,
+		help="Override all per-action failure_threshold values with this value (grid search use). Range [0,1].",
+	)
+	p.add_argument(
+		"--event-health-penalty",
+		type=float,
+		default=None,
+		help="Override health penalty coefficient in final_risk (default: 0.10).",
+	)
+	p.add_argument(
+		"--event-stress-risk-coefficient",
+		type=float,
+		default=None,
+		help="Override stress→risk coupling coefficient in final_risk (default: 0.10).",
+	)
+	p.add_argument(
+		"--risk-ma-alpha",
+		type=float,
+		default=None,
+		help="EMA smoothing factor \u03b1 for risk memory (0=disabled, 0.9=slow decay). Default: 0.0.",
+	)
+	p.add_argument(
+		"--risk-ma-multiplier",
+		type=float,
+		default=None,
+		help="Weight of EMA risk_ma contribution to final_risk. Default: 0.0.",
+	)
+	p.add_argument(
+		"--stress-decay-c",
+		type=float,
+		default=None,
+		help="Nonlinear stress-decay coefficient c (0=disabled). effective_rate=1-(1-base)/(1+c*stress^beta). Default: 0.0.",
+	)
+	p.add_argument(
+		"--stress-decay-beta",
+		type=float,
+		default=None,
+		help="Exponent beta for stress-dependent decay asymmetry (default: 2.0).",
+	)
+	p.add_argument(
+		"--adaptive-ft-strength",
+		type=float,
+		default=None,
+		help="Adaptive failure-threshold coupling strength s (0=disabled). ft_new=ft_base*(1+s*(p_agg-1/3)). Default: 0.0.",
+	)
+	p.add_argument(
+		"--ft-update-interval",
+		type=int,
+		default=None,
+		help="Rounds between adaptive ft updates (default: 500).",
+	)
+	p.add_argument(
+		"--adaptive-payoff-strength",
+		type=float,
+		default=0.0,
+		help="Adaptive strength for a/b payoff adjustment based on p_agg (0=disabled).",
+	)
+	p.add_argument(
+		"--payoff-update-interval",
+		type=int,
+		default=500,
+		help="Rounds between adaptive payoff matrix updates (default: 500).",
+	)
+	p.add_argument(
+		"--adaptive-payoff-target",
+		type=float,
+		default=0.30,
+		help="Target p_agg level for adaptive payoff feedback (default: 0.30).",
 	)
 	a = p.parse_args()
 	return SimConfig(
@@ -116,11 +225,26 @@ def _parse_args() -> SimConfig:
 		epsilon=a.epsilon,
 		a=a.a,
 		b=a.b,
+		matrix_cross_coupling=a.matrix_cross_coupling,
 		init_bias=a.init_bias,
 		evolution_mode=a.evolution_mode,
 		payoff_lag=a.payoff_lag,
 		selection_strength=a.selection_strength,
+		enable_events=bool(a.enable_events),
+		events_json=a.events_json,
 		out_csv=a.out,
+		event_failure_threshold=a.event_failure_threshold,
+		event_health_penalty=a.event_health_penalty,
+		event_stress_risk_coefficient=a.event_stress_risk_coefficient,
+		risk_ma_alpha=a.risk_ma_alpha,
+		risk_ma_multiplier=a.risk_ma_multiplier,
+		stress_decay_c=a.stress_decay_c,
+		stress_decay_beta=a.stress_decay_beta,
+		adaptive_ft_strength=a.adaptive_ft_strength,
+		ft_update_interval=a.ft_update_interval,
+		adaptive_payoff_strength=a.adaptive_payoff_strength,
+		payoff_update_interval=a.payoff_update_interval,
+		adaptive_payoff_target=a.adaptive_payoff_target,
 	)
 
 
@@ -132,12 +256,21 @@ def _normalize_simplex(weights: dict[str, float]) -> dict[str, float]:
 	return {k: (float(v) / float(total)) for k, v in weights.items()}
 
 
-def _matrix_ab_payoff_vec(*, strategy_space: list[str], a: float, b: float, x: dict[str, float]) -> dict[str, float]:
+def _matrix_ab_payoff_vec(
+	*,
+	strategy_space: list[str],
+	a: float,
+	b: float,
+	matrix_cross_coupling: float,
+	x: dict[str, float],
+) -> dict[str, float]:
 	"""Compute u = A x for the matrix_ab cyclic payoff.
 
 	A = [[0, a, -b],
 	     [-b, 0, a],
 	     [a, -b, 0]]
+
+	Optional cross term c_AD adds (-c*x_D, -c*x_A, c*(x_A+x_D)).
 	"""
 	if len(strategy_space) != 3:
 		raise ValueError("matrix_ab requires exactly 3 strategies")
@@ -152,6 +285,11 @@ def _matrix_ab_payoff_vec(*, strategy_space: list[str], a: float, b: float, x: d
 	u0 = A[0][0] * x0 + A[0][1] * x1 + A[0][2] * x2
 	u1 = A[1][0] * x0 + A[1][1] * x1 + A[1][2] * x2
 	u2 = A[2][0] * x0 + A[2][1] * x1 + A[2][2] * x2
+	c = float(matrix_cross_coupling)
+	if c != 0.0:
+		u0 += -c * x1
+		u1 += -c * x0
+		u2 += c * (x0 + x1)
 	return {
 		strategy_space[0]: float(u0),
 		strategy_space[1]: float(u1),
@@ -170,11 +308,79 @@ def _write_timeseries_csv(
 		["round", "avg_reward", "avg_utility"]
 		+ [f"p_{s}" for s in strategy_space]
 		+ [f"w_{s}" for s in strategy_space]
+		+ [
+			"event_count",
+			"success_count",
+			"event_types_json",
+			"event_ids_json",
+			"action_names_json",
+			"result_kinds_json",
+			"successes_json",
+			"final_risks_json",
+			"success_probs_json",
+			"trait_deltas_json",
+			"trait_deltas_per_event_json",
+			"popularity_shift_json",
+			"state_effects_json",
+		]
 	)
 	with out_csv.open("w", newline="") as f:
 		writer = csv.DictWriter(f, fieldnames=fieldnames)
 		writer.writeheader()
 		writer.writerows(rows)
+
+
+def _aggregate_event_records(step_records: list[dict]) -> dict[str, object]:
+	event_records = [record.get("event_result") for record in step_records if record.get("event_result")]
+	if not event_records:
+		return {
+			"event_count": 0,
+			"success_count": 0,
+			"event_types_json": "[]",
+			"event_ids_json": "[]",
+			"action_names_json": "[]",
+			"result_kinds_json": "[]",
+			"successes_json": "[]",
+			"final_risks_json": "[]",
+			"success_probs_json": "[]",
+			"trait_deltas_json": "{}",
+			"trait_deltas_per_event_json": "{}",
+			"popularity_shift_json": "{}",
+			"state_effects_json": "{}",
+		}
+
+	def _sum_dicts(items: list[dict[str, float]]) -> dict[str, float]:
+		merged: dict[str, float] = {}
+		for item in items:
+			for key, value in item.items():
+				merged[key] = float(merged.get(key, 0.0)) + float(value)
+		return merged
+
+	trait_deltas = _sum_dicts([dict(record.get("trait_deltas", {})) for record in event_records])
+	popularity_shift = _sum_dicts([dict(record.get("popularity_shift", {})) for record in event_records])
+	state_effects = _sum_dicts([dict(record.get("state_effects", {})) for record in event_records])
+	trait_deltas_per_event: dict[str, dict[str, float]] = {}
+	for record in event_records:
+		event_id = str(record.get("event_id"))
+		bucket = trait_deltas_per_event.setdefault(event_id, {})
+		for key, value in dict(record.get("trait_deltas", {})).items():
+			bucket[str(key)] = float(bucket.get(str(key), 0.0)) + float(value)
+
+	return {
+		"event_count": len(event_records),
+		"success_count": sum(1 for record in event_records if bool(record.get("success"))),
+		"event_types_json": json.dumps([record.get("event_type") for record in event_records], sort_keys=True),
+		"event_ids_json": json.dumps([record.get("event_id") for record in event_records], sort_keys=True),
+		"action_names_json": json.dumps([record.get("action_name") for record in event_records], sort_keys=True),
+		"result_kinds_json": json.dumps([record.get("result_kind") for record in event_records], sort_keys=True),
+		"successes_json": json.dumps([bool(record.get("success")) for record in event_records]),
+		"final_risks_json": json.dumps([float(record.get("final_risk", 0.0)) for record in event_records]),
+		"success_probs_json": json.dumps([float(record.get("success_prob", 0.0)) for record in event_records]),
+		"trait_deltas_json": json.dumps(trait_deltas, sort_keys=True),
+		"trait_deltas_per_event_json": json.dumps(trait_deltas_per_event, sort_keys=True),
+		"popularity_shift_json": json.dumps(popularity_shift, sort_keys=True),
+		"state_effects_json": json.dumps(state_effects, sort_keys=True),
+	}
 
 
 def simulate(cfg: SimConfig) -> tuple[list[str], list[dict]]:
@@ -200,7 +406,13 @@ def simulate(cfg: SimConfig) -> tuple[list[str], list[dict]]:
 		rows: list[dict] = []
 		for t in range(int(cfg.n_rounds)):
 			x_pay = x_prev if int(cfg.payoff_lag) == 1 else x_cur
-			u = _matrix_ab_payoff_vec(strategy_space=strategy_space, a=float(cfg.a), b=float(cfg.b), x=x_pay)
+			u = _matrix_ab_payoff_vec(
+				strategy_space=strategy_space,
+				a=float(cfg.a),
+				b=float(cfg.b),
+				matrix_cross_coupling=float(cfg.matrix_cross_coupling),
+				x=x_pay,
+			)
 			u_bar = sum(float(x_cur[s]) * float(u[s]) for s in strategy_space)
 			w_next_raw = {s: (float(w_cur[s]) * exp(k * (float(u[s]) - float(u_bar)))) for s in strategy_space}
 			m = sum(w_next_raw.values()) / float(len(w_next_raw))
@@ -226,6 +438,28 @@ def simulate(cfg: SimConfig) -> tuple[list[str], list[dict]]:
 			for i in range(cfg.n_players)
 		]
 
+	event_loader = None
+	if bool(cfg.enable_events):
+		events_json = cfg.events_json if cfg.events_json is not None else DEFAULT_EVENTS_JSON
+		event_loader = EventLoader(
+			events_json,
+			failure_threshold_override=cfg.event_failure_threshold,
+			health_penalty_coefficient=(
+				float(cfg.event_health_penalty)
+				if cfg.event_health_penalty is not None
+				else 0.10
+			),
+			stress_risk_coefficient=(
+				float(cfg.event_stress_risk_coefficient)
+				if cfg.event_stress_risk_coefficient is not None
+				else 0.10
+			),
+			risk_ma_alpha=(float(cfg.risk_ma_alpha) if cfg.risk_ma_alpha is not None else 0.0),
+			risk_ma_multiplier=(float(cfg.risk_ma_multiplier) if cfg.risk_ma_multiplier is not None else 0.0),
+			stress_decay_c=(float(cfg.stress_decay_c) if cfg.stress_decay_c is not None else 0.0),
+			stress_decay_beta=(float(cfg.stress_decay_beta) if cfg.stress_decay_beta is not None else 2.0),
+		)
+
 	# Symmetry breaking: start away from the uniform equilibrium.
 	init_w = _initial_weights(strategy_space=strategy_space, init_bias=float(cfg.init_bias))
 	if init_w:
@@ -238,7 +472,10 @@ def simulate(cfg: SimConfig) -> tuple[list[str], list[dict]]:
 		epsilon=cfg.epsilon,
 		a=cfg.a,
 		b=cfg.b,
+		matrix_cross_coupling=cfg.matrix_cross_coupling,
 		strategy_cycle=strategy_space,
+		event_loader=event_loader,
+		event_rng=random.Random(cfg.seed) if cfg.seed is not None else random.Random(),
 	)
 	engine = GameEngine(players, dungeon, popularity_mode=str(cfg.popularity_mode))
 	if str(cfg.popularity_mode) == "expected":
@@ -249,7 +486,7 @@ def simulate(cfg: SimConfig) -> tuple[list[str], list[dict]]:
 	new_weights = {s: 1.0 for s in strategy_space}
 
 	for t in range(cfg.n_rounds):
-		engine.step()
+		step_records = engine.step()
 
 		dist = strategy_distribution(players, strategy_space)
 		avg_u = average_utility(players)
@@ -273,7 +510,31 @@ def simulate(cfg: SimConfig) -> tuple[list[str], list[dict]]:
 			row[f"p_{s}"] = float(dist[s])
 		for s in strategy_space:
 			row[f"w_{s}"] = float(new_weights[s])
+		row.update(_aggregate_event_records(step_records))
 		rows.append(row)
+
+		# Adaptive rule-mutation: periodically adjust failure threshold based on p_aggressive.
+		if event_loader is not None and (cfg.adaptive_ft_strength or 0.0) > 0.0:
+			interval = int(cfg.ft_update_interval) if cfg.ft_update_interval is not None else 500
+			if (t + 1) % interval == 0:
+				ft_base = float(cfg.event_failure_threshold) if cfg.event_failure_threshold is not None else 0.72
+				p_agg = float(dist.get("aggressive", 1.0 / 3.0))
+				ft_new = ft_base * (1.0 + float(cfg.adaptive_ft_strength) * (p_agg - 1.0 / 3.0))
+				event_loader.set_failure_threshold_override(ft_new)
+
+		# Adaptive payoff feedback v2: additive formula + clipping.
+		# delta = strength * (p_agg - target); a_new = a_base + delta (punish dominance);
+		# b_new = b_base - delta (compensate); both clipped to [0.5, 1.2].
+		if float(cfg.adaptive_payoff_strength) > 0.0:
+			p_interval = int(cfg.payoff_update_interval)
+			if (t + 1) % p_interval == 0:
+				p_agg = float(dist.get("aggressive", 1.0 / 3.0))
+				a_base = float(cfg.a) if float(cfg.a) != 0.0 else 0.8
+				b_base = float(cfg.b) if float(cfg.b) != 0.0 else 0.9
+				target = float(cfg.adaptive_payoff_target)
+				delta = float(cfg.adaptive_payoff_strength) * (p_agg - target)
+				dungeon.a = max(0.5, min(1.2, a_base + delta))
+				dungeon.b = max(0.5, min(1.2, b_base - delta))
 
 	return strategy_space, rows
 
@@ -419,7 +680,7 @@ def main() -> None:
 	print(
 		f"players={cfg.n_players} rounds={cfg.n_rounds} "
 		f"seed={cfg.seed} payoff_mode={cfg.payoff_mode} gamma={cfg.gamma} epsilon={cfg.epsilon} a={cfg.a} b={cfg.b} init_bias={cfg.init_bias} evolution_mode={cfg.evolution_mode} payoff_lag={cfg.payoff_lag} "
-		f"selection_strength={cfg.selection_strength}"
+		f"selection_strength={cfg.selection_strength} enable_events={cfg.enable_events} events_json={cfg.events_json if cfg.events_json is not None else DEFAULT_EVENTS_JSON if cfg.enable_events else None}"
 	)
 	print("Final weights:", new_weights)
 

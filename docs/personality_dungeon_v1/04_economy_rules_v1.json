@@ -1,0 +1,70 @@
+{
+  "version": "v1.0",
+  "principle": "Paid or earned currency may expand exploration space but must not raise the final capability ceiling directly.",
+  "resources": {
+    "gold": {
+      "role": "action_capital",
+      "allowed_uses": [
+        "simulation_batches",
+        "risk_insurance",
+        "challenge_entry",
+        "adaptive_dungeon_ticket"
+      ],
+      "forbidden_uses": [
+        "direct_personality_boost",
+        "direct_sample_purchase",
+        "direct_terminal_power_increase"
+      ]
+    },
+    "samples": {
+      "role": "evolution_resource",
+      "tiers": ["common", "rare", "high_quality", "critical"],
+      "origin_examples": [
+        "life_run_summary",
+        "successful_player_challenge",
+        "adaptive_dungeon_clear",
+        "rare_high_variance_event"
+      ]
+    }
+  },
+  "simulation_batches": {
+    "description": "Additional simulation branches increase search breadth without changing the final best policy ceiling.",
+    "marginal_efficiency": [
+      {"batch_range": [1, 5], "efficiency": 1.0},
+      {"batch_range": [6, 10], "efficiency": 0.6},
+      {"batch_range": [11, 999], "efficiency": 0.2}
+    ],
+    "gold_cost_formula": "base_cost * batch_index"
+  },
+  "risk_insurance": {
+    "description": "Challenge losses may be partially offset by gold, but a minimum sample loss is always retained.",
+    "minimum_sample_loss": 8,
+    "replacement_formula": "gold_cost = quality_coeff * max(base_sample_loss - minimum_sample_loss, 0)",
+    "quality_coeff_by_dungeon_rank": {
+      "C": 1.0,
+      "B": 1.5,
+      "A": 2.0,
+      "S": 3.0
+    }
+  },
+  "challenge_entry": {
+    "description": "Entering strong player dungeons or system adaptive dungeons requires up-front commitment.",
+    "entry_cost_formula": "base_gold + rank_multiplier * difficulty",
+    "anti_farming_rule": "Repeated attacks on weaker opponents reduce marginal reward."
+  },
+  "sample_absorption": {
+    "description": "Imported samples are never free. They carry adaptation noise and can destabilize the receiver.",
+    "blend_formula": "P_new = (1 - alpha) * P_old + alpha * P_sample + epsilon",
+    "alpha_range": [0.1, 0.3],
+    "noise_range": [-0.05, 0.05]
+  },
+  "diversity_reward": {
+    "description": "Worlds should reward strategic difference from a collapsing mean.",
+    "formula": "diversity_bonus = base_reward * (1 - cosine_similarity(P_agent, P_global_mean))"
+  },
+  "hard_constraints": [
+    "Gold cannot replace the minimum guaranteed sample loss in a failed challenge.",
+    "Gold cannot directly increase k_inf or any equivalent terminal equilibrium cap.",
+    "Samples are the only resource that modifies long-run agent evolution."
+  ]
+}

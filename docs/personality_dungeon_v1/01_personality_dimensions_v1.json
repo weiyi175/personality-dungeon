@@ -1,0 +1,117 @@
+{
+  "version": "v1.0",
+  "vector_size": 12,
+  "range": {
+    "min": -1.0,
+    "max": 1.0
+  },
+  "dimensions": [
+    {
+      "index": 0,
+      "key": "impulsiveness",
+      "label_zh": "衝動性",
+      "description": "Acts quickly without full evaluation.",
+      "high_behavior": ["open_now", "attack_now", "skip_observation"],
+      "low_behavior": ["delay", "inspect", "simulate"]
+    },
+    {
+      "index": 1,
+      "key": "caution",
+      "label_zh": "謹慎性",
+      "description": "Avoids exposed or high-risk options.",
+      "high_behavior": ["retreat", "inspect", "safer_path"],
+      "low_behavior": ["force_entry", "high_risk_choice"]
+    },
+    {
+      "index": 2,
+      "key": "greed",
+      "label_zh": "貪婪",
+      "description": "Seeks gains even under visible danger.",
+      "high_behavior": ["loot_everything", "gamble_for_reward"],
+      "low_behavior": ["skip_loot", "preserve_state"]
+    },
+    {
+      "index": 3,
+      "key": "optimism",
+      "label_zh": "樂觀",
+      "description": "Continues attempts under low apparent success odds.",
+      "high_behavior": ["retry", "believe_success"],
+      "low_behavior": ["abort_early", "avoid_repeated_failure"]
+    },
+    {
+      "index": 4,
+      "key": "suspicion",
+      "label_zh": "多疑",
+      "description": "Treats unknowns as likely traps.",
+      "high_behavior": ["scan_for_trap", "distance_from_unknown"],
+      "low_behavior": ["trust_unknown", "approach_unchecked"]
+    },
+    {
+      "index": 5,
+      "key": "persistence",
+      "label_zh": "執著",
+      "description": "Repeats prior behavior or unfinished lines of action.",
+      "high_behavior": ["retry_same_event", "stick_to_plan"],
+      "low_behavior": ["switch_strategy_fast"]
+    },
+    {
+      "index": 6,
+      "key": "randomness",
+      "label_zh": "隨機性",
+      "description": "Injects volatility into otherwise utility-maximizing choice.",
+      "high_behavior": ["noisy_choice", "unexpected_action"],
+      "low_behavior": ["deterministic_best_response"]
+    },
+    {
+      "index": 7,
+      "key": "stability_seeking",
+      "label_zh": "求穩",
+      "description": "Prefers low-variance progress over high-volatility outcomes.",
+      "high_behavior": ["bank_small_gain", "avoid_swings"],
+      "low_behavior": ["accept_large_variance"]
+    },
+    {
+      "index": 8,
+      "key": "ambition",
+      "label_zh": "野心",
+      "description": "Targets high-value or high-status outcomes despite danger.",
+      "high_behavior": ["challenge_boss", "deep_dive"],
+      "low_behavior": ["local_optimum", "safe_progress"]
+    },
+    {
+      "index": 9,
+      "key": "patience",
+      "label_zh": "耐心",
+      "description": "Accepts delayed payoff and long-horizon planning.",
+      "high_behavior": ["farm", "prepare", "wait_for_window"],
+      "low_behavior": ["instant_reward_only"]
+    },
+    {
+      "index": 10,
+      "key": "curiosity",
+      "label_zh": "好奇",
+      "description": "Seeks hidden information and novel interactions.",
+      "high_behavior": ["investigate", "explore_secret", "probe_unknown"],
+      "low_behavior": ["stick_known_route"]
+    },
+    {
+      "index": 11,
+      "key": "fearfulness",
+      "label_zh": "恐懼",
+      "description": "Becomes more conservative after shock or failure cues.",
+      "high_behavior": ["avoid_repeat_damage", "overcorrect_after_loss"],
+      "low_behavior": ["ignore_trauma", "re-enter_risk"]
+    }
+  ],
+  "strategy_projection_groups": {
+    "aggressive": [0, 2, 8],
+    "defensive": [1, 4, 11],
+    "balanced": [5, 7, 9]
+  },
+  "reserved_auxiliary_dimensions": [3, 6, 10],
+  "notes": [
+    "Optimism, randomness, and curiosity are retained as second-order modifiers even though the first projection maps the 12D vector into 3 macro-strategies.",
+    "Dimensions are intentionally low-correlation but not orthogonal.",
+    "This file is a spec artifact, not yet a runtime schema lock."
+  ]
+}

@@ -47,3 +47,59 @@ def test_timeseries_csv_schema_contains_required_columns(tmp_path: Path):
 		"w_balanced",
 	}
 	assert required.issubset(fieldnames)
+
+
+def test_timeseries_csv_schema_contains_event_provenance_when_enabled(tmp_path: Path):
+	out_csv = tmp_path / "ts_events.csv"
+	events_json = Path(__file__).resolve().parents[1] / "docs" / "personality_dungeon_v1" / "02_event_templates_v1.json"
+
+	argv_backup = sys.argv[:]
+	try:
+		sys.argv = [
+			"simulation.run_simulation",
+			"--players",
+			"6",
+			"--rounds",
+			"2",
+			"--seed",
+			"123",
+			"--payoff-mode",
+			"matrix_ab",
+			"--a",
+			"1.0",
+			"--b",
+			"1.2",
+			"--selection-strength",
+			"0.02",
+			"--enable-events",
+			"--events-json",
+			str(events_json),
+			"--out",
+			str(out_csv),
+		]
+		import simulation.run_simulation as sim
+
+		sim.main()
+	finally:
+		sys.argv = argv_backup
+
+	with out_csv.open(newline="") as f:
+		reader = csv.DictReader(f)
+		fieldnames = set(reader.fieldnames or [])
+
+	required = {
+		"event_count",
+		"success_count",
+		"event_types_json",
+		"event_ids_json",
+		"action_names_json",
+		"result_kinds_json",
+		"successes_json",
+		"final_risks_json",
+		"success_probs_json",
+		"trait_deltas_json",
+		"trait_deltas_per_event_json",
+		"popularity_shift_json",
+		"state_effects_json",
+	}
+	assert required.issubset(fieldnames)
