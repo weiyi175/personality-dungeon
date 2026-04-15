@@ -1,0 +1,3 @@
+Wrote CSV: outputs/lv3_confirm/lv3_confirm_20260326_083148/confirm_seed49_c0p08_s12_i100_r10000.csv
+players=300 rounds=10000 seed=49 payoff_mode=matrix_ab gamma=0.1 epsilon=0.0 a=0.8 b=0.9 init_bias=0.12 evolution_mode=sampled payoff_lag=1 selection_strength=0.06 enable_events=True events_json=docs/personality_dungeon_v1/02_event_templates_v1.json
+Final weights: {'aggressive': 0.9812894482575306, 'defensive': 1.017432857553729, 'balanced': 1.0012776941887402}

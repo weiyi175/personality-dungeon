@@ -60,6 +60,7 @@ SWEEP_CSV_FIELDNAMES = [
 	"tail",
 	# protocol provenance (so CSV can reconstruct the sweep config)
 	"payoff_mode",
+	"matrix_cross_coupling",
 	"gamma",
 	"epsilon",
 	"seeds",
@@ -92,6 +93,14 @@ SWEEP_CSV_FIELDNAMES = [
 	"popularity_mode",
 	"evolution_mode",
 	"payoff_lag",
+	"memory_kernel",
+	"threshold_theta",
+	"threshold_theta_low",
+	"threshold_theta_high",
+	"threshold_trigger",
+	"threshold_state_alpha",
+	"threshold_a_hi",
+	"threshold_b_hi",
 	"init_bias",
 	# provenance for Stage1 normalization input
 	"amplitude_control_cache",
@@ -348,6 +357,15 @@ def _run_one_seed(
 	popularity_mode: str,
 	evolution_mode: str,
 	payoff_lag: int,
+	memory_kernel: int,
+	threshold_theta: float,
+	threshold_theta_low: float | None,
+	threshold_theta_high: float | None,
+	threshold_trigger: str,
+	threshold_state_alpha: float,
+	threshold_a_hi: float | None,
+	threshold_b_hi: float | None,
+	matrix_cross_coupling: float,
 	gamma: float,
 	epsilon: float,
 	a: float,
@@ -369,9 +387,18 @@ def _run_one_seed(
 		epsilon=float(epsilon),
 		a=float(a),
 		b=float(b),
+		matrix_cross_coupling=float(matrix_cross_coupling),
 		init_bias=float(init_bias),
 		evolution_mode=str(evolution_mode),
 		payoff_lag=int(payoff_lag),
+		memory_kernel=int(memory_kernel),
+		threshold_theta=float(threshold_theta),
+		threshold_theta_low=threshold_theta_low,
+		threshold_theta_high=threshold_theta_high,
+		threshold_trigger=str(threshold_trigger),
+		threshold_state_alpha=float(threshold_state_alpha),
+		threshold_a_hi=threshold_a_hi,
+		threshold_b_hi=threshold_b_hi,
 		selection_strength=float(selection_strength),
 		out_csv=Path("outputs") / "_ignored.csv",
 	)
@@ -435,14 +462,59 @@ def _load_completed_points(path: Path) -> set[tuple[int, float]]:
 def main() -> None:
 	p = argparse.ArgumentParser(description="Criticality curve: P(Level3) vs rho")
 	# Core model params
-	p.add_argument("--payoff-mode", choices=["count_cycle", "matrix_ab"], default="matrix_ab")
+	p.add_argument("--payoff-mode", choices=["count_cycle", "matrix_ab", "threshold_ab"], default="matrix_ab")
 	p.add_argument("--a", type=float, default=0.4)
 	p.add_argument("--b", type=float, default=0.27)
+	p.add_argument("--matrix-cross-coupling", type=float, default=0.0)
 	p.add_argument("--gamma", type=float, default=0.1)
 	p.add_argument("--epsilon", type=float, default=0.0)
 	p.add_argument("--popularity-mode", choices=["sampled", "expected"], default="sampled")
 	p.add_argument("--evolution-mode", choices=["sampled", "mean_field"], default="sampled")
 	p.add_argument("--payoff-lag", type=int, choices=[0, 1], default=1)
+	p.add_argument("--memory-kernel", type=int, choices=[1, 3, 5], default=1)
+	p.add_argument(
+		"--threshold-theta",
+		type=float,
+		default=0.40,
+		help="threshold_ab only: regime switch threshold on q_AD=x_A+x_D computed from payoff input state.",
+	)
+	p.add_argument(
+		"--threshold-theta-low",
+		type=float,
+		default=None,
+		help="threshold_ab only: optional hysteresis low threshold. Defaults to --threshold-theta.",
+	)
+	p.add_argument(
+		"--threshold-theta-high",
+		type=float,
+		default=None,
+		help="threshold_ab only: optional hysteresis high threshold. Defaults to --threshold-theta.",
+	)
+	p.add_argument(
+		"--threshold-trigger",
+		type=str,
+		default="ad_share",
+		choices=["ad_share", "ad_product"],
+		help="threshold_ab only: H2.2 trigger function used by regime switching.",
+	)
+	p.add_argument(
+		"--threshold-state-alpha",
+		type=float,
+		default=1.0,
+		help="threshold_ab only: H2.2 state smoothing alpha in (0,1].",
+	)
+	p.add_argument(
+		"--threshold-a-hi",
+		type=float,
+		default=None,
+		help="threshold_ab only: high-regime value for a. Defaults to base --a when omitted.",
+	)
+	p.add_argument(
+		"--threshold-b-hi",
+		type=float,
+		default=None,
+		help="threshold_ab only: high-regime value for b. Defaults to base --b when omitted.",
+	)
 	p.add_argument("--init-bias", type=float, default=0.0)
 
 	# Sweep axes
@@ -626,8 +698,9 @@ def main() -> None:
 
 	print("=== rho curve sweep ===", flush=True)
 	print(
-		f"payoff_mode={args.payoff_mode} a={args.a} b={args.b} gamma={args.gamma} epsilon={args.epsilon} "
-		f"popularity_mode={args.popularity_mode} evolution_mode={args.evolution_mode} payoff_lag={args.payoff_lag} init_bias={args.init_bias}",
+		f"payoff_mode={args.payoff_mode} a={args.a} b={args.b} cross={args.matrix_cross_coupling} gamma={args.gamma} epsilon={args.epsilon} "
+		f"threshold_theta={args.threshold_theta} threshold_theta_low={args.threshold_theta_low} threshold_theta_high={args.threshold_theta_high} threshold_trigger={args.threshold_trigger} threshold_state_alpha={args.threshold_state_alpha} threshold_a_hi={args.threshold_a_hi} threshold_b_hi={args.threshold_b_hi} "
+		f"popularity_mode={args.popularity_mode} evolution_mode={args.evolution_mode} payoff_lag={args.payoff_lag} memory_kernel={args.memory_kernel} init_bias={args.init_bias}",
 		flush=True,
 	)
 	print(f"players_grid={players_vals} rounds={rounds} seeds_n={len(seed_list)}", flush=True)
@@ -695,6 +768,15 @@ def main() -> None:
 								popularity_mode=str(args.popularity_mode),
 								evolution_mode=str(args.evolution_mode),
 								payoff_lag=int(args.payoff_lag),
+								memory_kernel=int(args.memory_kernel),
+								threshold_theta=float(args.threshold_theta),
+								threshold_theta_low=args.threshold_theta_low,
+								threshold_theta_high=args.threshold_theta_high,
+								threshold_trigger=str(args.threshold_trigger),
+								threshold_state_alpha=float(args.threshold_state_alpha),
+								threshold_a_hi=args.threshold_a_hi,
+								threshold_b_hi=args.threshold_b_hi,
+								matrix_cross_coupling=float(args.matrix_cross_coupling),
 								gamma=float(args.gamma),
 								epsilon=float(args.epsilon),
 								a=float(args.a),
@@ -721,6 +803,15 @@ def main() -> None:
 								popularity_mode=str(args.popularity_mode),
 								evolution_mode=str(args.evolution_mode),
 								payoff_lag=int(args.payoff_lag),
+								memory_kernel=int(args.memory_kernel),
+								threshold_theta=float(args.threshold_theta),
+								threshold_theta_low=args.threshold_theta_low,
+								threshold_theta_high=args.threshold_theta_high,
+								threshold_trigger=str(args.threshold_trigger),
+								threshold_state_alpha=float(args.threshold_state_alpha),
+								threshold_a_hi=args.threshold_a_hi,
+								threshold_b_hi=args.threshold_b_hi,
+								matrix_cross_coupling=float(args.matrix_cross_coupling),
 								gamma=float(args.gamma),
 								epsilon=float(args.epsilon),
 								a=float(args.a),
@@ -786,6 +877,7 @@ def main() -> None:
 					"burn_in": int(burn_in),
 					"tail": int(args.tail) if args.tail is not None else None,
 					"payoff_mode": str(args.payoff_mode),
+					"matrix_cross_coupling": float(args.matrix_cross_coupling),
 					"gamma": float(args.gamma),
 					"epsilon": float(args.epsilon),
 					"seeds": str(args.seeds),
@@ -814,6 +906,14 @@ def main() -> None:
 					"popularity_mode": str(args.popularity_mode),
 					"evolution_mode": str(args.evolution_mode),
 					"payoff_lag": int(args.payoff_lag),
+					"memory_kernel": int(args.memory_kernel),
+					"threshold_theta": float(args.threshold_theta),
+					"threshold_theta_low": (float(args.threshold_theta_low) if args.threshold_theta_low is not None else ""),
+					"threshold_theta_high": (float(args.threshold_theta_high) if args.threshold_theta_high is not None else ""),
+					"threshold_trigger": str(args.threshold_trigger),
+					"threshold_state_alpha": float(args.threshold_state_alpha),
+					"threshold_a_hi": (float(args.threshold_a_hi) if args.threshold_a_hi is not None else ""),
+					"threshold_b_hi": (float(args.threshold_b_hi) if args.threshold_b_hi is not None else ""),
 					"init_bias": float(args.init_bias),
 					"amplitude_control_cache": (str(args.amplitude_control_cache) if args.amplitude_control_cache is not None else ""),
 				}

@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>個性地下城 人格動力學研究報告 正文初稿 v1.1</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js"></script>
+  <style>
+    :root {
+      --bg: #f6f7f4;
+      --paper: #ffffff;
+      --ink: #1f2a1f;
+      --muted: #5f6f5f;
+      --line: #d9dfd2;
+      --accent: #3d6b3d;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      background: radial-gradient(circle at top right, #e7efe2 0%, var(--bg) 45%, #eef3ea 100%);
+      color: var(--ink);
+      line-height: 1.65;
+    }
+
+    main {
+      max-width: 980px;
+      margin: 48px auto;
+      padding: 32px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 12px 36px rgba(31, 42, 31, 0.08);
+    }
+
+    h1 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 1.9rem;
+      letter-spacing: 0.02em;
+    }
+
+    .meta {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid var(--line);
+      margin: 22px 0 24px;
+    }
+
+    h2 {
+      margin-top: 34px;
+      margin-bottom: 8px;
+      font-size: 1.28rem;
+      color: var(--accent);
+      border-left: 4px solid var(--accent);
+      padding-left: 10px;
+    }
+
+    h3 {
+      margin-top: 14px;
+      margin-bottom: 4px;
+      font-size: 1.06rem;
+    }
+
+    p {
+      margin: 8px 0 12px;
+    }
+
+    .lead {
+      font-size: 1.03rem;
+      color: #253325;
+    }
+
+    .keypoint {
+      background: #f2f7ef;
+      border: 1px solid #d5e3cf;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin: 10px 0 14px;
+    }
+
+    .formula-box {
+      background: #fbfcf9;
+      border: 1px solid #dce6d4;
+      border-radius: 10px;
+      padding: 1.1rem 1.2rem;
+      margin: 1rem 0 0.95rem;
+      font-size: 1rem;
+      overflow-x: auto;
+      line-height: 1.7;
+      box-shadow: 0 2px 8px rgba(31, 42, 31, 0.06);
+      color: var(--ink);
+    }
+
+    .formula-label {
+      display: inline-block;
+      margin-bottom: 0.5rem;
+      padding: 0.18rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      color: #2f5a2f;
+      background: #edf6e8;
+      border: 1px solid #cfe0c6;
+    }
+
+    .formula-box .katex-display {
+      margin: 0.6rem 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+
+    .katex {
+      font-size: 1.06em;
+      color: inherit;
+    }
+
+    figure {
+      margin: 14px 0 16px;
+      padding: 12px;
+      border: 1px solid #dce6d4;
+      border-radius: 10px;
+      background: #fcfdfb;
+    }
+
+    figure img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      display: block;
+    }
+
+    figcaption {
+      margin-top: 8px;
+      color: #556455;
+      font-size: 0.92rem;
+    }
+
+    .intro-card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 10px 0 14px;
+    }
+
+    .intro-card {
+      border: 1px solid #dce6d4;
+      border-radius: 10px;
+      padding: 10px 12px;
+      background: #fbfdf9;
+    }
+
+    .intro-card strong {
+      color: #2f5a2f;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .quick-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0 14px;
+      font-size: 0.95rem;
+    }
+
+    .quick-table th,
+    .quick-table td {
+      border: 1px solid #dce6d4;
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .quick-table th {
+      background: #f3f8ef;
+      color: #2f5a2f;
+    }
+
+    .rps-cycle {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin: 8px 0 12px;
+      color: #415241;
+      font-size: 0.96rem;
+    }
+
+    .rps-node {
+      border: 1px solid #cfe0c6;
+      background: #edf6e8;
+      border-radius: 999px;
+      padding: 5px 10px;
+      color: #2f5a2f;
+      font-weight: 600;
+    }
+
+    .soft-note {
+      margin: 8px 0 12px;
+      padding: 10px 12px;
+      border-left: 4px solid #9fbc9f;
+      background: #f7faf4;
+      color: #334433;
+      font-size: 0.95rem;
+    }
+
+    ol, ul {
+      margin-top: 6px;
+      margin-bottom: 10px;
+      padding-left: 24px;
+    }
+
+    .toc ol {
+      columns: 2;
+      column-gap: 28px;
+    }
+
+    .toc a {
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px dashed #9bb09b;
+    }
+
+    .toc a:hover {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    @media (max-width: 820px) {
+      main {
+        margin: 20px;
+        padding: 22px;
+      }
+
+      .toc ol {
+        columns: 1;
+      }
+
+      .katex {
+        font-size: clamp(1rem, 2.5vw, 1.15rem);
+      }
+
+      .intro-card-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>「個性地下城」人格動力學研究報告</h1>
+      <p class="meta">版本：1.1 正文初稿</p>
+      <p class="meta">格式：Markdown（標記語言）層級語意轉換為 HTML（超文字標記語言，含正文草稿）</p>
+      <p class="meta">日期：2026 年 4 月</p>
+    </header>
+
+    <hr />
+
+    <section id="focus">
+      <h2>本版重組重點：兩段式瓶頸敘事</h2>
+      <p class="lead">本報告刻意把 L2→L3 的故事拆成兩條主線：先證明「理論模型中可突破」，再嚴格呈現「應用落地時重新卡關」。這樣能避免把不同層級的結果混為一談，並清楚呈現研究貢獻與未解瓶頸。</p>
+      <ul>
+        <li>第一部先講清楚：在數學理論模型驗證線，L2→L3 相對快速被打破，且已完成 L3 存在性驗證。</li>
+        <li>第二部再獨立說明：進入實際應用層後，L2→L3 瓶頸重新出現且更嚴重，形成結構性卡關。</li>
+      </ul>
+    </section>
+
+    <section class="toc" id="toc">
+      <h2>目錄</h2>
+      <ol>
+        <li><a href="#s01">研究背景、核心問題與分級定義</a></li>
+        <li><a href="#s02">驗證方法與判準（SDD（規格驅動開發） + 指標 + Gate（門檻））</a></li>
+        <li><a href="#s03">第一部：數學理論模型驗證線（L2→L3 可突破）</a></li>
+        <li><a href="#s04">第一部重點結果：快速突破與 L3 存在證據</a></li>
+        <li><a href="#s05">第二部：實際應用層落地線（人格/事件/世界）</a></li>
+        <li><a href="#s06">第二部重點結果：更嚴重 L2→L3 瓶頸證據</a></li>
+        <li><a href="#s07">W2.1R–W3.3 反證鏈與封板決策</a></li>
+        <li><a href="#s08">B-series（B 系列）結構性負結果鏈</a></li>
+        <li><a href="#s09">雙層對照總結：為何理論可行而應用困難</a></li>
+        <li><a href="#s10">最終 baseline（基準配置）與 production（正式環境）治理</a></li>
+        <li><a href="#s11">結論與未來雙軌研究</a></li>
+        <li><a href="#s12">附錄</a></li>
+      </ol>
+    </section>
+
+    <section id="s01">
+      <h2>1. 研究背景、核心問題與分級定義</h2>
+      <p>「個性地下城」要解決的，不是讓 AI（人工智慧）角色偶爾出現有趣行為，而是讓整體系統長期產生可區分、可重現、可治理的人格動力學。換句話說，我們要的是一個會穩定演化的動態社群，而不是短期噪音。</p>
+
+      <h3>1.1 先用一句話理解本研究</h3>
+      <p>本文的核心任務是：在三策略互動系統中，找到一種能穩定把系統從 Level 2（等級 2）推進到 Level 3（等級 3）的機制，並確認這件事在不同 seed（隨機種子）與不同流程下都成立。</p>
+
+      <h3>1.2 什麼是「博弈結構」</h3>
+      <p>在這篇研究裡，博弈結構指的是三種策略之間「誰克制誰、誰得分、誰失分」的規則，也就是 payoff（報酬）規則本身。它像整個系統的遊戲規格書，決定了動態會往哪裡走。</p>
+      <div class="formula-box">
+        <span class="formula-label">三策略 payoff（報酬）結構</span>
+\[
+A=
+\begin{pmatrix}
+0 & a & -b \\
+-b & 0 & a \\
+a & -b & 0
+\end{pmatrix}
+\]
+      </div>
+      <p>這個矩陣的直覺是「循環克制」而非單點最優：某策略會在一個方向佔優勢，但在另一個方向吃虧，所以系統不容易停在單一策略。</p>
+
+      <table class="quick-table">
+        <thead>
+          <tr>
+            <th>策略</th>
+            <th>優勢方向</th>
+            <th>劣勢方向</th>
+            <th>含義</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Aggressive（進攻型，A）</td>
+            <td>對 Balanced為 +a</td>
+            <td>對 Defensive為 -b</td>
+            <td>強勢同時也有明確弱點</td>
+          </tr>
+          <tr>
+            <td>Defensive（防禦型，D）</td>
+            <td>對 Aggressive為 +a</td>
+            <td>對 Balanced為 -b</td>
+            <td>不是最強，而是輪替中的一環</td>
+          </tr>
+          <tr>
+            <td>Balanced（平衡型，B）</td>
+            <td>對 Defensive為 +a</td>
+            <td>對 Aggressive為 -b</td>
+            <td>形成封閉循環，不讓系統單點收斂</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="rps-cycle">
+        <span class="rps-node">A</span>
+        <span>克制</span>
+        <span class="rps-node">B</span>
+        <span>克制</span>
+        <span class="rps-node">D</span>
+        <span>克制</span>
+        <span class="rps-node">A</span>
+      </div>
+
+      <h3>1.3 什麼是 RPS（Rock-Paper-Scissors，剪刀石頭布）幾何</h3>
+      <p>RPS（Rock-Paper-Scissors，剪刀石頭布）幾何是把三策略比例放到 simplex（單純形，三角形）中觀察：三個頂點分別代表 100% A、100% D、100% B；三角形內任何一點都代表一組策略比例。若系統沿著三角形持續繞行，就代表策略主導權在輪替，這是 RPS動力學最有辨識度的行為。</p>
+
+      <div class="soft-note">
+        白話理解：如果系統只會停在某一點，角色會變得單調；如果系統能在三角形裡有方向地繞圈，角色就會呈現長期可解釋的「人格輪替」。
+      </div>
+
+      <figure>
+        <img src="assets/l123_simplex_simulation.png" alt="L1、L2、L3 在 simplex（單純形）上的示意軌跡" />
+        <figcaption>
+          圖 1-1：L1/L2/L3 在 simplex（單純形）上的示意軌跡。L1 呈現無方向漂移；L2 呈現衰減震盪並回到中心；L3 呈現可持續且方向一致的旋轉。此圖為機制示意，用於輔助正文解釋。
+        </figcaption>
+      </figure>
+
+      <p>圖中三個子圖可直接對應本研究的判讀邏輯：不是只看「有沒有波動」，而是看「是否存在可持續、方向一致的旋轉」。這是區分 L2 與 L3 的關鍵依據。</p>
+
+      <h3>1.4 為什麼要分 L1/L2/L3（動態品質）</h3>
+      <p>研究不只要問「有沒有動」，還要問「動得好不好、穩不穩、可不可以重現」。因此本文用三個等級描述動態品質：</p>
+      <table class="quick-table">
+        <thead>
+          <tr>
+            <th>等級</th>
+            <th>觀測特徵</th>
+            <th>解讀</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Level 1</td>
+            <td>無方向、隨機漂移</td>
+            <td>多為噪音，難以形成穩定人格敘事</td>
+          </tr>
+          <tr>
+            <td>Level 2</td>
+            <td>固定點或低振幅震盪</td>
+            <td>有穩定但偏單調，容易掉回 plateau（停滯平台）</td>
+          </tr>
+          <tr>
+            <td>Level 3</td>
+            <td>方向一致且可持續旋轉</td>
+            <td>可解釋、可重現、可治理，最符合應用目標</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>本研究把 L3 視為主要尋找對象，是因為只有 L3 同時滿足三個實用條件：可解釋（知道為何旋轉）、可重現（跨 seed 仍成立）、可治理（可調可控）。這也是本文所有實驗設計與判準的核心出發點。</p>
+
+      <h3>1.5 為什麼要觀測「旋轉動態」</h3>
+      <div class="intro-card-grid">
+        <div class="intro-card">
+          <strong>因為這是結構檢查</strong>
+          旋轉不是裝飾效果，而是用來驗證 payoff（報酬）幾何是否真的在驅動系統。
+        </div>
+        <div class="intro-card">
+          <strong>因為這能排除假陽性</strong>
+          單純上下波動可能只是噪音；方向一致的旋轉才代表有穩定機制。
+        </div>
+        <div class="intro-card">
+          <strong>因為這可對應應用價值</strong>
+          旋轉動態能支持角色長期呈現可辨識、可預期但不僵化的行為節奏。
+        </div>
+        <div class="intro-card">
+          <strong>因為這可做治理</strong>
+          一旦可觀測，就能透過參數與流程調整去穩定或校準它。
+        </div>
+      </div>
+      <div class="keypoint">
+        <strong>本章重點：</strong>本研究的主問題不是「能不能出現波動」，而是「能否穩定、跨 seed、跨流程地把系統從 Level 2推進到 Level 3」。
+      </div>
+    </section>
+
+    <section id="s02">
+      <h2>2. 驗證方法與判準（SDD（規格驅動開發） + 指標 + Gate（門檻））</h2>
+      <p>本專案以 SDD（Spec-Driven Development，規格驅動開發）為核心方法，先定義契約、再變更程式。這個流程確保每次機制調整都可回歸、可比對、可重現，避免研究敘事被「一次性幸運結果」主導。分層上亦嚴格遵守架構不變條件，避免分析與模擬互相污染。</p>
+      <p>評估採用 Stage1（振幅）、Stage2（主頻）與 Stage3（方向一致）三級指標，並用固定 burn-in/tail（燃入期/尾段）視窗與 Gate（門檻）規則判讀。所有核心結論都要求 seed-level（種子層級）證據，而非只看 aggregate uplift（整體提升幅度）。這套規範是後續兩條主線能夠公平比較的基礎。</p>
+      <div class="keypoint">
+        <strong>本章重點：</strong>本研究不是參數調參紀錄，而是以固定契約與固定 Gate（門檻）驗證的因果排除鏈。
+      </div>
+    </section>
+
+    <section id="s03">
+      <h2>3. 第一部：數學理論模型驗證線（L2→L3 可突破）</h2>
+      <p>第一部的任務非常明確：先在可控且干擾較低的理論驗證環境中回答「Level 3是否客觀存在」。這一階段不急著處理完整世界模型，而是先鎖定核心旋轉機制，確認系統確實可以產生方向一致循環，避免後續工程投入建立在錯誤假設上。</p>
+      <p>此線的實作策略是：逐步解除 broadcast consensus（廣播式共識）、引入異質學習動力、再用方向性不對稱去穩定相位差。這種由簡入繁的方式，能把「是否可突破」和「為何突破」分開，讓突破證據更可解釋。</p>
+
+      <h3>3.1 核心數學模型（矩陣 payoff（報酬） + 離散更新）</h3>
+      <p>第一部採用三策略 simplex（單純形）狀態與線性矩陣 payoff（報酬）作為最小理論骨架。策略向量記為 $x(t)=(x_A(t),x_D(t),x_B(t))$，且 $x_i(t)\ge 0$、$\sum_i x_i(t)=1$。核心 payoff（報酬）由矩陣模型定義：</p>
+      <div class="formula-box">
+        <span class="formula-label">Payoff Matrix Model（報酬矩陣模型）</span>
+    \[
+    x(t)=(x_A(t),x_D(t),x_B(t)),\qquad x_i(t)\ge 0,\qquad \sum_i x_i(t)=1
+    \]
+
+    \[
+    A=
+    \begin{pmatrix}
+    0 & a & -b \\
+    -b & 0 & a \\
+    a & -b & 0
+    \end{pmatrix}
+    \]
+
+    \[
+    U(t)=A\,x(t-1),\qquad r_i(t)=\mathrm{base\_reward}+U_i(t)
+    \]
+      </div>
+
+      <p>其中 $a,b$ 控制循環幾何強度，$x(t-1)$ 對應系統的 lagged feedback（延遲回饋）。演化更新使用指數型 replicator（複製子動態）近似：</p>
+      <div class="formula-box">
+        <span class="formula-label">Discrete Replicator Update（離散複製子更新）</span>
+    \[
+    \bar{u}(t)=\sum_i x_i(t)\,U_i(t)
+    \]
+
+    \[
+    w_i(t+1)\propto w_i(t)\cdot\exp\!\left(k\,(U_i(t)-\bar{u}(t))\right)
+    \]
+
+    \[
+    x_i(t+1)=\frac{w_i(t+1)}{\sum_j w_j(t+1)}
+    \]
+      </div>
+
+      <p>這個形式兼顧三件事：正值權重、可控選擇強度 $k$、以及在離散時間下可觀察的相位旋轉。第一部即在這個骨架上驗證 L3 是否存在。</p>
+      <div class="keypoint">
+        <strong>本章重點：</strong>理論線的成功標準是「證明 L3 存在且可重現」，不是直接追求 production-ready（可直接上線）的全系統最佳化。
+      </div>
+    </section>
+
+    <section id="s04">
+      <h2>4. 第一部重點結果：快速突破與 L3 存在證據</h2>
+      <h3>4.1 早期研究經歷：大量實驗，但問題一直被平均化抹平</h3>
+      <p>在正式打開理論驗證線之前，前期研發其實已經累積了大量有目的、也有明確猜想的實驗。這些實驗不是盲試，而是沿著同一個核心問題反覆變換角度：到底要怎麼讓系統從 Level 2（等級 2）跨到 Level 3（等級 3）？</p>
+      <p>這一階段的關鍵不在於哪一個實驗直接成功，而在於所有嘗試共同指出了一個很一致的現象：局部差異雖然可以出現，卻常在後續聚合、整合與更新過程中被平均化抹平，最後系統又回到 Level 2 附近。也就是說，早期研究的價值不是替問題找到答案，而是把「問題究竟卡在哪裡」定位清楚。</p>
+      <div class="keypoint">
+        <strong>早期研究的角色：</strong>它是一段問題定位期，不是一段解法定案期。這些實驗讓我們確認，真正的瓶頸不是「完全沒有動」，而是「動態會被系統性地吃掉」。
+      </div>
+
+      <table class="quick-table">
+        <thead>
+          <tr>
+            <th>實驗名稱</th>
+            <th>實驗目的</th>
+            <th>實驗理由</th>
+            <th>結果 / 被抹平的方式</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>D1</td>
+            <td>先打破同質化，看看是否能拉出第一個穩定方向訊號</td>
+            <td>如果所有角色都太像，系統只會停在同一條 plateau 上</td>
+            <td>可見到初步差異，但尚不足以形成穩定旋轉</td>
+          </tr>
+          <tr>
+            <td>E1</td>
+            <td>測試異質學習動力是否能放大局部相位差</td>
+            <td>若學習率不對稱有效，可能出現更清楚的輪替訊號</td>
+            <td>有短暫 uplift，但在聚合後被平均化壓回去</td>
+          </tr>
+          <tr>
+            <td>E2</td>
+            <td>觀察策略別更新是否能讓差異保留更久</td>
+            <td>若 update rule 更細緻，理論上可延長差異壽命</td>
+            <td>局部偏移存在，但仍被後續整合抹平</td>
+          </tr>
+          <tr>
+            <td>P18</td>
+            <td>測試更強的相位分離與循環驅動</td>
+            <td>希望把偶發波動變成可重現的旋轉結構</td>
+            <td>出現可讀訊號，但穩定性不足</td>
+          </tr>
+          <tr>
+            <td>P21</td>
+            <td>再次驗證異質 α/β 與學習率不對稱的效果</td>
+            <td>若這些旋鈕有效，應該能進一步推高方向一致性</td>
+            <td>有趨勢，但還是被系統性的平均化吞掉</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="soft-note">
+        甜區搜尋補記：原本在 Grid + Refine（網格加精）上花的時間太多，剛好那段期間上到相關課程，就把課堂上學到的啟發式方法直接借進研究流程。實作上先用多目標優化保留 Pareto（帕累托）前緣，避免只盯單一分數；再用 PSO（Particle Swarm Optimization，粒子群最佳化）先把連續參數的大方向縮小；如果參數帶有離散或混合結構，就用 GA（Genetic Algorithm，遺傳演算法）補探索；最後再以 hill-climbing（爬山法）做局部拋光。這樣做的重點不是一下子保證 Level 3，而是把原本很慢的甜區搜尋，變成比較快的候選點篩選流程，讓後續精煉和驗證省下不少時間。
+      </div>
+
+      <div class="soft-note">
+        為什麼要先在低耦合世界找甜區：因為低耦合環境的干擾比較少，局部參數對動態的影響比較容易看清楚，也比較容易分辨「是真正的機制效果」還是「高耦合下被混雜掉的噪音」。先在這一層把甜區找出來，可以先建立一個可重現的好工作點，再把同一組機制帶進高耦合世界做壓力測試；這樣比較不會一開始就被複雜耦合、人格校準與事件互動的混雜效應淹沒，導致實驗成本高、判讀又不清楚。
+      </div>
+
+      <p><strong>範圍說明：</strong>本表僅保留第一部低耦合理論線（D/E/P 系列）作為「問題定位到理論突破」主軸；第二部高耦合應用線的 W2.1R–W3.3 與 B-series（B 系列）反證與封板，統一在第 7、8 章詳述，避免跨章重複敘述。</p>
+
+      <div class="keypoint">
+        <strong>早期研究的意義：</strong>這一段經歷非常重要，因為它不是附帶的失敗紀錄，而是本報告的問題定義來源。換句話說，真正重要的主題不是提供一個漂亮解法，而是清楚描述我們在什麼地方被卡住、卡成什麼樣子，以及為什麼這個卡關本身值得研究。
+      </div>
+
+      <h3>4.2 理論驗證線的關鍵轉折與 L3 證據</h3>
+      <p><strong>主結論一（轉折點）：</strong>在問題定位清楚之後，理論驗證線真正要回答的問題是：哪些機制可以在「差異會被平均化抹平」的系統中，先把差異保住，再把差異轉成可持續旋轉。這一段因此不再重複 4.1 的失敗歷程，而是聚焦在可重現的成功條件。</p>
+      <p><strong>主結論二（成功機制）：</strong>從 D1/E1/E2 到 P18/P21 的有效變更，核心不是單一旋鈕，而是機制組合：先用 Independent RL（獨立強化學習）打破同質化，再引入異質 α/β 與策略別學習率不對稱，讓局部差異不會立刻被吞沒，進而建立可持續相位差。這組合最終收斂成 BL2 鎖定配置。</p>
+      <p><strong>主結論三（主證據）：</strong>在 BL2 鎖定下，正式記錄為 6/6 seeds（隨機種子）達成 Level 3（等級 3），並伴隨高 stage3_score（第三階段分數）與穩定 turn_strength（旋轉強度）。這說明 L3 並非理論幻象，而是可在受控條件下被穩定驗證的動態型態。</p>
+      <p><strong>擴展證據（補充，不作為本章主判定）：</strong>在後續 E1/E2 與 CC1 分類器校準的延伸路線中，L3 seeds 數量還有進一步增加的觀察（例如從 10 提升到 17）。這些結果支持「旋轉訊號確實存在且可被穩健辨識」，但本章主判定仍以 BL2 的 6/6 可重現證據為核心。</p>
+
+      <div class="keypoint">
+        <strong>第一部結論：</strong>L2→L3 在理論模型驗證線是可突破的，而且突破不是單一 seed artifact（種子偶然產物）。
+      </div>
+    </section>
+
+    <section id="s05">
+      <h2>5. 第二部：實際應用層落地線（人格/事件/世界）</h2>
+      <p>第二部把第一部的可行機制帶回實際應用層：加入 personality calibration（人格校準）、event/world（事件/世界）模組與 runtime bridge（執行期橋接），讓系統從可控實驗框架轉為完整運行環境。這一步不是單純搬移參數，而是動力學結構從低耦合進入高耦合系統。</p>
+      <p>也因此，驗證規格同步升級：從小樣本 smoke（冒煙測試）走向 formal protocol（正式驗證流程）與 60-seed Gate（60 種子門檻）。這個升級對研究敘事至關重要，因為它讓「在理論層成立」與「在應用層成立」可以被嚴格區分。</p>
+      <div class="keypoint">
+        <strong>本章重點：</strong>第二部的目標不是再證明理論可行，而是測試理論突破能否在高耦合真實流程中存活。
+      </div>
+    </section>
+
+    <section id="s06">
+      <h2>6. 第二部重點結果：更嚴重 L2→L3 瓶頸證據</h2>
+      <p>第二部的核心發現是：L2→L3 瓶頸不只存在，而且在應用層更頑強。多條路線在 formal protocol（正式驗證流程）下反覆回到 sampled Level 2 plateau（取樣後等級 2 停滯平台）。更關鍵的是，許多機制都「有啟動證據」，卻仍無法帶來 seed-level attractor（種子層級吸引子）改變。</p>
+      <p>這使研究判讀從「參數可能還不夠準」升級為「存在結構性限制」。也就是說，問題不再只是旋鈕強度，而是高維耦合下的均化機制會把局部差異與方向訊號快速壓平。</p>
+      <div class="keypoint">
+        <strong>第二部結論：</strong>相較第一部，應用層的 L2→L3 是更深層、非局部調參可解的瓶頸。
+      </div>
+    </section>
+
+    <section id="s07">
+      <h2>7. W2.1R–W3.3 反證鏈與封板決策</h2>
+      <p>W2.1R 到 W3.3 提供了一條高資訊量反證鏈：生存修復、固定承諾、state-feedback（狀態回饋）與 event-driven pulse（事件驅動脈衝）都曾帶來局部改善或啟動證據，但最終仍未產生可承認的 Level 3 seeds（等級 3 種子）。這代表失敗不是「機制沒打進去」，而是「機制打進去仍無法改變 basin（吸引域）」。</p>
+      <p>因此專案在這條線做出清晰封板：close_w2_1、close_w3_1、close_w3_2、close_w3_3。此封板並非保守停案，而是把低收益調參空間正式關閉，將研究資源轉向更有信息量的結構假說。</p>
+      <ul>
+        <li>W2.1R：生存條件改善，但 Level 3 emergence（湧現）仍為 0。</li>
+        <li>W3.1：靜態 commitment（承諾機制）有小 uplift（提升），仍停 Level 2。</li>
+        <li>W3.2：policy（策略）啟動，但吸引子不變。</li>
+        <li>W3.3：pulse（脈衝）觸發，仍無 Level 3 seed（等級 3 種子）。</li>
+      </ul>
+    </section>
+
+    <section id="s08">
+      <h2>8. B-series（B 系列）結構性負結果鏈</h2>
+      <p>B-series（B 系列）的價值在於逐層排除較弱解釋：B4 嘗試動態 k，B3 拆開 growth aggregation（成長聚合），B5 注入幾何切線催化，B2 則直接做 topology（拓樸）對照。結果顯示，即使局部方向差異確實形成，仍不足以打開 Level 3 basin（等級 3 吸引域）。</p>
+      <p>這組結果把問題清楚推向結構層：well-mixed sampled replicator（充分混合取樣的複製子更新）的均化壓力過強，會把局部異質性重新投影回同一條全域更新路徑。換句話說，瓶頸不在單一機制不足，而在更新架構本身的收斂特性。</p>
+      <ul>
+        <li>B4：close_b4</li>
+        <li>B3.1/B3.2/B3.3：close_b3.*</li>
+        <li>B5：close_b5</li>
+        <li>B2：close_b2</li>
+      </ul>
+    </section>
+
+    <section id="s09">
+      <h2>9. 雙層對照總結：為何理論可行而應用困難</h2>
+      <p>第一部與第二部的差異，不是「前者運氣好、後者運氣差」，而是系統層級不同。理論層在低耦合、可控干擾條件下，方向訊號容易保留；應用層加入人格、事件、世界與同步更新後，局部訊號更容易在整合過程被均化。</p>
+      <p>因此，本研究最核心的貢獻之一，是把敘事從「再調參可能會過」轉為「結構性瓶頸已被定位」。這個定位讓後續研究不再盲目擴掃，而能集中於真正可能改變 basin（吸引域）的機制層改革。</p>
+      <div class="keypoint">
+        <strong>核心洞見：</strong>L3 在理論層已被證實存在；應用層的主要障礙是結構性均化，而非單點參數不足。
+      </div>
+    </section>
+
+    <section id="s10">
+      <h2>10. 最終 baseline（基準配置）與 production（正式環境）治理</h2>
+      <p>在實務落地層，專案已明確鎖定正式 baseline（基準配置）為 BL2 + PERS-CAL-only（僅人格校準），並以 60-seed Gate（60 種子門檻）作為主要治理門檻。這意味著所有新機制提案都必須先通過可重現與風險約束，再談效能提升。</p>
+      <p>同時，Event integration（事件整合）已被定位為 deferred research（延後研究）：現階段不納入 production baseline（正式環境基準）。這個決策維持了運行穩定性，也避免把未收斂機制帶入主線造成評估污染。</p>
+      <ul>
+        <li>正式 baseline（基準配置）：BL2 + PERS-CAL-only（僅人格校準）</li>
+        <li>治理原則：6-seed smoke（6 種子冒煙測試） → 60-seed gate（60 種子門檻）</li>
+        <li>決策紀律：runbook freeze（操作手冊凍結）與 closure（封板）優先序</li>
+      </ul>
+    </section>
+
+    <section id="s11">
+      <h2>11. 結論與未來雙軌研究</h2>
+      <p>本研究目前可給出一個清楚、可防守的結論：L3 在理論模型驗證線已被實證，且具可重現性；但在實際應用層，L2→L3 仍受結構性均化限制而未穩定打開。兩者並不矛盾，而是同一研究路徑在不同系統層級的真實結果。</p>
+      <p>後續建議維持雙軌：Track A（路線 A）以 production（正式環境）治理與 runtime bridge（執行期橋接）為主，確保現有成果可持續運行；Track B（路線 B）聚焦更高階結構機制，嘗試直接改寫全域整合與更新規則，而非延長既有局部 patch（補丁）系列。</p>
+      <div class="keypoint">
+        <strong>結語：</strong>第一部證明了「L3 可以存在」，第二部界定了「為何在真實系統中仍難以穩定存在」。這兩者合在一起，才構成完整研究貢獻。
+      </div>
+    </section>
+
+    <section id="s12">
+      <h2>12. 附錄</h2>
+      <p>附錄建議收錄完整參數表、Gate（門檻）判準、decision logs（決策紀錄）與代表性輸出索引，讓第三方可直接重現判讀流程，並檢驗本報告中的各項主張。</p>
+      <ol>
+        <li>參數表與 Gate（門檻）定義總表</li>
+        <li>關鍵實驗矩陣與 decision log（決策紀錄）索引</li>
+        <li>術語、符號與指標對照表</li>
+      </ol>
+    </section>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (typeof renderMathInElement === "undefined") {
+        return;
+      }
+      renderMathInElement(document.body, {
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "$", right: "$", display: false },
+          { left: "\\(", right: "\\)", display: false },
+          { left: "\\[", right: "\\]", display: true }
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+</body>
+</html>

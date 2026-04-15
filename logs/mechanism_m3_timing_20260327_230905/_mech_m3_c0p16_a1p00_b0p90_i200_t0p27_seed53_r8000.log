@@ -1,0 +1,3 @@
+Wrote CSV: outputs/mechanism_search/mechanism_m3_timing_20260327_230905/mech_m3_c0p16_a1p00_b0p90_i200_t0p27_seed53_r8000.csv
+players=300 rounds=8000 seed=53 payoff_mode=matrix_ab gamma=0.1 epsilon=0.0 a=1.0 b=0.9 init_bias=0.12 evolution_mode=sampled payoff_lag=1 selection_strength=0.06 enable_events=True events_json=docs/personality_dungeon_v1/02_event_templates_v1.json
+Final weights: {'aggressive': 0.9767323090780669, 'defensive': 1.021582616288613, 'balanced': 1.0016850746333203}

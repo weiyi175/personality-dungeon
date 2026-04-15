@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Markdown 基本使用教學</title>
+  <style>
+    :root {
+      --bg: #f4efe6;
+      --panel: #fffaf2;
+      --ink: #1f1d1a;
+      --muted: #6d665d;
+      --accent: #0f766e;
+      --accent-soft: #d9f2ed;
+      --line: #ddd2c4;
+      --code-bg: #2a241f;
+      --code-ink: #f8efe5;
+      --warn: #fff1c7;
+      --ok: #e8f7df;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(15, 118, 110, 0.12), transparent 30%),
+        linear-gradient(180deg, #f7f2ea 0%, var(--bg) 100%);
+      line-height: 1.8;
+    }
+
+    .page {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 48px 20px 72px;
+    }
+
+    header {
+      padding: 32px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: rgba(255, 250, 242, 0.92);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 16px 40px rgba(82, 66, 44, 0.08);
+    }
+
+    h1, h2, h3, h4 {
+      line-height: 1.3;
+      margin-top: 0;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      margin-top: 40px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--line);
+      font-size: 1.75rem;
+    }
+
+    h3 {
+      margin-top: 28px;
+      font-size: 1.28rem;
+      color: var(--accent);
+    }
+
+    p, li {
+      font-size: 1rem;
+    }
+
+    .lead {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .section {
+      margin-top: 28px;
+      padding: 28px 30px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: 0 12px 28px rgba(82, 66, 44, 0.06);
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 16px 0 8px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .badge.ok {
+      background: var(--ok);
+      color: #2d5b17;
+    }
+
+    .badge.warn {
+      background: var(--warn);
+      color: #7a5700;
+    }
+
+    .note {
+      padding: 14px 16px;
+      border-left: 5px solid var(--accent);
+      background: var(--accent-soft);
+      border-radius: 12px;
+      margin: 18px 0;
+    }
+
+    .example-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+      margin: 18px 0;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      overflow: hidden;
+      background: #fffdf9;
+    }
+
+    .card h4 {
+      margin: 0;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: #f8f2e8;
+      font-size: 1rem;
+    }
+
+    pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+      background: var(--code-bg);
+      color: var(--code-ink);
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.94rem;
+      line-height: 1.6;
+    }
+
+    code {
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+    }
+
+    .rendered {
+      padding: 18px;
+    }
+
+    .rendered p:last-child,
+    .rendered ul:last-child {
+      margin-bottom: 0;
+    }
+
+    .copy-label {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      font-style: italic;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 12px 14px;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      background: #f7efe3;
+    }
+
+    ul, ol {
+      padding-left: 1.4rem;
+    }
+
+    mark {
+      background: #ffe08a;
+      padding: 0 0.2em;
+      border-radius: 0.2em;
+    }
+
+    footer {
+      margin-top: 32px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      text-align: center;
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        padding: 24px 14px 48px;
+      }
+
+      header,
+      .section {
+        padding: 22px 18px;
+        border-radius: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <p class="lead">基本使用</p>
+      <h1>Markdown 基本使用</h1>
+      <p class="lead">
+        Markdown 是一種輕量級標記語言，由 John Gruber 於 2004 年創建，目的是提供一種易於閱讀、易於撰寫的純文字格式，並且可以轉換為結構化的 HTML。
+        Markdown 的設計理念是讓文件在純文字狀態下也能保持良好的可讀性，同時又能輕鬆轉換為格式豐富的文件。
+      </p>
+      <p class="lead">
+        Markdown 的優點在於其簡潔的語法和廣泛的應用場景。無論是撰寫部落格文章、技術文檔、README 檔案，還是在各種支援 Markdown 的平台上進行寫作，Markdown 都能提供一致且高效的寫作體驗。
+      </p>
+    </header>
+
+    <section class="section">
+      <h2>Markdown 的不同版本與擴展</h2>
+      <p>隨著 Markdown 的發展，出現了多個版本和擴展，了解它們的差異有助於您選擇合適的語法：</p>
+      <table>
+        <thead>
+          <tr>
+            <th>版本 / 擴展</th>
+            <th>說明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>原始 Markdown</td>
+            <td>
+              創建者：John Gruber（2004 年）<br>
+              特點：最基本的 Markdown 語法規範<br>
+              包含功能：標題、粗體、斜體、連結、圖片、列表、引文、代碼、分隔線等核心功能
+            </td>
+          </tr>
+          <tr>
+            <td>CommonMark</td>
+            <td>
+              目的：標準化 Markdown 規範，消除原始規範中的歧義<br>
+              特點：提供明確的解析規則和測試套件<br>
+              擴展：添加了圍欄式代碼區塊等功能
+            </td>
+          </tr>
+          <tr>
+            <td>GitHub Flavored Markdown (GFM)</td>
+            <td>
+              基於：CommonMark 規範<br>
+              擴展功能：表格語法、刪除線、任務列表、自動連結識別、語法高亮
+            </td>
+          </tr>
+          <tr>
+            <td>其他擴展</td>
+            <td>
+              Pandoc：上標、下標、定義列表等<br>
+              MultiMarkdown：腳註、元數據、數學公式等<br>
+              各編輯器擴展：高亮文字、表情符號、圖表等
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>本教學的內容範圍</h3>
+      <ul>
+        <li>✅ 原始 Markdown 的所有核心功能</li>
+        <li>✅ CommonMark 的標準化語法</li>
+        <li>✅ GFM 的常用擴展功能（會明確標註）</li>
+        <li>⚠️ 部分廣泛支援的擴展功能（會註明兼容性）</li>
+      </ul>
+      <p>每個章節會標註功能的類型，幫助您了解該功能在不同平台的支援程度。</p>
+      <p>
+        在這個章節中，我們將全面介紹 Markdown 的語法，從最基礎的文字格式化到更複雜的表格和程式碼區塊，幫助您掌握這個強大而簡潔的標記語言。
+        無論您是初學者還是有經驗的使用者，這份指南都能幫助您更深入地了解 Markdown 的各種功能和技巧。
+      </p>
+      <p><strong>讓我們開始探索 Markdown 的世界吧！</strong></p>
+    </section>
+
+    <section class="section">
+      <h2>主標題與副標</h2>
+      <div class="badge-row">
+        <span class="badge ok">✅ 標準 Markdown 功能</span>
+      </div>
+      <p>本章介紹的標題語法是原始 Markdown 規範的核心功能，所有 Markdown 實現都支援。</p>
+      <p>
+        在 Markdown 中，標題是文檔結構的重要組成部分，用於區分不同層級的內容和創建清晰的文檔層次結構。
+        Markdown 支援六個級別的標題，從 # 到 ######，對應 HTML 中的 h1 到 h6 標籤。
+      </p>
+
+      <h3>標題語法</h3>
+      <p>標題的語法非常簡單，只需在文字前面加上對應數量的井號（#）符號，井號與文字之間需要有一個空格。標題的級別由井號的數量決定：</p>
+      <div class="example-grid">
+        <article class="card">
+          <h4>Markdown 語法</h4>
+          <pre><code># 一級標題 (h1)
+## 二級標題 (h2)
+### 三級標題 (h3)
+#### 四級標題 (h4)
+##### 五級標題 (h5)
+###### 六級標題 (h6)</code></pre>
+          <div class="rendered"><p class="copy-label">複製</p></div>
+        </article>
+        <article class="card">
+          <h4>標題效果</h4>
+          <div class="rendered">
+            <h1>一級標題 (h1)</h1>
+            <h2>二級標題 (h2)</h2>
+            <h3>三級標題 (h3)</h3>
+            <h4>四級標題 (h4)</h4>
+            <p><strong>五級標題 (h5)</strong></p>
+            <p><strong>六級標題 (h6)</strong></p>
+          </div>
+        </article>
+      </div>
+
+      <h3>替代語法</h3>
+      <p>Markdown 還提供了另一種方式來創建一級和二級標題，使用的是底線風格：</p>
+      <div class="example-grid">
+        <article class="card">
+          <h4>Markdown 語法</h4>
+          <pre><code>一級標題
+=======
+
+二級標題
+-------</code></pre>
+          <div class="rendered"><p class="copy-label">複製</p></div>
+        </article>
+        <article class="card">
+          <h4>說明</h4>
+          <div class="rendered">
+            <p>等號（=）用於一級標題，連字符（-）用於二級標題。</p>
+            <p>等號和連字符的數量不限，只要有一個以上即可。這種語法更接近傳統的文本標記方式，某些情況下可能更直觀。</p>
+          </div>
+        </article>
+      </div>
+
+      <h3>標題的最佳實踐</h3>
+      <ul>
+        <li>文檔結構層次：一般來說，每個文檔應該只有一個一級標題，作為文檔的主標題。</li>
+        <li>標題間隔：為了提高可讀性，建議在標題前後添加空行。</li>
+        <li>標題編號：Markdown 本身不支援自動標題編號，但某些處理器或擴展可能提供此功能。</li>
+        <li>標題錨點：許多 Markdown 實現會自動為標題生成錨點，方便文檔內部導航。</li>
+        <li>避免過深的標題層次：一般建議不要使用超過四級的標題層次，以保持文檔清晰。</li>
+      </ul>
+
+      <h3>標題在不同 Markdown 實現中的差異</h3>
+      <ul>
+        <li>某些實現可能要求井號和標題文字之間必須有空格，而其他實現可能更寬鬆。</li>
+        <li>標題錨點的生成規則可能不同，有些會保留大小寫，有些會全部轉為小寫，有些會將空格轉換為連字符。</li>
+        <li>某些擴展可能支援在標題中使用其他 Markdown 語法，如斜體、粗體或鏈接。</li>
+      </ul>
+
+      <div class="note">
+        結論：標題是 Markdown 文檔結構的基石，掌握標題語法可以幫助您創建組織良好、層次分明的文檔。
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>字體大小與效果</h2>
+      <div class="badge-row">
+        <span class="badge ok">✅ 原始 Markdown 標準功能</span>
+        <span class="badge warn">⚠️ 部分平台擴展功能</span>
+      </div>
+      <p>本章涵蓋原始 Markdown 標準功能（粗體、斜體）和 GFM 擴展功能（刪除線）。上標、下標和高亮是特定平台擴展，兼容性有限。</p>
+      <p>
+        在 Markdown 中，雖然沒有直接控制字體大小的語法，但可以通過標題級別間接控制文字大小。而對於字體效果，Markdown 提供了多種格式化選項，包括粗體、斜體、刪除線等，讓您的文字更具表現力和層次感。
+      </p>
+
+      <h3>字體大小</h3>
+      <p>Markdown 本身不提供直接設置字體大小的語法，因為它的設計理念是專注於內容而非樣式。如果需要不同大小的文字，通常有以下幾種方法：</p>
+      <ul>
+        <li>使用標題級別：使用不同級別的標題可以產生不同大小的文字。</li>
+        <li>使用 HTML 標籤：在大多數 Markdown 實現中，可以直接使用 HTML 標籤。</li>
+        <li>使用 CSS：若 Markdown 會轉成 HTML 並支援自定義 CSS，可定義類別來控制字體大小。</li>
+      </ul>
+
+      <div class="example-grid">
+        <article class="card">
+          <h4>HTML 標籤範例</h4>
+          <pre><code>&lt;span style="font-size: 24px;"&gt;這是較大的文字&lt;/span&gt;
+&lt;span style="font-size: 12px;"&gt;這是較小的文字&lt;/span&gt;</code></pre>
+        </article>
+        <article class="card">
+          <h4>CSS 類別範例</h4>
+          <pre><code>&lt;span class="large-text"&gt;這是較大的文字&lt;/span&gt;
+
+.large-text {
+  font-size: 24px;
+}</code></pre>
+        </article>
+      </div>
+
+      <div class="note">
+        需要注意的是，直接控制字體大小通常不符合 Markdown 的簡潔理念，而且可能在不同的 Markdown 渲染器中表現不一致。建議優先使用標題級別來區分內容的重要性和層次。
+      </div>
+
+      <h3>字體效果</h3>
+      <p>Markdown 提供了多種基本的字體效果語法，讓您能夠強調文字或改變文字的呈現方式。</p>
+
+      <h3>粗體</h3>
+      <div class="example-grid">
+        <article class="card">
+          <h4>Markdown 語法</h4>
+          <pre><code>**這是粗體文字**
+__這也是粗體文字__</code></pre>
+          <div class="rendered"><p class="copy-label">複製</p></div>
+        </article>
+        <article class="card">
+          <h4>效果如下</h4>
+          <div class="rendered">
+            <p><strong>這是粗體文字</strong></p>
+            <p><strong>這也是粗體文字</strong></p>
+          </div>
+        </article>
+      </div>
+
+      <h3>斜體</h3>
+      <div class="example-grid">
+        <article class="card">
+          <h4>Markdown 語法</h4>
+          <pre><code>*這是斜體文字*
+_這也是斜體文字_</code></pre>
+        </article>
+        <article class="card">
+          <h4>效果如下</h4>
+          <div class="rendered">
+            <p><em>這是斜體文字</em></p>
+            <p><em>這也是斜體文字</em></p>
+          </div>
+        </article>
+      </div>
+
+      <h3>粗斜體</h3>
+      <div class="example-grid">
+        <article class="card">
+          <h4>Markdown 語法</h4>
+          <pre><code>***這是粗斜體文字***
+___這也是粗斜體文字___
+**_這也是粗斜體文字_**
+__*這也是粗斜體文字*__</code></pre>
+        </article>
+        <article class="card">
+          <h4>效果如下</h4>
+          <div class="rendered">
+            <p><strong><em>這是粗斜體文字</em></strong></p>
+            <p><strong><em>這也是粗斜體文字</em></strong></p>
+            <p><strong><em>這也是粗斜體文字</em></strong></p>
+            <p><strong><em>這也是粗斜體文字</em></strong></p>
+          </div>
+        </article>
+      </div>
+
+      <h3>刪除線</h3>
+      <p><strong>GFM 擴展功能：</strong>刪除線是 GitHub Flavored Markdown 的擴展功能，原始 Markdown 不支援此語法。</p>
+      <div class="example-grid">
+        <article class="card">
+          <h4>Markdown 語法</h4>
+          <pre><code>~~這是帶有刪除線的文字~~</code></pre>
+        </article>
+        <article class="card">
+          <h4>效果如下</h4>
+          <div class="rendered">
+            <p><del>這是帶有刪除線的文字</del></p>
+          </div>
+        </article>
+      </div>
+
+      <h3>下劃線</h3>
+      <p>Markdown 原生語法不支援下劃線，但可以使用 HTML 標籤：</p>
+      <div class="example-grid">
+        <article class="card">
+          <h4>HTML 語法</h4>
+          <pre><code>&lt;u&gt;這是帶有下劃線的文字&lt;/u&gt;</code></pre>
+        </article>
+        <article class="card">
+          <h4>效果如下</h4>
+          <div class="rendered">
+            <p><u>這是帶有下劃線的文字</u></p>
+          </div>
+        </article>
+      </div>
+
+      <h3>上標和下標</h3>
+      <p><strong>特定平台擴展：</strong>此語法僅在特定實現中支援，不是標準 Markdown 或 GFM 的一部分。建議使用 HTML 標籤以確保兼容性。</p>
+      <div class="example-grid">
+        <article class="card">
+          <h4>擴展語法與 HTML 語法</h4>
+          <pre><code>上標：X^2^
+下標：H~2~O
+
+上標：X&lt;sup&gt;2&lt;/sup&gt;
+下標：H&lt;sub&gt;2&lt;/sub&gt;O</code></pre>
+        </article>
+        <article class="card">
+          <h4>效果如下</h4>
+          <div class="rendered">
+            <p>上標：X<sup>2</sup></p>
+            <p>下標：H<sub>2</sub>O</p>
+          </div>
+        </article>
+      </div>
+
+      <h3>高亮 / 標記</h3>
+      <p><strong>非標準語法：</strong><code>==高亮==</code> 不屬於 GFM 標準，僅在部分編輯器中支援。建議使用 HTML 標籤。</p>
+      <div class="example-grid">
+        <article class="card">
+          <h4>擴展語法與 HTML 語法</h4>
+          <pre><code>==這是高亮文字==
+
+&lt;mark&gt;這是高亮文字&lt;/mark&gt;</code></pre>
+        </article>
+        <article class="card">
+          <h4>效果如下</h4>
+          <div class="rendered">
+            <p><mark>這是高亮文字</mark></p>
+          </div>
+        </article>
+      </div>
+
+      <h3>組合使用字體效果</h3>
+      <div class="example-grid">
+        <article class="card">
+          <h4>Markdown 語法</h4>
+          <pre><code>**這是粗體文字，其中包含*斜體*部分**
+*這是斜體文字，其中包含**粗體**部分*
+~~這是刪除線文字，其中包含**粗體**部分~~</code></pre>
+        </article>
+        <article class="card">
+          <h4>效果如下</h4>
+          <div class="rendered">
+            <p><strong>這是粗體文字，其中包含<em>斜體</em>部分</strong></p>
+            <p><em>這是斜體文字，其中包含<strong>粗體</strong>部分</em></p>
+            <p><del>這是刪除線文字，其中包含<strong>粗體</strong>部分</del></p>
+          </div>
+        </article>
+      </div>
+
+      <h3>字體效果的最佳實踐</h3>
+      <ul>
+        <li>適度使用：過度使用強調效果會降低其效果，甚至可能使文檔難以閱讀。</li>
+        <li>一致性：在整個文檔中保持一致的強調風格。</li>
+        <li>避免嵌套過深：過深的嵌套可能導致可讀性問題。</li>
+        <li>空格處理：在某些 Markdown 實現中，強調標記周圍的空格可能影響渲染結果。</li>
+      </ul>
+
+      <h3>不同 Markdown 實現中的差異</h3>
+      <ul>
+        <li>某些實現可能不支援所有上述效果，特別是上標、下標和高亮。</li>
+        <li>某些實現可能有額外的字體效果語法。</li>
+        <li>HTML 標籤的支援程度也可能不同。</li>
+      </ul>
+
+      <div class="note">
+        結論：雖然 Markdown 不直接提供字體大小控制，但通過標題級別和 HTML/CSS 可以實現類似效果。對於字體效果，Markdown 提供了豐富的選項，包括粗體、斜體、刪除線等，讓您能夠強調文字並創建層次分明的內容。
+      </div>
+
+      <p>
+        掌握這些字體效果語法，可以幫助您創建更具表現力和專業性的 Markdown 文檔，無論是技術文檔、部落格文章還是其他類型的內容。
+      </p>
+    </section>
+
+    <footer>
+      Markdown 教學 HTML 輸出檔，可直接以瀏覽器開啟預覽。
+    </footer>
+  </main>
+</body>
+</html>

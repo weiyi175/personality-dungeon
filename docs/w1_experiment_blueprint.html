@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>W1 實驗藍圖：A3 例行回歸與 Failure Catalog v1</title>
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --paper: #ffffff;
+      --ink: #1f2328;
+      --muted: #57606a;
+      --line: #d0d7de;
+      --accent: #0b7a43;
+      --warn: #9a6700;
+      --danger: #cf222e;
+      --code: #f6f8fa;
+      --shadow: rgba(31, 35, 40, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, #fbfbfc 0%, var(--bg) 100%);
+      color: var(--ink);
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.7;
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 24px 14px 56px;
+    }
+
+    .md {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 10px 24px var(--shadow);
+      padding: 28px;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.3;
+      margin-top: 1.15em;
+      margin-bottom: 0.48em;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: clamp(1.8rem, 2.8vw, 2.2rem);
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 0.45em;
+    }
+
+    h2 {
+      font-size: 1.35rem;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 0.35em;
+    }
+
+    h3 {
+      font-size: 1.06rem;
+    }
+
+    p {
+      margin: 0.4em 0 0.9em;
+    }
+
+    ul, ol {
+      margin: 0.38em 0 1em;
+      padding-left: 1.35em;
+    }
+
+    li {
+      margin: 0.22em 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.65em 0 1.2em;
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f0f4f8;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      background: var(--code);
+      border: 1px solid #eaeef2;
+      border-radius: 6px;
+      padding: 0.1em 0.32em;
+      font-size: 0.92em;
+    }
+
+    pre {
+      margin: 0.55em 0 1em;
+      background: #0d1117;
+      color: #e6edf3;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 12px 14px;
+      overflow: auto;
+      font-size: 0.9rem;
+    }
+
+    pre code {
+      background: transparent;
+      border: 0;
+      color: inherit;
+      padding: 0;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 0.8em;
+    }
+
+    .tag {
+      display: inline-block;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 0.78rem;
+      margin-right: 6px;
+      color: var(--muted);
+      background: #fff;
+    }
+
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: #eefaf2;
+      padding: 10px 12px;
+      border-radius: 8px;
+      margin: 0.9em 0 1em;
+    }
+
+    .warn {
+      border-left-color: var(--warn);
+      background: #fff8e6;
+    }
+
+    .danger {
+      border-left-color: var(--danger);
+      background: #fff1f0;
+    }
+
+    @media (max-width: 720px) {
+      .md {
+        padding: 20px;
+      }
+
+      table {
+        font-size: 0.88rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <article class="md">
+      <h1>W1 實驗藍圖</h1>
+      <p class="meta">
+        <span class="tag">主線 80%</span>
+        <span class="tag">探索 20%</span>
+        <span class="tag">A3 + Failure Catalog</span>
+      </p>
+
+      <div class="callout">
+        W1 核心目標：在不新增機制掃參前提下，完成可持續回歸基礎設施與失敗知識庫初版。
+      </div>
+
+      <h2>1. W1 目標與交付物</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>工作流</th>
+            <th>目標</th>
+            <th>W1 交付物</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>A3 例行回歸 + 指標看板初始化</td>
+            <td>穩定主線健康檢查、建立指標歷史序列</td>
+            <td>A3 summary 彙整表 v1</td>
+          </tr>
+          <tr>
+            <td>B2/B3 失敗 seed 資料整理</td>
+            <td>建立可重用失敗樣態資料庫</td>
+            <td>Failure Catalog v1</td>
+          </tr>
+          <tr>
+            <td>W1 週結論</td>
+            <td>給出 go/no-go 依據，不靠主觀判讀</td>
+            <td>W1 Review Memo（一頁）</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>2. 範圍定義（In / Out）</h2>
+      <h3>2.1 In Scope</h3>
+      <ul>
+        <li>固定節奏執行 A3，萃取核心指標。</li>
+        <li>整理既有 B2/B3 失敗 block 的 seed 級資訊。</li>
+        <li>建立 failure catalog 欄位規格與初版資料。</li>
+      </ul>
+
+      <h3>2.2 Out of Scope</h3>
+      <ul>
+        <li>不新增任何事件機制參數掃描。</li>
+        <li>不做 B2/B3 參數延伸格點。</li>
+        <li>不重啟 Event line smoke/gate 新實驗。</li>
+      </ul>
+
+      <h2>3. 任務拆解</h2>
+
+      <h3>3.1 Workstream A（主線 80%）：A3 + 指標看板</h3>
+      <ol>
+        <li>執行 A3 例行回歸（週內至少 1 次；若有 runtime 變更則加跑 1 次）。</li>
+        <li>從 A3 summary 擷取核心欄位，寫入看板資料表。</li>
+        <li>生成 W1 的 A3 trend snapshot（最小版可用表格）。</li>
+      </ol>
+
+      <p>建議命令：</p>
+      <pre><code>./venv/bin/python -m simulation.track_a_protocol_regression</code></pre>
+
+      <p>建議擷取欄位：</p>
+      <table>
+        <thead>
+          <tr>
+            <th>欄位</th>
+            <th>來源</th>
+            <th>用途</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>timestamp_utc</td>
+            <td>A3 summary</td>
+            <td>時間序列索引</td>
+          </tr>
+          <tr>
+            <td>overall_pass</td>
+            <td>A3 summary</td>
+            <td>總體健康狀態</td>
+          </tr>
+          <tr>
+            <td>A1.l1 / A1.healthy / A1.mean_s3</td>
+            <td>A1 compare details</td>
+            <td>主線品質監控</td>
+          </tr>
+          <tr>
+            <td>A2.exit_code</td>
+            <td>A2 stage</td>
+            <td>測試穩定度</td>
+          </tr>
+          <tr>
+            <td>pytest_pass_count</td>
+            <td>A2 stdout</td>
+            <td>回歸測試規模追蹤</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>3.2 Workstream B（探索 20%）：B2/B3 失敗 seed catalog</h3>
+      <ol>
+        <li>讀取 B2/B3 既有 summary JSON。</li>
+        <li>抽取 new_L1 seeds 與 broken/rescued seed 行為。</li>
+        <li>輸出 failure catalog v1（seed 級資料表 + family 級摘要）。</li>
+      </ol>
+
+      <p>建議優先資料來源：</p>
+      <ul>
+        <li>outputs/b2_diag_multiplicative_gate60_block42_101_fw2000_ft050_summary.json</li>
+        <li>outputs/b3_diag_impact_spread_gate60_block42_101_fw2000_ft050_summary.json</li>
+        <li>outputs/b2_diag_multiplicative_smoke_block42_101_fw2000_ft050_summary.json</li>
+        <li>outputs/b3_diag_impact_spread_smoke_block42_101_fw2000_ft050_summary.json</li>
+      </ul>
+
+      <p>Failure catalog v1 建議欄位：</p>
+      <table>
+        <thead>
+          <tr>
+            <th>欄位</th>
+            <th>說明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>family</td><td>B2 或 B3</td></tr>
+          <tr><td>block</td><td>42..101（W1 固定）</td></tr>
+          <tr><td>seed</td><td>失敗或受影響 seed 編號</td></tr>
+          <tr><td>failure_type</td><td>new_l1 / broke / fairness / other</td></tr>
+          <tr><td>new_l1_flag</td><td>是否屬於 new_L1</td></tr>
+          <tr><td>rescued_flag</td><td>是否為 rescued seed</td></tr>
+          <tr><td>broke_flag</td><td>是否為 broke seed</td></tr>
+          <tr><td>fairness_fail_flag</td><td>是否 fairness fail</td></tr>
+          <tr><td>s3</td><td>該 seed 的 s3（若可得）</td></tr>
+          <tr><td>gamma</td><td>該 seed 的 gamma（若可得）</td></tr>
+          <tr><td>note</td><td>補充異常註記</td></tr>
+        </tbody>
+      </table>
+
+      <h2>4. W1 時程（五天版）</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Day</th>
+            <th>主線 80%</th>
+            <th>探索 20%</th>
+            <th>當日輸出</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>D1</td>
+            <td>跑 A3 + 建立看板欄位模板</td>
+            <td>收集 B2/B3 檔案清單</td>
+            <td>W1 source manifest</td>
+          </tr>
+          <tr>
+            <td>D2</td>
+            <td>萃取 A3 指標列</td>
+            <td>整理 B2 seed 級資料</td>
+            <td>A3 trend row + B2 draft</td>
+          </tr>
+          <tr>
+            <td>D3</td>
+            <td>（如有變更）加跑 A3</td>
+            <td>整理 B3 seed 級資料</td>
+            <td>B3 draft</td>
+          </tr>
+          <tr>
+            <td>D4</td>
+            <td>A3 看板初版整併</td>
+            <td>合併 B2/B3 -> failure catalog</td>
+            <td>failure catalog v1</td>
+          </tr>
+          <tr>
+            <td>D5</td>
+            <td>W1 主線健康結論</td>
+            <td>失敗樣態摘要與下一步假說</td>
+            <td>W1 review memo</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>5. 驗收標準（Definition of Done）</h2>
+      <ol>
+        <li>W1 至少完成 1 次 A3 例行回歸，且 summary 可重現。</li>
+        <li>看板初版可查到 L1、Healthy、mean_s3、pytest 狀態。</li>
+        <li>Failure catalog v1 至少覆蓋 B2/B3 在 block 42..101 的失敗 seed。</li>
+        <li>W1 review memo 明確給出下週是否維持「主線優先」的判定。</li>
+      </ol>
+
+      <h2>6. 風險與停損</h2>
+      <div class="callout warn">
+        風險：資料整理工作膨脹成重新掃參。
+      </div>
+      <ul>
+        <li>停損 1：W1 不新增任何新參數 sweep 命令。</li>
+        <li>停損 2：若 catalog 欄位超過核心欄位兩倍，先縮欄位再擴資料量。</li>
+        <li>停損 3：若 A3 fail，W1 其餘探索工作暫停，先修主線。</li>
+      </ul>
+
+      <div class="callout danger">
+        W1 不是「找新最佳參數」，而是「把回歸治理與失敗知識庫做成可累積資產」。
+      </div>
+
+      <h2>7. W1 完成後的決策輸入</h2>
+      <p>W1 產物會先彙整成 <code>w2_decision_input_v1</code>，再餵給 W2 的兩個固定判斷：</p>
+
+      <h3>7.1 判斷一：主線是否維持 80/20 節奏</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>檢查項</th>
+            <th>來源欄位</th>
+            <th>門檻</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>A3 overall pass</td><td><code>mainline.a3_overall_pass</code></td><td><code>true</code></td></tr>
+          <tr><td>主線狀態</td><td><code>mainline.status</code></td><td><code>GREEN</code></td></tr>
+          <tr><td>L1 風險</td><td><code>mainline.a1_l1</code></td><td><code>&lt;= 3</code></td></tr>
+          <tr><td>Healthy 覆蓋</td><td><code>mainline.a1_healthy</code></td><td><code>&gt;= 42</code></td></tr>
+        </tbody>
+      </table>
+      <p>全部通過：<code>keep_80_20</code>；任一不通過：<code>stabilize_first</code>。</p>
+
+      <h3>7.2 判斷二：是否有足夠結構證據支持未來 Event line 重啟假說</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>結構證據檢查</th>
+            <th>來源欄位</th>
+            <th>門檻</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>邊界群聚樣本量</td><td><code>b2_failure_profile.broke_non_l1</code></td><td><code>&gt;= 5</code></td></tr>
+          <tr><td>0.55 邊界帶</td><td><code>broke_non_l1_mean_s3</code></td><td><code>0.53 ~ 0.58</code></td></tr>
+          <tr><td>早期陷阱比例</td><td><code>broke_early_trap_share_le_2000</code></td><td><code>&gt;= 0.60</code></td></tr>
+          <tr><td>正向對照可用性</td><td><code>rescued</code></td><td><code>&gt;= 5</code></td></tr>
+          <tr><td>高優先風險錨點</td><td><code>p0_seeds</code></td><td><code>非空</code></td></tr>
+          <tr><td>假說束完整度</td><td><code>hypotheses</code></td><td><code>&gt;= 3</code></td></tr>
+        </tbody>
+      </table>
+      <p>
+        全部通過：<code>structural_evidence_sufficient=true</code>。<br />
+        但「立即重啟」仍需另過硬條件：<code>gate_overall_pass=true</code> 且 <code>new_l1=0</code>。
+      </p>
+
+      <h3>7.3 產物與命令</h3>
+      <pre><code>/home/user/personality-dungeon/venv/bin/python scripts/w1_d6_w2_decision_input.py</code></pre>
+      <ul>
+        <li>outputs/w1/w2_decision_input_v1.json</li>
+        <li>outputs/w1/w2_decision_input_v1.md</li>
+      </ul>
+
+      <h2>8. 立即執行（W1 啟動命令）</h2>
+      <p>若要一鍵生成 W1 的 v1 交付物（A3 dashboard + failure catalog + memo），執行：</p>
+      <pre><code>/home/user/personality-dungeon/venv/bin/python scripts/w1_generate_artifacts.py</code></pre>
+
+      <p>預期產物（本機，預設寫入 <code>outputs/w1/</code>）：</p>
+      <ul>
+        <li>outputs/w1/a3_dashboard_v1.csv</li>
+        <li>outputs/w1/failure_catalog_v1.csv</li>
+        <li>outputs/w1/failure_catalog_v1_summary.json</li>
+        <li>outputs/w1/w1_review_memo_v1.md</li>
+      </ul>
+
+      <h2>9. 本輪驗收結果（2026-04-12）</h2>
+      <p>依本輪執行輸出，W1 驗收標準（DoD）4 項皆達成：</p>
+      <ul>
+        <li><strong>達成</strong>：W1 至少完成 1 次 A3 例行回歸，且 summary 可重現（<code>outputs/track_a_protocol_regression_summary.json</code>）。</li>
+        <li><strong>達成</strong>：看板初版可查 L1、Healthy、mean_s3、pytest 狀態（<code>outputs/w1/a3_dashboard_v1.csv</code>）。</li>
+        <li><strong>達成</strong>：Failure catalog v1 已覆蓋 B2/B3 在 block 42..101 的失敗 seed（<code>outputs/w1/failure_catalog_v1_summary.json</code>）。</li>
+        <li><strong>達成</strong>：W1 review memo 已明確給出維持主線優先判定（<code>outputs/w1/w1_review_memo_v1.md</code>）。</li>
+      </ul>
+
+      <h3>9.1 W1 驗收結論</h3>
+      <ol>
+        <li>W1 DoD：<strong>全部達成</strong>。</li>
+        <li>可直接沿用 W1 產物輸入 W2 判斷流程（主線節奏 + Event line 重啟假說檢查）。</li>
+      </ol>
+
+      <div class="callout">
+        W1 以「主線穩定 + 失敗知識庫」為目標已完成收口；後續維持主線優先，依 W2 block-level 風險比較持續判讀。
+      </div>
+    </article>
+  </main>
+</body>
+</html>

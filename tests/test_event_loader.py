@@ -171,6 +171,38 @@ def test_event_loader_process_turn_applies_success_updates() -> None:
 	assert player.state["last_event_id"] == "threat_shadow_stalker"
 
 
+def test_event_loader_family_multipliers_scale_event_layer_only() -> None:
+	baseline_loader = EventLoader(_event_json_path())
+	scaled_loader = EventLoader(_event_json_path())
+	scaled_loader.set_event_type_risk_multipliers({"Threat": 1.10})
+	scaled_loader.set_event_type_reward_multipliers({"Threat": 1.20})
+	scaled_loader.set_event_type_trait_delta_multipliers({"Threat": 1.30})
+	baseline_player = BasePlayer(
+		["aggressive", "defensive", "balanced"],
+		personality={"impulsiveness": 0.8, "ambition": 0.7, "caution": 0.1},
+	)
+	scaled_player = BasePlayer(
+		["aggressive", "defensive", "balanced"],
+		personality={"impulsiveness": 0.8, "ambition": 0.7, "caution": 0.1},
+	)
+	baseline_result = baseline_loader.process_turn(
+		baseline_player,
+		event_id="threat_shadow_stalker",
+		action_name="observe",
+		rng=_FixedRng(random_value=0.0),
+	)
+	scaled_result = scaled_loader.process_turn(
+		scaled_player,
+		event_id="threat_shadow_stalker",
+		action_name="observe",
+		rng=_FixedRng(random_value=0.0),
+	)
+
+	assert scaled_result["final_risk"] > baseline_result["final_risk"]
+	assert scaled_result["utility_delta"] > baseline_result["utility_delta"]
+	assert scaled_player.personality["curiosity"] > baseline_player.personality["curiosity"]
+
+
 def test_failure_threshold_hard_gate_when_risk_exceeds_threshold() -> None:
 	loader = EventLoader(_event_json_path())
 	event = loader.get_event_template("threat_shadow_stalker")

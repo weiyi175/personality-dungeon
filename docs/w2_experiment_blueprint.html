@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>W2 實驗藍圖：A3 例行回歸 + 漂移偵測 + Block Risk Report v1</title>
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --paper: #ffffff;
+      --ink: #1f2328;
+      --muted: #57606a;
+      --line: #d0d7de;
+      --accent: #0b7a43;
+      --warn: #9a6700;
+      --danger: #cf222e;
+      --code: #f6f8fa;
+      --shadow: rgba(31, 35, 40, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, #fbfbfc 0%, var(--bg) 100%);
+      color: var(--ink);
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.7;
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 24px 14px 56px;
+    }
+
+    .md {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 10px 24px var(--shadow);
+      padding: 28px;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.3;
+      margin-top: 1.15em;
+      margin-bottom: 0.48em;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: clamp(1.8rem, 2.8vw, 2.2rem);
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 0.45em;
+    }
+
+    h2 {
+      font-size: 1.35rem;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 0.35em;
+    }
+
+    h3 {
+      font-size: 1.06rem;
+    }
+
+    p {
+      margin: 0.4em 0 0.9em;
+    }
+
+    ul, ol {
+      margin: 0.38em 0 1em;
+      padding-left: 1.35em;
+    }
+
+    li {
+      margin: 0.22em 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.65em 0 1.2em;
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f0f4f8;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      background: var(--code);
+      border: 1px solid #eaeef2;
+      border-radius: 6px;
+      padding: 0.1em 0.32em;
+      font-size: 0.92em;
+    }
+
+    pre {
+      margin: 0.55em 0 1em;
+      background: #0d1117;
+      color: #e6edf3;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 12px 14px;
+      overflow: auto;
+      font-size: 0.9rem;
+    }
+
+    pre code {
+      background: transparent;
+      border: 0;
+      color: inherit;
+      padding: 0;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 0.8em;
+    }
+
+    .tag {
+      display: inline-block;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 0.78rem;
+      margin-right: 6px;
+      color: var(--muted);
+      background: #fff;
+    }
+
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: #eefaf2;
+      padding: 10px 12px;
+      border-radius: 8px;
+      margin: 0.9em 0 1em;
+    }
+
+    .warn {
+      border-left-color: var(--warn);
+      background: #fff8e6;
+    }
+
+    .danger {
+      border-left-color: var(--danger);
+      background: #fff1f0;
+    }
+
+    @media (max-width: 720px) {
+      .md {
+        padding: 20px;
+      }
+
+      table {
+        font-size: 0.88rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <article class="md">
+      <h1>W2 實驗藍圖</h1>
+      <p class="meta">
+        <span class="tag">主線 80%</span>
+        <span class="tag">探索 20%</span>
+        <span class="tag">A3 Drift + Block Risk</span>
+      </p>
+
+      <div class="callout">
+        W2 核心目標：固定 A3 例行回歸節奏，並把 block-level 風險比較做成可重跑報告，支援週會 go/no-go 判斷。
+      </div>
+
+      <h2>1. W2 目標與交付物</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>工作流</th>
+            <th>目標</th>
+            <th>W2 交付物</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>A3 例行回歸 + 漂移偵測</td>
+            <td>確認主線是否穩定，檢查相對 W1 是否發生漂移</td>
+            <td>A3 drift summary</td>
+          </tr>
+          <tr>
+            <td>block-level 穩健性對比</td>
+            <td>比較 B1/B2/B3 在不同 block 的 gate 表現</td>
+            <td>block risk report v1</td>
+          </tr>
+          <tr>
+            <td>W2 週結論</td>
+            <td>輸出主線節奏與 Event line 是否可重啟</td>
+            <td>W2 decision input</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>2. 輸入資料</h2>
+      <ol>
+        <li><code>outputs/track_a_protocol_regression_summary.json</code></li>
+        <li><code>outputs/w1/d5_w1_review_summary_v1.json</code></li>
+        <li><code>outputs/pers_cal_baseline_gate60_summary.json</code></li>
+        <li><code>outputs/pers_cal_baseline_gate60_block102_161_summary.json</code></li>
+        <li><code>outputs/pers_cal_baseline_gate60_block162_221_summary.json</code></li>
+        <li><code>outputs/pers_cal_baseline_gate60_block222_281_summary.json</code></li>
+        <li>B1/B2/B3 gate summaries（固定由 <code>scripts/w2_block_risk_report_v1.py</code> 讀入）</li>
+      </ol>
+
+      <h2>3. 執行流程</h2>
+
+      <h3>3.1 A3 例行回歸</h3>
+      <pre><code>./venv/bin/python -m simulation.track_a_protocol_regression</code></pre>
+
+      <h3>3.2 W2 block risk 報告生成</h3>
+      <pre><code>./venv/bin/python scripts/w2_block_risk_report_v1.py</code></pre>
+
+      <h3>3.3 漂移偵測規則（W1 -> W2）</h3>
+      <p>以 W1 D5 <code>mainline</code> 為 reference，A3 最新資料為 current：</p>
+      <table>
+        <thead>
+          <tr>
+            <th>檢查項</th>
+            <th>門檻</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>a3_overall_pass</code></td><td><code>true</code></td></tr>
+          <tr><td><code>|delta_l1|</code></td><td><code>&lt;= 1</code></td></tr>
+          <tr><td><code>|delta_healthy|</code></td><td><code>&lt;= 3</code></td></tr>
+          <tr><td><code>|delta_mean_s3|</code></td><td><code>&lt;= 0.02</code></td></tr>
+        </tbody>
+      </table>
+      <p>全部通過：<code>stable</code>；否則：<code>drift_detected</code>。</p>
+
+      <h3>3.4 block-level 穩健性對比規則</h3>
+      <p>以每個 block baseline 為對照，檢查 event family gate 結果：</p>
+      <ol>
+        <li><code>overall_pass</code></li>
+        <li><code>new_l1</code></li>
+        <li><code>l1 / healthy</code></li>
+        <li><code>delta_mean_s3_vs_baseline</code></li>
+        <li><code>fairness_fail_count</code></li>
+      </ol>
+      <p>焦點比較：<code>b1_async_poisson_r008</code> 跨 4 個 blocks 的通過率與 <code>new_l1</code>。</p>
+
+      <h2>4. 產物（block risk report v1）</h2>
+      <ul>
+        <li><code>outputs/w2/block_risk_report_v1.json</code></li>
+        <li><code>outputs/w2/block_risk_report_v1.csv</code></li>
+        <li><code>outputs/w2/block_risk_report_v1.md</code></li>
+      </ul>
+
+      <h2>5. 本輪比對摘要（2026-04-12）</h2>
+
+      <h3>5.1 A3 + 漂移</h3>
+      <ul>
+        <li>漂移判定：<code>stable</code></li>
+        <li><code>delta_l1=0</code>、<code>delta_healthy=0</code>、<code>delta_mean_s3=0.000000</code></li>
+      </ul>
+
+      <h3>5.2 block-level 焦點比對（b1 async_poisson r0.08）</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>block</th>
+            <th>overall_pass</th>
+            <th>new_l1</th>
+            <th>verdict</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>42..101</td><td>true</td><td>0</td><td>pass</td></tr>
+          <tr><td>102..161</td><td>false</td><td>2</td><td>fail</td></tr>
+          <tr><td>162..221</td><td>false</td><td>1</td><td>fail</td></tr>
+          <tr><td>222..281</td><td>false</td><td>4</td><td>fail</td></tr>
+        </tbody>
+      </table>
+      <p>通過率：<code>1/4 = 0.25</code>，判定：<code>not_block_robust</code>。</p>
+
+      <h3>5.3 B2/B3 對比（block 42..101）</h3>
+      <ul>
+        <li>B2：<code>overall_pass=false</code>，<code>new_l1=2</code>，<code>l1=3</code>，<code>healthy=47</code></li>
+        <li>B3：<code>overall_pass=false</code>，<code>new_l1=2</code>，<code>l1=2</code>，<code>healthy=49</code></li>
+      </ul>
+
+      <h2>6. W2 決策輸入映射</h2>
+      <ol>
+        <li>主線節奏：<code>keep_80_20</code>（A3 stable + no drift）。</li>
+        <li>Event line：<code>not_block_robust</code>（先做 block 診斷，不重啟）。</li>
+      </ol>
+
+      <h2>7. 驗收標準（DoD）</h2>
+      <ol>
+        <li>A3 至少完成 1 次，且 summary 存檔。</li>
+        <li>block risk report v1 三份產物齊備（json/csv/md）。</li>
+        <li>焦點機制（當前為 b1 poisson r0.08）完成跨 block 比對與通過率判定。</li>
+        <li>週會結論可直接引用 <code>outputs/w2/block_risk_report_v1.md</code>。</li>
+      </ol>
+
+      <div class="callout warn">
+        W2 不做機制擴張掃參；若要提出重啟 Event line，需先跨 block 證明穩健且維持 <code>new_l1=0</code>。
+      </div>
+
+      <h2>8. 本輪驗收結果（2026-04-12）</h2>
+      <p>依本輪執行輸出，DoD 達成狀態如下（改用文字狀態，避免勾選符號誤解）：</p>
+      <ul>
+        <li><strong>達成</strong>：A3 至少完成 1 次，且 summary 存檔（<code>outputs/track_a_protocol_regression_summary.json</code>）。</li>
+        <li><strong>達成</strong>：block risk report v1 三份產物齊備（<code>json/csv/md</code>）。</li>
+        <li><strong>達成</strong>：焦點機制（b1 poisson r0.08）已完成跨 block 比對與通過率判定（pass_rate = 0.25）。</li>
+        <li><strong>達成</strong>：週會結論可直接引用 <code>outputs/w2/block_risk_report_v1.md</code>。</li>
+      </ul>
+
+      <p>Event line 重啟守門條件（非 DoD 項）：</p>
+      <ul>
+        <li><strong>條件未達（因此維持不重啟）</strong>：跨 block 證明穩健且 <code>new_l1=0</code>。</li>
+      </ul>
+
+      <h3>8.1 本輪決策結論</h3>
+      <ol>
+        <li>主線節奏：<code>keep_80_20</code>（A3 stable + no drift）。</li>
+        <li>Event line：<code>not_block_robust</code>（先做 block 診斷，不重啟）。</li>
+      </ol>
+
+      <div class="callout">
+        本輪已達成 W2 DoD；但 Event line 重啟守門條件仍未達成。下一輪維持相同驗收口徑，優先追蹤跨 block 的 <code>new_l1</code> 與通過率是否收斂。
+      </div>
+    </article>
+  </main>
+</body>
+</html>

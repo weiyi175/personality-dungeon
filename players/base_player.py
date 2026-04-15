@@ -47,10 +47,14 @@ class BasePlayer:
 	def choose_strategy(self):
 		strategies = list(self.strategy_weights.keys())
 		weights = []
+		sampling_beta = float(getattr(self, 'sampling_beta', 1.0))
 		for strategy in strategies:
 			base_weight = max(1e-9, float(self.strategy_weights.get(strategy, 1.0)))
 			bias = max(-6.0, min(6.0, float(self.strategy_biases.get(strategy, 0.0))))
-			weights.append(base_weight * exp(bias))
+			eff_w = base_weight * exp(bias)
+			if sampling_beta != 1.0:
+				eff_w = eff_w ** sampling_beta
+			weights.append(eff_w)
 		self.last_strategy = self._rng.choices(strategies, weights=weights, k=1)[0]
 		return self.last_strategy
 

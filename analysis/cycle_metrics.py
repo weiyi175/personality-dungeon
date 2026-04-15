@@ -15,7 +15,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from math import cos, isfinite, pi, sqrt
+from math import atan2, cos, isfinite, pi, sqrt
 from random import Random
 from typing import Literal, Mapping, Optional, Sequence
 
@@ -1235,6 +1235,113 @@ def phase_direction_consistency_turning_windowed(
 	)
 
 
+# ── CC1: Phase Rotation R² Fallback ─────────────────────────────────
+
+
+@dataclass(frozen=True)
+class PhaseRotationR2Result:
+	r2: float
+	slope: float
+	cumulative_rotation: float
+	window_length: int
+
+
+def _simplex3_phase_angle(pa: float, pd: float, pb: float) -> float:
+	"""Phase angle of a 3-strategy simplex point relative to centroid.
+
+	Uses atan2(√3·(pd − pb), 2·pa − pd − pb).
+	"""
+	x = 2.0 * pa - pd - pb
+	y = sqrt(3.0) * (pd - pb)
+	return atan2(y, x)
+
+
+def _unwrap_phases(phases: list[float]) -> list[float]:
+	"""Stdlib-only phase unwrapping (equivalent to numpy.unwrap)."""
+	if len(phases) <= 1:
+		return list(phases)
+	out = [phases[0]]
+	for i in range(1, len(phases)):
+		d = phases[i] - phases[i - 1]
+		# Normalize jump into (−π, π]
+		d = (d + pi) % (2 * pi) - pi
+		out.append(out[-1] + d)
+	return out
+
+
+def _linear_fit_r2(ys: list[float]) -> tuple[float, float, float]:
+	"""Ordinary least-squares fit of ys against index. Returns (r2, slope, intercept)."""
+	n = len(ys)
+	if n < 2:
+		return (0.0, 0.0, 0.0)
+	sx = 0.0
+	sy = 0.0
+	sxx = 0.0
+	sxy = 0.0
+	for i, y in enumerate(ys):
+		sx += i
+		sy += y
+		sxx += i * i
+		sxy += i * y
+	denom = n * sxx - sx * sx
+	if denom == 0.0:
+		return (0.0, 0.0, sy / n if n else 0.0)
+	slope = (n * sxy - sx * sy) / denom
+	intercept = (sy - slope * sx) / n
+	# R²
+	y_mean = sy / n
+	ss_tot = 0.0
+	ss_res = 0.0
+	for i, y in enumerate(ys):
+		ss_tot += (y - y_mean) ** 2
+		ss_res += (y - (intercept + slope * i)) ** 2
+	if ss_tot == 0.0:
+		return (0.0, slope, intercept)
+	r2 = 1.0 - ss_res / ss_tot
+	return (max(0.0, r2), slope, intercept)
+
+
+def phase_rotation_r2(
+	proportions: Mapping[str, Sequence[float]],
+	*,
+	strategies: Sequence[str] = ("aggressive", "defensive", "balanced"),
+	burn_in: int = 0,
+	tail: int | None = None,
+) -> PhaseRotationR2Result:
+	"""Compute R² of unwrapped phase angle vs time for a 3-strategy simplex trajectory."""
+	keys = list(strategies)
+	if len(keys) != 3:
+		return PhaseRotationR2Result(r2=0.0, slope=0.0, cumulative_rotation=0.0, window_length=0)
+	for k in keys:
+		if k not in proportions:
+			return PhaseRotationR2Result(r2=0.0, slope=0.0, cumulative_rotation=0.0, window_length=0)
+
+	# Determine window
+	lengths = [len(proportions[k]) for k in keys]
+	n = min(lengths)
+	start = min(max(burn_in, 0), n)
+	if tail is not None:
+		start = max(start, n - tail)
+	win_len = n - start
+	if win_len < 10:
+		return PhaseRotationR2Result(r2=0.0, slope=0.0, cumulative_rotation=0.0, window_length=0)
+
+	# Compute phase angles
+	raw_phases: list[float] = []
+	for t in range(start, n):
+		pa = float(proportions[keys[0]][t])
+		pd = float(proportions[keys[1]][t])
+		pb = float(proportions[keys[2]][t])
+		raw_phases.append(_simplex3_phase_angle(pa, pd, pb))
+
+	unwrapped = _unwrap_phases(raw_phases)
+	r2, slope, intercept = _linear_fit_r2(unwrapped)
+	cumulative_rotation = abs(unwrapped[-1] - unwrapped[0]) if len(unwrapped) >= 2 else 0.0
+	return PhaseRotationR2Result(
+		r2=r2, slope=slope, cumulative_rotation=cumulative_rotation, window_length=win_len,
+	)
+
+
 def classify_cycle_level(
 	proportions: Mapping[str, Sequence[float]],
 	*,
@@ -1268,6 +1375,9 @@ def classify_cycle_level(
 	stage3_window: int | None = None,
 	stage3_step: int = 20,
 	stage3_quantile: float = 0.75,
+	# CC1 fallback
+	stage2_fallback_r2_threshold: float | None = None,
+	stage2_fallback_min_rotation: float = 20.0,
 ) -> CycleLevelResult:
 	"""Classify cycle strength into Level 0..3 using a graded framework."""
 
@@ -1300,7 +1410,25 @@ def classify_cycle_level(
 		permutation_seed=(int(permutation_seed) if permutation_seed is not None else None),
 	)
 	if not stage2.passed:
-		return CycleLevelResult(level=1, stage1=stage1, stage2=stage2, stage3=None)
+		# CC1: Phase Rotation R² fallback for Stage 2
+		if stage2_fallback_r2_threshold is not None:
+			rot = phase_rotation_r2(proportions, strategies=strategies, burn_in=burn_in, tail=tail)
+			if (
+				rot.r2 >= stage2_fallback_r2_threshold
+				and rot.cumulative_rotation >= stage2_fallback_min_rotation
+			):
+				stage2 = Stage2FrequencyResult(
+					passed=True,
+					corr_threshold=corr_threshold,
+					aggregation=freq_aggregation,
+					frequencies=stage2.frequencies,
+					method="phase_rotation_r2_fallback",
+					statistic_name="phase_r2",
+					statistic=rot.r2,
+					effective_window_n=stage2.effective_window_n,
+				)
+		if not stage2.passed:
+			return CycleLevelResult(level=1, stage1=stage1, stage2=stage2, stage3=None)
 
 	phase_input = proportions
 	if normalize_for_phase:
@@ -1343,6 +1471,23 @@ def classify_cycle_level(
 	else:
 		raise ValueError("stage3_method must be 'centroid' or 'turning'")
 	if not stage3.passed:
-		return CycleLevelResult(level=2, stage1=stage1, stage2=stage2, stage3=stage3)
+		# CC1: Phase Rotation R² fallback for Stage 3
+		if stage2_fallback_r2_threshold is not None:
+			rot = phase_rotation_r2(proportions, strategies=strategies, burn_in=burn_in, tail=tail)
+			if (
+				rot.r2 >= stage2_fallback_r2_threshold
+				and rot.cumulative_rotation >= stage2_fallback_min_rotation
+			):
+				direction = 1 if rot.slope >= 0 else -1
+				stage3 = PhaseDirectionResult(
+					direction=direction,
+					score=rot.r2,
+					turn_strength=rot.cumulative_rotation,
+					eta=eta,
+					min_turn_strength=min_turn_strength,
+					passed=True,
+				)
+		if not stage3.passed:
+			return CycleLevelResult(level=2, stage1=stage1, stage2=stage2, stage3=stage3)
 
 	return CycleLevelResult(level=3, stage1=stage1, stage2=stage2, stage3=stage3)

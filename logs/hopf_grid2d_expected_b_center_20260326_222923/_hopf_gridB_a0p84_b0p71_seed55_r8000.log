@@ -1,0 +1,3 @@
+Wrote CSV: outputs/hopf_grid2d/hopf_grid2d_expected_b_center_20260326_222923/hopf_gridB_a0p84_b0p71_seed55_r8000.csv
+players=300 rounds=8000 seed=55 payoff_mode=matrix_ab gamma=0.1 epsilon=0.0 a=0.84 b=0.71 init_bias=0.12 evolution_mode=sampled payoff_lag=1 selection_strength=0.06 enable_events=True events_json=docs/personality_dungeon_v1/02_event_templates_v1.json
+Final weights: {'aggressive': 0.9906602140499202, 'defensive': 1.0034594520506015, 'balanced': 1.0058803338994782}

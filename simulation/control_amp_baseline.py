@@ -79,6 +79,7 @@ def main() -> None:
         choices=["sampled", "mean_field"],
     )
     p.add_argument("--payoff-lag", type=int, default=1, choices=[0, 1])
+    p.add_argument("--memory-kernel", type=int, default=1, choices=[1, 3, 5])
     p.add_argument("--init-bias", type=float, default=0.0)
     p.add_argument("--jobs", type=int, default=0, help="Worker processes. 0 => auto (cpu_count-1)")
 
@@ -147,6 +148,7 @@ def main() -> None:
         "popularity_mode": str(args.popularity_mode),
         "evolution_mode": str(args.evolution_mode),
         "payoff_lag": int(args.payoff_lag),
+        "memory_kernel": int(args.memory_kernel),
         "key": None,
     }
 
@@ -188,6 +190,7 @@ def main() -> None:
                         "series": str(args.series),
                         "burn_in": int(burn_in),
                         "tail": (int(tail) if tail is not None else ""),
+                        "memory_kernel": int(args.memory_kernel),
                         "cycle_level": int(lv),
                         "stage1_passed": bool(s1),
                         "stage2_passed": bool(s2),
@@ -243,6 +246,7 @@ def main() -> None:
                         "series": str(args.series),
                         "burn_in": int(burn_in),
                         "tail": (int(tail) if tail is not None else ""),
+                        "memory_kernel": int(args.memory_kernel),
                         "cycle_level": int(lv),
                         "stage1_passed": bool(s1),
                         "stage2_passed": bool(s2),

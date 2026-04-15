@@ -71,7 +71,11 @@ class GameEngine:
 		if self.popularity_mode == "sampled":
 			self.dungeon.update_popularity(chosen_strategies)
 		else:  # expected
-			self.dungeon.popularity = self._expected_popularity()
+			expected_popularity = self._expected_popularity()
+			if hasattr(self.dungeon, "set_popularity"):
+				self.dungeon.set_popularity(expected_popularity)
+			else:
+				self.dungeon.popularity = expected_popularity
 
 		return step_records
 

@@ -1,0 +1,57 @@
+name: Track A Protocol Regression
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: track-a-protocol-regression-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  protocol-regression:
+    name: A3 Protocol Regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Set up venv and install dependencies
+        run: |
+          set -euo pipefail
+          python -m venv venv
+          ./venv/bin/python -m pip install --upgrade pip
+          ./venv/bin/python -m pip install -r requirements.txt
+
+      - name: Stage locked A1 baseline JSON
+        run: |
+          set -euo pipefail
+          mkdir -p outputs
+          cp tests/fixtures/track_a/pers_cal_baseline_gate60_summary.json outputs/pers_cal_baseline_gate60_summary.json
+
+      - name: Run Track A protocol regression (A3)
+        run: |
+          set -euo pipefail
+          ./venv/bin/python -m simulation.track_a_protocol_regression \
+            --python-bin ./venv/bin/python \
+            --baseline-summary-json outputs/pers_cal_baseline_gate60_summary.json
+
+      - name: Upload A3 regression artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: track-a-protocol-regression-${{ github.run_id }}
+          if-no-files-found: warn
+          path: |
+            outputs/track_a_protocol_regression_summary.json
+            outputs/track_a_protocol_regression_summary.md
+            outputs/pers_cal_baseline_gate60_recheck_42_101_summary.json

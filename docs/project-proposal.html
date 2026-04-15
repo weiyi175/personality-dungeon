@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>專題內容說明</title>
+  <style>
+    :root {
+      --bg: #f6f3ee;
+      --paper: #fffdf9;
+      --ink: #1f2933;
+      --muted: #5b6470;
+      --accent: #0f766e;
+      --accent-soft: #dff5f1;
+      --line: #ddd6cb;
+      --code-bg: #f1ece4;
+      --shadow: rgba(31, 41, 51, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top right, rgba(15, 118, 110, 0.12), transparent 28%),
+        linear-gradient(180deg, #faf7f2 0%, var(--bg) 100%);
+      line-height: 1.8;
+    }
+
+    .page {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 40px 20px 64px;
+    }
+
+    .hero,
+    .section {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: 0 14px 34px var(--shadow);
+    }
+
+    .hero {
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .section {
+      padding: 28px 30px;
+      margin-bottom: 20px;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--accent);
+      font-size: 0.95rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      line-height: 1.3;
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+      font-size: clamp(2rem, 4vw, 3rem);
+    }
+
+    h2 {
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--line);
+      font-size: 1.55rem;
+    }
+
+    h3 {
+      margin-top: 24px;
+      margin-bottom: 10px;
+      color: var(--accent);
+      font-size: 1.12rem;
+    }
+
+    p {
+      margin: 0 0 14px;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.04rem;
+    }
+
+    ol,
+    ul {
+      padding-left: 1.4rem;
+      margin: 0 0 14px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    .markdown-card {
+      margin-top: 18px;
+      padding: 18px 20px;
+      background: var(--code-bg);
+      border: 1px dashed #c7bbab;
+      border-radius: 16px;
+    }
+
+    pre {
+      margin: 0;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.92rem;
+      line-height: 1.65;
+    }
+
+    .tool-list {
+      columns: 2;
+      column-gap: 28px;
+    }
+
+    .tool-list li {
+      break-inside: avoid;
+    }
+
+    .note {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-left: 4px solid var(--accent);
+      border-radius: 12px;
+      background: var(--accent-soft);
+    }
+
+    footer {
+      margin-top: 24px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        padding: 20px 14px 40px;
+      }
+
+      .hero,
+      .section {
+        padding: 22px 18px;
+        border-radius: 18px;
+      }
+
+      .tool-list {
+        columns: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <p class="eyebrow">Markdown 轉 HTML</p>
+      <h1>專題動機、目標與成果說明</h1>
+      <p class="lead">
+        這份頁面將原本以 Markdown 邏輯撰寫的專題內容，整理成可直接瀏覽的 HTML 文件，保留清楚的章節層級、條列重點與說明段落。
+      </p>
+      <div class="markdown-card">
+        <pre># 專題內容說明
+
+## 一、專題動機與選題緣由
+## 二、專題目標與實施內容
+## 三、專題與學科領域的關聯性
+## 四、AI 技術與工具應用說明
+## 五、預期成果與呈現方式</pre>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>一、專題動機與選題緣由</h2>
+
+      <h3>1. 為什麼對這個主題產生興趣？</h3>
+      <p>
+        我對這個主題有興趣，是因為我想把遊戲設計、人工智慧與複雜系統結合起來，不只是做一個會出題或會戰鬥的地下城，而是設計一個會和玩家群體互相影響、共同演化的系統。
+      </p>
+      <p>
+        我特別想研究的是：當玩家的策略選擇、人格傾向、地下城回饋與更新規則彼此交互作用時，整體系統是否會出現穩定合作、週期振盪，甚至更高階的集體行為。
+      </p>
+
+      <h3>2. 想要解決什麼問題，或探索什麼新的可能？</h3>
+      <p>
+        我想探索的核心問題是：簡單的個體決策規則，經過長期互動後，能不能形成可觀測、可重現的群體動態。
+      </p>
+      <p>
+        這個專題不只是在模擬玩家如何選擇攻擊、防禦或平衡策略，而是進一步研究延遲回饋、記憶效果、拓樸結構、事件系統與領導者承諾等機制，是否能改變整體系統的動態結構，讓原本只是短暫波動的現象，變成真正穩定的循環或轉換行為。
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>二、專題目標與實施內容</h2>
+
+      <h3>1. 希望透過這個專題達成什麼目標？</h3>
+      <ol>
+        <li>建立一套可重現的多代理模擬平台，讓地下城規則、玩家策略與演化機制可以被系統化比較。</li>
+        <li>用數學化與資料化的方法驗證哪些條件會造成合作轉變、相位旋轉或循環動態，而不是只靠直覺描述。</li>
+        <li>把整個系統整理成具有研究價值的成果，包括規格文件、模擬輸出、分析圖表與完整報告。</li>
+      </ol>
+
+      <h3>2. 專題具體主要執行內容與實作方式？</h3>
+      <ul>
+        <li>底層先建立遊戲核心與單回合流程，讓玩家依照策略權重進行選擇，地下城再依上一輪群體狀態給出回饋。</li>
+        <li>中層設計不同的報酬模型與演化更新規則，例如三策略循環的 payoff matrix、記憶型輸入、門檻式切換、mean-field 與 sampled replicator 等。</li>
+        <li>上層透過大量模擬輸出時間序列與統計資料，再進一步分析振幅、主頻、方向一致性、有限尺度效應與臨界參數。</li>
+        <li>整體作法讓專題從系統實作進一步提升到機制驗證與研究分析。</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>三、專題與學科領域的關聯性</h2>
+
+      <h3>1. 這個專題和你的科系專業有什麼關聯？</h3>
+      <p>
+        這個專題和資訊工程、人工智慧、資料科學與遊戲 AI 都有很強的關聯。從資訊角度來看，它包含模組化系統設計、模擬架構、資料流程與 API 組織。
+      </p>
+      <p>
+        從人工智慧角度來看，它研究的是多代理決策、策略演化、環境回饋與 leader-follower 結構。從資料分析角度來看，它又涉及統計推論、視覺化與可重現實驗設計。因此，這不只是單純的程式開發，而是把 AI 與計算研究方法整合成一個完整專題。
+      </p>
+
+      <h3>2. 製作過程中會應用哪些專業知識或技能？</h3>
+      <ul>
+        <li>機率與統計：處理隨機抽樣、多組實驗比較與結果穩健性分析。</li>
+        <li>線性代數與矩陣運算：定義 payoff 結構、策略狀態與動態更新。</li>
+        <li>演算法與資料結構：設計模擬流程與分析工具。</li>
+        <li>軟體工程：維持模組分層、規格驅動開發與版本控管。</li>
+        <li>資料分析與視覺化：從大量模擬結果中萃取可解釋的研究結論。</li>
+        <li>研究方法：應用動態系統、演化博弈與 Bayesian model averaging 等概念。</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>四、AI 技術與工具應用說明</h2>
+
+      <h3>1. 會使用哪些工具？</h3>
+      <ul class="tool-list">
+        <li>GitHub Copilot</li>
+        <li>GPT 類大型語言模型</li>
+        <li>Visual Studio Code</li>
+        <li>Python</li>
+        <li>NumPy</li>
+        <li>Pandas</li>
+        <li>Matplotlib</li>
+        <li>Jupyter Notebook</li>
+        <li>Git 與 GitHub</li>
+      </ul>
+
+      <h3>2. 這些工具如何幫助實現專案目標？</h3>
+      <ul>
+        <li>GitHub Copilot：協助快速建立模組骨架、撰寫測試、重構重複程式與整理文件，提高開發效率。</li>
+        <li>GPT 類大型語言模型：協助整理研究想法、比較不同設計方案、撰寫報告與摘要，但最終結論仍以實際模擬與數據驗證為主。</li>
+        <li>Visual Studio Code：作為主要開發環境，整合程式撰寫、除錯、版本控管與研究文件整理。</li>
+        <li>Python：作為專題核心語言，用來實作模擬、分析與自動化流程。</li>
+        <li>NumPy：負責矩陣與向量運算，適合處理 payoff matrix、動態更新與數值計算。</li>
+        <li>Pandas：整理 CSV 與 sweep 結果，方便進行多組條件比較。</li>
+        <li>Matplotlib：繪製時間序列圖、轉換曲線與 scaling 圖，清楚呈現研究結果。</li>
+        <li>Jupyter Notebook：適合做探索式分析與快速驗證想法。</li>
+        <li>Git 與 GitHub：負責版本控管、研究歷程保存與結果追蹤，確保專題具有可回溯性與可重現性。</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>五、預期成果與呈現方式</h2>
+
+      <h3>1. 預期會產出什麼成果？</h3>
+      <ol>
+        <li>一套可重現的 Personality Dungeon 模擬平台，能夠切換不同地下城規則、玩家策略與演化模式。</li>
+        <li>一批結構化的實驗資料與分析結果，例如時間序列、CSV 報表、cycle metrics、rho curve、有限尺寸 scaling 圖與比較圖表。</li>
+        <li>研究層面的結論，例如哪些條件會讓系統停留在特定動態區間、哪些機制雖然直覺合理但實際上無法突破瓶頸，以及有限尺寸下臨界參數並非單調變化等重要發現。</li>
+        <li>完整的書面成果，包括專題報告、研究日誌、規格文件與論文式整理。</li>
+      </ol>
+
+      <h3>2. 成果會如何呈現？</h3>
+      <ul>
+        <li>系統架構與模擬流程說明，讓人理解模型是如何建立的。</li>
+        <li>圖表與數據分析，直接展示專題的研究價值與實驗發現。</li>
+        <li>模擬案例或簡單展示介面，讓觀眾能直觀看到玩家策略與地下城回饋如何隨時間演化。</li>
+      </ul>
+
+      <div class="note">
+        這樣的呈現方式可以同時展現工程實作能力、AI 方法應用，以及研究分析深度。
+      </div>
+    </section>
+
+    <footer>
+      專題內容已轉為 HTML 頁面，可直接以瀏覽器開啟閱讀。
+    </footer>
+  </main>
+</body>
+</html>

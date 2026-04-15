@@ -1,0 +1,667 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>W4 Restart Guard Recovery Blueprint v1</title>
+    <style>
+      :root {
+        --bg: #f7f9fc;
+        --card: #ffffff;
+        --ink: #1c2430;
+        --muted: #5f6b7a;
+        --line: #d9e0ea;
+        --ok: #176b3a;
+        --bad: #8b1e2a;
+        --warn: #8a5a00;
+      }
+      body {
+        margin: 0;
+        background: radial-gradient(circle at 0% 0%, #eef4ff 0%, var(--bg) 50%);
+        color: var(--ink);
+        font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+        line-height: 1.55;
+      }
+      main {
+        max-width: 1120px;
+        margin: 28px auto;
+        padding: 0 16px 40px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 18px;
+        margin-bottom: 14px;
+      }
+      h1, h2 {
+        margin: 0 0 10px;
+      }
+      h1 {
+        font-size: 28px;
+      }
+      h2 {
+        font-size: 20px;
+      }
+      .meta {
+        color: var(--muted);
+        font-size: 14px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      th, td {
+        border: 1px solid var(--line);
+        padding: 8px;
+        vertical-align: top;
+      }
+      th {
+        background: #f2f6fb;
+        text-align: left;
+      }
+      code, pre {
+        font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
+      }
+      pre {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #0f172a;
+        color: #e5e7eb;
+        padding: 12px;
+        overflow: auto;
+        font-size: 13px;
+      }
+      .ok { color: var(--ok); font-weight: 700; }
+      .bad { color: var(--bad); font-weight: 700; }
+      .warn {
+        border-left: 4px solid var(--warn);
+        background: #fff8ea;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="card">
+        <h1>W4 Restart Guard Recovery Blueprint v1</h1>
+        <p class="meta">date: 2026-04-13 | scope: Event line restart guard closure | policy: decision-first, reproducible protocol</p>
+        <p>
+          本藍圖只處理 SDD 的 restart guard 關閉條件，不引入跨層修改。判定口徑固定對齊 SDD §10.4 / §10.5。
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>0) Hard Guard Contract (SDD Lock)</h2>
+        <ol>
+          <li><code>cross_block_robustness == true</code></li>
+          <li><code>new_l1 == 0</code></li>
+          <li>A3 drift guard 持續穩定</li>
+        </ol>
+        <p class="warn">
+          規則：三項必須同時成立，才可把 Event line 從 NO-GO 轉為 GO。
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>1) Environment Interface / Output Locations (固定介面)</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Interface</th>
+              <th>Producer Command</th>
+              <th>主要輸出</th>
+              <th>用途</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>A3 Protocol Regression</td>
+              <td><code>./venv/bin/python -m simulation.track_a_protocol_regression</code></td>
+              <td>
+                <code>outputs/track_a_protocol_regression_summary.json</code><br />
+                <code>outputs/track_a_protocol_regression_summary.md</code>
+              </td>
+              <td>A3 gate + runtime regression 的穩定性與可回歸入口</td>
+            </tr>
+            <tr>
+              <td>W2 Block Risk Report</td>
+              <td><code>./venv/bin/python scripts/w2_block_risk_report_v1.py</code></td>
+              <td>
+                <code>outputs/w2/block_risk_report_v1.json</code><br />
+                <code>outputs/w2/block_risk_report_v1.csv</code><br />
+                <code>outputs/w2/block_risk_report_v1.md</code>
+              </td>
+              <td>跨 block 風險彙整與 block_robustness 判定</td>
+            </tr>
+            <tr>
+              <td>W3 Hypothesis Evaluation</td>
+              <td><code>./venv/bin/python scripts/w3_hypothesis_eval_v1.py</code></td>
+              <td>
+                <code>outputs/w3/hypothesis_eval_v1.json</code><br />
+                <code>outputs/w3/hypothesis_eval_v1.md</code>
+              </td>
+              <td>H-01~H-03 fail-fast 與 decision hygiene（避免假陽性）</td>
+            </tr>
+            <tr>
+              <td>B1 Gate Harness（分 block）</td>
+              <td><code>./venv/bin/python -m simulation.b1_async_dispatch_gate ...</code></td>
+              <td>
+                <code>outputs/b1_async_dispatch_poisson_w2000_t050_gate60_summary.json</code><br />
+                <code>outputs/b1_async_dispatch_poisson_r008_w2000_t050_gate60_block102_161_summary.json</code><br />
+                <code>outputs/b1_async_dispatch_poisson_r008_w2000_t050_gate60_block162_221_summary.json</code><br />
+                <code>outputs/b1_async_dispatch_poisson_r008_w2000_t050_gate60_block222_281_summary.json</code>
+              </td>
+              <td>提供 W2 聚合的跨 block 原始 gate 摘要</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h2>2) Current Status Check (2026-04-13)</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>硬條件</th>
+              <th>目前值</th>
+              <th>判定</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>cross_block_robustness == true</code></td>
+              <td>
+                <code>focus_comparisons.b1_async_poisson_r008_across_blocks.verdict = not_block_robust</code><br />
+                <code>pass_rate = 0.25</code>
+              </td>
+              <td class="bad">Not Met</td>
+            </tr>
+            <tr>
+              <td><code>new_l1 == 0</code></td>
+              <td>
+                <code>mean_new_l1 = 1.75</code><br />
+                per-block new_l1 = <code>[0,2,1,4]</code>
+              </td>
+              <td class="bad">Not Met</td>
+            </tr>
+            <tr>
+              <td>A3 drift guard 穩定</td>
+              <td>
+                <code>a3_drift_detection.verdict = stable</code><br />
+                <code>drift_detected = false</code>
+              </td>
+              <td class="ok">Met</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="warn">
+          結論：目前僅第 3 項成立；三項未同時成立，因此 Event line 維持 NO-GO。
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>3) Recovery Experiments (目的 + 驗收標準)</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Experiment</th>
+              <th>目的</th>
+              <th>執行命令（摘要）</th>
+              <th>驗收標準（Pass）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>E0 Interface Refresh</td>
+              <td>刷新 A3/W2/W3 介面輸出，確保後續比較在同一批次資料。</td>
+              <td>
+                <code>./venv/bin/python -m simulation.track_a_protocol_regression</code><br />
+                <code>./venv/bin/python scripts/w2_block_risk_report_v1.py</code><br />
+                <code>./venv/bin/python scripts/w3_hypothesis_eval_v1.py</code>
+              </td>
+              <td>
+                1) 三份輸出檔皆存在且可 parse<br />
+                2) <code>outputs/track_a_protocol_regression_summary.json: overall_pass == true</code>
+              </td>
+            </tr>
+            <tr>
+              <td>E1 Cross-block Reproduction (r=0.08)</td>
+              <td>先重現當前跨 block 狀態，確認失敗型態可再現（非偶發）。</td>
+              <td>
+                以既有固定命令分別跑 42..101 / 102..161 / 162..221 / 222..281；
+                使用 <code>simulation.b1_async_dispatch_gate</code> + block 專屬 baseline json + 固定 gate out 路徑。
+              </td>
+              <td>
+                1) 各 block <code>fairness_fail_count == 0</code><br />
+                2) 產出四份 gate summary，且可被 W2 report 讀入
+              </td>
+            </tr>
+            <tr>
+              <td>E2 Dispatch Schedule Sweep</td>
+              <td>降低同步攝動，驗證 dispatch 方式是否可消除 fail blocks 的 <code>new_l1</code>。</td>
+              <td>
+                針對 fail blocks（102/162/222）測試：<br />
+                <code>--event-dispatch-mode async_round_robin</code> vs <code>async_poisson</code><br />
+                其餘維持 lock，輸出至 <code>outputs/w4_guard/...</code>
+              </td>
+              <td>
+                1) 每個 fail block 的 gate summary 均 <code>overall_pass=true</code><br />
+                2) 每個 fail block <code>new_l1=0</code><br />
+                3) <code>fairness_fail_count=0</code>
+              </td>
+            </tr>
+            <tr>
+              <td>E3 Reward Modulation Sweep</td>
+              <td>驗證 reward 注入方式是否能降低 early collapse（對應 B2 白名單）。</td>
+              <td>
+                在 fail blocks 測試：<br />
+                <code>--event-reward-mode multiplicative</code><br />
+                <code>--event-reward-multiplier-cap {0.15,0.25}</code>
+              </td>
+              <td>
+                1) fail blocks 全部 <code>new_l1=0</code><br />
+                2) fail blocks 全部 <code>overall_pass=true</code><br />
+                3) 相對 baseline 不可出現 <code>mean_s3</code> 明顯惡化（建議門檻：每 block 下降不得超過 0.02）
+              </td>
+            </tr>
+            <tr>
+              <td>E4 Impact Spreading Sweep</td>
+              <td>驗證多輪衝擊展開是否可減少單輪過強攝動（對應 B3 白名單）。</td>
+              <td>
+                在 fail blocks 測試：<br />
+                <code>--event-impact-mode spread</code><br />
+                <code>--event-impact-horizon 5</code><br />
+                <code>--event-impact-decay 0.70</code>
+              </td>
+              <td>
+                1) fail blocks 全部 <code>new_l1=0</code><br />
+                2) fail blocks 全部 <code>overall_pass=true</code><br />
+                3) <code>fairness_fail_count=0</code>
+              </td>
+            </tr>
+            <tr>
+              <td>E5 Guard Closure Re-check</td>
+              <td>把最佳 candidate 套回 4 blocks 後，做正式守門條件總驗收。</td>
+              <td>
+                <code>./venv/bin/python scripts/w2_block_risk_report_v1.py</code><br />
+                <code>./venv/bin/python -m simulation.track_a_protocol_regression</code>
+              </td>
+              <td>
+                1) <code>w2_decision.block_robustness == "block_robust"</code><br />
+                2) <code>focus.mean_new_l1 == 0.0</code><br />
+                3) <code>a3_drift_detection.verdict == "stable"</code><br />
+                4) <code>track_a_protocol_regression_summary.overall_pass == true</code>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+        <section class="card">
+          <h2>3.5) Canonical Commands for E1 (可直接執行)</h2>
+          <p>以下命令對齊既有檔名慣例，輸出可直接被 <code>scripts/w2_block_risk_report_v1.py</code> 讀取。</p>
+
+          <h3>Block 42..101</h3>
+          <pre><code>./venv/bin/python -m simulation.b1_async_dispatch_gate \
+        --event-dispatch-mode async_poisson \
+        --event-dispatch-target-rate 0.08 \
+        --event-dispatch-fairness-window 2000 \
+        --event-dispatch-fairness-tolerance 0.50 \
+        --smoke-out-json outputs/b1_async_dispatch_poisson_w2000_t050_smoke_summary.json \
+        --gate-out-json outputs/b1_async_dispatch_poisson_w2000_t050_gate60_summary.json</code></pre>
+
+          <h3>Block 102..161</h3>
+          <pre><code>./venv/bin/python -m simulation.b1_async_dispatch_gate \
+        --event-dispatch-mode async_poisson \
+        --event-dispatch-target-rate 0.08 \
+        --event-dispatch-fairness-window 2000 \
+        --event-dispatch-fairness-tolerance 0.50 \
+        --gate-seeds 102..161 \
+        --baseline-summary-json outputs/pers_cal_baseline_gate60_block102_161_summary.json \
+        --smoke-out-json outputs/b1_async_dispatch_poisson_r008_w2000_t050_smoke_block102_161_summary.json \
+        --gate-out-json outputs/b1_async_dispatch_poisson_r008_w2000_t050_gate60_block102_161_summary.json</code></pre>
+
+          <h3>Block 162..221</h3>
+          <pre><code>./venv/bin/python -m simulation.b1_async_dispatch_gate \
+        --event-dispatch-mode async_poisson \
+        --event-dispatch-target-rate 0.08 \
+        --event-dispatch-fairness-window 2000 \
+        --event-dispatch-fairness-tolerance 0.50 \
+        --gate-seeds 162..221 \
+        --baseline-summary-json outputs/pers_cal_baseline_gate60_block162_221_summary.json \
+        --smoke-out-json outputs/b1_async_dispatch_poisson_r008_w2000_t050_smoke_block162_221_summary.json \
+        --gate-out-json outputs/b1_async_dispatch_poisson_r008_w2000_t050_gate60_block162_221_summary.json</code></pre>
+
+          <h3>Block 222..281</h3>
+          <pre><code>./venv/bin/python -m simulation.b1_async_dispatch_gate \
+        --event-dispatch-mode async_poisson \
+        --event-dispatch-target-rate 0.08 \
+        --event-dispatch-fairness-window 2000 \
+        --event-dispatch-fairness-tolerance 0.50 \
+        --gate-seeds 222..281 \
+        --baseline-summary-json outputs/pers_cal_baseline_gate60_block222_281_summary.json \
+        --smoke-out-json outputs/b1_async_dispatch_poisson_r008_w2000_t050_smoke_block222_281_summary.json \
+        --gate-out-json outputs/b1_async_dispatch_poisson_r008_w2000_t050_gate60_block222_281_summary.json</code></pre>
+        </section>
+
+      <section class="card">
+        <h2>4) Fixed Execution Order</h2>
+        <ol>
+          <li>E0：刷新介面輸出（建立同批次基準）</li>
+          <li>E1：重現當前跨 block 狀態（確認失敗可再現）</li>
+          <li>E2/E3/E4：只在 fail blocks 做 parameterized repair experiments</li>
+          <li>E5：最佳 candidate 回填 4 blocks 並重跑 W2 + A3 做正式 closure</li>
+        </ol>
+        <p class="warn">
+          若 E2~E4 沒有任何 candidate 通過，結論維持 NO-GO，並以 negative result 形式記錄，不進行無界擴張掃描。
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>5) SDD Convergent Flow (可收斂執行規格)</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>步驟</th>
+              <th>執行規則</th>
+              <th>驗收輸出</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>固定契約（Control Lock）</td>
+              <td>
+                固定同一組 block、同一 fairness window/tolerance、同一 baseline。<br />
+                E1 視為對照組，不在後續修復掃描中變動。
+              </td>
+              <td>
+                E1 四份 gate summary + W2 focus rows=4，作為唯一比較基準。
+              </td>
+            </tr>
+            <tr>
+              <td>只打 fail blocks（Repair Scope Lock）</td>
+              <td>
+                只針對 <code>102..161</code> / <code>162..221</code> / <code>222..281</code> 執行 E2→E3→E4。<br />
+                不回頭改 E1 的 42..101，避免混入額外變因。
+              </td>
+              <td>
+                每個機制族都要有 3 個 block 的對照可比結果。
+              </td>
+            </tr>
+            <tr>
+              <td>候選淘汰規則（Hard Elimination）</td>
+              <td>
+                候選必須在 3 個 fail blocks 同時滿足：<br />
+                1) <code>overall_pass=true</code><br />
+                2) <code>new_l1=0</code><br />
+                3) <code>fairness_fail_count=0</code><br />
+                任一 block 不成立即淘汰該候選。
+              </td>
+              <td>
+                candidate status: <code>survive</code> 或 <code>eliminate</code>。
+              </td>
+            </tr>
+            <tr>
+              <td>回填四個 block（Closure Refill）</td>
+              <td>
+                只將唯一存活候選回填至 4 blocks（含 42..101），然後重跑 W2 與 A3。
+              </td>
+              <td>
+                <code>outputs/w2/block_risk_report_v1.json</code>、<code>outputs/track_a_protocol_regression_summary.json</code>。
+              </td>
+            </tr>
+            <tr>
+              <td>最終 GO 條件（Final Gate）</td>
+              <td>
+                必須同時滿足：<br />
+                1) <code>w2_decision.block_robustness == "block_robust"</code><br />
+                2) <code>focus.mean_new_l1 == 0.0</code><br />
+                3) <code>a3_drift_detection.verdict == "stable"</code><br />
+                4) <code>track_a_protocol_regression_summary.overall_pass == true</code>
+              </td>
+              <td>
+                全部成立才可將 Event line 由 NO-GO 改為 GO。
+              </td>
+            </tr>
+            <tr>
+              <td>停損規則（Stop-Loss）</td>
+              <td>
+                若 E2/E3/E4 全掃完仍無候選同時通過 3 個 fail blocks，
+                當季收斂為 negative result，停止無界擴張。
+              </td>
+              <td>
+                決策維持 NO-GO，並更新 W4 決策文件。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h2>6) Experiment Method (避免假改善)</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>方法原則</th>
+              <th>操作規範</th>
+              <th>決策意義</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>一次只改一個機制族</td>
+              <td>
+                固定順序：先 E2（dispatch 時序）→ E3（reward modulation）→ E4（impact spread）。<br />
+                每輪只動單一機制族，其他參數保持 lock。
+              </td>
+              <td>
+                可把失敗原因定位到單一機制，避免混合因果。
+              </td>
+            </tr>
+            <tr>
+              <td>先 gate，後次要指標</td>
+              <td>
+                主判準僅看 gate 條件（<code>overall_pass</code>、<code>new_l1</code>、<code>fairness</code>）。<br />
+                <code>mean_s3</code>、<code>mean_gamma</code> 只作 tie-break，不能推翻 gate 失敗。
+              </td>
+              <td>
+                防止「看起來有改善」但實際不具重啟資格的假陽性。
+              </td>
+            </tr>
+            <tr>
+              <td>同步保留負結果</td>
+              <td>
+                每個淘汰候選都要記錄失敗子條件（例如 <code>new_l1_pass=false</code> 或 <code>l1_pass=false</code>）。
+              </td>
+              <td>
+                直接指向下一輪該改的機制，不做盲掃。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h2>7) Execution Kickoff Plan (開始規劃執行)</h2>
+
+        <h3>7.1 Candidate Matrix（固定且有限）</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>family</th>
+              <th>candidate_id</th>
+              <th>核心參數</th>
+              <th>掃描 blocks</th>
+              <th>目的</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>E2</td>
+              <td><code>e2_rr_r008_w2000_t050</code></td>
+              <td>
+                <code>event_dispatch_mode=async_round_robin</code><br />
+                <code>event_dispatch_target_rate=0.08</code><br />
+                <code>fairness_window=2000</code>, <code>fairness_tolerance=0.50</code>
+              </td>
+              <td><code>102..161</code>, <code>162..221</code>, <code>222..281</code></td>
+              <td>測試 dispatch 時序是否可消除 new_l1。</td>
+            </tr>
+            <tr>
+              <td>E3</td>
+              <td><code>e3_mul015_r008_w2000_t050</code></td>
+              <td>
+                <code>event_reward_mode=multiplicative</code><br />
+                <code>event_reward_multiplier_cap=0.15</code><br />
+                dispatch 仍維持 <code>async_poisson@0.08</code>
+              </td>
+              <td><code>102..161</code>, <code>162..221</code>, <code>222..281</code></td>
+              <td>測試較低 cap 是否減少 early collapse。</td>
+            </tr>
+            <tr>
+              <td>E3</td>
+              <td><code>e3_mul025_r008_w2000_t050</code></td>
+              <td>
+                <code>event_reward_mode=multiplicative</code><br />
+                <code>event_reward_multiplier_cap=0.25</code><br />
+                dispatch 仍維持 <code>async_poisson@0.08</code>
+              </td>
+              <td><code>102..161</code>, <code>162..221</code>, <code>222..281</code></td>
+              <td>對照 cap=0.15，檢查 reward 注入強度邊界。</td>
+            </tr>
+            <tr>
+              <td>E4</td>
+              <td><code>e4_spread_h5_d070_r008_w2000_t050</code></td>
+              <td>
+                <code>event_impact_mode=spread</code><br />
+                <code>event_impact_horizon=5</code><br />
+                <code>event_impact_decay=0.70</code><br />
+                dispatch 仍維持 <code>async_poisson@0.08</code>
+              </td>
+              <td><code>102..161</code>, <code>162..221</code>, <code>222..281</code></td>
+              <td>測試 impact 展開能否降低單輪過強攝動。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>7.2 Run Order（收斂 + fail-fast）</h3>
+        <ol>
+          <li>先跑 E2 全部候選；若無存活候選，才進入 E3。</li>
+          <li>再跑 E3 全部候選；若無存活候選，才進入 E4。</li>
+          <li>再跑 E4 全部候選；若仍無存活候選，直接觸發 Stop-Loss。</li>
+          <li>任一候選若在 3 個 fail blocks 都存活，立即進入 E5 closure refill。</li>
+        </ol>
+        <p class="warn">
+          block 內建議順序：<code>102..161 → 162..221 → 222..281</code>。
+          候選一旦在任一 block 失敗，可立即標記 eliminate（可節省算力）。
+        </p>
+
+        <h3>7.3 Output Contract（W2 可讀命名）</h3>
+        <p>所有修復掃描輸出統一寫入 <code>outputs/w4_guard/</code>，並維持 W2 可追溯。</p>
+        <table>
+          <thead>
+            <tr>
+              <th>artifact</th>
+              <th>命名規則</th>
+              <th>範例</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>smoke summary</td>
+              <td><code>outputs/w4_guard/{candidate_id}_smoke_block{range}_summary.json</code></td>
+              <td><code>outputs/w4_guard/e2_rr_r008_w2000_t050_smoke_block102_161_summary.json</code></td>
+            </tr>
+            <tr>
+              <td>gate summary</td>
+              <td><code>outputs/w4_guard/{candidate_id}_gate60_block{range}_summary.json</code></td>
+              <td><code>outputs/w4_guard/e3_mul015_r008_w2000_t050_gate60_block222_281_summary.json</code></td>
+            </tr>
+            <tr>
+              <td>decision ledger</td>
+              <td><code>outputs/w4_guard/w4_guard_candidate_ledger_v1.csv</code></td>
+              <td>彙整每個 candidate/block 的 gate 子條件與存活狀態。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>7.4 Command Template（每個 candidate/block 同構）</h3>
+        <pre><code>./venv/bin/python -m simulation.b1_async_dispatch_gate \
+  --event-dispatch-mode {dispatch_mode} \
+  --event-dispatch-target-rate 0.08 \
+  --event-dispatch-fairness-window 2000 \
+  --event-dispatch-fairness-tolerance 0.50 \
+  --event-reward-mode {reward_mode} \
+  --event-reward-multiplier-cap {reward_cap} \
+  --event-impact-mode {impact_mode} \
+  --event-impact-horizon {impact_horizon} \
+  --event-impact-decay {impact_decay} \
+  --gate-seeds {block_range} \
+  --baseline-summary-json {baseline_json} \
+  --smoke-out-json outputs/w4_guard/{candidate_id}_smoke_block{block_slug}_summary.json \
+  --gate-out-json outputs/w4_guard/{candidate_id}_gate60_block{block_slug}_summary.json</code></pre>
+
+        <h3>7.5 Candidate Ledger Columns（固定欄位）</h3>
+        <p>
+          <code>candidate_id</code>, <code>family</code>, <code>block</code>, <code>overall_pass</code>,
+          <code>new_l1</code>, <code>fairness_fail_count</code>, <code>l1_pass</code>, <code>healthy_pass</code>,
+          <code>new_l1_pass</code>, <code>failed_subconditions</code>, <code>status</code>。
+        </p>
+        <p class="warn">
+          <code>failed_subconditions</code> 必填；例如 <code>new_l1_pass=false</code> 或 <code>l1_pass=false</code>。
+          這是下一輪機制選擇的唯一依據，禁止盲掃。
+        </p>
+
+        <h3>7.6 Wave-1 Immediate Commands（E2 首發）</h3>
+        <p>先執行 <code>e2_rr_r008_w2000_t050</code>，依 fail-fast 順序跑 3 個 blocks。</p>
+
+        <h4>Block 102..161</h4>
+        <pre><code>./venv/bin/python -m simulation.b1_async_dispatch_gate \
+  --event-dispatch-mode async_round_robin \
+  --event-dispatch-target-rate 0.08 \
+  --event-dispatch-fairness-window 2000 \
+  --event-dispatch-fairness-tolerance 0.50 \
+  --event-reward-mode additive \
+  --event-impact-mode instant \
+  --event-impact-horizon 1 \
+  --event-impact-decay 0.70 \
+  --gate-seeds 102..161 \
+  --baseline-summary-json outputs/pers_cal_baseline_gate60_block102_161_summary.json \
+  --smoke-out-json outputs/w4_guard/e2_rr_r008_w2000_t050_smoke_block102_161_summary.json \
+  --gate-out-json outputs/w4_guard/e2_rr_r008_w2000_t050_gate60_block102_161_summary.json</code></pre>
+
+        <h4>Block 162..221</h4>
+        <pre><code>./venv/bin/python -m simulation.b1_async_dispatch_gate \
+  --event-dispatch-mode async_round_robin \
+  --event-dispatch-target-rate 0.08 \
+  --event-dispatch-fairness-window 2000 \
+  --event-dispatch-fairness-tolerance 0.50 \
+  --event-reward-mode additive \
+  --event-impact-mode instant \
+  --event-impact-horizon 1 \
+  --event-impact-decay 0.70 \
+  --gate-seeds 162..221 \
+  --baseline-summary-json outputs/pers_cal_baseline_gate60_block162_221_summary.json \
+  --smoke-out-json outputs/w4_guard/e2_rr_r008_w2000_t050_smoke_block162_221_summary.json \
+  --gate-out-json outputs/w4_guard/e2_rr_r008_w2000_t050_gate60_block162_221_summary.json</code></pre>
+
+        <h4>Block 222..281</h4>
+        <pre><code>./venv/bin/python -m simulation.b1_async_dispatch_gate \
+  --event-dispatch-mode async_round_robin \
+  --event-dispatch-target-rate 0.08 \
+  --event-dispatch-fairness-window 2000 \
+  --event-dispatch-fairness-tolerance 0.50 \
+  --event-reward-mode additive \
+  --event-impact-mode instant \
+  --event-impact-horizon 1 \
+  --event-impact-decay 0.70 \
+  --gate-seeds 222..281 \
+  --baseline-summary-json outputs/pers_cal_baseline_gate60_block222_281_summary.json \
+  --smoke-out-json outputs/w4_guard/e2_rr_r008_w2000_t050_smoke_block222_281_summary.json \
+  --gate-out-json outputs/w4_guard/e2_rr_r008_w2000_t050_gate60_block222_281_summary.json</code></pre>
+      </section>
+    </main>
+  </body>
+</html>

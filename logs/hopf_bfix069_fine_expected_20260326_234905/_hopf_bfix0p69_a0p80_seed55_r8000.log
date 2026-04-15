@@ -1,0 +1,3 @@
+Wrote CSV: outputs/hopf_candidates/hopf_bfix069_fine_expected_20260326_234905/hopf_bfix0p69_a0p80_seed55_r8000.csv
+players=300 rounds=8000 seed=55 payoff_mode=matrix_ab gamma=0.1 epsilon=0.0 a=0.8 b=0.69 init_bias=0.12 evolution_mode=sampled payoff_lag=1 selection_strength=0.06 enable_events=True events_json=docs/personality_dungeon_v1/02_event_templates_v1.json
+Final weights: {'aggressive': 0.9906597117725122, 'defensive': 1.0034502206399327, 'balanced': 1.005890067587555}

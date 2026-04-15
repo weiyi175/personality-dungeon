@@ -259,6 +259,7 @@ def _eval_one(
 	a: float,
 	b: float,
 	selection_strength: float,
+	memory_kernel: int,
 	series: str,
 	burn_in: int,
 	tail: int | None,
@@ -283,9 +284,11 @@ def _eval_one(
 		epsilon=float(epsilon),
 		a=float(a),
 		b=float(b),
+		matrix_cross_coupling=0.0,
 		init_bias=0.0,
 		evolution_mode="sampled",
 		payoff_lag=1,
+		memory_kernel=int(memory_kernel),
 		selection_strength=float(selection_strength),
 		out_csv=Path("outputs") / "_ignored.csv",
 	)
@@ -430,6 +433,7 @@ def main() -> None:
 	p.add_argument("--gamma", type=float, default=0.01)
 	p.add_argument("--epsilon", type=float, default=0.18)
 	p.add_argument("--selection-strength", type=float, default=0.02)
+	p.add_argument("--memory-kernel", type=int, default=1, choices=[1, 3, 5])
 
 	# series / window
 	p.add_argument("--series", type=str, default="p", choices=["w", "p"], help="Use weights (w_*) or proportions (p_*)")
@@ -543,6 +547,7 @@ def main() -> None:
 						a=float(a),
 						b=float(b),
 						selection_strength=float(args.selection_strength),
+						memory_kernel=int(args.memory_kernel),
 						series=str(args.series),
 						burn_in=int(burn_in),
 						tail=int(args.tail) if args.tail is not None else None,
@@ -574,6 +579,7 @@ def main() -> None:
 					a=float(a),
 					b=float(b),
 					selection_strength=float(args.selection_strength),
+					memory_kernel=int(args.memory_kernel),
 					series=str(args.series),
 					burn_in=int(burn_in),
 					tail=int(args.tail) if args.tail is not None else None,

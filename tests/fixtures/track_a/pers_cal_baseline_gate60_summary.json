@@ -1,0 +1,75 @@
+{
+  "total_seeds": 60,
+  "l1": 2,
+  "l2": 0,
+  "l3": 58,
+  "healthy": 51,
+  "mean_s3": 0.8743063884195799,
+  "median_s3": 0.9510396382839585,
+  "p10_s3": 0.5557248032495558,
+  "mean_gamma": 1.894758562797706e-07,
+  "gate": {
+    "max_l1": 3,
+    "min_healthy": 42,
+    "healthy_threshold": 0.8,
+    "l1_pass": true,
+    "healthy_pass": true,
+    "overall_pass": true
+  },
+  "non_healthy": [
+    {
+      "seed": 44,
+      "level": 1,
+      "s3": 0.0,
+      "gamma": 2e-06
+    },
+    {
+      "seed": 45,
+      "level": 1,
+      "s3": 0.0,
+      "gamma": -2e-06
+    },
+    {
+      "seed": 68,
+      "level": 3,
+      "s3": 0.555921,
+      "gamma": 2e-06
+    },
+    {
+      "seed": 70,
+      "level": 3,
+      "s3": 0.554095,
+      "gamma": 1e-06
+    },
+    {
+      "seed": 75,
+      "level": 3,
+      "s3": 0.550798,
+      "gamma": 1e-06
+    },
+    {
+      "seed": 76,
+      "level": 3,
+      "s3": 0.550619,
+      "gamma": 0.0
+    },
+    {
+      "seed": 90,
+      "level": 3,
+      "s3": 0.555725,
+      "gamma": -0.0
+    },
+    {
+      "seed": 97,
+      "level": 3,
+      "s3": 0.558356,
+      "gamma": -1e-06
+    },
+    {
+      "seed": 101,
+      "level": 3,
+      "s3": 0.551428,
+      "gamma": -0.0
+    }
+  ]
+}

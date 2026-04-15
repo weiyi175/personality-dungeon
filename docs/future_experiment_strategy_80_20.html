@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>未來實驗方向 80/20 策略（含 W1~W4 實績回寫）</title>
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --paper: #ffffff;
+      --ink: #1f2328;
+      --muted: #59636e;
+      --line: #d0d7de;
+      --accent: #0a7f3f;
+      --warn: #9a6700;
+      --danger: #cf222e;
+      --code: #f6f8fa;
+      --shadow: rgba(31, 35, 40, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: linear-gradient(180deg, #fbfbfc 0%, var(--bg) 100%);
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.7;
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 28px 16px 52px;
+    }
+
+    .markdown-body {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 10px 26px var(--shadow);
+      padding: 28px;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.3;
+      margin-top: 1.2em;
+      margin-bottom: 0.5em;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: clamp(1.8rem, 2.6vw, 2.2rem);
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 0.45em;
+    }
+
+    h2 {
+      font-size: 1.35rem;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 0.35em;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+    }
+
+    p {
+      margin: 0.5em 0 0.9em;
+    }
+
+    ul, ol {
+      margin: 0.4em 0 0.95em;
+      padding-left: 1.35em;
+    }
+
+    li {
+      margin: 0.25em 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.7em 0 1.15em;
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f0f4f8;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      background: var(--code);
+      border: 1px solid #eaeef2;
+      border-radius: 6px;
+      padding: 0.1em 0.34em;
+      font-size: 0.92em;
+    }
+
+    pre {
+      margin: 0.55em 0 1em;
+      background: #0d1117;
+      color: #e6edf3;
+      border-radius: 10px;
+      padding: 12px 14px;
+      overflow: auto;
+      border: 1px solid #30363d;
+      font-size: 0.9rem;
+    }
+
+    pre code {
+      background: transparent;
+      border: 0;
+      color: inherit;
+      padding: 0;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.78rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 2px 8px;
+      margin-right: 6px;
+      color: var(--muted);
+      background: #fff;
+    }
+
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: #f0fbf3;
+      padding: 10px 12px;
+      margin: 0.9em 0 1em;
+      border-radius: 8px;
+    }
+
+    .warn {
+      border-left-color: var(--warn);
+      background: #fff8e6;
+    }
+
+    .danger {
+      border-left-color: var(--danger);
+      background: #fff1f0;
+    }
+
+    .meta {
+      color: var(--muted);
+      margin-bottom: 1em;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 720px) {
+      .markdown-body {
+        padding: 20px;
+      }
+
+      table {
+        font-size: 0.88rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <article class="markdown-body">
+      <h1>未來實驗方向（主線 80% / 探索 20%）</h1>
+      <p class="meta">
+        <span class="tag">Track A 優先</span>
+        <span class="tag">邊際效益導向</span>
+        <span class="tag">Stop Rule 內建</span>
+        <span class="tag">W1~W4 已回寫</span>
+      </p>
+
+      <div class="callout">
+        核心原則：先把可重現與可回歸做穩，再把探索預算壓縮到「可證偽、可停止」的小迭代。
+      </div>
+
+      <h2>0. W1~W4 實際完成結果（2026-04-13）</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>週次</th>
+            <th>主題</th>
+            <th>實際結果</th>
+            <th>關鍵證據</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>W1</td>
+            <td>A3 例行回歸 + failure catalog</td>
+            <td>Mainline GREEN；B2 失敗樣態已整理</td>
+            <td><code>outputs/w1/d5_w1_review_summary_v1.json</code></td>
+          </tr>
+          <tr>
+            <td>W2</td>
+            <td>A3 漂移偵測 + block risk</td>
+            <td>drift stable；Event line 判定 <code>not_block_robust</code></td>
+            <td><code>outputs/w2/block_risk_report_v1.json</code></td>
+          </tr>
+          <tr>
+            <td>W3</td>
+            <td>A3 release gate + hypothesis backlog</td>
+            <td>gate pass；H-01~H-03 完成；無機制擴張</td>
+            <td><code>outputs/w3/w3_handoff_note_v1.md</code></td>
+          </tr>
+          <tr>
+            <td>W4</td>
+            <td>月結回顧 + go/no-go + decision record</td>
+            <td>Mainline GO；Event line NO-GO；結案可簽核</td>
+            <td><code>outputs/w4/w4_closure_memo_v1.md</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>0.1 本輪關鍵量化快照</h3>
+      <ul>
+        <li>A3 overall_pass: <code>true</code></li>
+        <li>L1: <code>2</code>、Healthy: <code>51</code>、mean_s3: <code>0.8743063884195799</code></li>
+        <li>pytest: <code>34/34</code> 通過</li>
+        <li>cross-block verdict: <code>not_block_robust</code></li>
+        <li><code>b1_async_poisson_r008</code> 4-block pass rate: <code>0.25</code>，mean_new_l1: <code>1.75</code></li>
+      </ul>
+
+      <div class="callout warn">
+        本輪結論是「流程完成 + 決策可追溯」；Event line 的 NO-GO 是守門條件判定結果，不是文件缺件。
+      </div>
+
+      <h2>1. 策略總覽</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>配比</th>
+            <th>方向</th>
+            <th>目標</th>
+            <th>成功條件</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>80%</td>
+            <td>主線治理（Track A）</td>
+            <td>穩定回歸、降低發散風險、維持 production 決策品質</td>
+            <td>A3 固定通過、指標漂移受控、變更先過 gate</td>
+          </tr>
+          <tr>
+            <td>20%</td>
+            <td>低成本探索（不改機制）</td>
+            <td>提升理解力，累積下次重啟 Event line 的證據品質</td>
+            <td>產生可證偽假說與風險量化，不開大掃參</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>2. 主線 80%（高邊際收益）</h2>
+
+      <h3>2.1 固定節奏跑 A3 回歸</h3>
+      <ul>
+        <li>每週固定一次：建議每週一上午（固定參數、固定入口）。</li>
+        <li>每次準備 release 前再跑一次。</li>
+        <li>涉及 runtime / schema / tests 變更時，PR 合併前至少跑一次。</li>
+      </ul>
+
+      <pre><code>./venv/bin/python -m simulation.track_a_protocol_regression</code></pre>
+
+      <h3>2.2 核心指標趨勢監控</h3>
+      <p>每次 A3 跑完後，從 summary 萃取下列核心指標並做時間序列：</p>
+      <table>
+        <thead>
+          <tr>
+            <th>指標</th>
+            <th>來源</th>
+            <th>用途</th>
+            <th>建議警戒</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>L1</td>
+            <td>A1 gate summary</td>
+            <td>最直接風險指標</td>
+            <td>&gt; 3 立即紅燈</td>
+          </tr>
+          <tr>
+            <td>Healthy</td>
+            <td>A1 gate summary</td>
+            <td>整體可用性</td>
+            <td>&lt; 42 紅燈</td>
+          </tr>
+          <tr>
+            <td>mean_s3</td>
+            <td>A1 gate summary</td>
+            <td>效能品質趨勢</td>
+            <td>連續下降 2 次需排查</td>
+          </tr>
+          <tr>
+            <td>pytest pass rate</td>
+            <td>A2 stage</td>
+            <td>契約穩定度</td>
+            <td>非 100% 即紅燈</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>2.3 變更治理（先 gate 再新機制）</h3>
+      <ol>
+        <li>任何會影響 runtime 行為的改動，先跑 A3。</li>
+        <li>A3 未通過，不啟動機制層新探索。</li>
+        <li>A3 通過後，才允許進探索池。</li>
+      </ol>
+
+      <div class="callout warn">
+        這個順序可避免重新進入「高成本掃參 + 低收益 + 難比較」的循環。
+      </div>
+
+      <h2>3. 探索 20%（實績回寫 + 下一輪延續）</h2>
+
+      <h3>3.1 失敗樣態分析（替代掃參）</h3>
+      <p>整理 B2/B3 失敗 seed 的共通訊號，建立失敗前兆資料集：</p>
+      <ol>
+        <li>失敗 seed 清單（含 new_L1 seeds）</li>
+        <li>事件啟動後短窗行為（例如 trap entry timing）</li>
+        <li>fairness、gamma、s3 分佈的異常型態</li>
+      </ol>
+
+      <p>目標不是找新參數，而是找「為何失敗」的可重複結構。</p>
+
+      <h3>3.2 Block-level 穩健性對比（W2 實測）</h3>
+      <p>對同一機制在不同 seed block 的表現做風險量化：</p>
+      <ul>
+        <li>block pass ratio</li>
+        <li>new_L1 seeds density</li>
+        <li>healthy drift 與 mean_s3 drift</li>
+      </ul>
+
+      <table>
+        <thead>
+          <tr>
+            <th>實驗</th>
+            <th>block 42..101</th>
+            <th>block 102..161</th>
+            <th>block 162..221</th>
+            <th>block 222..281</th>
+            <th>結論</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>b1_async_poisson_r008</code></td>
+            <td>pass（new_l1=0）</td>
+            <td>fail（new_l1=2）</td>
+            <td>fail（new_l1=1）</td>
+            <td>fail（new_l1=4）</td>
+            <td><code>not_block_robust</code>（不滿足重啟條件）</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>判讀重點：漂移風險，而不是單次最好成績。</p>
+
+      <h3>3.3 可證偽假說清單</h3>
+      <p>每個候選方向都先寫成可證偽格式，再決定是否重啟 Event line：</p>
+      <table>
+        <thead>
+          <tr>
+            <th>欄位</th>
+            <th>內容</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Hypothesis</td>
+            <td>機制差異會改變哪個失敗型態</td>
+          </tr>
+          <tr>
+            <td>Observable</td>
+            <td>可觀測欄位與閾值（例如 new_L1、Healthy）</td>
+          </tr>
+          <tr>
+            <td>Fail Fast Rule</td>
+            <td>何時立即停止</td>
+          </tr>
+          <tr>
+            <td>Expected Gain</td>
+            <td>預期改善量與可接受成本</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>4. 機制層重啟條件（高成本，嚴格門檻）</h2>
+
+      <h3>4.1 只接受結構級改變</h3>
+      <ul>
+        <li>允許：改變機制拓樸、訊號耦合形態、更新路徑。</li>
+        <li>不允許：B2/B3 周邊參數微調的延伸掃描。</li>
+      </ul>
+
+      <h3>4.2 重啟流程（兩段式）</h3>
+      <ol>
+        <li>先跑小型 smoke，驗證方向是否有基本訊號。</li>
+        <li>再進 60-seed gate 做正式判定。</li>
+        <li>任一段未過，立即停止，不補點、不擴網格。</li>
+      </ol>
+
+      <h3>4.3 硬門檻維持不變</h3>
+      <ul>
+        <li>持續使用 <code>new_L1=0</code> 作為硬門檻。</li>
+        <li>避免「看似有 uplift，但不可上線」的假陽性。</li>
+      </ul>
+
+      <div class="callout danger">
+        任何無法滿足上述條件的方向，直接維持 Track A 主線，不進機制探索。
+      </div>
+
+      <h2>5. 四週執行結果（W1~W4 實際）</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>週次</th>
+            <th>主線 80% 實際</th>
+            <th>探索 20% 實際</th>
+            <th>主要輸出物</th>
+            <th>狀態</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>W1</td>
+            <td>A3 主線健康確認（GREEN）</td>
+            <td>失敗樣態與風險排序建立</td>
+            <td><code>outputs/w1/d5_w1_review_summary_v1.json</code></td>
+            <td>完成</td>
+          </tr>
+          <tr>
+            <td>W2</td>
+            <td>drift 無異常（stable）</td>
+            <td>cross-block 穩健性驗證</td>
+            <td><code>outputs/w2/block_risk_report_v1.json</code></td>
+            <td>完成</td>
+          </tr>
+          <tr>
+            <td>W3</td>
+            <td>release gate pass（34/34）</td>
+            <td>H-01~H-03 可證偽假說定稿</td>
+            <td><code>outputs/w3/w3_handoff_note_v1.md</code></td>
+            <td>完成</td>
+          </tr>
+          <tr>
+            <td>W4</td>
+            <td>月結與決策封裝完成</td>
+            <td>重啟條件未達，維持 NO-GO</td>
+            <td><code>outputs/w4/w4_closure_memo_v1.md</code></td>
+            <td>完成（待簽）</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>6. 執行檢查清單（本輪驗證結果）</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>檢查項</th>
+            <th>結果</th>
+            <th>備註</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>A3 已執行且留存 summary</td>
+            <td>Pass</td>
+            <td><code>track_a_protocol_regression_summary.json</code> 已存在</td>
+          </tr>
+          <tr>
+            <td>L1 / Healthy / mean_s3 / pytest 在可接受區間</td>
+            <td>Pass</td>
+            <td>L1=2, Healthy=51, mean_s3=0.8743, pytest 34/34</td>
+          </tr>
+          <tr>
+            <td>探索遵守不改機制與可證偽原則</td>
+            <td>Pass</td>
+            <td>W3 僅假說與判定，無機制擴張</td>
+          </tr>
+          <tr>
+            <td>Event line 重啟條件全部滿足</td>
+            <td>Not Met</td>
+            <td>cross-block robust 與 new_l1=0 未同時成立，故 NO-GO</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>7. 未來實驗方向（W5+ 建議）</h2>
+
+      <h3>7.1 主線 80%：維持可回歸穩定性</h3>
+      <ol>
+        <li>固定每週 A3 節奏，沿用同一入口與同一閾值。</li>
+        <li>任何 runtime/schema/test 變更先過 A3，再進 PR/部署決策。</li>
+        <li>保留 <code>new_l1=0</code> 為硬門檻，不以 rescue 或單次 uplift 取代。</li>
+      </ol>
+
+      <h3>7.2 探索 20%：以 H-01~H-03 為唯一 backlog</h3>
+      <ol>
+        <li>H-01：釐清 <code>broke_non_l1 ~ s3=0.55</code> 閾值群聚是否跨 block 可重現。</li>
+        <li>H-02：優先做 cross-block 穩健性證據補齊，不開新機制分支。</li>
+        <li>H-03：要求 rescued 與 broke/new_l1 共同改善，避免假陽性決策。</li>
+      </ol>
+
+      <h3>7.3 Event line 重啟前提（不變）</h3>
+      <ul>
+        <li><code>cross_block_robustness == true</code></li>
+        <li><code>new_l1 == 0</code></li>
+        <li>A3 drift guard 持續穩定</li>
+        <li>W4 決策紀錄新增一筆由 NO-GO 轉 GO 的證據化條目</li>
+      </ul>
+
+      <p>這份策略文件已從「規劃版」更新為「W1~W4 實績回寫 + 下一輪方向版」；原則仍是少做但做準，確保每一步都可判定、可停止、可追溯。</p>
+    </article>
+  </main>
+</body>
+</html>

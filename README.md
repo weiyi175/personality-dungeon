@@ -6,6 +6,10 @@
 
 - SDD（Spec-Driven Development）研究規格：見 `SDD.md`
 - 研究流程 / SOP / 實驗筆記：見 `研發日誌.md`
+- W1 實驗藍圖（A3 例行回歸 + Failure Catalog v1）：見 `docs/w1_experiment_blueprint.html`
+- W2 實驗藍圖（A3 漂移偵測 + block risk report v1）：見 `docs/w2_experiment_blueprint.html`（markdown 來源：`docs/w2_block_risk_blueprint_v1.md`）
+- W3 實驗藍圖（A3 release gate + hypothesis backlog v1）：見 `docs/w3_experiment_blueprint.html`
+- W4 實驗藍圖（月結回顧 + go/no-go memo + decision record）：見 `docs/w4_experiment_blueprint.html`
 
 ## Quick start
 

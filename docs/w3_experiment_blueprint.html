@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>W3 實驗藍圖：A3 例行回歸 + Release Gate + Hypothesis Backlog v1</title>
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --paper: #ffffff;
+      --ink: #1f2328;
+      --muted: #57606a;
+      --line: #d0d7de;
+      --accent: #0b7a43;
+      --warn: #9a6700;
+      --danger: #cf222e;
+      --code: #f6f8fa;
+      --shadow: rgba(31, 35, 40, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, #fbfbfc 0%, var(--bg) 100%);
+      color: var(--ink);
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.7;
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 24px 14px 56px;
+    }
+
+    .md {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 10px 24px var(--shadow);
+      padding: 28px;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.3;
+      margin-top: 1.15em;
+      margin-bottom: 0.48em;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: clamp(1.8rem, 2.8vw, 2.2rem);
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 0.45em;
+    }
+
+    h2 {
+      font-size: 1.35rem;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 0.35em;
+    }
+
+    h3 {
+      font-size: 1.06rem;
+    }
+
+    p {
+      margin: 0.4em 0 0.9em;
+    }
+
+    ul, ol {
+      margin: 0.38em 0 1em;
+      padding-left: 1.35em;
+    }
+
+    li {
+      margin: 0.22em 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.65em 0 1.2em;
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f0f4f8;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      background: var(--code);
+      border: 1px solid #eaeef2;
+      border-radius: 6px;
+      padding: 0.1em 0.32em;
+      font-size: 0.92em;
+    }
+
+    pre {
+      margin: 0.55em 0 1em;
+      background: #0d1117;
+      color: #e6edf3;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 12px 14px;
+      overflow: auto;
+      font-size: 0.9rem;
+    }
+
+    pre code {
+      background: transparent;
+      border: 0;
+      color: inherit;
+      padding: 0;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 0.8em;
+    }
+
+    .tag {
+      display: inline-block;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 0.78rem;
+      margin-right: 6px;
+      color: var(--muted);
+      background: #fff;
+    }
+
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: #eefaf2;
+      padding: 10px 12px;
+      border-radius: 8px;
+      margin: 0.9em 0 1em;
+    }
+
+    .warn {
+      border-left-color: var(--warn);
+      background: #fff8e6;
+    }
+
+    .danger {
+      border-left-color: var(--danger);
+      background: #fff1f0;
+    }
+
+    @media (max-width: 720px) {
+      .md {
+        padding: 20px;
+      }
+
+      table {
+        font-size: 0.88rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <article class="md">
+      <h1>W3 實驗藍圖</h1>
+      <p class="meta">
+        <span class="tag">主線 80%</span>
+        <span class="tag">探索 20%</span>
+        <span class="tag">Hypothesis Backlog</span>
+      </p>
+
+      <div class="callout">
+        W3 核心目標：在不擴張機制實作前提下，完成 A3 release 前 gate，並產出可證偽假說 backlog v1，作為 W4 go/no-go memo 的輸入。
+      </div>
+
+      <h2>1. W3 目標與交付物</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>工作流</th>
+            <th>目標</th>
+            <th>W3 交付物</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>A3 例行回歸 + release 前 gate</td>
+            <td>確認主線可安全延續到 W4</td>
+            <td>A3 release gate note v1</td>
+          </tr>
+          <tr>
+            <td>可證偽假說草案（不實作）</td>
+            <td>把 Event line 重啟條件轉成可驗證假說卡</td>
+            <td>hypothesis backlog v1</td>
+          </tr>
+          <tr>
+            <td>W3 週結論</td>
+            <td>給出 W4 決策輸入（繼續主線 / 假說優先序）</td>
+            <td>W3 handoff note v1</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>2. 範圍定義（In / Out）</h2>
+      <h3>2.1 In Scope</h3>
+      <ul>
+        <li>至少 1 次 A3 例行回歸，並產生 release gate 判定。</li>
+        <li>整理 W1/W2 失敗樣態證據，產出假說 backlog。</li>
+        <li>為每個假說寫明可證偽條件與停損條件。</li>
+      </ul>
+
+      <h3>2.2 Out of Scope</h3>
+      <ul>
+        <li>不新增機制掃參命令。</li>
+        <li>不改 runtime 行為契約。</li>
+        <li>不執行 Event line 重啟實驗（僅規劃假說）。</li>
+      </ul>
+
+      <h2>3. 輸入資料</h2>
+      <ol>
+        <li><code>outputs/track_a_protocol_regression_summary.json</code></li>
+        <li><code>outputs/w2/block_risk_report_v1.json</code></li>
+        <li><code>outputs/w2/block_risk_report_v1.md</code></li>
+        <li><code>outputs/w1/failure_catalog_v1.csv</code></li>
+        <li><code>outputs/w1/d5_w1_review_summary_v1.json</code></li>
+      </ol>
+
+      <h2>4. 執行流程</h2>
+
+      <h3>4.1 主線 80%：A3 例行回歸 + release gate</h3>
+      <pre><code>./venv/bin/python -m simulation.track_a_protocol_regression</code></pre>
+      <p>release gate 需明確寫出：</p>
+      <ul>
+        <li><code>overall_pass</code> 是否為 <code>true</code></li>
+        <li>核心門檻：<code>L1 &lt;= 3</code>、<code>Healthy &gt;= 42</code></li>
+        <li>是否出現主線漂移（相對 W2 最後一次記錄）</li>
+      </ul>
+
+      <h3>4.2 探索 20%：可證偽假說 backlog（不實作）</h3>
+      <p>每張假說卡至少包含以下欄位：</p>
+      <table>
+        <thead>
+          <tr>
+            <th>欄位</th>
+            <th>說明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>hypothesis_id</td><td>唯一識別碼（H-01, H-02...）</td></tr>
+          <tr><td>target_failure_pattern</td><td>對應失敗樣態（例：new_l1 cluster）</td></tr>
+          <tr><td>expected_signal</td><td>期望改善訊號（例：new_l1 下降、pass_rate 提升）</td></tr>
+          <tr><td>falsification_rule</td><td>可證偽條件（明確 fail 判準）</td></tr>
+          <tr><td>evidence_needed</td><td>需要哪些既有輸出或新檢查</td></tr>
+          <tr><td>cost_band</td><td>估計成本（S/M/L）</td></tr>
+          <tr><td>risk_note</td><td>對主線風險與停損點</td></tr>
+        </tbody>
+      </table>
+
+      <h3>4.3 假說優先序規則</h3>
+      <p>優先序建議以「資訊增益優先、主線風險次之、成本最後」排序：</p>
+      <ol>
+        <li>資訊增益高（能直接判別是否值得重啟 Event line）</li>
+        <li>主線風險低（不影響 A3 穩定性）</li>
+        <li>執行成本可控（優先 S/M）</li>
+      </ol>
+
+      <h3>4.4 H-01~H-03 固定 backlog（本輪鎖定）</h3>
+      <p>W3/W4 期間探索 20% 僅允許以下三張假說卡，不新增機制分支：</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Hypothesis</th>
+            <th>目標</th>
+            <th>通過條件（摘要）</th>
+            <th>Fail-fast（摘要）</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>H-01</code></td>
+            <td>釐清 <code>broke_non_l1 ~ s3=0.55</code> 閾值群聚是否跨 block 可重現</td>
+            <td><code>broke_non_l1</code> 下降且 <code>new_l1=0</code></td>
+            <td>任一 block 出現 <code>new_l1 &gt; 0</code> 或 early-trap share 過高即 fail</td>
+          </tr>
+          <tr>
+            <td><code>H-02</code></td>
+            <td>優先補齊 cross-block 穩健性證據，不開新機制分支</td>
+            <td><code>pass_rate</code> 達標且 <code>mean_new_l1</code> 下降至門檻內</td>
+            <td>任一 block 出現 <code>new_l1 &gt; 0</code> 或整體通過率不足即 fail</td>
+          </tr>
+          <tr>
+            <td><code>H-03</code></td>
+            <td>要求 <code>rescued</code> 與 <code>broke/new_l1</code> 共同改善，避免假陽性</td>
+            <td><code>rescued</code> 維持且 <code>(broke+new_l1)</code> 同步下降</td>
+            <td>只出現救援提升但風險未降，或 A3 drift guard 破壞即 fail</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>一鍵評估入口（固定）：</p>
+      <pre><code>./venv/bin/python scripts/w3_hypothesis_eval_v1.py</code></pre>
+      <ul>
+        <li>輸出：<code>outputs/w3/hypothesis_eval_v1.json</code></li>
+        <li>輸出：<code>outputs/w3/hypothesis_eval_v1.md</code></li>
+      </ul>
+
+      <h2>5. W3 時程（五天版）</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Day</th>
+            <th>主線 80%</th>
+            <th>探索 20%</th>
+            <th>當日輸出</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>D1</td>
+            <td>執行 A3 + 更新 release gate 快照</td>
+            <td>整理 W1/W2 風險證據</td>
+            <td>W3 source manifest</td>
+          </tr>
+          <tr>
+            <td>D2</td>
+            <td>主線指標 drift 快檢</td>
+            <td>產出假說卡初稿</td>
+            <td>hypothesis draft v0</td>
+          </tr>
+          <tr>
+            <td>D3</td>
+            <td>（如有變更）加跑 A3</td>
+            <td>補齊可證偽規則與停損條件</td>
+            <td>hypothesis draft v1</td>
+          </tr>
+          <tr>
+            <td>D4</td>
+            <td>release gate 判讀草案</td>
+            <td>完成優先序排序</td>
+            <td>backlog ranking v1</td>
+          </tr>
+          <tr>
+            <td>D5</td>
+            <td>W3 主線結論</td>
+            <td>W4 handoff 整理</td>
+            <td>hypothesis backlog v1 + handoff note</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>6. 驗收標準（Definition of Done）</h2>
+      <ol>
+        <li>W3 至少完成 1 次 A3 例行回歸，且 summary 存檔。</li>
+        <li>release gate note v1 有明確 pass/fail 與理由。</li>
+        <li>hypothesis backlog v1 至少含 3 張可證偽假說卡，且欄位完整。</li>
+        <li>W3 handoff note 明確寫出 W4 的 go/no-go 輸入條件。</li>
+        <li>全週維持「不做機制擴張掃參」紀律。</li>
+      </ol>
+
+      <h2>7. 產物定義（W3）</h2>
+      <ul>
+        <li><code>outputs/w3/a3_release_gate_note_v1.md</code></li>
+        <li><code>outputs/w3/hypothesis_backlog_v1.json</code></li>
+        <li><code>outputs/w3/hypothesis_backlog_v1.md</code></li>
+        <li><code>outputs/w3/hypothesis_eval_v1.json</code></li>
+        <li><code>outputs/w3/hypothesis_eval_v1.md</code></li>
+        <li><code>outputs/w3/w3_handoff_note_v1.md</code></li>
+      </ul>
+
+      <h2>8. W3 決策輸入映射</h2>
+      <ol>
+        <li>主線節奏：若 A3 穩定，維持 <code>keep_80_20</code>。</li>
+        <li>Event line：維持「不重啟」直到出現跨 block 穩健證據且 <code>new_l1=0</code>。</li>
+        <li>W4 輸入：使用 hypothesis backlog v1 的優先序與可證偽條件。</li>
+      </ol>
+
+      <div class="callout warn">
+        W3 的探索任務是「寫出可被否證的假說」，不是「先做實作」。
+      </div>
+    </article>
+  </main>
+</body>
+</html>

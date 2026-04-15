@@ -77,6 +77,7 @@ class EventLoader:
 		self,
 		json_path: str | Path,
 		*,
+		apply_trait_deltas: bool = True,
 		failure_threshold_override: float | None = None,
 		health_penalty_coefficient: float = 0.10,
 		stress_risk_coefficient: float = 0.10,
@@ -97,6 +98,8 @@ class EventLoader:
 		self.template_by_id = {
 			str(template["event_id"]): template for template in self.templates
 		}
+		self.event_types = [str(event_type) for event_type in self.data.get("event_types", [])]
+		self._apply_trait_deltas_enabled = bool(apply_trait_deltas)
 		# Runtime overrides (can be set via CLI; None means "use per-action JSON values").
 		self._failure_threshold_override: float | None = (
 			clamp(float(failure_threshold_override), 0.0, 1.0)
@@ -109,11 +112,80 @@ class EventLoader:
 		self._risk_ma_multiplier: float = max(0.0, float(risk_ma_multiplier))
 		self._stress_decay_c: float = max(0.0, float(stress_decay_c))
 		self._stress_decay_beta: float = max(0.0, float(stress_decay_beta))
+		self._event_type_weights: dict[str, float] = {
+			str(event_type): 1.0 for event_type in self.event_types
+		}
+		self._event_type_risk_multipliers: dict[str, float] = {
+			str(event_type): 1.0 for event_type in self.event_types
+		}
+		self._event_type_reward_multipliers: dict[str, float] = {
+			str(event_type): 1.0 for event_type in self.event_types
+		}
+		self._event_type_trait_delta_multipliers: dict[str, float] = {
+			str(event_type): 1.0 for event_type in self.event_types
+		}
 		self.validate_schema()
 
 	def set_failure_threshold_override(self, ft: float) -> None:
 		"""Dynamically override the failure threshold (used by adaptive rule-mutation)."""
 		self._failure_threshold_override = clamp(float(ft), 0.0, 1.0)
+
+	def set_event_type_weights(self, weights: Mapping[str, float]) -> None:
+		resolved: dict[str, float] = {}
+		for event_type in self.event_types:
+			value = float(weights.get(event_type, 1.0)) if event_type in weights else 1.0
+			if not math.isfinite(value):
+				value = 1.0
+			resolved[str(event_type)] = max(0.0, float(value))
+		self._event_type_weights = resolved
+
+	def _resolve_family_multipliers(self, multipliers: Mapping[str, float]) -> dict[str, float]:
+		resolved: dict[str, float] = {}
+		for event_type in self.event_types:
+			value = float(multipliers.get(event_type, 1.0)) if event_type in multipliers else 1.0
+			if not math.isfinite(value):
+				value = 1.0
+			resolved[str(event_type)] = clamp(float(value), 0.5, 2.0)
+		return resolved
+
+	def set_event_type_risk_multipliers(self, multipliers: Mapping[str, float]) -> None:
+		self._event_type_risk_multipliers = self._resolve_family_multipliers(multipliers)
+
+	def set_event_type_reward_multipliers(self, multipliers: Mapping[str, float]) -> None:
+		self._event_type_reward_multipliers = self._resolve_family_multipliers(multipliers)
+
+	def set_event_type_trait_delta_multipliers(self, multipliers: Mapping[str, float]) -> None:
+		self._event_type_trait_delta_multipliers = self._resolve_family_multipliers(multipliers)
+
+	def get_world_adjustments(self) -> dict[str, dict[str, float]]:
+		return {
+			"event_type_weights": dict(self._event_type_weights),
+			"risk_multipliers": dict(self._event_type_risk_multipliers),
+			"reward_multipliers": dict(self._event_type_reward_multipliers),
+			"trait_delta_multipliers": dict(self._event_type_trait_delta_multipliers),
+		}
+
+	def set_event_parameter_multipliers(
+		self,
+		*,
+		threat_risk_multiplier: float = 1.0,
+		resource_reward_multiplier: float = 1.0,
+		noise_penalty_multiplier: float = 1.0,
+		intel_reward_multiplier: float = 1.0,
+	) -> None:
+		self.set_event_type_risk_multipliers({"Threat": float(threat_risk_multiplier)})
+		self.set_event_type_reward_multipliers(
+			{
+				"Resource": float(resource_reward_multiplier),
+				"Uncertainty": float(noise_penalty_multiplier),
+				"Internal": float(noise_penalty_multiplier),
+				"Navigation": float(intel_reward_multiplier),
+			}
+		)
+
+	def _event_type_weight(self, template: Mapping[str, Any]) -> float:
+		event_type = str(template.get("type", ""))
+		return max(0.0, float(self._event_type_weights.get(event_type, 1.0)))
 
 	def validate_schema(self) -> None:
 		if not self.dimensions_order:
@@ -289,7 +361,42 @@ class EventLoader:
 
 	def sample_event_template(self, rng: random.Random | None = None) -> dict[str, Any]:
 		rng = rng if rng is not None else random.Random()
-		return rng.choice(self.templates)
+		weights = [self._event_type_weight(template) for template in self.templates]
+		if sum(weights) <= 0.0:
+			return rng.choice(self.templates)
+		return rng.choices(self.templates, weights=weights, k=1)[0]
+
+	def _scale_state_effects(self, *, event_type: str, state_effects: Mapping[str, float]) -> dict[str, float]:
+		resolved = {str(key): float(value) for key, value in state_effects.items()}
+		reward_multiplier = float(self._event_type_reward_multipliers.get(str(event_type), 1.0))
+		if event_type == "Navigation":
+			intel_key = "intel_delta"
+			if intel_key in resolved and resolved[intel_key] > 0.0:
+				resolved[intel_key] = float(resolved[intel_key]) * reward_multiplier
+		elif event_type in {"Uncertainty", "Internal"}:
+			for key in ("stress_delta", "noise_delta", "risk_drift_delta"):
+				if key in resolved and resolved[key] > 0.0:
+					resolved[key] = float(resolved[key]) * reward_multiplier
+		return resolved
+
+	def _scale_trait_deltas(self, *, event_type: str, trait_deltas: Mapping[str, float]) -> dict[str, float]:
+		multiplier = float(self._event_type_trait_delta_multipliers.get(str(event_type), 1.0))
+		return {
+			str(key): float(value) * multiplier
+			for key, value in trait_deltas.items()
+		}
+
+	def _scale_payload(
+		self,
+		*,
+		event_type: str,
+		payload: Mapping[str, Any],
+	) -> dict[str, Any]:
+		resolved = dict(payload)
+		reward_multiplier = float(self._event_type_reward_multipliers.get(str(event_type), 1.0))
+		resolved["utility_delta"] = float(resolved.get("utility_delta", 0.0)) * reward_multiplier
+		resolved["risk_delta"] = float(resolved.get("risk_delta", 0.0)) * reward_multiplier
+		return resolved
 
 	def resolve_success_model(self, action: Mapping[str, Any]) -> dict[str, Any]:
 		default_name, default_kwargs = self._default_success_model()
@@ -376,10 +483,15 @@ class EventLoader:
 		action: Mapping[str, Any],
 		personality: Mapping[str, float],
 		state: Mapping[str, float] | None = None,
+		*,
+		event_type: str | None = None,
 	) -> float:
-		base_risk = float(action.get("base_risk", 0.0))
+		risk_multiplier = 1.0
+		if event_type is not None:
+			risk_multiplier = float(self._event_type_risk_multipliers.get(str(event_type), 1.0))
+		base_risk = float(action.get("base_risk", 0.0)) * risk_multiplier
 		risk_model = dict(action.get("risk_model", {}))
-		risk = base_risk + float(risk_model.get("risk_bias", 0.0))
+		risk = base_risk + float(risk_model.get("risk_bias", 0.0)) * risk_multiplier
 		traits = self.normalize_personality(personality)
 		state_values = self.normalize_state(state)
 		for key, weight in dict(risk_model.get("trait_weights", {})).items():
@@ -482,6 +594,8 @@ class EventLoader:
 			)
 
 	def _apply_trait_deltas(self, player: object, deltas: Mapping[str, float]) -> None:
+		if not self._apply_trait_deltas_enabled:
+			return
 		if hasattr(player, "apply_trait_deltas"):
 			player.apply_trait_deltas(deltas)
 			return
@@ -512,27 +626,31 @@ class EventLoader:
 		payload: Mapping[str, Any],
 		state_effects: Mapping[str, float],
 		*,
+		event_type: str,
 		success: bool,
 	) -> dict[str, Any]:
-		utility_delta = float(payload.get("utility_delta", 0.0))
-		risk_delta = float(payload.get("risk_delta", 0.0))
+		scaled_payload = self._scale_payload(event_type=event_type, payload=payload)
+		scaled_state_effects = self._scale_state_effects(event_type=event_type, state_effects=state_effects)
+		utility_delta = float(scaled_payload.get("utility_delta", 0.0))
+		risk_delta = float(scaled_payload.get("risk_delta", 0.0))
 		player.state["risk"] = float(player.state.get("risk", 0.0)) + risk_delta
-		popularity_shift = dict(payload.get("popularity_shift", {}))
-		trait_deltas = dict(payload.get("trait_deltas", {}))
+		popularity_shift = dict(scaled_payload.get("popularity_shift", {}))
+		trait_deltas = dict(scaled_payload.get("trait_deltas", {})) if self._apply_trait_deltas_enabled else {}
+		trait_deltas = self._scale_trait_deltas(event_type=event_type, trait_deltas=trait_deltas)
 		self._apply_popularity_shift(player, popularity_shift)
 		self._apply_trait_deltas(player, trait_deltas)
-		self._apply_state_deltas(player, state_effects)
+		self._apply_state_deltas(player, scaled_state_effects)
 		player.state["last_event_success"] = bool(success)
-		player.state["last_event_tags"] = list(payload.get("state_tags", []))
-		player.state["last_sample_quality"] = payload.get("sample_quality")
+		player.state["last_event_tags"] = list(scaled_payload.get("state_tags", []))
+		player.state["last_sample_quality"] = scaled_payload.get("sample_quality")
 		return {
 			"utility_delta": utility_delta,
 			"risk_delta": risk_delta,
 			"popularity_shift": popularity_shift,
 			"trait_deltas": trait_deltas,
-			"state_effects": dict(state_effects),
-			"state_tags": list(payload.get("state_tags", [])),
-			"sample_quality": payload.get("sample_quality"),
+			"state_effects": dict(scaled_state_effects),
+			"state_tags": list(scaled_payload.get("state_tags", [])),
+			"sample_quality": scaled_payload.get("sample_quality"),
 		}
 
 	def process_turn(
@@ -552,7 +670,13 @@ class EventLoader:
 		else:
 			action = self.choose_action(event, player.personality, state=player.state, rng=rng)
 
-		final_risk = self.compute_final_risk(action, player.personality, state=player.state)
+		event_type = str(event.get("type", ""))
+		final_risk = self.compute_final_risk(
+			action,
+			player.personality,
+			state=player.state,
+			event_type=event_type,
+		)
 		success_prob = self.compute_success_prob(action, final_risk, state=player.state)
 		success = rng.random() < success_prob
 		resolved_state_effects = self.resolve_state_effects(action)
@@ -562,6 +686,7 @@ class EventLoader:
 				player,
 				dict(action.get("reward_effects", {})),
 				resolved_state_effects["on_success"],
+				event_type=event_type,
 				success=True,
 			)
 			result_kind = "success"
@@ -571,6 +696,7 @@ class EventLoader:
 				player,
 				failure,
 				resolved_state_effects["on_failure"],
+				event_type=event_type,
 				success=False,
 			)
 			result_kind = str(failure.get("kind", "failure"))
@@ -584,7 +710,7 @@ class EventLoader:
 
 		return {
 			"event_id": event["event_id"],
-			"event_type": event.get("type"),
+			"event_type": event_type,
 			"action_name": action["name"],
 			"success": success,
 			"result_kind": result_kind,

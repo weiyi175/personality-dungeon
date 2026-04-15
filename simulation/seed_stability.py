@@ -74,10 +74,32 @@ def _run_one(
 		epsilon=float(payload["epsilon"]),
 		a=float(payload.get("a", 0.0)),
 		b=float(payload.get("b", 0.0)),
+		matrix_cross_coupling=float(payload.get("matrix_cross_coupling", 0.0)),
 		init_bias=float(payload.get("init_bias", 0.0)),
 		evolution_mode=str(payload.get("evolution_mode", "sampled")),
 		payoff_lag=int(payload.get("payoff_lag", 1)),
 		selection_strength=float(selection_strength),
+		strategy_selection_strengths=payload.get("strategy_selection_strengths"),
+		hybrid_update_share=float(payload.get("hybrid_update_share", 0.0)),
+		hybrid_inertia=float(payload.get("hybrid_inertia", 0.0)),
+		sampled_inertia=float(payload.get("sampled_inertia", 0.0)),
+		fixed_subgroup_share=float(payload.get("fixed_subgroup_share", 0.0)),
+		fixed_subgroup_weights=payload.get("fixed_subgroup_weights"),
+		fixed_subgroup_anchor_pull_strength=float(payload.get("fixed_subgroup_anchor_pull_strength", 1.0)),
+		fixed_subgroup_coupling_strength=float(payload.get("fixed_subgroup_coupling_strength", 0.0)),
+		fixed_subgroup_bidirectional_coupling_strength=float(payload.get("fixed_subgroup_bidirectional_coupling_strength", 0.0)),
+		fixed_subgroup_state_coupling_strength=float(payload.get("fixed_subgroup_state_coupling_strength", 0.0)),
+		fixed_subgroup_state_coupling_beta=float(payload.get("fixed_subgroup_state_coupling_beta", 8.0)),
+		fixed_subgroup_state_coupling_theta=float(payload.get("fixed_subgroup_state_coupling_theta", 0.0)),
+		fixed_subgroup_state_signal=str(payload.get("fixed_subgroup_state_signal", "gap_norm")),
+		memory_kernel=int(payload.get("memory_kernel", 1)),
+		threshold_theta=float(payload.get("threshold_theta", 0.40)),
+		threshold_theta_low=payload.get("threshold_theta_low"),
+		threshold_theta_high=payload.get("threshold_theta_high"),
+		threshold_trigger=str(payload.get("threshold_trigger", "ad_share")),
+		threshold_state_alpha=float(payload.get("threshold_state_alpha", 1.0)),
+		threshold_a_hi=payload.get("threshold_a_hi"),
+		threshold_b_hi=payload.get("threshold_b_hi"),
 		out_csv=Path("outputs") / "_ignored.csv",
 	)
 	series_map = simulate_series_window(
@@ -394,7 +416,7 @@ def main() -> None:
 		"--payoff-mode",
 		type=str,
 		default="matrix_ab",
-		choices=["count_cycle", "matrix_ab"],
+		choices=["count_cycle", "matrix_ab", "threshold_ab"],
 	)
 	p.add_argument(
 		"--popularity-mode",
@@ -407,8 +429,87 @@ def main() -> None:
 		"--evolution-mode",
 		type=str,
 		default="sampled",
-		choices=["sampled", "mean_field"],
-		help="Weight update rule. 'sampled' uses per-strategy averages from sampled players (default). 'mean_field' uses deterministic expected rewards u=Ax and replicator mapping (matrix_ab only).",
+		choices=["sampled", "mean_field", "hetero", "hybrid", "sampled_inertial"],
+		help="Weight update rule. 'sampled' uses per-strategy averages from sampled players (default). 'mean_field' uses deterministic expected rewards u=Ax and replicator mapping. 'hetero' uses per-strategy selection strengths for H3.",
+	)
+	p.add_argument(
+		"--strategy-selection-strengths",
+		type=str,
+		default=None,
+		help="H3 only: comma-separated per-strategy selection strengths kA,kD,kB.",
+	)
+	p.add_argument(
+		"--hybrid-update-share",
+		type=float,
+		default=0.0,
+		help="H4 only: share of sampled players that use deterministic expected-payoff updates.",
+	)
+	p.add_argument(
+		"--hybrid-inertia",
+		type=float,
+		default=0.0,
+		help="H4.1 only: one-step inertia coefficient for hybrid deterministic updates.",
+	)
+	p.add_argument(
+		"--sampled-inertia",
+		type=float,
+		default=0.0,
+		help="H5.1: one-step inertia coefficient for the sampled update operator. In mean_field it acts only as the deterministic gate control knob.",
+	)
+	p.add_argument(
+		"--fixed-subgroup-share",
+		type=float,
+		default=0.0,
+		help="H3.1 only: share of players whose strategy weights remain fixed across rounds.",
+	)
+	p.add_argument(
+		"--fixed-subgroup-weights",
+		type=str,
+		default=None,
+		help="H3.1 only: comma-separated fixed subgroup weights wA,wD,wB.",
+	)
+	p.add_argument(
+		"--fixed-subgroup-anchor-pull-strength",
+		type=float,
+		default=1.0,
+		help="H3.4 only: anchor pull strength rho in [0,1]. 1 keeps the subgroup fully frozen; 0 removes anchor pullback.",
+	)
+	p.add_argument(
+		"--fixed-subgroup-coupling-strength",
+		type=float,
+		default=0.0,
+		help="H3.2 only: payoff coupling strength from fixed subgroup anchor into adaptive subgroup.",
+	)
+	p.add_argument(
+		"--fixed-subgroup-bidirectional-coupling-strength",
+		type=float,
+		default=0.0,
+		help="H3.5 only: equal-and-opposite payoff coupling strength between the semi-frozen subgroup and the adaptive subgroup.",
+	)
+	p.add_argument(
+		"--fixed-subgroup-state-coupling-strength",
+		type=float,
+		default=0.0,
+		help="H3.3B only: base state-dependent coupling strength from fixed subgroup anchor into adaptive subgroup.",
+	)
+	p.add_argument(
+		"--fixed-subgroup-state-coupling-beta",
+		type=float,
+		default=8.0,
+		help="H3.3B only: sigmoid slope beta for subgroup state gating.",
+	)
+	p.add_argument(
+		"--fixed-subgroup-state-coupling-theta",
+		type=float,
+		default=0.0,
+		help="H3.3B only: subgroup state threshold theta_z.",
+	)
+	p.add_argument(
+		"--fixed-subgroup-state-signal",
+		type=str,
+		default="gap_norm",
+		choices=["gap_norm"],
+		help="H3.3B only: state signal used to gate subgroup coupling. First version only supports 'gap_norm'.",
 	)
 	p.add_argument(
 		"--payoff-lag",
@@ -417,10 +518,61 @@ def main() -> None:
 		choices=[0, 1],
 		help="Only used in evolution_mode=mean_field. 0: use current x_t for payoff u(x_t). 1: use lagged x_{t-1} for payoff u(x_{t-1}).",
 	)
+	p.add_argument(
+		"--memory-kernel",
+		type=int,
+		default=1,
+		choices=[1, 3, 5],
+		help="H1 payoff-input memory length. Uses prefix average over the last m simplex states.",
+	)
+	p.add_argument(
+		"--threshold-theta",
+		type=float,
+		default=0.40,
+		help="threshold_ab only: regime switch threshold on q_AD=x_A+x_D computed from payoff input state.",
+	)
+	p.add_argument(
+		"--threshold-theta-low",
+		type=float,
+		default=None,
+		help="threshold_ab only: optional hysteresis low threshold. Defaults to --threshold-theta.",
+	)
+	p.add_argument(
+		"--threshold-theta-high",
+		type=float,
+		default=None,
+		help="threshold_ab only: optional hysteresis high threshold. Defaults to --threshold-theta.",
+	)
+	p.add_argument(
+		"--threshold-trigger",
+		type=str,
+		default="ad_share",
+		choices=["ad_share", "ad_product"],
+		help="threshold_ab only: H2.2 trigger function used by regime switching.",
+	)
+	p.add_argument(
+		"--threshold-state-alpha",
+		type=float,
+		default=1.0,
+		help="threshold_ab only: H2.2 state smoothing alpha in (0,1].",
+	)
+	p.add_argument(
+		"--threshold-a-hi",
+		type=float,
+		default=None,
+		help="threshold_ab only: high-regime value for a. Defaults to base --a when omitted.",
+	)
+	p.add_argument(
+		"--threshold-b-hi",
+		type=float,
+		default=None,
+		help="threshold_ab only: high-regime value for b. Defaults to base --b when omitted.",
+	)
 	p.add_argument("--gamma", type=float, default=0.1)
 	p.add_argument("--epsilon", type=float, default=0.0)
 	p.add_argument("--a", type=float, default=1.0)
 	p.add_argument("--b", type=float, default=1.2)
+	p.add_argument("--matrix-cross-coupling", type=float, default=0.0)
 	p.add_argument(
 		"--init-bias",
 		type=float,
@@ -581,10 +733,34 @@ def main() -> None:
 							"payload": {
 								"payoff_mode": str(args.payoff_mode),
 								"popularity_mode": str(args.popularity_mode),
+								"evolution_mode": str(args.evolution_mode),
+								"payoff_lag": int(args.payoff_lag),
 								"gamma": float(args.gamma),
 								"epsilon": float(args.epsilon),
 								"a": float(a),
 								"b": float(b),
+								"matrix_cross_coupling": float(args.matrix_cross_coupling),
+								"memory_kernel": int(args.memory_kernel),
+								"strategy_selection_strengths": str(args.strategy_selection_strengths) if args.strategy_selection_strengths is not None else None,
+								"hybrid_update_share": float(args.hybrid_update_share),
+								"hybrid_inertia": float(args.hybrid_inertia),
+								"sampled_inertia": float(args.sampled_inertia),
+								"fixed_subgroup_share": float(args.fixed_subgroup_share),
+								"fixed_subgroup_weights": str(args.fixed_subgroup_weights) if args.fixed_subgroup_weights is not None else None,
+								"fixed_subgroup_anchor_pull_strength": float(args.fixed_subgroup_anchor_pull_strength),
+								"fixed_subgroup_coupling_strength": float(args.fixed_subgroup_coupling_strength),
+								"fixed_subgroup_bidirectional_coupling_strength": float(args.fixed_subgroup_bidirectional_coupling_strength),
+								"fixed_subgroup_state_coupling_strength": float(args.fixed_subgroup_state_coupling_strength),
+								"fixed_subgroup_state_coupling_beta": float(args.fixed_subgroup_state_coupling_beta),
+								"fixed_subgroup_state_coupling_theta": float(args.fixed_subgroup_state_coupling_theta),
+								"fixed_subgroup_state_signal": str(args.fixed_subgroup_state_signal),
+								"threshold_theta": float(args.threshold_theta),
+								"threshold_theta_low": args.threshold_theta_low,
+								"threshold_theta_high": args.threshold_theta_high,
+								"threshold_trigger": str(args.threshold_trigger),
+								"threshold_state_alpha": float(args.threshold_state_alpha),
+								"threshold_a_hi": args.threshold_a_hi,
+								"threshold_b_hi": args.threshold_b_hi,
 								"key": key,
 							},
 						}
@@ -710,8 +886,9 @@ def main() -> None:
 
 		print("=== a/b grid stability report ===")
 		print(
-			f"payoff_mode={args.payoff_mode} a={args.a} b={args.b} gamma={args.gamma} epsilon={args.epsilon} "
-			f"popularity_mode={args.popularity_mode} evolution_mode={args.evolution_mode} payoff_lag={args.payoff_lag} init_bias={args.init_bias}"
+			f"payoff_mode={args.payoff_mode} a={args.a} b={args.b} cross={args.matrix_cross_coupling} gamma={args.gamma} epsilon={args.epsilon} "
+				f"threshold_theta={args.threshold_theta} threshold_theta_low={args.threshold_theta_low} threshold_theta_high={args.threshold_theta_high} threshold_trigger={args.threshold_trigger} threshold_state_alpha={args.threshold_state_alpha} threshold_a_hi={args.threshold_a_hi} threshold_b_hi={args.threshold_b_hi} "
+			f"popularity_mode={args.popularity_mode} evolution_mode={args.evolution_mode} strategy_selection_strengths={args.strategy_selection_strengths} hybrid_update_share={args.hybrid_update_share} hybrid_inertia={args.hybrid_inertia} sampled_inertia={args.sampled_inertia} fixed_subgroup_share={args.fixed_subgroup_share} fixed_subgroup_weights={args.fixed_subgroup_weights} fixed_subgroup_anchor_pull_strength={args.fixed_subgroup_anchor_pull_strength} fixed_subgroup_coupling_strength={args.fixed_subgroup_coupling_strength} fixed_subgroup_bidirectional_coupling_strength={args.fixed_subgroup_bidirectional_coupling_strength} fixed_subgroup_state_coupling_strength={args.fixed_subgroup_state_coupling_strength} fixed_subgroup_state_coupling_beta={args.fixed_subgroup_state_coupling_beta} fixed_subgroup_state_coupling_theta={args.fixed_subgroup_state_coupling_theta} fixed_subgroup_state_signal={args.fixed_subgroup_state_signal} payoff_lag={args.payoff_lag} memory_kernel={args.memory_kernel} init_bias={args.init_bias}"
 		)
 		print(f"players={args.players} rounds={args.rounds} selection_strength={args.selection_strength}")
 		print(f"series={args.series} burn_in={burn_in} tail={args.tail}")
@@ -740,11 +917,33 @@ def main() -> None:
 		"payoff_mode": str(args.payoff_mode),
 		"popularity_mode": str(args.popularity_mode),
 		"evolution_mode": str(args.evolution_mode),
+		"strategy_selection_strengths": (str(args.strategy_selection_strengths) if args.strategy_selection_strengths is not None else None),
+		"hybrid_update_share": float(args.hybrid_update_share),
+		"hybrid_inertia": float(args.hybrid_inertia),
+		"sampled_inertia": float(args.sampled_inertia),
+		"fixed_subgroup_share": float(args.fixed_subgroup_share),
+		"fixed_subgroup_weights": (str(args.fixed_subgroup_weights) if args.fixed_subgroup_weights is not None else None),
+		"fixed_subgroup_anchor_pull_strength": float(args.fixed_subgroup_anchor_pull_strength),
+		"fixed_subgroup_coupling_strength": float(args.fixed_subgroup_coupling_strength),
+		"fixed_subgroup_bidirectional_coupling_strength": float(args.fixed_subgroup_bidirectional_coupling_strength),
+		"fixed_subgroup_state_coupling_strength": float(args.fixed_subgroup_state_coupling_strength),
+		"fixed_subgroup_state_coupling_beta": float(args.fixed_subgroup_state_coupling_beta),
+		"fixed_subgroup_state_coupling_theta": float(args.fixed_subgroup_state_coupling_theta),
+		"fixed_subgroup_state_signal": str(args.fixed_subgroup_state_signal),
 		"payoff_lag": int(args.payoff_lag),
+		"memory_kernel": int(args.memory_kernel),
+		"threshold_theta": float(args.threshold_theta),
+		"threshold_theta_low": args.threshold_theta_low,
+		"threshold_theta_high": args.threshold_theta_high,
+		"threshold_trigger": str(args.threshold_trigger),
+		"threshold_state_alpha": float(args.threshold_state_alpha),
+		"threshold_a_hi": args.threshold_a_hi,
+		"threshold_b_hi": args.threshold_b_hi,
 		"gamma": float(args.gamma),
 		"epsilon": float(args.epsilon),
 		"a": float(args.a),
 		"b": float(args.b),
+		"matrix_cross_coupling": float(args.matrix_cross_coupling),
 		"init_bias": float(args.init_bias),
 		"key": None,
 	}
@@ -757,8 +956,11 @@ def main() -> None:
 
 		out_rows: list[dict] = []
 		print("=== Players sweep (multi-seed) ===")
-		print(f"payoff_mode={args.payoff_mode} a={args.a} b={args.b} gamma={args.gamma} epsilon={args.epsilon}")
-		print(f"rounds={args.rounds} selection_strength={args.selection_strength} popularity_mode={args.popularity_mode}")
+		print(
+			f"payoff_mode={args.payoff_mode} a={args.a} b={args.b} cross={args.matrix_cross_coupling} gamma={args.gamma} epsilon={args.epsilon} "
+			f"threshold_theta={args.threshold_theta} threshold_theta_low={args.threshold_theta_low} threshold_theta_high={args.threshold_theta_high} threshold_trigger={args.threshold_trigger} threshold_state_alpha={args.threshold_state_alpha} threshold_a_hi={args.threshold_a_hi} threshold_b_hi={args.threshold_b_hi}"
+		)
+		print(f"rounds={args.rounds} selection_strength={args.selection_strength} popularity_mode={args.popularity_mode} evolution_mode={args.evolution_mode} strategy_selection_strengths={args.strategy_selection_strengths} hybrid_update_share={args.hybrid_update_share} hybrid_inertia={args.hybrid_inertia} sampled_inertia={args.sampled_inertia} fixed_subgroup_share={args.fixed_subgroup_share} fixed_subgroup_weights={args.fixed_subgroup_weights} fixed_subgroup_anchor_pull_strength={args.fixed_subgroup_anchor_pull_strength} fixed_subgroup_coupling_strength={args.fixed_subgroup_coupling_strength} fixed_subgroup_bidirectional_coupling_strength={args.fixed_subgroup_bidirectional_coupling_strength} fixed_subgroup_state_coupling_strength={args.fixed_subgroup_state_coupling_strength} fixed_subgroup_state_coupling_beta={args.fixed_subgroup_state_coupling_beta} fixed_subgroup_state_coupling_theta={args.fixed_subgroup_state_coupling_theta} fixed_subgroup_state_signal={args.fixed_subgroup_state_signal}")
 		print(f"series={args.series} burn_in={burn_in} tail={args.tail}")
 		print(f"seeds: {seed_list[0]}..{seed_list[-1]} (n={len(seed_list)})" if seed_list else "seeds: (none)")
 		print("\nplayers\tP(level>=2)\tP(level3)\tmean_s3_score\tmean_s3_strength\tmean_env_gamma")
@@ -781,6 +983,28 @@ def main() -> None:
 					rows_local.append(
 						{
 							"seed": int(sd),
+							"payoff_mode": str(args.payoff_mode),
+							"a": float(args.a),
+							"b": float(args.b),
+							"matrix_cross_coupling": float(args.matrix_cross_coupling),
+							"strategy_selection_strengths": (str(args.strategy_selection_strengths) if args.strategy_selection_strengths is not None else None),
+							"sampled_inertia": float(args.sampled_inertia),
+							"memory_kernel": int(args.memory_kernel),
+							"threshold_theta": float(args.threshold_theta),
+							"threshold_theta_low": (
+								float(args.threshold_theta_low) if args.threshold_theta_low is not None else None
+							),
+							"threshold_theta_high": (
+								float(args.threshold_theta_high) if args.threshold_theta_high is not None else None
+							),
+							"threshold_trigger": str(args.threshold_trigger),
+							"threshold_state_alpha": float(args.threshold_state_alpha),
+							"threshold_a_hi": (
+								float(args.threshold_a_hi) if args.threshold_a_hi is not None else None
+							),
+							"threshold_b_hi": (
+								float(args.threshold_b_hi) if args.threshold_b_hi is not None else None
+							),
 							"cycle_level": int(lv),
 							"stage1_passed": bool(s1),
 							"stage2_passed": bool(s2),
@@ -817,6 +1041,28 @@ def main() -> None:
 						rows_local.append(
 							{
 								"seed": int(sd),
+								"payoff_mode": str(args.payoff_mode),
+								"a": float(args.a),
+								"b": float(args.b),
+								"matrix_cross_coupling": float(args.matrix_cross_coupling),
+								"strategy_selection_strengths": (str(args.strategy_selection_strengths) if args.strategy_selection_strengths is not None else None),
+								"sampled_inertia": float(args.sampled_inertia),
+								"memory_kernel": int(args.memory_kernel),
+								"threshold_theta": float(args.threshold_theta),
+								"threshold_theta_low": (
+									float(args.threshold_theta_low) if args.threshold_theta_low is not None else None
+								),
+								"threshold_theta_high": (
+									float(args.threshold_theta_high) if args.threshold_theta_high is not None else None
+								),
+								"threshold_trigger": str(args.threshold_trigger),
+								"threshold_state_alpha": float(args.threshold_state_alpha),
+								"threshold_a_hi": (
+									float(args.threshold_a_hi) if args.threshold_a_hi is not None else None
+								),
+								"threshold_b_hi": (
+									float(args.threshold_b_hi) if args.threshold_b_hi is not None else None
+								),
 								"cycle_level": int(lv),
 								"stage1_passed": bool(s1),
 								"stage2_passed": bool(s2),
@@ -842,13 +1088,32 @@ def main() -> None:
 			out_rows.append(
 				{
 					"players": int(npl),
+					"payoff_mode": str(args.payoff_mode),
 					"a": float(args.a),
 					"b": float(args.b),
+					"matrix_cross_coupling": float(args.matrix_cross_coupling),
+					"strategy_selection_strengths": (str(args.strategy_selection_strengths) if args.strategy_selection_strengths is not None else None),
 					"rounds": int(args.rounds),
 					"selection_strength": float(args.selection_strength),
 					"series": str(args.series),
 					"burn_in": int(burn_in),
 					"tail": (int(args.tail) if args.tail is not None else None),
+					"memory_kernel": int(args.memory_kernel),
+					"threshold_theta": float(args.threshold_theta),
+					"threshold_theta_low": (
+						float(args.threshold_theta_low) if args.threshold_theta_low is not None else None
+					),
+					"threshold_theta_high": (
+						float(args.threshold_theta_high) if args.threshold_theta_high is not None else None
+					),
+					"threshold_trigger": str(args.threshold_trigger),
+					"threshold_state_alpha": float(args.threshold_state_alpha),
+					"threshold_a_hi": (
+						float(args.threshold_a_hi) if args.threshold_a_hi is not None else None
+					),
+					"threshold_b_hi": (
+						float(args.threshold_b_hi) if args.threshold_b_hi is not None else None
+					),
 					"mean_env_gamma": float(mean_env_gamma),
 					"mean_env_gamma_r2": float(mean_env_gamma_r2),
 					"mean_env_gamma_n_peaks": float(mean_env_gamma_n_peaks),
@@ -882,6 +1147,32 @@ def main() -> None:
 			rows_out.append(
 				{
 					"seed": int(sd),
+					"payoff_mode": str(args.payoff_mode),
+					"popularity_mode": str(args.popularity_mode),
+					"evolution_mode": str(args.evolution_mode),
+					"a": float(args.a),
+					"b": float(args.b),
+					"matrix_cross_coupling": float(args.matrix_cross_coupling),
+					"strategy_selection_strengths": (str(args.strategy_selection_strengths) if args.strategy_selection_strengths is not None else None),
+					"hybrid_update_share": float(args.hybrid_update_share),
+					"hybrid_inertia": float(args.hybrid_inertia),
+					"sampled_inertia": float(args.sampled_inertia),
+					"memory_kernel": int(args.memory_kernel),
+					"threshold_theta": float(args.threshold_theta),
+					"threshold_theta_low": (
+						float(args.threshold_theta_low) if args.threshold_theta_low is not None else None
+					),
+					"threshold_theta_high": (
+						float(args.threshold_theta_high) if args.threshold_theta_high is not None else None
+					),
+					"threshold_trigger": str(args.threshold_trigger),
+					"threshold_state_alpha": float(args.threshold_state_alpha),
+					"threshold_a_hi": (
+						float(args.threshold_a_hi) if args.threshold_a_hi is not None else None
+					),
+					"threshold_b_hi": (
+						float(args.threshold_b_hi) if args.threshold_b_hi is not None else None
+					),
 					"cycle_level": int(lv),
 					"stage1_passed": bool(s1),
 					"stage2_passed": bool(s2),
@@ -919,6 +1210,31 @@ def main() -> None:
 				rows_out.append(
 					{
 						"seed": int(sd),
+						"payoff_mode": str(args.payoff_mode),
+						"popularity_mode": str(args.popularity_mode),
+						"evolution_mode": str(args.evolution_mode),
+						"a": float(args.a),
+						"b": float(args.b),
+						"matrix_cross_coupling": float(args.matrix_cross_coupling),
+						"strategy_selection_strengths": (str(args.strategy_selection_strengths) if args.strategy_selection_strengths is not None else None),
+						"hybrid_update_share": float(args.hybrid_update_share),
+						"hybrid_inertia": float(args.hybrid_inertia),
+						"sampled_inertia": float(args.sampled_inertia),
+						"memory_kernel": int(args.memory_kernel),
+						"threshold_theta": float(args.threshold_theta),
+						"threshold_theta_low": (
+							float(args.threshold_theta_low) if args.threshold_theta_low is not None else None
+						),
+						"threshold_theta_high": (
+							float(args.threshold_theta_high) if args.threshold_theta_high is not None else None
+						),
+						"threshold_trigger": str(args.threshold_trigger),
+						"threshold_a_hi": (
+							float(args.threshold_a_hi) if args.threshold_a_hi is not None else None
+						),
+						"threshold_b_hi": (
+							float(args.threshold_b_hi) if args.threshold_b_hi is not None else None
+						),
 						"cycle_level": int(lv),
 						"stage1_passed": bool(s1),
 						"stage2_passed": bool(s2),
@@ -942,8 +1258,9 @@ def main() -> None:
 
 	print("=== Multi-seed stability report ===")
 	print(
-		f"payoff_mode={args.payoff_mode} a={args.a} b={args.b} gamma={args.gamma} epsilon={args.epsilon} "
-		f"popularity_mode={args.popularity_mode} evolution_mode={args.evolution_mode} payoff_lag={args.payoff_lag} init_bias={args.init_bias}"
+		f"payoff_mode={args.payoff_mode} a={args.a} b={args.b} cross={args.matrix_cross_coupling} gamma={args.gamma} epsilon={args.epsilon} "
+		f"threshold_theta={args.threshold_theta} threshold_theta_low={args.threshold_theta_low} threshold_theta_high={args.threshold_theta_high} threshold_trigger={args.threshold_trigger} threshold_state_alpha={args.threshold_state_alpha} threshold_a_hi={args.threshold_a_hi} threshold_b_hi={args.threshold_b_hi} "
+		f"popularity_mode={args.popularity_mode} evolution_mode={args.evolution_mode} strategy_selection_strengths={args.strategy_selection_strengths} hybrid_update_share={args.hybrid_update_share} hybrid_inertia={args.hybrid_inertia} sampled_inertia={args.sampled_inertia} fixed_subgroup_share={args.fixed_subgroup_share} fixed_subgroup_weights={args.fixed_subgroup_weights} fixed_subgroup_anchor_pull_strength={args.fixed_subgroup_anchor_pull_strength} fixed_subgroup_coupling_strength={args.fixed_subgroup_coupling_strength} fixed_subgroup_bidirectional_coupling_strength={args.fixed_subgroup_bidirectional_coupling_strength} fixed_subgroup_state_coupling_strength={args.fixed_subgroup_state_coupling_strength} fixed_subgroup_state_coupling_beta={args.fixed_subgroup_state_coupling_beta} fixed_subgroup_state_coupling_theta={args.fixed_subgroup_state_coupling_theta} fixed_subgroup_state_signal={args.fixed_subgroup_state_signal} payoff_lag={args.payoff_lag} memory_kernel={args.memory_kernel} init_bias={args.init_bias}"
 	)
 	print(f"players={args.players} rounds={args.rounds} selection_strength={args.selection_strength}")
 	print(f"series={args.series} burn_in={burn_in} tail={args.tail}")

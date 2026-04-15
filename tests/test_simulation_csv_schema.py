@@ -45,6 +45,8 @@ def test_timeseries_csv_schema_contains_required_columns(tmp_path: Path):
 		"w_aggressive",
 		"w_defensive",
 		"w_balanced",
+		"threshold_regime_hi",
+		"threshold_state_value",
 	}
 	assert required.issubset(fieldnames)
 
@@ -88,6 +90,8 @@ def test_timeseries_csv_schema_contains_event_provenance_when_enabled(tmp_path: 
 		fieldnames = set(reader.fieldnames or [])
 
 	required = {
+		"threshold_regime_hi",
+		"threshold_state_value",
 		"event_count",
 		"success_count",
 		"event_types_json",
@@ -103,3 +107,47 @@ def test_timeseries_csv_schema_contains_event_provenance_when_enabled(tmp_path: 
 		"state_effects_json",
 	}
 	assert required.issubset(fieldnames)
+
+
+def test_threshold_ab_timeseries_writes_threshold_diagnostics(tmp_path: Path):
+	out_csv = tmp_path / "ts_threshold.csv"
+
+	argv_backup = sys.argv[:]
+	try:
+		sys.argv = [
+			"simulation.run_simulation",
+			"--players",
+			"12",
+			"--rounds",
+			"6",
+			"--seed",
+			"123",
+			"--payoff-mode",
+			"threshold_ab",
+			"--a",
+			"1.0",
+			"--b",
+			"0.9",
+			"--threshold-theta",
+			"0.55",
+			"--threshold-a-hi",
+			"1.1",
+			"--threshold-b-hi",
+			"1.0",
+			"--selection-strength",
+			"0.02",
+			"--out",
+			str(out_csv),
+		]
+		import simulation.run_simulation as sim
+
+		sim.main()
+	finally:
+		sys.argv = argv_backup
+
+	with out_csv.open(newline="") as f:
+		rows = list(csv.DictReader(f))
+
+	assert rows
+	assert any(str(row.get("threshold_regime_hi", "")).strip() != "" for row in rows)
+	assert any(str(row.get("threshold_state_value", "")).strip() != "" for row in rows)
