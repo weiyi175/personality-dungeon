@@ -128,6 +128,13 @@ def _write_markdown(path: Path, summary: dict[str, Any]) -> None:
     lines.append(f"- protocol: {summary['protocol']}")
     lines.append(f"- timestamp_utc: {summary['timestamp_utc']}")
     lines.append(f"- overall_pass: {summary['overall_pass']}")
+
+    phase_meta = summary.get("phase_run_metadata", {})
+    if isinstance(phase_meta, dict):
+        lines.append(f"- phase_id: {phase_meta.get('phase_id', '')}")
+        lines.append(f"- bridge_id: {phase_meta.get('bridge_id', '')}")
+        lines.append(f"- bridge_count: {phase_meta.get('bridge_count', 0)}")
+        lines.append(f"- anchor_profile_id: {phase_meta.get('anchor_profile_id', '')}")
     lines.append("")
     lines.append("## Stages")
     lines.append("")
@@ -160,6 +167,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--pytest-target", default="tests/test_personality_rl_runtime.py")
     parser.add_argument("--python-bin", default=sys.executable)
     parser.add_argument("--float-tol", type=float, default=1e-12)
+    parser.add_argument("--phase-id", default="")
+    parser.add_argument("--bridge-id", default="")
+    parser.add_argument("--bridge-count", type=int, default=0)
+    parser.add_argument("--anchor-profile-id", default="")
     parser.add_argument("--summary-json", default=str(DEFAULT_SUMMARY_JSON))
     parser.add_argument("--summary-md", default=str(DEFAULT_SUMMARY_MD))
     args = parser.parse_args(argv)
@@ -272,9 +283,16 @@ def main(argv: list[str] | None = None) -> int:
     )
 
     overall_pass = all(stage.passed for stage in stage_results)
+    phase_run_metadata = {
+        "phase_id": str(args.phase_id),
+        "bridge_id": str(args.bridge_id),
+        "bridge_count": max(0, int(args.bridge_count)),
+        "anchor_profile_id": str(args.anchor_profile_id),
+    }
     summary = {
         "protocol": "track_a_a3_protocol_regression_v1",
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+        "phase_run_metadata": phase_run_metadata,
         "inputs": {
             "seeds": str(args.seeds),
             "baseline_summary_json": str(baseline_summary_path),

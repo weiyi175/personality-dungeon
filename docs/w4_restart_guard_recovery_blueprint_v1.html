@@ -662,6 +662,145 @@
   --smoke-out-json outputs/w4_guard/e2_rr_r008_w2000_t050_smoke_block222_281_summary.json \
   --gate-out-json outputs/w4_guard/e2_rr_r008_w2000_t050_gate60_block222_281_summary.json</code></pre>
       </section>
+
+      <section class="card">
+        <h2>8) W4.5 Structural Add-on (高耦合退化專用)</h2>
+        <p>
+          本段是接在 E2 → E3 → E4 後的結構層檢查，不改動 W4 原 gate 口徑；用途是判定
+          「L3 → L2」是否由 event 耦合改寫了 payoff landscape 的守恆結構與時間尺度。
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Experiment</th>
+              <th>核心假說</th>
+              <th>執行方式（W4 後可接）</th>
+              <th>判定訊號</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>E6 Event Neutrality</td>
+              <td>
+                若 event 在平均上非中性（E[Δpayoff|event] ≠ 0），會把 RPS 旋轉拉向 L2 attractor。
+              </td>
+              <td>
+                新增旗標：<code>--event-neutralize-payoff true</code>。<br />
+                規則：每輪對受影響玩家先算原始 <code>raw_event_reward_mods</code>，再做
+                <code>delta_i' = delta_i - mean(delta over affected players)</code>。
+              </td>
+              <td>
+                若開啟後 fail blocks 的 <code>new_l1</code> 顯著下降且
+                <code>overall_pass</code> 上升，判定 hidden bias 為主因。
+              </td>
+            </tr>
+            <tr>
+              <td>E7 Time-scale Separation</td>
+              <td>
+                event 與策略更新同頻會打斷 RPS 動量；需要把 event 觸發時間尺度拉開。
+              </td>
+              <td>
+                先用既有旗標做低侵入版本：<br />
+                1) <code>--event-warmup-rounds {1000,2000}</code><br />
+                2) <code>--event-dispatch-target-rate {0.02,0.04,0.08}</code><br />
+                若需嚴格每 k 輪觸發，再補 <code>--event-interval-k</code>（下一版）。
+              </td>
+              <td>
+                觀察「早期 collapse 是否延後」與 fail blocks 的 <code>new_l1</code> 是否歸零。
+              </td>
+            </tr>
+            <tr>
+              <td>E8 State-dependent Gating</td>
+              <td>
+                無條件注入會在旋轉尚未形成時造成脆弱結構崩解；需用狀態門檻保護 early phase。
+              </td>
+              <td>
+                新增旗標：<code>--event-trigger-mode entropy_guard</code>，
+                例如僅在 <code>entropy(p) &gt; tau</code> 時允許注入。
+              </td>
+              <td>
+                若只在 guard 模式下恢復跨 block robustness，代表問題在注入時機而非幅度。
+              </td>
+            </tr>
+            <tr>
+              <td>E9 Coupling Strength Sweep</td>
+              <td>
+                L3→L2 可能是耦合強度超過臨界值，需找出 critical coupling。
+              </td>
+              <td>
+                直接用既有幅度參數當 α：<code>--event-reward-scale ∈ {0.002,0.005,0.01,0.02}</code>。<br />
+                在同一 block 比較 level/new_l1，估計 bifurcation 區段。
+              </td>
+              <td>
+                產生「小 α 保持 L3、過臨界轉 L2」的轉折圖，即可鎖定安全耦合帶。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h2>9) RPS Invariant Contract (Event 不可破壞條件)</h2>
+        <p>
+          以下 invariant 是 Event line 允許上線的結構條件；若違反，即使 A3 drift 穩定，也可停在「穩定的 L2 錯誤吸引子」。
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Invariant</th>
+              <th>形式化條件</th>
+              <th>工程檢查點</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>I1 Zero-mean Event Bias</td>
+              <td>
+                對每輪受影響集合 S，要求<br />
+                <code>(1/|S|) * Σ_{i∈S} Δu_i(t) = 0</code>
+              </td>
+              <td>
+                在 runtime diagnostics 新增 <code>event_reward_mean_after_neutralize</code>，
+                gate 要求其絕對值接近 0。
+              </td>
+            </tr>
+            <tr>
+              <td>I2 Coupling Energy Bound</td>
+              <td>
+                令總更新為 <code>x_{t+1}=F_base(x_t)+αE_t</code>，要求<br />
+                <code>alpha * ||E_t|| &lt;= eps_c</code>（eps_c 由 E9 實測）
+              </td>
+              <td>
+                以 <code>event_reward_scale</code> 掃描求臨界區，將 GO 區間寫入 runbook。
+              </td>
+            </tr>
+            <tr>
+              <td>I3 Time-scale Separation</td>
+              <td>
+                事件時間尺度需慢於策略收斂時間尺度：<br />
+                <code>tau_event &gt;= k * tau_policy</code>（k&gt;1）
+              </td>
+              <td>
+                先以 warmup + target_rate 近似；若仍不穩，升級為固定間隔觸發。
+              </td>
+            </tr>
+            <tr>
+              <td>I4 Stage3 Rotation Preservation</td>
+              <td>
+                事件開啟後仍需維持<br />
+                <code>stage3_score &gt;= eta</code> 且 <code>turn_strength &gt;= turn_min</code>
+              </td>
+              <td>
+                以既有 gate summary 的 <code>mean_s3</code> 與 <code>mean_turn</code> 做 block 級約束。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="warn">
+          W4.5 的決策優先序：E6（中性約束）→ E7（時間尺度）→ E9（臨界耦合）→ E8（狀態門檻）。
+          若 E6 無法改善，表示主因不在偏壓而在時序/耦合臨界。
+        </p>
+      </section>
     </main>
   </body>
 </html>

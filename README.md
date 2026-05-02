@@ -11,6 +11,12 @@
 - W3 實驗藍圖（A3 release gate + hypothesis backlog v1）：見 `docs/w3_experiment_blueprint.html`
 - W4 實驗藍圖（月結回顧 + go/no-go memo + decision record）：見 `docs/w4_experiment_blueprint.html`
 
+### Research family split
+
+- 現有主線：維持三策略 `aggressive / defensive / balanced`，只做 `H1-H5` 與 `B3-B5` 這類增量變更，驗收仍走既有 `simulation -> CSV -> analysis` 契約。
+- 新 family：`odd-species`、`HOI tensor`、`chaos / Lyapunov / delay embedding`，或任何需要把 simplex / phase metrics / CSV schema 升級到 `N` 維的變更，都要另開 Spec 與測試矩陣。
+- 細節與判準見 `SDD.md` 與 `研發日誌.md`。
+
 ## Quick start
 
 ```bash

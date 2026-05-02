@@ -63,6 +63,9 @@ _TRACK_A2_PROVENANCE_MIN_KEYS = {
     "dispatch_player_activation_max", "dispatch_player_activation_cv",
     "dispatch_fairness_window", "dispatch_fairness_tolerance",
     "dispatch_fairness_checks", "dispatch_fairness_failures", "dispatch_fairness_pass",
+    "world_readonly_applied", "readonly_leak_score", "readonly_leak_pass",
+    "difficulty_modulation_applied", "difficulty_index_mean",
+    "event_difficulty_multiplier_mean", "payoff_static_score", "payoff_static_pass",
     "event_reward_mode", "event_reward_multiplier_cap",
     "event_impact_mode", "event_impact_horizon", "event_impact_decay",
 }
@@ -172,6 +175,92 @@ class TestContracts:
             if key not in prov
         )
         assert not missing, f"Missing Track A2 provenance keys: {missing}"
+
+    def test_async_update_mode_emits_runtime_fields(self):
+        cfg = PersonalityRLConfig(
+            n_players=20,
+            n_rounds=60,
+            personality_mode="none",
+            replicator_update_mode="async_per_player",
+            replicator_async_minibatch=5,
+            replicator_async_jitter=0.10,
+            event_queue_mode="off",
+        )
+        result = run_personality_rl(cfg, seed=42)
+        assert bool(result.diagnostics["async_update_applied"]) is True
+        assert result.diagnostics["replicator_update_mode"] == "async_per_player"
+        assert 0.0 < float(result.diagnostics["async_update_ratio_mean"]) < 1.0
+        assert float(result.diagnostics["update_skew_index"]) >= 0.0
+        for row in result.rows:
+            assert row["replicator_update_mode"] == "async_per_player"
+            assert int(row["async_update_applied"]) == 1
+            assert 0.0 <= float(row["async_update_ratio"]) <= 1.0
+            assert float(row["update_skew_index"]) >= 0.0
+
+    def test_multiplicative_v2_zero_mean_modulation_invariant(self):
+        cfg = PersonalityRLConfig(
+            n_players=24,
+            n_rounds=80,
+            personality_mode="random",
+            events_json=str(EVENT_JSON),
+            event_rate=1.0,
+            event_dispatch_mode="sync",
+            event_dispatch_target_rate=1.0,
+            event_reward_mode="multiplicative",
+            event_reward_multiplier_cap=0.20,
+            event_modulation_mode="multiplicative_v2",
+            event_modulation_gain=0.12,
+            event_modulation_log_center=0.0,
+            event_modulation_zero_mean=True,
+            event_modulation_floor=0.85,
+            event_modulation_ceiling=1.15,
+        )
+        result = run_personality_rl(cfg, seed=42)
+        diag = result.diagnostics
+
+        assert diag["event_modulation_mode"] == "multiplicative_v2"
+        assert bool(diag["event_modulation_zero_mean"]) is True
+        assert bool(diag["multiplicative_static_pass"]) is True
+        assert float(diag["modulation_zero_mean_residual_max"]) <= float(diag["modulation_zero_mean_eps"]) + 1e-12
+        for row in result.rows:
+            assert 0.85 <= float(row["reward_multiplier_clamped"]) <= 1.15
+            assert bool(row["multiplicative_static_pass"]) is True
+
+    def test_hierarchical_spread_kernel_emits_diagnostics(self):
+        cfg = PersonalityRLConfig(
+            n_players=24,
+            n_rounds=80,
+            personality_mode="random",
+            events_json=str(EVENT_JSON),
+            event_rate=1.0,
+            event_dispatch_mode="sync",
+            event_dispatch_target_rate=1.0,
+            event_impact_mode="spread",
+            event_impact_horizon=7,
+            event_impact_decay=0.82,
+            impact_spread_kernel_id="hierarchical_v2",
+            impact_spread_local_mass=0.65,
+            impact_spread_neighbor_mass=0.35,
+            impact_spread_neighbor_hop=2,
+            impact_spread_memory_kernel=3,
+        )
+        result = run_personality_rl(cfg, seed=42)
+        diag = result.diagnostics
+
+        assert diag["impact_spread_kernel_id"] == "hierarchical_v2"
+        assert bool(diag["impact_spread_applied"]) is True
+        assert float(diag["impact_kernel_mass_local"]) == pytest.approx(0.65, abs=1e-12)
+        assert float(diag["impact_kernel_mass_neighbor"]) == pytest.approx(0.35, abs=1e-12)
+        assert float(diag["impact_kernel_mass_local"]) + float(diag["impact_kernel_mass_neighbor"]) == pytest.approx(1.0, abs=1e-12)
+        assert int(diag["impact_spread_memory_kernel"]) == 3
+        assert float(diag["impact_kernel_mass_error"]) <= 1e-9
+
+        for row in result.rows:
+            assert row["impact_kernel_id"] == "hierarchical_v2"
+            assert int(row["impact_spread_applied"]) == 1
+            assert 0.0 <= float(row["impact_kernel_mass_local"]) <= 1.0
+            assert 0.0 <= float(row["impact_kernel_mass_neighbor"]) <= 1.0
+            assert float(row["impact_kernel_mass_error"]) <= 1e-9
 
 
 # ===================================================================
@@ -460,6 +549,31 @@ class TestEventBridge:
         assert -1.0 <= float(result.diagnostics["reward_perturb_corr"]) <= 1.0
         assert 0.0 <= float(result.diagnostics["dispatch_mean_affected_ratio"]) <= 1.0
 
+    @pytest.mark.skipif(
+        not EVENT_JSON.exists(),
+        reason="event templates JSON not found",
+    )
+    def test_per_player_event_queue_reports_overflow(self):
+        cfg = PersonalityRLConfig(
+            n_players=20,
+            n_rounds=40,
+            personality_mode="random",
+            lambda_alpha=0.1,
+            lambda_beta=0.1,
+            events_json=str(EVENT_JSON),
+            event_rate=1.0,
+            event_dispatch_mode="sync",
+            event_dispatch_target_rate=0.0,
+            event_queue_mode="per_player",
+            event_queue_cap=1,
+            event_queue_drain_rate=0.0,
+        )
+        result = run_personality_rl(cfg, seed=42)
+        assert result.diagnostics["event_queue_mode"] == "per_player"
+        assert int(result.diagnostics["queue_overflow_count"]) > 0
+        assert float(result.diagnostics["player_event_queue_depth_mean"]) >= 0.0
+        assert any(int(r["queue_drop_count"]) > 0 for r in result.rows)
+
 
 # ===================================================================
 # World Feedback tests
@@ -547,3 +661,64 @@ class TestWorldFeedback:
         for row in result.rows:
             assert row["world_scarcity"] == 0.0
             assert row["world_threat"] == 0.0
+            assert row["world_noise"] == 0.0
+            assert row["world_intel"] == 0.0
+            assert row["world_state_scarcity"] == 0.0
+            assert row["world_state_threat"] == 0.0
+            assert row["world_state_noise"] == 0.0
+            assert row["world_state_intel"] == 0.0
+            assert int(row["world_readonly_applied"]) == 0
+            assert float(row["readonly_leak_score"]) == 0.0
+
+    def test_readonly_world_mode_has_zero_leak(self):
+        cfg = PersonalityRLConfig(
+            n_players=20,
+            n_rounds=120,
+            personality_mode="random",
+            lambda_alpha=0.1,
+            lambda_beta=0.1,
+            world_feedback_mode="read_only",
+            lambda_world=0.15,
+            world_update_interval=20,
+        )
+        result = run_personality_rl(cfg, seed=42)
+        assert len(result.rows) == 120
+
+        tail = result.rows[-40:]
+        has_world_state_deviation = any(
+            abs(float(r["world_state_scarcity"]) - 0.5) > 1e-6
+            or abs(float(r["world_state_threat"]) - 0.5) > 1e-6
+            or abs(float(r["world_state_noise"]) - 0.5) > 1e-6
+            or abs(float(r["world_state_intel"]) - 0.5) > 1e-6
+            for r in tail
+        )
+        assert has_world_state_deviation
+
+        assert all(int(r["world_readonly_applied"]) == 1 for r in result.rows)
+        assert max(float(r["readonly_leak_score"]) for r in result.rows) <= 1e-12
+        assert result.diagnostics["world_feedback_mode"] == "read_only"
+        assert bool(result.diagnostics["world_readonly_applied"]) is True
+        assert bool(result.diagnostics["readonly_leak_pass"]) is True
+        assert float(result.diagnostics["readonly_leak_score"]) <= 1e-12
+
+    def test_difficulty_only_mode_keeps_payoff_static(self):
+        cfg = PersonalityRLConfig(
+            n_players=20,
+            n_rounds=120,
+            personality_mode="random",
+            lambda_alpha=0.1,
+            lambda_beta=0.1,
+            world_feedback_mode="difficulty_only",
+            lambda_world=0.15,
+            world_update_interval=20,
+            event_rate=0.5,
+        )
+        result = run_personality_rl(cfg, seed=42)
+        assert len(result.rows) == 120
+
+        assert all(int(r["difficulty_modulation_applied"]) == 1 for r in result.rows)
+        assert all(bool(r["payoff_static_pass"]) for r in result.rows)
+        assert result.diagnostics["world_feedback_mode"] == "difficulty_only"
+        assert bool(result.diagnostics["difficulty_modulation_applied"]) is True
+        assert bool(result.diagnostics["payoff_static_pass"]) is True
+        assert float(result.diagnostics["payoff_static_score"]) <= 1e-12

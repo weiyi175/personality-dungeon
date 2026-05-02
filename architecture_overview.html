@@ -1,0 +1,1193 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <title>Personality Dungeon Architecture Overview</title>
+  <style>
+    :root {
+      --bg: #071018;
+      --bg-2: #0b1623;
+      --panel: rgba(11, 20, 31, 0.82);
+      --panel-strong: rgba(14, 26, 40, 0.94);
+      --border: rgba(104, 202, 255, 0.16);
+      --border-strong: rgba(104, 202, 255, 0.28);
+      --text: #d7e3f2;
+      --muted: #8aa2bb;
+      --faint: #5f748e;
+      --cyan: #67d8ff;
+      --cyan-2: #48b9ff;
+      --mint: #67f0bb;
+      --amber: #f5c46b;
+      --rose: #ff86ad;
+      --violet: #b3a0ff;
+      --shadow: 0 22px 64px rgba(0, 0, 0, 0.48);
+      --radius: 18px;
+      --radius-sm: 12px;
+      --maxw: 1180px;
+      --code: "SFMono-Regular", "Cascadia Mono", "Menlo", "Consolas", monospace;
+      --body: "Avenir Next", "Segoe UI Variable", "Noto Sans TC", "PingFang TC", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: var(--body);
+      line-height: 1.7;
+      background:
+        radial-gradient(circle at 12% 18%, rgba(71, 184, 255, 0.15), transparent 25%),
+        radial-gradient(circle at 88% 0%, rgba(103, 240, 187, 0.10), transparent 18%),
+        radial-gradient(circle at 50% 100%, rgba(179, 160, 255, 0.08), transparent 22%),
+        linear-gradient(180deg, #08101a 0%, #050b12 100%);
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: auto;
+      pointer-events: none;
+      filter: blur(70px);
+      opacity: 0.45;
+      z-index: 0;
+    }
+
+    body::before {
+      width: 260px;
+      height: 260px;
+      left: -90px;
+      top: 90px;
+      background: rgba(71, 184, 255, 0.20);
+    }
+
+    body::after {
+      width: 320px;
+      height: 320px;
+      right: -120px;
+      bottom: 40px;
+      background: rgba(103, 240, 187, 0.12);
+    }
+
+    a {
+      color: var(--cyan);
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #9ae6ff;
+      text-decoration: underline;
+    }
+
+    code {
+      font-family: var(--code);
+      font-size: 0.93em;
+      color: #dff5ff;
+      background: rgba(103, 216, 255, 0.08);
+      border: 1px solid rgba(103, 216, 255, 0.16);
+      border-radius: 8px;
+      padding: 0.12em 0.42em;
+    }
+
+    pre {
+      font-family: var(--code);
+      overflow: auto;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 28px 20px 72px;
+    }
+
+    .hero {
+      position: relative;
+      padding: 28px 28px 24px;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      background:
+        linear-gradient(180deg, rgba(11, 22, 35, 0.88), rgba(8, 14, 22, 0.92)),
+        radial-gradient(circle at 20% 10%, rgba(103, 216, 255, 0.12), transparent 38%);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .hero h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 4vw, 3.35rem);
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 980px;
+    }
+
+    .subtitle {
+      margin-top: 12px;
+      color: var(--text);
+      font-size: 1.02rem;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.44rem 0.78rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text);
+      font-size: 0.92rem;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+    }
+
+    .chip strong {
+      color: #f2fbff;
+      font-weight: 600;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      margin: 18px 0 26px;
+      padding: 12px 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      border-radius: 18px;
+      border: 1px solid rgba(103, 216, 255, 0.12);
+      background: rgba(7, 16, 24, 0.72);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .nav a {
+      padding: 0.32rem 0.7rem;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      border: 1px solid transparent;
+    }
+
+    .nav a:hover {
+      color: var(--text);
+      border-color: var(--border);
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    section.card {
+      margin-top: 22px;
+      padding: 24px 22px 20px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--panel);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+    }
+
+    section.card:hover {
+      border-color: var(--border-strong);
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.42rem, 2vw, 2rem);
+      line-height: 1.2;
+    }
+
+    h3 {
+      margin: 18px 0 10px;
+      font-size: 1.14rem;
+      color: #e7f3ff;
+    }
+
+    p {
+      margin: 0 0 12px;
+    }
+
+    ul,
+    ol {
+      margin: 0 0 12px 1.3rem;
+      padding: 0;
+    }
+
+    li {
+      margin: 0.34rem 0;
+    }
+
+    blockquote {
+      margin: 16px 0;
+      padding: 14px 16px;
+      border-left: 3px solid var(--cyan);
+      background: rgba(103, 216, 255, 0.06);
+      color: #d8ebff;
+      border-radius: 0 12px 12px 0;
+    }
+
+    .callout {
+      margin: 14px 0 18px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .callout strong {
+      color: #f6fbff;
+    }
+
+    .callout.note {
+      border-color: rgba(103, 240, 187, 0.24);
+      background: rgba(103, 240, 187, 0.06);
+    }
+
+    .callout.warn {
+      border-color: rgba(245, 196, 107, 0.22);
+      background: rgba(245, 196, 107, 0.06);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    .grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .mini-card {
+      padding: 14px 14px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(103, 216, 255, 0.14);
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .mini-card h4 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+      color: #edf7ff;
+    }
+
+    .mini-card p,
+    .mini-card li {
+      color: var(--muted);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      overflow: hidden;
+      border-radius: 14px;
+      border: 1px solid rgba(103, 216, 255, 0.12);
+      background: rgba(3, 9, 15, 0.25);
+    }
+
+    th,
+    td {
+      padding: 12px 12px;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(103, 216, 255, 0.08);
+      text-align: left;
+    }
+
+    th {
+      color: #eff8ff;
+      background: rgba(103, 216, 255, 0.06);
+      font-weight: 600;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .mermaid {
+      margin-top: 14px;
+      padding: 16px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(103, 216, 255, 0.14);
+      background: rgba(2, 8, 14, 0.42);
+      overflow: auto;
+    }
+
+    .mermaid-source {
+      color: #dbe9fb;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    details {
+      margin-top: 12px;
+      border: 1px solid rgba(103, 216, 255, 0.12);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.025);
+      overflow: hidden;
+    }
+
+    summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 12px 14px;
+      color: #eff8ff;
+      font-weight: 600;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details > div {
+      padding: 0 14px 14px;
+      color: var(--muted);
+    }
+
+    .appendix {
+      margin-top: 18px;
+    }
+
+    .footer-note {
+      margin-top: 14px;
+      color: var(--faint);
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 960px) {
+      .grid,
+      .grid.three {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 22px 18px 18px;
+        border-radius: 22px;
+      }
+
+      section.card {
+        padding: 20px 16px 18px;
+      }
+
+      .nav {
+        position: static;
+      }
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+        color: #111;
+      }
+
+      body::before,
+      body::after,
+      .nav {
+        display: none;
+      }
+
+      .hero,
+      section.card,
+      table,
+      details {
+        box-shadow: none;
+      }
+    }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      if (window.mermaid) {
+        window.mermaid.initialize({
+          startOnLoad: true,
+          theme: 'dark',
+          securityLevel: 'loose',
+          logLevel: 'fatal',
+          flowchart: {
+            useMaxWidth: true,
+            htmlLabels: true,
+            curve: 'basis'
+          },
+          sequence: {
+            useMaxWidth: true,
+            showSequenceNumbers: true,
+            actorMargin: 38,
+            messageMargin: 28
+          },
+          themeVariables: {
+            background: 'transparent',
+            primaryColor: '#102235',
+            primaryTextColor: '#edf6ff',
+            primaryBorderColor: '#67d8ff',
+            secondaryColor: '#0d1a29',
+            tertiaryColor: '#0a131f',
+            lineColor: '#67d8ff',
+            textColor: '#d7e3f2',
+            mainBkg: '#102235',
+            fontFamily: 'Avenir Next, Segoe UI Variable, Noto Sans TC, PingFang TC, sans-serif'
+          }
+        });
+      }
+    });
+  </script>
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <h1>Personality Dungeon</h1>
+      <p class="subtitle">系統架構與開發分工說明</p>
+      <p>
+        這份文件根據目前 repo 的既有命名、資料夾、schema、engine 流程、人格系統、事件系統、memory 結構與 simulation flow 整理而成。
+        目的不是重新設計核心，而是把現有架構模組化、視覺化、可協作化。
+      </p>
+      <div class="chips" aria-label="project identity">
+        <span class="chip"><strong>event-driven system</strong></span>
+        <span class="chip"><strong>personality evolution simulation</strong></span>
+        <span class="chip"><strong>AI simulation runtime</strong></span>
+        <span class="chip"><strong>emergent narrative engine</strong></span>
+        <span class="chip">不是傳統 RPG</span>
+      </div>
+      <div class="callout note">
+        <strong>核心判斷：</strong>這個專案的本質是 state evolution 與 simulation control，UI 只是 output_state 的視覺化層。
+      </div>
+    </header>
+
+    <nav class="nav" aria-label="section navigation">
+      <a href="#section-1">1. 核心概念</a>
+      <a href="#section-2">2. 系統總架構</a>
+      <a href="#section-3">3. Python Core Engine</a>
+      <a href="#section-4">4. GUI 路線</a>
+      <a href="#section-5">5. Story / Narrative</a>
+      <a href="#section-6">6. 組員分工</a>
+      <a href="#section-7">7. Event Schema</a>
+      <a href="#section-8">8. 未來擴充</a>
+      <a href="#section-9">9. 視覺化索引</a>
+      <a href="#section-10">10. 最後總結</a>
+      <a href="#appendix">附錄：來源錨點</a>
+    </nav>
+
+    <section id="section-1" class="card">
+      <h2>1. 專案核心概念</h2>
+      <p>
+        目前 repo 的真正核心不是「角色跑圖」或「戰鬥渲染」，而是把策略、人性、事件與世界壓力組成一個可重現的 simulation loop。
+        這也是為什麼 SDD 與研發日誌都把 <code>simulation -> CSV -> analysis</code> 當作主契約。
+      </p>
+
+      <div class="grid three">
+        <div class="mini-card">
+          <h4>為什麼屬於 simulation system</h4>
+          <ul>
+            <li>回合行為、reward、state change、provenance 都是可觀測狀態。</li>
+            <li>回歸驗證依賴 seed、CSV、analysis，不依賴畫面。</li>
+            <li>動力學物件是 engine、event、personality、memory，而不是 sprite 或 camera。</li>
+          </ul>
+        </div>
+        <div class="mini-card">
+          <h4>為什麼 UI 只是 state visualization</h4>
+          <ul>
+            <li>UI 應只讀 output_state，不能成為真相來源。</li>
+            <li>GUI 可以被 Web、Godot、CLI replay viewer 取代而不破壞核心。</li>
+            <li>分析層本身已經是讀 CSV 的獨立驗證面。</li>
+          </ul>
+        </div>
+        <div class="mini-card">
+          <h4>為什麼先做文字版 MVP</h4>
+          <ul>
+            <li>文字輸出直接對應 state 與 event schema，最容易排錯。</li>
+            <li>目前已有 seed / CSV / metric 的研究型回歸線。</li>
+            <li>在核心未穩定前，先讓 transition 可讀、可比較，比做美術更重要。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <strong>關鍵原則：</strong>engine 應獨立於 GUI。任何畫面、動畫、場景切換，都不能反向定義 state transition。
+      </div>
+
+      <h3>核心流程圖</h3>
+        <pre class="mermaid">flowchart LR
+  A[Player Input] --> B[Engine]
+  B --> C[State Transition]
+  C --> D[Output State]
+  D --> E[GUI Render]
+      E -. feedback for presentation only .-> A</pre>
+
+      <blockquote>
+        這張圖的意思很直接：輸入進來後，真正做事的是 engine；產出的不是畫面，而是可序列化的 state。GUI 只負責 render。
+      </blockquote>
+    </section>
+
+    <section id="section-2" class="card">
+      <h2>2. 系統總架構</h2>
+      <p>
+        按照目前 repo 的實作與 SDD 約束，可以把整體分成三層：Simulation Core、Content Layer、Interface Layer。
+        其中 analysis 層是讀取輸出資料的外圍，不參與 runtime transition。
+      </p>
+
+      <pre class="mermaid">flowchart TB
+  subgraph IF[Interface Layer]
+    UI[CLI / Web GUI / Godot Frontend]
+  end
+
+  subgraph CORE[Simulation Core]
+    GE[core/game_engine.py]
+    DG[dungeon/dungeon_ai.py]
+    PL[players/base_player.py]
+    EV[evolution/replicator_dynamics.py]
+    SIM[simulation/run_simulation.py]
+  end
+
+  subgraph CONTENT[Content Layer]
+    P01[01_personality_dimensions_v1.json]
+    P02[02_event_templates_v1.json]
+    P03[03_personality_projection_v1.py]
+    P04[04_economy_rules_v1.json]
+    P05[05_little_dragon_v1.py]
+  end
+
+  UI --> SIM
+  SIM --> GE --> DG --> EV
+  DG --> PL
+  CONTENT -. contracts / tuning / world pressure .-> CORE
+  SIM --> OUT[CSV / TSV / JSON provenance]
+  OUT --> UI</pre>
+
+      <h3>三層責任</h3>
+      <div class="grid three">
+        <div class="mini-card">
+          <h4>Simulation Core</h4>
+          <ul>
+            <li>負責回合推進、reward 計算、state transition、權重更新。</li>
+            <li>現有關鍵模組：<code>core/game_engine.py</code>、<code>dungeon/dungeon_ai.py</code>、<code>players/base_player.py</code>、<code>evolution/replicator_dynamics.py</code>、<code>simulation/run_simulation.py</code>。</li>
+            <li>核心規則必須穩定，不可被 UI 或分析反寫。</li>
+          </ul>
+        </div>
+        <div class="mini-card">
+          <h4>Content Layer</h4>
+          <ul>
+            <li>放置人格定義、事件模板、投影規則、經濟規則、Little Dragon world pressure。</li>
+            <li>現有錨點是 <code>docs/personality_dungeon_v1/</code>。</li>
+            <li>它提供的是 schema 與內容，不是 GUI 邏輯。</li>
+          </ul>
+        </div>
+        <div class="mini-card">
+          <h4>Interface Layer</h4>
+          <ul>
+            <li>CLI 是 MVP 與回歸主戰場。</li>
+            <li>Web GUI 是資料檢視與團隊協作層。</li>
+            <li>Godot 是 presentation layer，不應承擔 transition logic。</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>當前 state / memory / narrative 的實際落點</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>State object</th>
+            <th>目前位置</th>
+            <th>責任</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Player state</td>
+            <td><code>players/base_player.py</code></td>
+            <td>保存 <code>personality</code>、<code>state</code>、<code>strategy_weights</code>、<code>strategy_biases</code>、<code>utility</code>、<code>last_strategy</code>、<code>last_reward</code>。</td>
+          </tr>
+          <tr>
+            <td>Dungeon memory</td>
+            <td><code>dungeon/dungeon_ai.py</code></td>
+            <td>用 <code>memory_kernel</code> 管理 <code>_popularity_history</code>，並保存 threshold regime / threshold state。</td>
+          </tr>
+          <tr>
+            <td>Event runtime state</td>
+            <td><code>dungeon/event_loader.py</code></td>
+            <td>載入 event schema、驗證欄位、套用 reward / risk / state multipliers。</td>
+          </tr>
+          <tr>
+            <td>World pressure state</td>
+            <td><code>simulation/world_state_w1.py</code></td>
+            <td>管理 <code>scarcity</code>、<code>threat</code>、<code>noise</code>、<code>intel</code> 的世界回饋狀態。</td>
+          </tr>
+          <tr>
+            <td>Output state</td>
+            <td><code>simulation/run_simulation.py</code></td>
+            <td>產生 <code>round</code>、<code>avg_reward</code>、<code>avg_utility</code>、<code>p_*</code>、<code>w_*</code>、事件 JSON、threshold 欄位。</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout note">
+        <strong>補充：</strong><code>core/state.py</code> 目前仍是骨架，代表本專案尚未把所有 runtime state 收斂成單一巨型 class；現階段是以模組化 state 物件分散承載，這反而符合 simulation system 的演化需求。
+      </div>
+    </section>
+
+    <section id="section-3" class="card">
+      <h2>3. Python Core Engine 架構</h2>
+      <p>
+        這個 repo 的核心程式循環可以壓縮成一句話：<strong>input → simulation → output_state</strong>。
+        其中 simulation 是唯一真正有權修改狀態的地方；UI 與 analysis 都不能反向寫入 transition logic。
+      </p>
+
+      <pre class="mermaid">flowchart TB
+  subgraph PythonEngine[Python Engine]
+    I[input]
+    S[simulation]
+    O[output_state]
+    I --> S --> O
+  end
+
+  API[API / CSV / JSON Boundary]
+  UI[Godot / Web UI]
+
+  PythonEngine <--&gt; API
+  API <--&gt; UI</pre>
+
+      <h3>目前 engine 的實際工作順序</h3>
+      <ol>
+        <li><code>BasePlayer.choose_strategy()</code> 依策略權重抽樣。</li>
+        <li><code>DungeonAI.resolve_player_outcome()</code> 或 <code>evaluate()</code> 計算 reward。</li>
+        <li><code>player.update_utility()</code> 更新累積 utility 與 last_reward。</li>
+        <li><code>DungeonAI.update_popularity()</code> 或 expected 模式回寫 popularity。</li>
+        <li><code>evolution/replicator_dynamics.py</code> 產生下一輪權重。</li>
+        <li><code>simulation/run_simulation.py</code> 寫出 round-level row 與 event JSON。</li>
+      </ol>
+
+      <div class="grid two">
+        <div class="mini-card">
+          <h4>為何 GUI 不應包含邏輯</h4>
+          <ul>
+            <li>如果邏輯寫在 GUI，回歸測試會綁死在畫面框架。</li>
+            <li>UI 變更會污染研究結果，破壞可比較性。</li>
+            <li>CLI、Web、Godot 必須共享同一套 state contract。</li>
+          </ul>
+        </div>
+        <div class="mini-card">
+          <h4>為何 engine 不應依賴畫面</h4>
+          <ul>
+            <li>engine 要能在無頭環境、批次 sweep、測試 runner 中運作。</li>
+            <li>rendering 不應成為 state transition 的前提。</li>
+            <li>這樣前端才能自由替換。</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>為什麼 state schema 與 event schema 很重要</h3>
+      <div class="grid two">
+        <div class="mini-card">
+          <h4>State schema</h4>
+          <p>
+            state schema 是 engine 和 GUI、analysis、replay viewer 的共同語言。
+            它決定 round row 裡什麼叫 <code>p_*</code>、什麼叫 <code>w_*</code>、什麼叫 reward、什麼叫 world reaction。
+          </p>
+        </div>
+        <div class="mini-card">
+          <h4>Event schema</h4>
+          <p>
+            event schema 決定事件如何從內容層進入 runtime，並透過 reward / risk / traits / state effects 改變系統。
+            它是 content layer 與 simulation core 的主要接口。
+          </p>
+        </div>
+      </div>
+
+      <h3>simulation cycle</h3>
+      <pre class="mermaid">sequenceDiagram
+  participant UI as CLI / Web / Godot
+  participant Engine as Python Engine
+  participant Player as BasePlayer
+  participant Dungeon as DungeonAI
+  participant Events as EventLoader
+  participant Evo as evolution/replicator_dynamics
+
+  UI->>Engine: input config / seed / strategy space
+  loop each round
+    Engine->>Player: choose_strategy()
+    Engine->>Dungeon: resolve_player_outcome() / evaluate()
+    Dungeon->>Events: process_turn()
+    Events-->>Dungeon: reward / risk / state effects
+    Dungeon-->>Engine: reward + event_result
+    Engine->>Player: update_utility(reward)
+    Engine->>Evo: weight update
+    Engine->>Engine: write output_state row
+  end
+  Engine-->>UI: CSV / provenance / replayable state</pre>
+    </section>
+
+    <section id="section-4" class="card">
+      <h2>4. GUI 發展路線</h2>
+      <p>
+        依目前架構，GUI 不應被當成核心，而應被視為 presentation layer。
+        最穩妥的路徑是先用 CLI 鎖定 simulation contract，再走 Web GUI，最後才進入 Godot 前端。
+      </p>
+
+        <pre class="mermaid">flowchart LR
+  A[CLI MVP] --> B[Web GUI]
+  B --> C[Godot Frontend]
+
+  A --- A1[驗證 state / CSV / seed]
+  B --- B1[團隊協作 / replay / dashboard]
+      C --- C1[presentation / animation / spatial UX]</pre>
+
+      <div class="grid three">
+        <div class="mini-card">
+          <h4>CLI MVP</h4>
+          <ul>
+            <li>用途：鎖定 state contract 與回歸測試。</li>
+            <li>價值：可批次重跑、可比較、可 debug。</li>
+            <li>現況：這正是 <code>simulation/run_simulation.py</code> 的主定位。</li>
+          </ul>
+        </div>
+        <div class="mini-card">
+          <h4>Web GUI</h4>
+          <ul>
+            <li>用途：資料看板、事件 replay、隊友協作、參數調整。</li>
+            <li>價值：最快把 state 可視化，且便於多人共同編輯與 review。</li>
+            <li>適合先做，因為它仍然是資料驅動而非引擎綁死。</li>
+          </ul>
+        </div>
+        <div class="mini-card">
+          <h4>Godot Frontend</h4>
+          <ul>
+            <li>用途：更好的 presentation、動畫、鏡頭、場景感。</li>
+            <li>價值：讓 narrative / world pressure 有更強的視覺表達。</li>
+            <li>前提：邏輯必須保持在 Python engine，Godot 只負責 render。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <strong>結論：</strong>simulation 很適合先用 web UI，因為 web 可以直接讀現有 CSV / JSON / replay 資料；Godot 更適合成為 presentation layer，而不是把邏輯寫死在場景樹裡。
+      </div>
+    </section>
+
+    <section id="section-5" class="card">
+      <h2>5. Story / Narrative 系統</h2>
+      <p>
+        本專案的故事不應來自固定劇本，而應來自 personality evolution、memory、event chain 與 dungeon response 的疊加。
+        也就是說，故事是 simulation 之後的解讀結果，而不是一開始先寫死的關卡文案。
+      </p>
+
+        <pre class="mermaid">flowchart LR
+  E[Layer 1: Event] --> S[Layer 2: State Change]
+  S --> M[Layer 3: Memory]
+      M --> N[Layer 4: Narrative Interpretation]</pre>
+
+      <div class="grid two">
+        <div class="mini-card">
+          <h4>Layer 1: Event</h4>
+          <ul>
+            <li>事件提供衝突、選項、風險與回饋。</li>
+            <li>目前事件素材由 <code>docs/personality_dungeon_v1/02_event_templates_v1.json</code> 承載。</li>
+          </ul>
+        </div>
+        <div class="mini-card">
+          <h4>Layer 2: State Change</h4>
+          <ul>
+            <li>事件的結果會改變 risk、stress、noise、health、intel、popularity 與權重。</li>
+            <li>這些變化才是 narrative 形成的真正材料。</li>
+          </ul>
+        </div>
+        <div class="mini-card">
+          <h4>Layer 3: Memory</h4>
+          <ul>
+            <li>短期 memory 由 rolling history、event provenance、threshold state、risk smoothing 等構成。</li>
+            <li>目前不是一個獨立的「故事資料庫」，而是分散在 runtime state 與輸出紀錄中。</li>
+          </ul>
+        </div>
+        <div class="mini-card">
+          <h4>Layer 4: Narrative Interpretation</h4>
+          <ul>
+            <li>由分析層或 UI 層把 state trace 轉譯成可讀故事。</li>
+            <li>適合做 replay viewer、週報、簡報、以及專題敘事。</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>什麼是 emergent narrative</h3>
+      <p>
+        emergent narrative 的意思是：故事不是先寫好章節，再讓角色去演；而是角色的 personality drift、事件選擇、世界壓力與 memory 累積之後，
+        從軌跡中「長出來」的敘事模式。
+      </p>
+      <p>
+        在這個專案裡，<code>analysis/event_provenance_summary.py</code>、seed summary、world update TSV 與 timeseries CSV 都可以成為 narrative 的原料。
+        這樣寫出來的故事才是從系統內部狀態自然湧現，而不是外掛式編劇。
+      </p>
+      <div class="callout warn">
+        <strong>重點：</strong>故事應來自 personality evolution、memory、event chain、dungeon response，而不是固定劇本。劇本如果存在，應該只是一層解釋，不是核心控制器。
+      </div>
+    </section>
+
+    <section id="section-6" class="card">
+      <h2>6. 組員分工架構</h2>
+      <p>
+        從目前 block workplan 與現有模組邊界來看，最適合分工的是內容、UI、分析、敘事與平行實驗；
+        最需要由主架構師鎖住的是人格系統、state schema、transition logic 與 engine API。
+      </p>
+
+      <h3>適合拆給組員的工作</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>任務</th>
+            <th>原因</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>event design</td>
+            <td>可依現有 schema 增加事件模板、action 權重、failure outcomes 與 text 文案。</td>
+          </tr>
+          <tr>
+            <td>memory fragments</td>
+            <td>可做 short-term memory 文案、回想片段、事件摘要，不必動核心 transition。</td>
+          </tr>
+          <tr>
+            <td>lore / narrative text</td>
+            <td>故事文本屬於解讀層，不應直接寫入 engine 內核。</td>
+          </tr>
+          <tr>
+            <td>UI / replay viewer</td>
+            <td>前端可快速迭代，不需要改動 simulation core。</td>
+          </tr>
+          <tr>
+            <td>balancing / analytics</td>
+            <td>透過 CSV、TSV、summary JSON 做參數調整與回歸分析最有效率。</td>
+          </tr>
+          <tr>
+            <td>visual reports</td>
+            <td>圖表、報告、簡報是對外溝通層，與 engine 分離最安全。</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>主架構師必須控制的核心</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>核心</th>
+            <th>為什麼要鎖住</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>personality system</td>
+            <td>人格維度與投影方式是整個 simulation 的語義基礎，不能任意改名或改義。</td>
+          </tr>
+          <tr>
+            <td>state schema</td>
+            <td>state schema 是 engine、UI、analysis 的共同契約，破壞後回歸線會失真。</td>
+          </tr>
+          <tr>
+            <td>transition logic</td>
+            <td>回合順序、reward 計算、popularity 更新、event outcome 轉譯都屬於核心動力學。</td>
+          </tr>
+          <tr>
+            <td>engine API</td>
+            <td><code>simulate()</code>、<code>GameEngine.step()</code>、<code>EventLoader</code>、<code>DungeonAI</code> 的邊界需要保持穩定。</td>
+          </tr>
+          <tr>
+            <td>protocol lock</td>
+            <td>SDD / 研發日誌定義的實驗契約不應在 UI 改版時被重寫。</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout note">
+        <strong>對應 block workplan：</strong>Block 1 應由主架構師把住核心 loop；Block 2 / 3 適合實驗與分析；Block 4 是機制設計；Block 5 則是敘事與文件。
+      </div>
+    </section>
+
+    <section id="section-7" class="card">
+      <h2>7. Event Schema 設計規範</h2>
+      <p>
+        這個專案的 event schema 已經不是抽象提案，而是可被 <code>EventLoader</code> 驗證與執行的資料契約。
+        所以設計上要保守：保留既有命名，優先補充內容與 effects，不要任意重塑 runtime 欄位。
+      </p>
+
+      <h3>概念欄位與現有 runtime 欄位對照</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>文件中建議的概念</th>
+            <th>目前 runtime 對應</th>
+            <th>說明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>id</td>
+            <td><code>event_id</code></td>
+            <td>唯一且穩定，應可作為 provenance 的主鍵。</td>
+          </tr>
+          <tr>
+            <td>trigger</td>
+            <td><code>type</code> + risk / success / world gates</td>
+            <td>表示這個事件屬於哪一類、何時容易被世界抽到、何時容易成功或失敗。</td>
+          </tr>
+          <tr>
+            <td>text</td>
+            <td><code>description</code></td>
+            <td>可直接供 UI、replay viewer、報告使用。</td>
+          </tr>
+          <tr>
+            <td>choices</td>
+            <td><code>actions[]</code></td>
+            <td>每個 action 會有 <code>name</code>、<code>weights</code>、<code>base_risk</code>、<code>risk_model</code>、<code>success_model</code> 等欄位。</td>
+          </tr>
+          <tr>
+            <td>effects</td>
+            <td><code>reward_effects</code> + <code>state_effects</code> + <code>failure_outcomes</code></td>
+            <td>分成 reward、state、failure branch 三段，避免 effect 混雜。</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>設計規範</h3>
+      <ul>
+        <li>事件的 <code>actions[].weights</code> 必須與 <code>dimensions_order</code> 一致，現在是 12 維人格輸入。</li>
+        <li><code>reward_effects</code> 至少應包含 <code>utility_delta</code>、<code>risk_delta</code>、<code>popularity_shift</code>、<code>trait_deltas</code>。</li>
+        <li><code>state_effects</code> 的 on_success / on_failure 應只改 <code>stress</code>、<code>noise</code>、<code>risk_drift</code>、<code>health</code>、<code>intel</code> 這類既有 state 變數。</li>
+        <li><code>failure_outcomes</code> 應明確寫 branch 結果，避免失敗結果由 GUI 臨時推定。</li>
+        <li><code>EventLoader</code> 目前有 success model registry，包含 <code>linear_risk_complement</code>、<code>logistic</code>、<code>linear_clip</code>、<code>threshold</code>，不要在 schema 中自行發明新的隱性模型名稱。</li>
+      </ul>
+
+      <h3>effect system、personality change、memory change、world reaction</h3>
+      <div class="grid two">
+        <div class="mini-card">
+          <h4>Effect system</h4>
+          <ul>
+            <li>reward_effects：影響 utility、risk、strategy bias 與 trait drift。</li>
+            <li>state_effects：影響玩家當前狀態與後續 round 的壓力。</li>
+            <li>failure_outcomes：定義失敗分支的代價與次級狀態。</li>
+          </ul>
+        </div>
+        <div class="mini-card">
+          <h4>人格、記憶、世界反應</h4>
+          <ul>
+            <li>personality change 應透過 trait_deltas 進入 player personality。</li>
+            <li>memory change 應透過 rolling history、provenance、threshold state、risk smoothing 保存。</li>
+            <li>world reaction 應透過 event type multipliers 與 Little Dragon 的 pressure feedback 作用。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <strong>規範重點：</strong>這裡的設計建議不是要改掉既有 schema，而是把現有 schema 的角色說清楚。runtime 仍應保持現有欄位名與驗證邏輯。
+      </div>
+    </section>
+
+    <section id="section-8" class="card">
+      <h2>8. 未來擴充方向</h2>
+      <p>
+        只要核心是 simulation engine，前端就可以替換。這是本專案最大的工程優勢：未來不是只能長成某一個 UI，而是可以依不同用途長成不同介面。
+      </p>
+
+      <pre class="mermaid">flowchart TB
+  CORE[Simulation Core]
+  WEB[Web Version]
+  GAME[2D Game]
+  MMO[MMO Simulation]
+  AI[AI Training Environment]
+  REPLAY[Replay System]
+  ANALYTICS[Analytics Platform]
+
+  CORE --> WEB
+  CORE --> GAME
+  CORE --> MMO
+  CORE --> AI
+  CORE --> REPLAY
+  CORE --> ANALYTICS</pre>
+
+      <div class="grid three">
+        <div class="mini-card">
+          <h4>Web version</h4>
+          <p>最適合先做。可以直接重用 JSON / CSV / provenance，做事件看板、回放與參數調整。</p>
+        </div>
+        <div class="mini-card">
+          <h4>2D game</h4>
+          <p>適合把 narrative、地城壓力與選項呈現成更完整的遊戲體驗，但不應把動力學塞進場景。</p>
+        </div>
+        <div class="mini-card">
+          <h4>MMO simulation</h4>
+          <p>若未來要擴張，只需要把 core 當作大型世界壓力引擎，而不是把前端當核心。</p>
+        </div>
+        <div class="mini-card">
+          <h4>AI training environment</h4>
+          <p>將 engine 暴露成環境介面，讓 AI 學習 personality evolution 與 event decision making。</p>
+        </div>
+        <div class="mini-card">
+          <h4>Replay system</h4>
+          <p>利用現有 CSV、event JSON、world update TSV 與 provenance JSON 就可以重建歷程。</p>
+        </div>
+        <div class="mini-card">
+          <h4>Analytics platform</h4>
+          <p>analysis 會自然演化成 dashboard / report layer，但不應反向依賴 simulation runtime 物件。</p>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <strong>這個架構的核心優勢：</strong>因為真實核心是 simulation engine，所以前端可以自由替換。這意味著同一套 core 可以同時服務研究、專題、展示與後續產品化。
+      </div>
+    </section>
+
+    <section id="section-9" class="card">
+      <h2>9. 視覺化需求</h2>
+      <p>
+        本頁面已內嵌多個 Mermaid 圖與 Markdown 風格區塊，覆蓋流程圖、模組圖、狀態流向圖、simulation cycle、engine architecture 與 layer relationship。
+      </p>
+
+      <div class="grid two">
+        <div class="mini-card">
+          <h4>已包含的圖</h4>
+          <ul>
+            <li>Player Input → Engine → State Transition → Output State → GUI Render</li>
+            <li>Simulation Core + Content Layer + Interface Layer</li>
+            <li>Python Engine ↕ API ↕ Godot / Web UI</li>
+            <li>CLI MVP → Web GUI → Godot Frontend</li>
+            <li>Event → State Change → Memory → Narrative Interpretation</li>
+            <li>Sequence-based simulation cycle</li>
+          </ul>
+        </div>
+        <div class="mini-card">
+          <h4>設計取向</h4>
+          <ul>
+            <li>圖是為了說明層次與責任，而不是為了裝飾。</li>
+            <li>內容要能直接拿去做專題報告、組員協作與系統展示。</li>
+            <li>圖上的模組名稱優先沿用目前 repo 的既有命名。</li>
+          </ul>
+        </div>
+      </div>
+
+      <details>
+        <summary>為什麼這些圖要與現有實作對齊</summary>
+        <div>
+          如果圖跟實作不一致，組員會誤以為有不存在的 API 或不存在的 state contract。
+          因此這份文件的圖只做一件事：把現在已存在、或已在 v1 design pack 中鎖定的方向，整理成一眼可讀的系統地圖。
+        </div>
+      </details>
+    </section>
+
+    <section id="section-10" class="card">
+      <h2>10. 最後總結</h2>
+      <p>
+        本專案真正的核心不是 graphics、action combat 或 rendering，而是 state evolution、AI simulation、personality emergence 與 event-driven narrative。
+      </p>
+      <p>
+        換句話說，遊戲只是 simulation 的其中一種介面。只要 simulation core 穩定，前端就可以自由替換；
+        只要 state / event schema 穩定，內容就可以持續擴充；只要 engine 與 GUI 解耦，這個專案就可以同時支援研究、展示與後續產品化。
+      </p>
+
+      <div class="callout note">
+        <strong>一句話版結論：</strong>Personality Dungeon 是一個以人格演化與事件驅動為核心的 simulation runtime，而不是傳統 RPG。RPG 只是它的其中一個外殼。
+      </div>
+    </section>
+
+    <section id="appendix" class="card appendix">
+      <h2>附錄：來源錨點</h2>
+      <p>
+        這份文件對齊的是目前 repo 裡已存在的架構和設計資料。以下是最關鍵的來源錨點，方便團隊直接跳回原始文件或模組。
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>文件 / 模組</th>
+            <th>用途</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a href="SDD.md">SDD.md</a></td>
+            <td>唯一正式 Spec、分層約束、契約變更規則。</td>
+          </tr>
+          <tr>
+            <td><a href="研發日誌.md">研發日誌.md</a></td>
+            <td>實際實驗判讀、cycle metrics、輸出視窗語意與回歸結論。</td>
+          </tr>
+          <tr>
+            <td><a href="docs/personality_dungeon_v1/README.md">docs/personality_dungeon_v1/README.md</a></td>
+            <td>v1 design pack 索引與推薦實作順序。</td>
+          </tr>
+          <tr>
+            <td><a href="docs/personality_dungeon_v1/00_world_framework_v1.md">docs/personality_dungeon_v1/00_world_framework_v1.md</a></td>
+            <td>world / personality / event / memory / Little Dragon 的整體世界框架。</td>
+          </tr>
+          <tr>
+            <td><a href="docs/personality_dungeon_v1/01_personality_dimensions_v1.json">docs/personality_dungeon_v1/01_personality_dimensions_v1.json</a></td>
+            <td>12D personality vector 與 3-strategy projection groups。</td>
+          </tr>
+          <tr>
+            <td><a href="docs/personality_dungeon_v1/02_event_templates_v1.json">docs/personality_dungeon_v1/02_event_templates_v1.json</a></td>
+            <td>事件模板、action、risk model、success model、reward / state effects。</td>
+          </tr>
+          <tr>
+            <td><a href="docs/personality_dungeon_v1/03_personality_projection_v1.py">docs/personality_dungeon_v1/03_personality_projection_v1.py</a></td>
+            <td>12D personality 到 3 macro-strategies 的投影工具。</td>
+          </tr>
+          <tr>
+            <td><a href="docs/personality_dungeon_v1/05_little_dragon_v1.py">docs/personality_dungeon_v1/05_little_dragon_v1.py</a></td>
+            <td>Little Dragon adaptive dungeon 生成器與世界壓力方向。</td>
+          </tr>
+          <tr>
+            <td><a href="core/game_engine.py">core/game_engine.py</a></td>
+            <td>回合順序、策略抽樣、reward resolution、popularity 更新。</td>
+          </tr>
+          <tr>
+            <td><a href="dungeon/dungeon_ai.py">dungeon/dungeon_ai.py</a></td>
+            <td>payoff mode、memory kernel、threshold regime、event overlay。</td>
+          </tr>
+          <tr>
+            <td><a href="dungeon/event_loader.py">dungeon/event_loader.py</a></td>
+            <td>事件 schema 驗證與執行。</td>
+          </tr>
+          <tr>
+            <td><a href="players/base_player.py">players/base_player.py</a></td>
+            <td>per-player personality / state / strategy state。</td>
+          </tr>
+          <tr>
+            <td><a href="simulation/run_simulation.py">simulation/run_simulation.py</a></td>
+            <td>主 orchestration 與 CSV 輸出契約。</td>
+          </tr>
+          <tr>
+            <td><a href="simulation/world_state_w1.py">simulation/world_state_w1.py</a></td>
+            <td>world feedback 與 adaptive world pressure 的協調層。</td>
+          </tr>
+          <tr>
+            <td><a href="analysis/cycle_metrics.py">analysis/cycle_metrics.py</a></td>
+            <td>純分析的 cycle level / amplitude / direction metrics。</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="footer-note">
+        這份 HTML 的目的，是讓團隊直接看見：哪些是核心、哪些是內容、哪些是介面、哪些是分析。只要這四者的邊界維持清楚，專案就能持續擴充而不失真。
+      </p>
+    </section>
+  </main>
+</body>
+</html>

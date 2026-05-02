@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>個性地下城 人格動力學研究報告 正文初稿 v1.1</title>
+  <title>個性地下城 人格動力學研究報告 正文初稿 v1.2</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css" />
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js"></script>
@@ -259,7 +259,7 @@
   <main>
     <header>
       <h1>「個性地下城」人格動力學研究報告</h1>
-      <p class="meta">版本：1.1 正文初稿</p>
+      <p class="meta">版本：1.2 正文初稿（低耦合/高耦合對照與 Track B v2 藍圖整併）</p>
       <p class="meta">格式：Markdown（標記語言）層級語意轉換為 HTML（超文字標記語言，含正文草稿）</p>
       <p class="meta">日期：2026 年 4 月</p>
     </header>
@@ -272,6 +272,7 @@
       <ul>
         <li>第一部先講清楚：在數學理論模型驗證線，L2→L3 相對快速被打破，且已完成 L3 存在性驗證。</li>
         <li>第二部再獨立說明：進入實際應用層後，L2→L3 瓶頸重新出現且更嚴重，形成結構性卡關。</li>
+        <li>最後補一章工程藍圖整理：把 Track B v2 的流程鎖定、Tier 治理、決策守門條件整成可落地規格。</li>
       </ul>
     </section>
 
@@ -286,9 +287,9 @@
         <li><a href="#s06">第二部重點結果：更嚴重 L2→L3 瓶頸證據</a></li>
         <li><a href="#s07">W2.1R–W3.3 反證鏈與封板決策</a></li>
         <li><a href="#s08">B-series（B 系列）結構性負結果鏈</a></li>
-        <li><a href="#s09">雙層對照總結：為何理論可行而應用困難</a></li>
-        <li><a href="#s10">最終 baseline（基準配置）與 production（正式環境）治理</a></li>
-        <li><a href="#s11">結論與未來雙軌研究</a></li>
+        <li><a href="#s09">低耦合 vs 高耦合：雙層對照總表</a></li>
+        <li><a href="#s10">Track B v2 藍圖整理（含 Stage-1 Tier 治理）</a></li>
+        <li><a href="#s11">結論與下一步執行清單</a></li>
         <li><a href="#s12">附錄</a></li>
       </ol>
     </section>
@@ -605,60 +606,264 @@ a & -b & 0
     </section>
 
     <section id="s09">
-      <h2>9. 雙層對照總結：為何理論可行而應用困難</h2>
-      <p>第一部與第二部的差異，不是「前者運氣好、後者運氣差」，而是系統層級不同。理論層在低耦合、可控干擾條件下，方向訊號容易保留；應用層加入人格、事件、世界與同步更新後，局部訊號更容易在整合過程被均化。</p>
-      <p>因此，本研究最核心的貢獻之一，是把敘事從「再調參可能會過」轉為「結構性瓶頸已被定位」。這個定位讓後續研究不再盲目擴掃，而能集中於真正可能改變 basin（吸引域）的機制層改革。</p>
+      <h2>9. 低耦合 vs 高耦合：雙層對照總表</h2>
+      <p>以下把目前研究結論整理成同一張對照表。重點不是誰「比較好看」，而是要回答：為什麼在低耦合理論線可突破 L3，但進入高耦合應用線後會重回 L2 plateau（停滯平台）。</p>
+
+      <table class="quick-table">
+        <thead>
+          <tr>
+            <th>比較面向</th>
+            <th>低耦合理論驗證線</th>
+            <th>高耦合應用落地線</th>
+            <th>對研究判讀的意義</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>主要目標</td>
+            <td>驗證 L3 是否存在、是否可重現</td>
+            <td>驗證 L3 是否可在真實流程中存活</td>
+            <td>先證存在性，再驗證可部署性</td>
+          </tr>
+          <tr>
+            <td>系統耦合程度</td>
+            <td>低耦合、干擾可控</td>
+            <td>人格/事件/世界高耦合同時作用</td>
+            <td>高耦合更容易出現訊號均化</td>
+          </tr>
+          <tr>
+            <td>更新與回饋結構</td>
+            <td>核心旋轉機制清楚，因果路徑較短</td>
+            <td>多橋接並行，回饋鏈較長且互相干擾</td>
+            <td>局部改善不易保留到全域判定</td>
+          </tr>
+          <tr>
+            <td>主要證據</td>
+            <td>BL2 鎖定下 6/6 seeds 達成 L3</td>
+            <td>W2.1R/W3.* 與 B-series 連續 NO-GO</td>
+            <td>顯示瓶頸是結構性而非單次失敗</td>
+          </tr>
+          <tr>
+            <td>失敗型態</td>
+            <td>可用調參與機制組合突破</td>
+            <td>局部訊號啟動但無法改變全域 basin</td>
+            <td>問題從參數層升級到架構層</td>
+          </tr>
+          <tr>
+            <td>目前決策</td>
+            <td>保留作理論有效機制基座</td>
+            <td>主線封板後轉治理導向</td>
+            <td>避免無限同型掃參，維持可重現</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>簡化結論：低耦合證明「L3 可存在」；高耦合證明「現有整合架構下 L3 難穩定存在」。兩者合併後，研究問題已從「找甜區」轉為「修正整合與治理機制」。</p>
       <div class="keypoint">
-        <strong>核心洞見：</strong>L3 在理論層已被證實存在；應用層的主要障礙是結構性均化，而非單點參數不足。
+        <strong>核心洞見：</strong>L3 在理論層已被證實存在；應用層主要障礙是高耦合下的結構性均化，不是單點參數不足。
       </div>
     </section>
 
-    <section id="s10">
-      <h2>10. 最終 baseline（基準配置）與 production（正式環境）治理</h2>
-      <p>在實務落地層，專案已明確鎖定正式 baseline（基準配置）為 BL2 + PERS-CAL-only（僅人格校準），並以 60-seed Gate（60 種子門檻）作為主要治理門檻。這意味著所有新機制提案都必須先通過可重現與風險約束，再談效能提升。</p>
-      <p>同時，Event integration（事件整合）已被定位為 deferred research（延後研究）：現階段不納入 production baseline（正式環境基準）。這個決策維持了運行穩定性，也避免把未收斂機制帶入主線造成評估污染。</p>
-      <ul>
-        <li>正式 baseline（基準配置）：BL2 + PERS-CAL-only（僅人格校準）</li>
-        <li>治理原則：6-seed smoke（6 種子冒煙測試） → 60-seed gate（60 種子門檻）</li>
-        <li>決策紀律：runbook freeze（操作手冊凍結）與 closure（封板）優先序</li>
-      </ul>
-    </section>
+<section id="s10">
+  <h2>10. Track B v2 藍圖整理（含 Stage-1 Tier 治理）</h2>
 
-    <section id="s11">
-      <h2>11. 結論與未來雙軌研究</h2>
-      <p>本研究目前可給出一個清楚、可防守的結論：L3 在理論模型驗證線已被實證，且具可重現性；但在實際應用層，L2→L3 仍受結構性均化限制而未穩定打開。兩者並不矛盾，而是同一研究路徑在不同系統層級的真實結果。</p>
-      <p>後續建議維持雙軌：Track A（路線 A）以 production（正式環境）治理與 runtime bridge（執行期橋接）為主，確保現有成果可持續運行；Track B（路線 B）聚焦更高階結構機制，嘗試直接改寫全域整合與更新規則，而非延長既有局部 patch（補丁）系列。</p>
-      <div class="keypoint">
-        <strong>結語：</strong>第一部證明了「L3 可以存在」，第二部界定了「為何在真實系統中仍難以穩定存在」。這兩者合在一起，才構成完整研究貢獻。
-      </div>
-    </section>
+  <p>
+    本節整併 Track B v2 / v2.1 藍圖為單一工程視角：
+    <b>核心原則是流程不變，但讓「失敗資料 → 優化器」形成閉環記憶系統。</b>
+    不修改 objective 與 hard gate，只調整 data pipeline 與 Tier governance。
+  </p>
 
-    <section id="s12">
-      <h2>12. 附錄</h2>
-      <p>附錄建議收錄完整參數表、Gate（門檻）判準、decision logs（決策紀錄）與代表性輸出索引，讓第三方可直接重現判讀流程，並檢驗本報告中的各項主張。</p>
-      <ol>
-        <li>參數表與 Gate（門檻）定義總表</li>
-        <li>關鍵實驗矩陣與 decision log（決策紀錄）索引</li>
-        <li>術語、符號與指標對照表</li>
-      </ol>
-    </section>
-  </main>
+  <div class="keypoint">
+    <strong>核心不變：</strong>hard gate、lexicographic ordering、Stage-3 判定流程<br/>
+    <strong>唯一改動：</strong>failure feedback loop + Tier memory system
+  </div>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      if (typeof renderMathInElement === "undefined") {
-        return;
-      }
-      renderMathInElement(document.body, {
-        delimiters: [
-          { left: "$$", right: "$$", display: true },
-          { left: "$", right: "$", display: false },
-          { left: "\\(", right: "\\)", display: false },
-          { left: "\\[", right: "\\]", display: true }
-        ],
-        throwOnError: false
-      });
-    });
-  </script>
+  <h3>10.1 不變條件（Protocol Lock）</h3>
+  <ul>
+    <li>不修改 objective function（維持 hard-first lexicographic ordering）。</li>
+    <li>不放寬 hard gate：new_L1=0、L1≤3、Healthy≥42、fairness_fail_count=0、invariant_overall_pass=true。</li>
+    <li>不修改 Stage-3 流程（full gate + post-A3 + promotion/no-go）。</li>
+    <li>不允許任何 scalar loss 取代 hard-first ranking。</li>
+  </ul>
+
+  <h3>10.2 三階段固定流程（Execution Contract）</h3>
+
+  <table class="quick-table">
+    <thead>
+      <tr>
+        <th>階段</th>
+        <th>功能</th>
+        <th>不變約束</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Stage-1</td>
+        <td>Guarded NSGA-II 搜尋</td>
+        <td>Tier 在整輪內 freeze（run-level freeze）</td>
+      </tr>
+      <tr>
+        <td>Stage-2</td>
+        <td>Sentinel rerank</td>
+        <td>僅重排，不改 gate 或 objective</td>
+      </tr>
+      <tr>
+        <td>Stage-3</td>
+        <td>Full gate + decision</td>
+        <td>唯一決策來源（hard gate final authority）</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>10.3 Failure Closed Loop（新增核心機制）</h3>
+
+  <div class="formula-box">
+    <span class="formula-label">跨輪記憶視窗</span>
+    \[
+    W_t = \{t-2, t-1, t\}, \quad N=3
+    \]
+  </div>
+
+  <div class="formula-box">
+    <span class="formula-label">Failure Set 定義</span>
+    \[
+    F_t = NewL1_t \cup Broke_t
+    \]
+  </div>
+
+  <p>
+    <b>關鍵變更：</b>F_t 不再是單輪觀測，而是進入跨輪 memory buffer。
+  </p>
+
+  <ul>
+    <li>F_acc = rolling union(W_t)</li>
+    <li>只允許 t-1 以前資料進入優化器（避免 look-ahead bias）</li>
+  </ul>
+
+  <h3>10.4 Tier 治理系統（Memory-Aware Policy）</h3>
+
+  <table class="quick-table">
+    <thead>
+      <tr>
+        <th>Tier</th>
+        <th>角色</th>
+        <th>行為</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Tier-1</td>
+        <td>Optimization target</td>
+        <td>固定主線 seed（86,61），不可隨意變動</td>
+      </tr>
+      <tr>
+        <td>Tier-2a</td>
+        <td>Active sentinel</td>
+        <td>進入 objective，最多 4 個</td>
+      </tr>
+      <tr>
+        <td>Tier-2b</td>
+        <td>Memory reservoir</td>
+        <td>只記錄，不參與 optimization</td>
+      </tr>
+      <tr>
+        <td>Tier-3</td>
+        <td>Guard set</td>
+        <td>固定穩定 seeds（如 47,79）</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>10.5 Importance Score（治理層排序）</h3>
+
+  <div class="formula-box">
+    \[
+    I_t(s)=4\cdot\mathbf{1}[s\in NewL1_t]+2\cdot freq_{L1}^{(t)}(s)+w_b\cdot freq_{broke}^{(t)}(s)
+    \]
+  </div>
+
+  <ul>
+    <li>w_b ∈ [0.5, 1.0]（可動參數，但僅在 epoch boundary 更新）</li>
+    <li>NewL1 權重優先級最高（hard failure signal）</li>
+    <li>broke 代表 early-warning signal（低權重）</li>
+  </ul>
+
+  <h3>10.6 Governance Constraints（強化版規則）</h3>
+
+  <ul>
+    <li><b>run-level freeze：</b>同一輪 Tier 不可動態更新</li>
+    <li><b>failure source lock：</b>只能使用 t-1 完整 gate output</li>
+    <li><b>Tier-2a cap：</b>≤4</li>
+    <li><b>promotion cap：</b>每輪 ≤1</li>
+    <li><b>cooldown：</b>連續3輪 Tier-2a → 強制降 Tier-2b</li>
+    <li><b>promotion rule：</b>連續2輪 top2 + freq≥2</li>
+  </ul>
+
+  <div class="keypoint">
+    <strong>本質：</strong>Tier 系統不是優化器的一部分，而是「記憶 + 約束濾波器」
+  </div>
+
+  <h3>10.7 系統行為定義（重要補強）</h3>
+
+  <ul>
+    <li>Tier-2b = memory buffer（不可丟棄）</li>
+    <li>Tier-2a = active constraint injection</li>
+    <li>Tier-1 = optimization anchor</li>
+    <li>Tier-3 = stability baseline</li>
+  </ul>
+
+  <div class="keypoint">
+    <strong>工程結論：</strong>
+    Track B v2 現在是「帶記憶的 constrained evolutionary system」，不是純 search system。
+  </div>
+</section>
+
+<section id="s11">
+  <h2>11. 結論與下一步執行清單</h2>
+
+  <h3>11.1 系統狀態總結</h3>
+
+  <ul>
+    <li>局部 basin 已收斂（86+61 stable attractor）</li>
+    <li>failure 已從 random → structured cluster</li>
+    <li>tail seeds 成為主要 error source</li>
+    <li>optimization 已進入 robustness phase</li>
+  </ul>
+
+  <h3>11.2 下一步執行優先序</h3>
+
+  <ol>
+    <li>啟用 F_acc（跨輪 failure memory）</li>
+    <li>啟用 Tier-2a / Tier-2b 分裂</li>
+    <li>保留 hard gate 不變</li>
+    <li>觀察 3 輪 stability trend</li>
+    <li>僅調 Tier injection，不改 objective</li>
+  </ol>
+
+  <h3>11.3 收斂判定條件</h3>
+
+  <ul>
+    <li>new_L1 ≤ 1 且穩定 ≥ 2 輪</li>
+    <li>Tier-2a overlap rate 穩定（不震盪）</li>
+    <li>promotion rate 不爆炸（≤1/輪）</li>
+  </ul>
+
+  <div class="keypoint">
+    <strong>最終結論：</strong>
+    Track B v2 已從「探索問題」轉換為「穩定化控制問題」。
+  </div>
+</section>
+
+<section id="s12">
+  <h2>12. 附錄</h2>
+
+  <ol>
+    <li>Gate 定義與 hard constraint table（unchanged）</li>
+    <li>NSGA-II objective ordering（lexicographic priority）</li>
+    <li>Tier state machine definition</li>
+    <li>Failure memory schema（F_t / F_acc）</li>
+    <li>Version diff：v2 → v2.1 governance upgrade</li>
+  </ol>
+</section>
 </body>
 </html>

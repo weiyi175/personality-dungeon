@@ -54,6 +54,151 @@ def _safe_mean(values: list[float]) -> float | None:
 	return float(sum(values) / float(len(values)))
 
 
+def _parse_bool_flag(value: Any) -> bool:
+	token = str(value or "").strip().lower()
+	if token in {"1", "true", "yes", "y", "t"}:
+		return True
+	if token in {"0", "false", "no", "n", "f", "", "none", "null"}:
+		return False
+	try:
+		return float(token) != 0.0
+	except Exception:
+		return bool(token)
+
+
+def compute_world_readonly_leak(rows: list[dict[str, str]]) -> dict[str, Any]:
+	leak_values: list[float] = []
+	readonly_applied_flags: list[float] = []
+	for row in rows:
+		has_leak = "readonly_leak_score" in row
+		has_flag = "world_readonly_applied" in row
+		if not has_leak and not has_flag:
+			continue
+		if has_leak:
+			leak_values.append(float(row.get("readonly_leak_score") or 0.0))
+		if has_flag:
+			token = str(row.get("world_readonly_applied") or "").strip().lower()
+			readonly_applied_flags.append(1.0 if token in {"1", "true", "yes", "y"} else 0.0)
+
+	if not leak_values and not readonly_applied_flags:
+		return {
+			"available": False,
+			"max_readonly_leak_score": None,
+			"mean_readonly_leak_score": None,
+			"readonly_applied_rounds": 0,
+			"readonly_applied_ratio": None,
+		}
+
+	readonly_applied_rounds = int(sum(readonly_applied_flags)) if readonly_applied_flags else 0
+	readonly_applied_ratio = (
+		float(readonly_applied_rounds) / float(len(readonly_applied_flags))
+	) if readonly_applied_flags else None
+	return {
+		"available": True,
+		"max_readonly_leak_score": max(leak_values) if leak_values else None,
+		"mean_readonly_leak_score": _safe_mean(leak_values),
+		"readonly_applied_rounds": readonly_applied_rounds,
+		"readonly_applied_ratio": readonly_applied_ratio,
+	}
+
+
+def verify_payoff_static(
+	rows: list[dict[str, str]],
+	*,
+	eps: float = 1e-9,
+) -> dict[str, Any]:
+	flags: list[bool] = []
+	for row in rows:
+		if "payoff_static_pass" not in row:
+			continue
+		flags.append(_parse_bool_flag(row.get("payoff_static_pass")))
+
+	if not flags:
+		return {
+			"available": False,
+			"threshold_eps": float(eps),
+			"rounds_checked": 0,
+			"pass_rounds": 0,
+			"fail_rounds": 0,
+			"pass_ratio": None,
+			"payoff_static_pass": None,
+		}
+
+	pass_rounds = sum(1 for flag in flags if flag)
+	fail_rounds = len(flags) - pass_rounds
+	return {
+		"available": True,
+		"threshold_eps": float(eps),
+		"rounds_checked": len(flags),
+		"pass_rounds": pass_rounds,
+		"fail_rounds": fail_rounds,
+		"pass_ratio": float(pass_rounds) / float(len(flags)),
+		"payoff_static_pass": fail_rounds == 0,
+	}
+
+
+def summarize_difficulty_modulation(rows: list[dict[str, str]]) -> dict[str, Any]:
+	difficulty_index_values: list[float] = []
+	multiplier_values: list[float] = []
+	applied_flags: list[float] = []
+	for row in rows:
+		if "difficulty_index" in row and str(row.get("difficulty_index") or "").strip() != "":
+			difficulty_index_values.append(float(row.get("difficulty_index") or 0.0))
+		if "event_difficulty_multiplier" in row and str(row.get("event_difficulty_multiplier") or "").strip() != "":
+			multiplier_values.append(float(row.get("event_difficulty_multiplier") or 1.0))
+		if "difficulty_modulation_applied" in row:
+			applied_flags.append(1.0 if _parse_bool_flag(row.get("difficulty_modulation_applied")) else 0.0)
+
+	if not difficulty_index_values and not multiplier_values and not applied_flags:
+		return {
+			"available": False,
+			"difficulty_obs_rounds": 0,
+			"difficulty_modulation_applied_rounds": 0,
+			"difficulty_modulation_applied_ratio": None,
+			"difficulty_modulation_applied": None,
+			"difficulty_index_mean": None,
+			"difficulty_index_min": None,
+			"difficulty_index_max": None,
+			"event_difficulty_multiplier_mean": None,
+			"event_difficulty_multiplier_min": None,
+			"event_difficulty_multiplier_max": None,
+			"event_difficulty_multiplier_nontrivial_rounds": 0,
+			"event_difficulty_multiplier_nontrivial_ratio": None,
+		}
+
+	obs_rounds = max(
+		len(difficulty_index_values),
+		len(multiplier_values),
+		len(applied_flags),
+	)
+	applied_rounds = int(sum(applied_flags)) if applied_flags else 0
+	nontrivial_mult_rounds = sum(
+		1 for value in multiplier_values
+		if abs(float(value) - 1.0) > 1e-12
+	)
+	return {
+		"available": True,
+		"difficulty_obs_rounds": obs_rounds,
+		"difficulty_modulation_applied_rounds": applied_rounds,
+		"difficulty_modulation_applied_ratio": (
+			float(applied_rounds) / float(len(applied_flags))
+		) if applied_flags else None,
+		"difficulty_modulation_applied": (
+			applied_rounds > 0
+		) if applied_flags else None,
+		"difficulty_index_mean": _safe_mean(difficulty_index_values),
+		"difficulty_index_min": min(difficulty_index_values) if difficulty_index_values else None,
+		"difficulty_index_max": max(difficulty_index_values) if difficulty_index_values else None,
+		"event_difficulty_multiplier_mean": _safe_mean(multiplier_values),
+		"event_difficulty_multiplier_min": min(multiplier_values) if multiplier_values else None,
+		"event_difficulty_multiplier_max": max(multiplier_values) if multiplier_values else None,
+		"event_difficulty_multiplier_nontrivial_rounds": nontrivial_mult_rounds,
+		"event_difficulty_multiplier_nontrivial_ratio": (
+			float(nontrivial_mult_rounds) / float(len(multiplier_values))
+		) if multiplier_values else None,
+	}
+
+
 def _sum_float_dicts(items: list[dict[str, float]]) -> dict[str, float]:
 	merged: dict[str, float] = {}
 	for item in items:
@@ -472,6 +617,9 @@ def summarize_event_provenance(
 	envelope_gamma_comparison = None
 	if bool(compare_envelope_gamma):
 		envelope_gamma_comparison = _envelope_gamma_comparison(rows, baseline_rows, series=str(envelope_series))
+	world_readonly_leak = compute_world_readonly_leak(rows)
+	payoff_static_verification = verify_payoff_static(rows)
+	difficulty_modulation_summary = summarize_difficulty_modulation(rows)
 	avg_success_rate = _safe_mean(round_metrics["success_rate"])
 	by_action: dict[str, dict[str, int]] = {}
 	for (_event_id, action_name), stat in event_action_stats.items():
@@ -502,6 +650,9 @@ def summarize_event_provenance(
 		"amplitude_comparison": _comparison_summary(rows, baseline_rows),
 		"comparison": _comparison_summary(rows, baseline_rows),
 		"envelope_gamma_comparison": envelope_gamma_comparison,
+		"world_readonly_leak": world_readonly_leak,
+		"payoff_static_verification": payoff_static_verification,
+		"difficulty_modulation_summary": difficulty_modulation_summary,
 		"round_correlations": round_correlations,
 		"event_type_summary": event_type_summary,
 		"event_id_summary": event_id_summary,
@@ -581,6 +732,54 @@ def _render_markdown_report(summary: dict[str, Any]) -> str:
 		"```",
 		"",
 	]
+	readonly_leak = summary.get("world_readonly_leak") or {}
+	if readonly_leak.get("available"):
+		max_leak = readonly_leak.get("max_readonly_leak_score")
+		mean_leak = readonly_leak.get("mean_readonly_leak_score")
+		ratio = readonly_leak.get("readonly_applied_ratio")
+		max_leak_str = f"{max_leak:.6g}" if max_leak is not None else "n/a"
+		mean_leak_str = f"{mean_leak:.6g}" if mean_leak is not None else "n/a"
+		ratio_str = f"{ratio:.1%}" if ratio is not None else "n/a"
+		lines.extend([
+			"## World Read-only Leak",
+			"",
+			f"- max_readonly_leak_score: {max_leak_str}",
+			f"- mean_readonly_leak_score: {mean_leak_str}",
+			f"- readonly_applied_rounds: {readonly_leak.get('readonly_applied_rounds', 0)}",
+			f"- readonly_applied_ratio: {ratio_str}",
+			"",
+		])
+	payoff_static = summary.get("payoff_static_verification") or {}
+	if payoff_static.get("available"):
+		pass_ratio = payoff_static.get("pass_ratio")
+		pass_ratio_str = f"{pass_ratio:.1%}" if pass_ratio is not None else "n/a"
+		lines.extend([
+			"## Payoff Static Verification",
+			"",
+			f"- rounds_checked: {payoff_static.get('rounds_checked', 0)}",
+			f"- fail_rounds: {payoff_static.get('fail_rounds', 0)}",
+			f"- pass_ratio: {pass_ratio_str}",
+			f"- payoff_static_pass: {payoff_static.get('payoff_static_pass')}",
+			"",
+		])
+	difficulty_summary = summary.get("difficulty_modulation_summary") or {}
+	if difficulty_summary.get("available"):
+		applied_ratio = difficulty_summary.get("difficulty_modulation_applied_ratio")
+		applied_ratio_str = f"{applied_ratio:.1%}" if applied_ratio is not None else "n/a"
+		idx_mean = difficulty_summary.get("difficulty_index_mean")
+		idx_mean_str = f"{idx_mean:.6g}" if idx_mean is not None else "n/a"
+		mult_mean = difficulty_summary.get("event_difficulty_multiplier_mean")
+		mult_mean_str = f"{mult_mean:.6g}" if mult_mean is not None else "n/a"
+		lines.extend([
+			"## Difficulty Modulation Summary",
+			"",
+			f"- difficulty_modulation_applied_rounds: {difficulty_summary.get('difficulty_modulation_applied_rounds', 0)}",
+			f"- difficulty_modulation_applied_ratio: {applied_ratio_str}",
+			f"- difficulty_index_mean: {idx_mean_str}",
+			f"- event_difficulty_multiplier_mean: {mult_mean_str}",
+			f"- event_difficulty_multiplier_nontrivial_rounds: {difficulty_summary.get('event_difficulty_multiplier_nontrivial_rounds', 0)}",
+			"",
+		])
 	gamma_cmp = summary.get("envelope_gamma_comparison")
 	if gamma_cmp is not None:
 		lines.extend([

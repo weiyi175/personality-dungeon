@@ -5,7 +5,12 @@ import json
 import math
 from pathlib import Path
 
-from analysis.event_provenance_summary import summarize_event_provenance
+from analysis.event_provenance_summary import (
+	compute_world_readonly_leak,
+	summarize_difficulty_modulation,
+	summarize_event_provenance,
+	verify_payoff_static,
+)
 
 
 def test_event_provenance_summary_reports_event_type_and_top_actions(tmp_path: Path) -> None:
@@ -134,6 +139,8 @@ def test_event_provenance_summary_reports_event_type_and_top_actions(tmp_path: P
 	assert summary["comparison"]["mode"] == "baseline_csv"
 	assert summary["amplitude_comparison"]["mode"] == "baseline_csv"
 	assert summary["envelope_gamma_comparison"] is None
+	assert summary["payoff_static_verification"]["available"] is False
+	assert summary["difficulty_modulation_summary"]["available"] is False
 	assert summary["top_event_action_pairs"][0]["event_id"] == "threat_shadow_stalker"
 	assert summary["event_id_summary"][0]["event_id"] == "threat_shadow_stalker"
 	assert summary["event_id_summary"][0]["avg_trait_deltas"]["ambition"] == 0.02
@@ -298,3 +305,53 @@ def test_event_provenance_summary_can_compare_envelope_gamma(tmp_path: Path) -> 
 
 	assert summary["envelope_gamma_comparison"] is not None
 	assert summary["envelope_gamma_comparison"]["series"] == "p"
+
+
+def test_compute_world_readonly_leak() -> None:
+	rows = [
+		{"world_readonly_applied": "1", "readonly_leak_score": "0.0"},
+		{"world_readonly_applied": "1", "readonly_leak_score": "1e-7"},
+		{"world_readonly_applied": "0", "readonly_leak_score": "0.0"},
+	]
+	summary = compute_world_readonly_leak(rows)
+	assert summary["available"] is True
+	assert summary["readonly_applied_rounds"] == 2
+	assert abs(float(summary["readonly_applied_ratio"]) - (2.0 / 3.0)) < 1e-12
+	assert abs(float(summary["max_readonly_leak_score"]) - 1e-7) < 1e-12
+
+
+def test_verify_payoff_static() -> None:
+	rows = [
+		{"payoff_static_pass": "1"},
+		{"payoff_static_pass": "true"},
+		{"payoff_static_pass": "0"},
+	]
+	summary = verify_payoff_static(rows)
+	assert summary["available"] is True
+	assert summary["rounds_checked"] == 3
+	assert summary["pass_rounds"] == 2
+	assert summary["fail_rounds"] == 1
+	assert summary["payoff_static_pass"] is False
+	assert abs(float(summary["pass_ratio"]) - (2.0 / 3.0)) < 1e-12
+
+
+def test_summarize_difficulty_modulation() -> None:
+	rows = [
+		{
+			"difficulty_modulation_applied": "1",
+			"difficulty_index": "0.55",
+			"event_difficulty_multiplier": "1.10",
+		},
+		{
+			"difficulty_modulation_applied": "1",
+			"difficulty_index": "0.45",
+			"event_difficulty_multiplier": "0.95",
+		},
+	]
+	summary = summarize_difficulty_modulation(rows)
+	assert summary["available"] is True
+	assert summary["difficulty_modulation_applied"] is True
+	assert summary["difficulty_modulation_applied_rounds"] == 2
+	assert abs(float(summary["difficulty_modulation_applied_ratio"]) - 1.0) < 1e-12
+	assert abs(float(summary["difficulty_index_mean"]) - 0.5) < 1e-12
+	assert summary["event_difficulty_multiplier_nontrivial_rounds"] == 2

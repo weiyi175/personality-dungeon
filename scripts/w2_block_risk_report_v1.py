@@ -121,6 +121,11 @@ def _summary_metrics(data: dict[str, Any]) -> dict[str, Any]:
         "rescued": _to_int(data.get("rescued")),
         "broke": _to_int(data.get("broke")),
         "fairness_fail_count": _to_int(data.get("fairness_fail_count")),
+        "invariant_neutrality_pass": bool(gate.get("invariant_neutrality_pass", True)),
+        "invariant_trigger_guard_pass": bool(gate.get("invariant_trigger_guard_pass", True)),
+        "invariant_overall_pass": bool(gate.get("invariant_overall_pass", True)),
+        "mean_event_neutrality_max_abs_mean": _to_float(data.get("mean_event_neutrality_max_abs_mean")),
+        "mean_event_trigger_guard_block_rate": _to_float(data.get("mean_event_trigger_guard_block_rate")),
         "seed_range": seed_range,
     }
 
@@ -133,6 +138,8 @@ def _risk_score(metrics: dict[str, Any], delta_healthy: int, delta_s3: float) ->
     score += max(0, metrics["l1"] - 3)
     score += max(0, 42 - metrics["healthy"])
     if metrics["fairness_fail_count"] > 0:
+        score += 3
+    if not metrics["invariant_overall_pass"]:
         score += 3
     if delta_healthy < -2:
         score += 1
@@ -217,6 +224,11 @@ def _build_payload() -> dict[str, Any]:
                 "rescued": metrics["rescued"],
                 "broke": metrics["broke"],
                 "fairness_fail_count": metrics["fairness_fail_count"],
+                "invariant_neutrality_pass": metrics["invariant_neutrality_pass"],
+                "invariant_trigger_guard_pass": metrics["invariant_trigger_guard_pass"],
+                "invariant_overall_pass": metrics["invariant_overall_pass"],
+                "mean_event_neutrality_max_abs_mean": metrics["mean_event_neutrality_max_abs_mean"],
+                "mean_event_trigger_guard_block_rate": metrics["mean_event_trigger_guard_block_rate"],
                 "seed_range": metrics["seed_range"],
                 "delta_l1_vs_baseline": delta_l1,
                 "delta_healthy_vs_baseline": delta_healthy,
@@ -249,6 +261,7 @@ def _build_payload() -> dict[str, Any]:
         if poisson_008_rows
         and poisson_008_pass_rate >= 0.75
         and all(_to_int(r["new_l1"]) == 0 for r in poisson_008_rows)
+        and all(bool(r.get("invariant_overall_pass", True)) for r in poisson_008_rows)
         else "not_block_robust"
     )
 
@@ -285,6 +298,10 @@ def _build_payload() -> dict[str, Any]:
                 "fail_blocks": poisson_008_fail_blocks,
                 "pass_rate": poisson_008_pass_rate,
                 "mean_new_l1": mean([r["new_l1"] for r in poisson_008_rows]) if poisson_008_rows else 0.0,
+                "invariant_pass_rate": (
+                    mean([1.0 if bool(r.get("invariant_overall_pass", True)) else 0.0 for r in poisson_008_rows])
+                    if poisson_008_rows else 0.0
+                ),
                 "verdict": block_robust_verdict,
             }
         },
@@ -310,6 +327,11 @@ def _write_csv(event_rows: list[dict[str, Any]]) -> None:
         "rescued",
         "broke",
         "fairness_fail_count",
+        "invariant_neutrality_pass",
+        "invariant_trigger_guard_pass",
+        "invariant_overall_pass",
+        "mean_event_neutrality_max_abs_mean",
+        "mean_event_trigger_guard_block_rate",
         "delta_l1_vs_baseline",
         "delta_healthy_vs_baseline",
         "delta_mean_s3_vs_baseline",
@@ -348,11 +370,11 @@ def _write_markdown(payload: dict[str, Any]) -> None:
 
     lines.append("## 2) Block-Level Robustness Comparison")
     lines.append("")
-    lines.append("| experiment_id | block | overall_pass | l1 | healthy | new_l1 | rescued | broke | risk_tier |")
-    lines.append("| --- | --- | --- | --- | --- | --- | --- | --- | --- |")
+    lines.append("| experiment_id | block | overall_pass | invariant_overall_pass | l1 | healthy | new_l1 | rescued | broke | risk_tier |")
+    lines.append("| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |")
     for row in payload["event_block_comparison"]:
         lines.append(
-            f"| {row['experiment_id']} | {row['block']} | {row['overall_pass']} | {row['l1']} | {row['healthy']} | {row['new_l1']} | {row['rescued']} | {row['broke']} | {row['risk_tier']} |"
+            f"| {row['experiment_id']} | {row['block']} | {row['overall_pass']} | {row.get('invariant_overall_pass', True)} | {row['l1']} | {row['healthy']} | {row['new_l1']} | {row['rescued']} | {row['broke']} | {row['risk_tier']} |"
         )
     lines.append("")
 
@@ -361,6 +383,7 @@ def _write_markdown(payload: dict[str, Any]) -> None:
     lines.append(f"- pass_blocks: {focus['pass_blocks']}")
     lines.append(f"- fail_blocks: {focus['fail_blocks']}")
     lines.append(f"- pass_rate: {focus['pass_rate']:.3f}")
+    lines.append(f"- invariant_pass_rate: {focus.get('invariant_pass_rate', 0.0):.3f}")
     lines.append(f"- mean_new_l1: {focus['mean_new_l1']:.3f}")
     lines.append(f"- verdict: {focus['verdict']}")
     lines.append("")
