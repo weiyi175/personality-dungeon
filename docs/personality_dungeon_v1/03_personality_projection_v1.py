@@ -5,32 +5,32 @@ from typing import Dict, Iterable, List, Mapping
 
 
 DIMENSIONS: List[str] = [
+    # --- 擴張組 The Drivers ---
     "impulsiveness",
-    "caution",
-    "greed",
+    "assertiveness",
     "optimism",
+    # --- 防禦組 The Stabilizers ---
+    "risk_aversion",
     "suspicion",
-    "persistence",
+    "endurance",
+    # --- 擾動組 The Explorers ---
     "randomness",
     "stability_seeking",
-    "ambition",
-    "patience",
     "curiosity",
-    "fearfulness",
 ]
 
 
 PRIMARY_GROUPS: Dict[str, List[str]] = {
-    "aggressive": ["impulsiveness", "greed", "ambition"],
-    "defensive": ["caution", "suspicion", "fearfulness"],
-    "balanced": ["persistence", "stability_seeking", "patience"],
+    "aggressive": ["impulsiveness", "assertiveness", "optimism"],
+    "defensive":  ["risk_aversion", "suspicion", "endurance"],
+    "balanced":   ["randomness", "stability_seeking", "curiosity"],
 }
 
 
 SECONDARY_MODIFIERS: Dict[str, Dict[str, float]] = {
-    "aggressive": {"optimism": 0.15, "curiosity": 0.10, "randomness": 0.05},
-    "defensive": {"optimism": -0.05, "curiosity": 0.05, "randomness": -0.05},
-    "balanced": {"optimism": 0.05, "curiosity": 0.10, "randomness": -0.10},
+    "aggressive": {},
+    "defensive":  {},
+    "balanced":   {},
 }
 
 

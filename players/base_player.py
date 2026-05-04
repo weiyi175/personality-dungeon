@@ -3,18 +3,18 @@ from math import exp
 
 
 DEFAULT_PERSONALITY_KEYS = [
+	# --- 擴張組 The Drivers ---
 	"impulsiveness",
-	"caution",
-	"greed",
+	"assertiveness",
 	"optimism",
+	# --- 防禦組 The Stabilizers ---
+	"risk_aversion",
 	"suspicion",
-	"persistence",
+	"endurance",
+	# --- 擾動組 The Explorers ---
 	"randomness",
 	"stability_seeking",
-	"ambition",
-	"patience",
 	"curiosity",
-	"fearfulness",
 ]
 
 

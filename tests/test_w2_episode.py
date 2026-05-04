@@ -18,24 +18,21 @@ def _player(*, utility: float, dominant: str, trait_scale: float = 0.0) -> BaseP
 	player = BasePlayer(["aggressive", "defensive", "balanced"])
 	player.utility = float(utility)
 	player.personality["impulsiveness"] = 0.10
-	player.personality["caution"] = 0.20
+	player.personality["risk_aversion"] = 0.20
 	setattr(player, "w2_strategy_history", [dominant] * 600)
 	setattr(
 		player,
 		"w2_trait_delta_sum",
 		{
 			"impulsiveness": float(trait_scale),
-			"caution": -float(trait_scale),
-			"greed": 0.0,
+			"risk_aversion": -float(trait_scale),
+			"assertiveness": 0.0,
 			"optimism": 0.0,
 			"suspicion": 0.0,
-			"persistence": 0.0,
+			"endurance": 0.0,
 			"randomness": 0.0,
 			"stability_seeking": 0.0,
-			"ambition": 0.0,
-			"patience": 0.0,
 			"curiosity": 0.0,
-			"fearfulness": 0.0,
 		},
 	)
 	setattr(player, "w2_event_count", 4)
@@ -60,13 +57,13 @@ def test_apply_testament_alpha_zero_and_clip() -> None:
 def test_death_contract_uses_only_four_traits() -> None:
 	baseline = {
 		"impulsiveness": 0.4,
-		"caution": 0.2,
+		"risk_aversion": 0.2,
 		"stability_seeking": -0.1,
-		"fearfulness": 0.3,
-		"greed": 1.0,
+		"assertiveness": 0.3,
+		"curiosity": 1.0,
 	}
 	variant = dict(baseline)
-	variant["greed"] = -1.0
+	variant["curiosity"] = -1.0
 	assert compute_personality_risk_delta(baseline) == compute_personality_risk_delta(variant)
 	assert compute_death_threshold(baseline) == compute_death_threshold(variant)
 

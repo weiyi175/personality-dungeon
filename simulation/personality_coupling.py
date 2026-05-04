@@ -9,17 +9,15 @@ def clamp(value: float, lower: float, upper: float) -> float:
 
 def personality_signal_mu(personality: Mapping[str, float]) -> float:
 	stability = float(personality.get("stability_seeking", 0.0))
-	patience = float(personality.get("patience", 0.0))
+	endurance = float(personality.get("endurance", 0.0))
 	impulsiveness = float(personality.get("impulsiveness", 0.0))
-	return 0.5 * (stability + patience) - 0.5 * impulsiveness
+	return 0.5 * (stability + endurance) - 0.5 * impulsiveness
 
 
 def personality_signal_k(personality: Mapping[str, float]) -> float:
-	ambition = float(personality.get("ambition", 0.0))
-	greed = float(personality.get("greed", 0.0))
-	caution = float(personality.get("caution", 0.0))
-	fearfulness = float(personality.get("fearfulness", 0.0))
-	return 0.5 * (ambition + greed) - 0.5 * (caution + fearfulness)
+	assertiveness = float(personality.get("assertiveness", 0.0))
+	risk_aversion = float(personality.get("risk_aversion", 0.0))
+	return assertiveness - risk_aversion
 
 
 def personality_state_k_factor(*, state_dominance: float | None, beta_state_k: float) -> float:

@@ -46,46 +46,46 @@ ACTION_FIELDNAMES = [
 
 PROTOTYPES: dict[str, dict[str, float]] = {
 	"aggressive": {
-		"impulsiveness": 0.85,
-		"caution": -0.70,
-		"greed": 0.80,
-		"optimism": 0.45,
-		"suspicion": -0.55,
-		"persistence": 0.10,
-		"randomness": 0.10,
+		# Drivers: 高衝動、高積極、適度樂觀
+		"impulsiveness":    0.85,
+		"assertiveness":    0.82,
+		"optimism":         0.45,
+		# Stabilizers: 低風險規避、低懷疑、低耐力
+		"risk_aversion":   -0.70,
+		"suspicion":        -0.55,
+		"endurance":        -0.20,
+		# Explorers: 低穩定傾向
+		"randomness":       0.10,
 		"stability_seeking": -0.60,
-		"ambition": 0.85,
-		"patience": -0.45,
-		"curiosity": 0.25,
-		"fearfulness": -0.70,
+		"curiosity":        0.25,
 	},
 	"defensive": {
-		"impulsiveness": -0.65,
-		"caution": 0.85,
-		"greed": -0.10,
-		"optimism": -0.10,
-		"suspicion": 0.80,
-		"persistence": 0.35,
-		"randomness": -0.20,
+		# Drivers: 低衝動、低積極、低樂觀
+		"impulsiveness":   -0.65,
+		"assertiveness":   -0.15,
+		"optimism":        -0.10,
+		# Stabilizers: 高風險規避、高懷疑、高耐力
+		"risk_aversion":    0.85,
+		"suspicion":        0.80,
+		"endurance":        0.55,
+		# Explorers: 負隨機、高穩定傾向
+		"randomness":      -0.20,
 		"stability_seeking": 0.65,
-		"ambition": -0.20,
-		"patience": 0.70,
-		"curiosity": 0.15,
-		"fearfulness": 0.85,
+		"curiosity":        0.15,
 	},
 	"balanced": {
-		"impulsiveness": -0.10,
-		"caution": 0.30,
-		"greed": 0.05,
-		"optimism": 0.20,
-		"suspicion": 0.10,
-		"persistence": 0.85,
-		"randomness": -0.25,
-		"stability_seeking": 0.80,
-		"ambition": 0.20,
-		"patience": 0.80,
-		"curiosity": 0.35,
-		"fearfulness": 0.10,
+		# Drivers: 中性偏低，不主導
+		"impulsiveness":    0.10,
+		"assertiveness":    0.15,
+		"optimism":         0.25,
+		# Stabilizers: 低，避免防禦組主導
+		"risk_aversion":    0.10,
+		"suspicion":        0.05,
+		"endurance":        0.20,
+		# Explorers: 正值主導，使探索組得分最高
+		"randomness":       0.30,
+		"stability_seeking": 0.65,
+		"curiosity":        0.50,
 	},
 }
 

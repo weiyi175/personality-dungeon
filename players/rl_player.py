@@ -12,9 +12,12 @@ from typing import Mapping
 
 
 _PERSONALITY_KEYS = [
-    "impulsiveness", "caution", "greed", "optimism", "suspicion",
-    "persistence", "randomness", "stability_seeking", "ambition",
-    "patience", "curiosity", "fearfulness",
+    # --- 擴張組 The Drivers ---
+    "impulsiveness", "assertiveness", "optimism",
+    # --- 防禦組 The Stabilizers ---
+    "risk_aversion", "suspicion", "endurance",
+    # --- 擾動組 The Explorers ---
+    "randomness", "stability_seeking", "curiosity",
 ]
 
 _NSTRATS = 3
@@ -42,21 +45,21 @@ class RLPlayer:
 # -------------------------------------------------------------------
 
 def personality_latent_signals(p: Mapping[str, float]) -> dict[str, float]:
-    """Compute 4 latent signals from 12D personality vector.
+    """Compute 3 latent signals from 9D personality vector (9-trait Enneagram design).
 
-    z_drive   = 0.4·impulsiveness + 0.3·greed + 0.3·ambition
-    z_guard   = 0.4·caution + 0.3·fearfulness + 0.3·suspicion
-    z_temporal= 0.4·patience + 0.3·persistence + 0.3·stability_seeking
-    z_noise   = 0.4·randomness + 0.3·curiosity + 0.3·optimism
+    z_expanding  = (impulsiveness + assertiveness + optimism)   / 3
+    z_contracting= (risk_aversion + suspicion    + endurance)   / 3
+    z_exploring  = (randomness   + stability_seeking + curiosity) / 3
+
+    Each signal is normalised to [-1, 1] by dividing by 3.
     """
     def _g(k: str) -> float:
         return float(p.get(k, 0.0))
 
     return {
-        "z_drive": 0.4 * _g("impulsiveness") + 0.3 * _g("greed") + 0.3 * _g("ambition"),
-        "z_guard": 0.4 * _g("caution") + 0.3 * _g("fearfulness") + 0.3 * _g("suspicion"),
-        "z_temporal": 0.4 * _g("patience") + 0.3 * _g("persistence") + 0.3 * _g("stability_seeking"),
-        "z_noise": 0.4 * _g("randomness") + 0.3 * _g("curiosity") + 0.3 * _g("optimism"),
+        "z_expanding":   (_g("impulsiveness") + _g("assertiveness") + _g("optimism"))        / 3.0,
+        "z_contracting": (_g("risk_aversion") + _g("suspicion")    + _g("endurance"))        / 3.0,
+        "z_exploring":   (_g("randomness")    + _g("stability_seeking") + _g("curiosity"))   / 3.0,
     }
 
 
@@ -84,41 +87,42 @@ def init_rl_player(
     With all lambda values at 0 the result degenerates to pure BL2
     (no personality influence).
 
-    Mapping (blueprint §4.2):
+    Mapping (9-trait Enneagram design):
       alpha_i = alpha_base × (1 + λ_α · clamp(z_α))
-        where z_α = z_drive − 0.5·z_temporal − 0.5·z_guard
+        where z_α = z_expanding − 0.5·z_exploring − 0.5·z_contracting
       beta_i  = beta_base × (1 + λ_β · clamp(z_β))
-        where z_β = z_guard + z_temporal − z_noise
+        where z_β = z_contracting + z_exploring − z_expanding
       r_s_i   = r_s_baseline + λ_r · clamp(z_s)
-        where z_A=z_drive, z_D=z_guard, z_B=z_temporal
-      risk_sensitivity_i = λ_risk · clamp((z_guard + fearfulness − optimism)/2)
+        where z_A=z_expanding, z_D=z_contracting, z_B=z_exploring
+      risk_sensitivity_i = λ_risk · clamp((z_contracting + risk_aversion − optimism)/2)
     """
     sig = personality_latent_signals(personality)
 
     # alpha_i: fast/slow learner heterogeneity
-    z_alpha = sig["z_drive"] - 0.5 * sig["z_temporal"] - 0.5 * sig["z_guard"]
+    z_alpha = sig["z_expanding"] - 0.5 * sig["z_exploring"] - 0.5 * sig["z_contracting"]
     alpha_mod = alpha_base * (1.0 + lambda_alpha * _clamp(z_alpha, -1.0, 1.0))
     alpha_mod = _clamp(alpha_mod, 0.001, 1.0)
 
-    # beta_i: exploit/explore tension (blueprint §4.2: z_guard + z_temporal - z_noise)
-    z_beta = sig["z_guard"] + sig["z_temporal"] - sig["z_noise"]
+    # beta_i: exploit/explore tension
+    z_beta = sig["z_contracting"] + sig["z_exploring"] - sig["z_expanding"]
     beta_mod = beta_base * (1.0 + lambda_beta * _clamp(z_beta, -1.0, 1.0))
     # Adaptive β compensation for extreme low-z_β players (§4.2.H)
     if lambda_beta_comp > 0.0 and z_beta < 0.0:
         beta_mod += lambda_beta_comp * beta_base * (-_clamp(z_beta, -1.0, 0.0))
     beta_mod = _clamp(beta_mod, 0.1, 100.0)
 
-    # r_A, r_D, r_B: per-player strategy multiplier offsets (blueprint §4.3)
+    # r_A, r_D, r_B: per-player strategy multiplier offsets
+    # aggressive→z_expanding, defensive→z_contracting, balanced→z_exploring
     sam = list(strategy_alpha_multipliers)
-    sam[0] += lambda_r * _clamp(sig["z_drive"], -1.0, 1.0)
-    sam[1] += lambda_r * _clamp(sig["z_guard"], -1.0, 1.0)
-    sam[2] += lambda_r * _clamp(sig["z_temporal"], -1.0, 1.0)
+    sam[0] += lambda_r * _clamp(sig["z_expanding"],   -1.0, 1.0)
+    sam[1] += lambda_r * _clamp(sig["z_contracting"], -1.0, 1.0)
+    sam[2] += lambda_r * _clamp(sig["z_exploring"],   -1.0, 1.0)
     sam = [_clamp(s, 0.3, 2.5) for s in sam]
 
-    # risk_sensitivity_i (blueprint §4.2)
+    # risk_sensitivity_i
     def _g(k: str) -> float:
         return float(personality.get(k, 0.0))
-    z_risk = sig["z_guard"] + _g("fearfulness") - _g("optimism")
+    z_risk = sig["z_contracting"] + _g("risk_aversion") - _g("optimism")
     risk_sens = lambda_risk * _clamp(z_risk / 2.0, -1.0, 1.0)
 
     p_dict = {k: float(personality.get(k, 0.0)) for k in _PERSONALITY_KEYS}

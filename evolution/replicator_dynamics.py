@@ -804,3 +804,175 @@ def replicator_step(
 
 	return {s: (w / mean_w) for s, w in weights.items()}
 
+
+# ---------------------------------------------------------------------------
+# Personality-Guided Replicator Dynamics (9-trait Enneagram design)
+#
+# 完整方程（離散時間 Euler 近似）：
+#   x̂_i = x_i + dt * [x_i * (f'_i - φ) + μ * relu(Z_expl) * (1/3 - x_i)]
+# 然後重新投影到 Simplex（clip + renorm），確保 Σx_i = 1 且 x_i > 0。
+#
+# 架構要求：純函式，無 I/O，無 plotting。
+# ---------------------------------------------------------------------------
+
+def _personality_cyclic_payoff_matrix(
+	*,
+	win: float,
+	loss: float,
+	z_expanding: float,
+	z_contracting: float,
+	z_exploring: float,
+) -> list[list[float]]:
+	"""Build the 3×3 personality-modulated cyclic payoff matrix.
+
+	策略順序：[expanding(0), contracting(1), exploring(2)]
+	循環相剋：expanding > exploring > contracting > expanding
+
+	原始矩陣（Rock-Paper-Scissors 型）：
+		      exp    con    expl
+	  exp  [  0    -L+ze   W+ze ]
+	  con  [ W+zc    0    -L+zc ]
+	  expl [-L+zx  W+zx    0   ]
+
+	Z 偏移代表該性格組在博弈中的主動增益，僅作用於非零元素。
+	"""
+	ze = float(z_expanding)
+	zc = float(z_contracting)
+	zx = float(z_exploring)
+	W = float(win)
+	L = float(loss)
+	return [
+		[0.0,       -L + ze,   W + ze],
+		[W + zc,    0.0,      -L + zc],
+		[-L + zx,   W + zx,   0.0   ],
+	]
+
+
+def personality_guided_replicator_step(
+	simplex: Dict[str, float],
+	*,
+	z_expanding: float,
+	z_contracting: float,
+	z_exploring: float,
+	win: float = 1.0,
+	loss: float = 1.2,
+	mu: float = 0.05,
+	dt: float = 1.0,
+) -> tuple[Dict[str, float], Dict[str, float]]:
+	"""Perform one Euler step of personality-guided replicator dynamics.
+
+	Parameters
+	----------
+	simplex:
+		Current strategy distribution {strategy: probability} for the three
+		macro-groups.  Keys must be exactly ``["expanding", "contracting",
+		"exploring"]`` (any order).  Values must be non-negative and will be
+		renormalised to sum to 1 before the update.
+	z_expanding, z_contracting, z_exploring:
+		Latent personality signals in [-1, 1] computed from the 9-trait
+		Enneagram model via ``personality_latent_signals()``.
+	win:
+		Base win payoff W in the cyclic matrix (default 1.0).
+	loss:
+		Base loss cost L in the cyclic matrix (default 1.2; slightly higher
+		than W prevents the system from overheating).
+	mu:
+		Baseline centripetal mutation rate.  Scaled by relu(Z_expl) so the
+		centripetal force only activates when curiosity is positive.
+	dt:
+		Euler integration step size.  Values in [0.01, 1.0] are typical.
+
+	Returns
+	-------
+	(new_simplex, diagnostics)
+		new_simplex:  updated strategy distribution (sums to 1, all > 0).
+		diagnostics:  dict with keys
+			``phi`` (mean fitness), ``f_raw`` (pre-scaling fitness vector),
+			``f_prime`` (scaled fitness), ``mutation_strength`` (effective μ),
+			``simplex_sum_error`` (numerical check, should be ~0).
+
+	Notes
+	-----
+	Simplex-invariance proof (Σẋ_i = 0):
+		Replicator term: Σ x_i(f'_i - φ) = Σ x_i f'_i - φ Σ x_i = φ - φ = 0  ✓
+		Mutation term:   Σ μ σ(Z_expl)(1/3 - x_i) = μ σ(Z_expl)(1 - Σ x_i) = 0  ✓
+	"""
+	STRATEGIES = ["expanding", "contracting", "exploring"]
+	N = 3
+
+	# --- 1. Normalise input simplex ---
+	raw = [max(0.0, float(simplex.get(s, 1.0 / N))) for s in STRATEGIES]
+	total = sum(raw)
+	if total <= 0.0:
+		x = [1.0 / N] * N
+	else:
+		x = [v / total for v in raw]
+
+	# Validate latent signals
+	for name, val in [("z_expanding", z_expanding), ("z_contracting", z_contracting), ("z_exploring", z_exploring)]:
+		if not isfinite(float(val)):
+			raise ValueError(f"{name} must be finite")
+
+	ze = float(z_expanding)
+	zc = float(z_contracting)
+	zx = float(z_exploring)
+
+	# --- 2. Build payoff matrix and compute f = A·x ---
+	A = _personality_cyclic_payoff_matrix(
+		win=float(win),
+		loss=float(loss),
+		z_expanding=ze,
+		z_contracting=zc,
+		z_exploring=zx,
+	)
+	f_raw = [
+		sum(A[i][j] * x[j] for j in range(N))
+		for i in range(N)
+	]
+
+	# --- 3. Scale by personality: f'_i = (1 + Z_i) · f_i ---
+	z_scale = [1.0 + ze, 1.0 + zc, 1.0 + zx]
+	f_prime = [z_scale[i] * f_raw[i] for i in range(N)]
+
+	# --- 4. Mean fitness φ = Σ x_i f'_i ---
+	phi = sum(x[i] * f_prime[i] for i in range(N))
+
+	# --- 5. Centripetal mutation: strength = μ · relu(Z_expl) ---
+	relu_zx = max(0.0, zx)
+	mutation_strength = float(mu) * relu_zx
+	center = 1.0 / N
+
+	# --- 6. Euler step: x̂_i = x_i + dt·[x_i(f'_i - φ) + μ·relu(zx)·(1/3 - x_i)] ---
+	# dt 上限：當向心保護關閉（Z_expl≤0）時，限制步長防止 x_i 越界。
+	# 理論安全上限：dt < min_i(x_i) / max_i(|f'_i - φ|)，此處保守取 0.5。
+	dt_f = float(dt)
+	if relu_zx == 0.0 and dt_f > 0.5:
+		dt_f = 0.5
+	x_new = [
+		x[i] + dt_f * (x[i] * (f_prime[i] - phi) + mutation_strength * (center - x[i]))
+		for i in range(N)
+	]
+
+	# --- 7. Clip to (0, 1] and renormalise (numerical safety) ---
+	x_new = [max(1e-9, v) for v in x_new]
+	total_new = sum(x_new)
+	if total_new <= 0.0:
+		x_new = [center] * N
+	else:
+		x_new = [v / total_new for v in x_new]
+
+	new_simplex = {s: float(x_new[i]) for i, s in enumerate(STRATEGIES)}
+
+	diagnostics: Dict[str, float] = {
+		"phi": float(phi),
+		"f_raw_expanding":   float(f_raw[0]),
+		"f_raw_contracting": float(f_raw[1]),
+		"f_raw_exploring":   float(f_raw[2]),
+		"f_prime_expanding":   float(f_prime[0]),
+		"f_prime_contracting": float(f_prime[1]),
+		"f_prime_exploring":   float(f_prime[2]),
+		"mutation_strength": float(mutation_strength),
+		"simplex_sum_error": float(abs(sum(x_new) - 1.0)),
+	}
+	return new_simplex, diagnostics
+

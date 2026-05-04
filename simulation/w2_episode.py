@@ -33,26 +33,26 @@ DEFAULT_DECISION_MD = REPO_ROOT / "outputs" / "w2_episode_decision.md"
 DOMINANT_TEMPLATES = {
 	"aggressive": {
 		"impulsiveness": 0.18,
-		"greed": 0.18,
-		"ambition": 0.18,
+		"assertiveness": 0.18,
+		"optimism": 0.18,
 	},
 	"defensive": {
-		"caution": 0.18,
-		"stability_seeking": 0.18,
-		"patience": 0.18,
+		"risk_aversion": 0.18,
+		"suspicion": 0.18,
+		"endurance": 0.18,
 	},
 	"balanced": {
 		"curiosity": 0.18,
-		"optimism": 0.18,
-		"persistence": 0.18,
+		"randomness": 0.18,
+		"stability_seeking": 0.18,
 	},
 }
 
 PERSONALITY_RISK_WEIGHTS = {
 	"impulsiveness": 0.22,
-	"caution": -0.25,
+	"risk_aversion": 0.25,
 	"stability_seeking": -0.20,
-	"fearfulness": 0.18,
+	"assertiveness": -0.18,
 }
 
 TESTAMENT_WEIGHTS = {
@@ -332,10 +332,10 @@ def compute_death_threshold(player_or_personality: object | Mapping[str, float])
 		1.0
 		+ 0.15
 		* (
-			float(personality.get("caution", 0.0))
+			float(personality.get("endurance", 0.0))
 			+ float(personality.get("stability_seeking", 0.0))
 			- float(personality.get("impulsiveness", 0.0))
-			- float(personality.get("fearfulness", 0.0))
+			- float(personality.get("risk_aversion", 0.0))
 		)
 	)
 

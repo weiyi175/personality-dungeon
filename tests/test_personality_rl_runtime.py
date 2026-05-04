@@ -268,17 +268,16 @@ class TestContracts:
 # ===================================================================
 
 _ZEROS = {
-    "impulsiveness": 0.0, "caution": 0.0, "greed": 0.0,
-    "optimism": 0.0, "suspicion": 0.0, "persistence": 0.0,
-    "randomness": 0.0, "stability_seeking": 0.0, "ambition": 0.0,
-    "patience": 0.0, "curiosity": 0.0, "fearfulness": 0.0,
+    "impulsiveness": 0.0, "assertiveness": 0.0, "optimism": 0.0,
+    "risk_aversion": 0.0, "suspicion": 0.0, "endurance": 0.0,
+    "randomness": 0.0, "stability_seeking": 0.0, "curiosity": 0.0,
 }
 
 
 class TestPersonalityMapping:
     def test_high_drive_higher_alpha(self):
-        high = {**_ZEROS, "impulsiveness": 0.9, "greed": 0.9, "ambition": 0.9}
-        low = {**_ZEROS, "impulsiveness": -0.9, "greed": -0.9, "ambition": -0.9}
+        high = {**_ZEROS, "impulsiveness": 0.9, "assertiveness": 0.9, "optimism": 0.9}
+        low = {**_ZEROS, "impulsiveness": -0.9, "assertiveness": -0.9, "optimism": -0.9}
         p_hi = init_rl_player(
             0, high, alpha_base=0.10, beta_base=3.0,
             strategy_alpha_multipliers=[1.2, 1.0, 0.8],
@@ -292,8 +291,8 @@ class TestPersonalityMapping:
         assert p_hi.alpha > p_lo.alpha
 
     def test_high_guard_higher_beta(self):
-        high = {**_ZEROS, "caution": 0.9, "fearfulness": 0.9, "suspicion": 0.9}
-        low = {**_ZEROS, "caution": -0.9, "fearfulness": -0.9, "suspicion": -0.9}
+        high = {**_ZEROS, "risk_aversion": 0.9, "endurance": 0.9, "suspicion": 0.9}
+        low = {**_ZEROS, "risk_aversion": -0.9, "endurance": -0.9, "suspicion": -0.9}
         p_hi = init_rl_player(
             0, high, alpha_base=0.10, beta_base=3.0,
             strategy_alpha_multipliers=[1.2, 1.0, 0.8],
@@ -331,9 +330,9 @@ class TestPersonalityMapping:
                 assert -1.5 <= v <= 1.5
 
     def test_beta_includes_z_temporal(self):
-        """beta mapping should include z_temporal: high patience → higher beta."""
-        high_temporal = {**_ZEROS, "patience": 0.9, "persistence": 0.9, "stability_seeking": 0.9}
-        low_temporal = {**_ZEROS, "patience": -0.9, "persistence": -0.9, "stability_seeking": -0.9}
+        """beta mapping should include z_exploring: high stability_seeking/curiosity/randomness → higher beta."""
+        high_temporal = {**_ZEROS, "stability_seeking": 0.9, "curiosity": 0.9, "randomness": 0.9}
+        low_temporal = {**_ZEROS, "stability_seeking": -0.9, "curiosity": -0.9, "randomness": -0.9}
         p_hi = init_rl_player(
             0, high_temporal, alpha_base=0.10, beta_base=3.0,
             strategy_alpha_multipliers=[1.2, 1.0, 0.8],
@@ -348,7 +347,7 @@ class TestPersonalityMapping:
 
     def test_lambda_r_offsets_strategy_multipliers(self):
         """lambda_r > 0 → per-player strategy multiplier offsets."""
-        high_drive = {**_ZEROS, "impulsiveness": 0.9, "greed": 0.9, "ambition": 0.9}
+        high_drive = {**_ZEROS, "impulsiveness": 0.9, "assertiveness": 0.9, "optimism": 0.9}
         p = init_rl_player(
             0, high_drive, alpha_base=0.10, beta_base=3.0,
             strategy_alpha_multipliers=[1.2, 1.0, 0.8],
@@ -359,7 +358,7 @@ class TestPersonalityMapping:
 
     def test_lambda_r_zero_no_offset(self):
         """lambda_r=0 → multipliers stay at baseline even with personality."""
-        pers = {**_ZEROS, "impulsiveness": 0.9, "greed": 0.9}
+        pers = {**_ZEROS, "impulsiveness": 0.9, "assertiveness": 0.9}
         p = init_rl_player(
             0, pers, alpha_base=0.10, beta_base=3.0,
             strategy_alpha_multipliers=[1.2, 1.0, 0.8],
@@ -368,8 +367,8 @@ class TestPersonalityMapping:
         assert p.strategy_alpha_multipliers == [1.2, 1.0, 0.8]
 
     def test_risk_sensitivity_high_guard(self):
-        """High guard + fearfulness → positive risk_sensitivity."""
-        high_guard = {**_ZEROS, "caution": 0.9, "fearfulness": 0.9, "suspicion": 0.9}
+        """High guard: risk_aversion/endurance/suspicion → positive risk_sensitivity."""
+        high_guard = {**_ZEROS, "risk_aversion": 0.9, "endurance": 0.9, "suspicion": 0.9}
         p = init_rl_player(
             0, high_guard, alpha_base=0.10, beta_base=3.0,
             strategy_alpha_multipliers=[1.2, 1.0, 0.8],
@@ -379,7 +378,7 @@ class TestPersonalityMapping:
 
     def test_risk_sensitivity_zero_lambda(self):
         """lambda_risk=0 → risk_sensitivity is 0 regardless of personality."""
-        pers = {**_ZEROS, "caution": 0.9, "fearfulness": 0.9}
+        pers = {**_ZEROS, "risk_aversion": 0.9, "endurance": 0.9}
         p = init_rl_player(
             0, pers, alpha_base=0.10, beta_base=3.0,
             strategy_alpha_multipliers=[1.2, 1.0, 0.8],
@@ -389,7 +388,7 @@ class TestPersonalityMapping:
 
     def test_all_lambdas_zero_equals_baseline(self):
         """All lambda=0 with any personality → same as empty personality."""
-        pers = {**_ZEROS, "impulsiveness": 0.7, "caution": -0.3}
+        pers = {**_ZEROS, "impulsiveness": 0.7, "risk_aversion": -0.3}
         p_pers = init_rl_player(
             0, pers, alpha_base=0.10, beta_base=3.0,
             strategy_alpha_multipliers=[1.2, 1.0, 0.8],

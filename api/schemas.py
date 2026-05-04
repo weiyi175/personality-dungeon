@@ -15,17 +15,17 @@ from typing import Any, Final, Literal, cast
 
 API_VERSION: Final[str] = "1.0"
 PERSONALITY_BASIS: Final[tuple[str, ...]] = (
+	# --- 擴張組 The Drivers ---
 	"impulsiveness",
-	"greed",
-	"ambition",
-	"caution",
-	"suspicion",
-	"fearfulness",
-	"persistence",
-	"stability_seeking",
-	"patience",
+	"assertiveness",
 	"optimism",
+	# --- 防禦組 The Stabilizers ---
+	"risk_aversion",
+	"suspicion",
+	"endurance",
+	# --- 擾動組 The Explorers ---
 	"randomness",
+	"stability_seeking",
 	"curiosity",
 )
 RESPONSE_KINDS: Final[tuple[str, ...]] = ("reset", "step", "snapshot", "error")
@@ -112,17 +112,17 @@ def _ordered_sparse_personality_vector(mapping: Mapping[str, Any], field_name: s
 
 @dataclass(frozen=True, slots=True)
 class PersonalitySnapshot:
+	# --- 擴張組 The Drivers ---
 	impulsiveness: float
-	greed: float
-	ambition: float
-	caution: float
-	suspicion: float
-	fearfulness: float
-	persistence: float
-	stability_seeking: float
-	patience: float
+	assertiveness: float
 	optimism: float
+	# --- 防禦組 The Stabilizers ---
+	risk_aversion: float
+	suspicion: float
+	endurance: float
+	# --- 擾動組 The Explorers ---
 	randomness: float
+	stability_seeking: float
 	curiosity: float
 
 	def __post_init__(self) -> None:
@@ -137,32 +137,26 @@ class PersonalitySnapshot:
 		_require_unknown_keys(mapping, set(PERSONALITY_BASIS), "personality")
 		return cls(
 			impulsiveness=_require_float(mapping["impulsiveness"], "personality.impulsiveness", minimum=-1.0, maximum=1.0),
-			greed=_require_float(mapping["greed"], "personality.greed", minimum=-1.0, maximum=1.0),
-			ambition=_require_float(mapping["ambition"], "personality.ambition", minimum=-1.0, maximum=1.0),
-			caution=_require_float(mapping["caution"], "personality.caution", minimum=-1.0, maximum=1.0),
-			suspicion=_require_float(mapping["suspicion"], "personality.suspicion", minimum=-1.0, maximum=1.0),
-			fearfulness=_require_float(mapping["fearfulness"], "personality.fearfulness", minimum=-1.0, maximum=1.0),
-			persistence=_require_float(mapping["persistence"], "personality.persistence", minimum=-1.0, maximum=1.0),
-			stability_seeking=_require_float(mapping["stability_seeking"], "personality.stability_seeking", minimum=-1.0, maximum=1.0),
-			patience=_require_float(mapping["patience"], "personality.patience", minimum=-1.0, maximum=1.0),
+			assertiveness=_require_float(mapping["assertiveness"], "personality.assertiveness", minimum=-1.0, maximum=1.0),
 			optimism=_require_float(mapping["optimism"], "personality.optimism", minimum=-1.0, maximum=1.0),
+			risk_aversion=_require_float(mapping["risk_aversion"], "personality.risk_aversion", minimum=-1.0, maximum=1.0),
+			suspicion=_require_float(mapping["suspicion"], "personality.suspicion", minimum=-1.0, maximum=1.0),
+			endurance=_require_float(mapping["endurance"], "personality.endurance", minimum=-1.0, maximum=1.0),
 			randomness=_require_float(mapping["randomness"], "personality.randomness", minimum=-1.0, maximum=1.0),
+			stability_seeking=_require_float(mapping["stability_seeking"], "personality.stability_seeking", minimum=-1.0, maximum=1.0),
 			curiosity=_require_float(mapping["curiosity"], "personality.curiosity", minimum=-1.0, maximum=1.0),
 		)
 
 	def to_dict(self) -> dict[str, float]:
 		return {
 			"impulsiveness": float(self.impulsiveness),
-			"greed": float(self.greed),
-			"ambition": float(self.ambition),
-			"caution": float(self.caution),
-			"suspicion": float(self.suspicion),
-			"fearfulness": float(self.fearfulness),
-			"persistence": float(self.persistence),
-			"stability_seeking": float(self.stability_seeking),
-			"patience": float(self.patience),
+			"assertiveness": float(self.assertiveness),
 			"optimism": float(self.optimism),
+			"risk_aversion": float(self.risk_aversion),
+			"suspicion": float(self.suspicion),
+			"endurance": float(self.endurance),
 			"randomness": float(self.randomness),
+			"stability_seeking": float(self.stability_seeking),
 			"curiosity": float(self.curiosity),
 		}
 
