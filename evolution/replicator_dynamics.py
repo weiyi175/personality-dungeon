@@ -973,6 +973,7 @@ def personality_guided_replicator_step(
 		"f_prime_exploring":   float(f_prime[2]),
 		"mutation_strength": float(mutation_strength),
 		"simplex_sum_error": float(abs(sum(x_new) - 1.0)),
+		"raw_input_sum_deviation": float(abs(total - 1.0)),
 	}
 	return new_simplex, diagnostics
 

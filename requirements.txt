@@ -4,6 +4,7 @@
 
 # Optional (for presentation deck generation scripts)
 python-pptx
+pydantic>=2,<3
 
 # Dev/Test
 pytest

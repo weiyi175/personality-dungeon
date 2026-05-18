@@ -16,6 +16,7 @@ from typing import Any, Callable, Literal
 
 from math import exp
 from math import isfinite
+from math import sin, pi, log
 
 
 @dataclass(frozen=True)
@@ -75,6 +76,10 @@ class SimConfig:
 	personality_coupling_lambda_mu: float = 0.0
 	personality_coupling_lambda_k: float = 0.0
 	personality_coupling_beta_state_k: float = 0.0
+	personality_coupling_mu_lower: float = 0.0
+	personality_coupling_mu_upper: float = 0.60
+	personality_coupling_k_lower: float = 0.03
+	personality_coupling_k_upper: float = 0.09
 	sampled_growth_n_strata: int = 1
 	tangential_drift_delta: float = 0.0
 	tangential_alpha: float = 0.0
@@ -84,6 +89,19 @@ class SimConfig:
 	local_group_size: int = 0
 	payoff_niche_epsilon: float = 0.0
 	niche_group_size: int = 0
+	# Synergy experimental parameters
+	synergy_type: str = "none"
+	synergy_gamma: float = 0.0
+	synergy_pulse_type: str | None = None
+	synergy_pulse_period: int | None = None
+	synergy_local_similarity_threshold: float | None = None
+	synergy_nonlinear_type: str | None = None
+	synergy_nonlinear_epsilon: float | None = None
+	synergy_nonlinear_power: float | None = None
+	# B1 phase-defibrillation pulse (temporary gamma boost over a fixed window)
+	synergy_pulse_t_start: int | None = None
+	synergy_pulse_duration: int | None = None
+	synergy_pulse_delta_gamma: float = 0.0
 
 
 DEFAULT_EVENTS_JSON = Path(__file__).resolve().parents[1] / "docs" / "personality_dungeon_v1" / "02_event_templates_v1.json"
@@ -188,6 +206,30 @@ def _parse_args() -> SimConfig:
 		type=float,
 		default=0.0,
 		help="B4: linear state-dependent modulation strength for per-player selection strength using current dominance max(p_s).",
+	)
+	p.add_argument(
+		"--personality-coupling-mu-lower",
+		type=float,
+		default=0.0,
+		help="H7.2: lower clamp bound for personality-coupled inertia mu.",
+	)
+	p.add_argument(
+		"--personality-coupling-mu-upper",
+		type=float,
+		default=0.60,
+		help="H7.2: upper clamp bound for personality-coupled inertia mu.",
+	)
+	p.add_argument(
+		"--personality-coupling-k-lower",
+		type=float,
+		default=0.03,
+		help="H7.2: lower clamp bound for personality-coupled selection strength k.",
+	)
+	p.add_argument(
+		"--personality-coupling-k-upper",
+		type=float,
+		default=0.09,
+		help="H7.2: upper clamp bound for personality-coupled selection strength k.",
 	)
 	p.add_argument(
 		"--sampled-growth-n-strata",
@@ -313,6 +355,57 @@ def _parse_args() -> SimConfig:
 		type=float,
 		default=None,
 		help="threshold_ab only: high-regime value for b. Defaults to base --b when omitted.",
+	)
+	p.add_argument(
+		"--synergy-type",
+		type=str,
+		default="none",
+		choices=["none", "pulsed", "local", "nonlinear"],
+		help="Enable experimental synergy modifiers: pulsed/local/nonlinear (default: none)",
+	)
+	p.add_argument(
+		"--synergy-gamma",
+		type=float,
+		default=0.0,
+		help="Synergy strength coefficient (gamma) used by synergy modifiers",
+	)
+	p.add_argument(
+		"--synergy-pulse-type",
+		type=str,
+		default=None,
+		choices=["sine", "square"],
+		help="Pulsed synergy waveform type (sine or square)",
+	)
+	p.add_argument(
+		"--synergy-pulse-period",
+		type=int,
+		default=None,
+		help="Pulsed synergy period in rounds",
+	)
+	p.add_argument(
+		"--synergy-local-similarity-threshold",
+		type=float,
+		default=None,
+		help="Local synergy: persona similarity threshold in [0,1]",
+	)
+	p.add_argument(
+		"--synergy-nonlinear-type",
+		type=str,
+		default=None,
+		choices=["piecewise", "power"],
+		help="Nonlinear synergy type",
+	)
+	p.add_argument(
+		"--synergy-nonlinear-epsilon",
+		type=float,
+		default=None,
+		help="Nonlinear synergy small-epsilon parameter",
+	)
+	p.add_argument(
+		"--synergy-nonlinear-power",
+		type=float,
+		default=None,
+		help="Nonlinear synergy power parameter (e.g., 2.0)",
 	)
 	p.add_argument("--gamma", type=float, default=0.1)
 	p.add_argument("--epsilon", type=float, default=0.0)
@@ -484,6 +577,15 @@ def _parse_args() -> SimConfig:
 		threshold_state_alpha=a.threshold_state_alpha,
 		threshold_a_hi=a.threshold_a_hi,
 		threshold_b_hi=a.threshold_b_hi,
+		# Synergy parameters (experimental)
+		synergy_type=str(a.synergy_type),
+		synergy_gamma=float(a.synergy_gamma),
+		synergy_pulse_type=a.synergy_pulse_type,
+		synergy_pulse_period=a.synergy_pulse_period,
+		synergy_local_similarity_threshold=a.synergy_local_similarity_threshold,
+		synergy_nonlinear_type=a.synergy_nonlinear_type,
+		synergy_nonlinear_epsilon=a.synergy_nonlinear_epsilon,
+		synergy_nonlinear_power=a.synergy_nonlinear_power,
 		personality_coupling_mu_base=float(a.personality_coupling_mu_base),
 		personality_coupling_lambda_mu=float(a.personality_coupling_lambda_mu),
 		personality_coupling_lambda_k=float(a.personality_coupling_lambda_k),
@@ -1264,6 +1366,114 @@ def _matrix_ab_payoff_vec(
 	}
 
 
+def _apply_synergy_to_payoff(
+	payoff_vec: dict[str, float],
+	x: dict[str, float],
+	cfg: SimConfig,
+	round_index: int,
+	players: list[object] | None = None,
+) -> dict[str, float]:
+	"""Apply experimental synergy modifiers to a matrix_ab payoff vector.
+
+	This is a lightweight PoC implementation to allow pulsed/local/nonlinear
+	variants to be exercised. The function returns a new dict (does not mutate
+	the input) so callers can use it safely.
+	"""
+	try:
+		gamma = float(cfg.synergy_gamma)
+	except Exception:
+		return dict(payoff_vec)
+	if gamma == 0.0 or str(cfg.synergy_type) == "none":
+		return dict(payoff_vec)
+
+	# compute simple entropy gating (small eps to avoid log(0))
+	eps = 1e-12
+	H = 0.0
+	for v in x.values():
+		p = max(float(v), eps)
+		H -= p * log(p)
+
+	stype = str(cfg.synergy_type)
+
+	# Base delta coefficient (may be modulated by waveform or local similarity)
+	delta_coeff = float(gamma)
+
+	# B1 phase-defibrillation: temporarily boost gamma during a fixed time window
+	_pulse_dg = float(getattr(cfg, "synergy_pulse_delta_gamma", 0.0))
+	if _pulse_dg != 0.0:
+		_pulse_t0 = cfg.synergy_pulse_t_start
+		_pulse_dur = cfg.synergy_pulse_duration
+		if _pulse_t0 is not None and _pulse_dur is not None and _pulse_dur > 0:
+			if int(_pulse_t0) <= round_index < int(_pulse_t0) + int(_pulse_dur):
+				delta_coeff += _pulse_dg
+
+	if stype == "pulsed":
+		period = int(cfg.synergy_pulse_period or 1)
+		waveform = str(cfg.synergy_pulse_type or "sine")
+		phase = float(round_index % max(1, period))
+		if waveform == "sine":
+			pulse = 0.5 * (1.0 + sin(2.0 * pi * (phase / float(period))))
+		else:
+			pulse = 1.0 if sin(2.0 * pi * (phase / float(period))) > 0.0 else 0.0
+		delta_coeff *= pulse
+
+	# Local: modulate by average persona similarity if players provided
+	if stype == "local":
+		S = 0.0
+		if players and len(players) > 0:
+			# compute average pairwise cosine similarity of personality vectors
+			vecs = []
+			for pl in players:
+				pdata = getattr(pl, "personality", None)
+				if not pdata:
+					continue
+				vals = [float(v) for v in pdata.values()]
+				norm = sum(v * v for v in vals) ** 0.5
+				if norm <= 0.0:
+					continue
+				vecs.append([v / norm for v in vals])
+			n = len(vecs)
+			if n <= 1:
+				S = 1.0
+			else:
+				# compute mean pairwise cosine similarity via sum-of-units trick
+				d = len(vecs[0])
+				sum_u = [0.0] * d
+				for u in vecs:
+					for i in range(d):
+						sum_u[i] += u[i]
+				sum_u_dot = sum(val * val for val in sum_u)
+				# average pairwise similarity = (sum_u_dot - n) / (n*(n-1))
+				S = (sum_u_dot - n) / (n * (n - 1))
+				S = max(0.0, min(1.0, float(S)))
+		else:
+			# fallback: use dominance threshold heuristic from distribution
+			thr = float(cfg.synergy_local_similarity_threshold or 1.0)
+			dominance = max(float(v) for v in x.values())
+			S = max(0.0, min(1.0, dominance - float(thr)))
+		delta_coeff *= S
+
+	out = dict(payoff_vec)
+
+	# W4 formula: Δu_s = γ·H(x)·(1/3 − x_s) (optionally modulated)
+	for s, u in payoff_vec.items():
+		x_s = float(x.get(s, 0.0))
+		if stype == "nonlinear" and str(cfg.synergy_nonlinear_type or "") == "power":
+			pwr = float(cfg.synergy_nonlinear_power or 1.0)
+			sign = 1.0 if (1.0 / 3.0 - x_s) >= 0 else -1.0
+			mag = abs(1.0 / 3.0 - x_s) ** float(pwr)
+			delta = float(delta_coeff) * float(mag) * sign * float(H)
+		elif stype == "nonlinear" and str(cfg.synergy_nonlinear_type or "") == "piecewise":
+			eps_nl = float(cfg.synergy_nonlinear_epsilon or 0.0)
+			dist = abs(1.0 / 3.0 - x_s)
+			scale = 0.0 if dist <= eps_nl else 1.0
+			delta = float(delta_coeff) * (1.0 / 3.0 - x_s) * float(H) * float(scale)
+		else:
+			delta = float(delta_coeff) * (1.0 / 3.0 - x_s) * float(H)
+		out[s] = float(u) + float(delta)
+	return out
+
+
 def _resolve_threshold_band(*, theta: float, theta_low: float | None, theta_high: float | None) -> tuple[float, float]:
 	lo = float(theta) if theta_low is None else float(theta_low)
 	hi = float(theta) if theta_high is None else float(theta_high)
@@ -1722,6 +1932,8 @@ def simulate(
 				current_regime_hi=threshold_regime_hi,
 				current_state_value=threshold_state_value,
 			)
+			# Apply experimental synergy modifiers to the mean-field payoff vector
+			u = _apply_synergy_to_payoff(u, x_pay, cfg, t)
 			if float(cfg.sampled_inertia) > 0.0:
 				w_cur, mean_field_velocity = inertial_deterministic_replicator_step(
 					w_cur,
@@ -1932,6 +2144,8 @@ def simulate(
 			matrix_cross_coupling=float(cfg.matrix_cross_coupling),
 			x=x_pay,
 		)
+		# Apply experimental synergy modifiers to sampled/hybrid payoff
+		hybrid_payoff = _apply_synergy_to_payoff(hybrid_payoff, x_pay, cfg, t, players)
 
 		# 演化更新：根據每一輪的 last_reward 來調整下一輪抽樣權重
 		if float(cfg.async_update_fraction) < 1.0:
@@ -1976,6 +2190,10 @@ def simulate(
 						lambda_k=float(cfg.personality_coupling_lambda_k),
 						state_dominance=state_dominance,
 						beta_state_k=float(cfg.personality_coupling_beta_state_k),
+						mu_lower=float(cfg.personality_coupling_mu_lower),
+						mu_upper=float(cfg.personality_coupling_mu_upper),
+						k_lower=float(cfg.personality_coupling_k_lower),
+						k_upper=float(cfg.personality_coupling_k_upper),
 					)
 					next_weights, next_velocity = inertial_growth_step(
 						getattr(pl, "strategy_weights", {}),
@@ -2488,6 +2706,10 @@ def simulate_series_window(
 						lambda_k=float(cfg.personality_coupling_lambda_k),
 						state_dominance=state_dominance,
 						beta_state_k=float(cfg.personality_coupling_beta_state_k),
+						mu_lower=float(cfg.personality_coupling_mu_lower),
+						mu_upper=float(cfg.personality_coupling_mu_upper),
+						k_lower=float(cfg.personality_coupling_k_lower),
+						k_upper=float(cfg.personality_coupling_k_upper),
 					)
 					next_weights, next_velocity = inertial_growth_step(
 						getattr(pl, "strategy_weights", {}),

@@ -172,6 +172,13 @@ class W1RoundAdapter:
 		self.world_update_rows: list[dict[str, Any]] = []
 		self.window_index = 0
 
+		# Diagnostic thresholds (can be tuned)
+		self.HARD_LOWER_BOUND = 0.0
+		self.HARD_UPPER_BOUND = 1.0
+		# If any state dimension changes more than this between consecutive world updates,
+		# mark an instability warning.
+		self.STABILITY_THRESHOLD = 0.20
+
 	def _apply_profile(self, loader: EventLoader) -> dict[str, dict[str, float]]:
 		profile = world_profile_from_state(self.state)
 		loader.set_event_type_weights(profile["event_type_weights"])
@@ -224,36 +231,73 @@ class W1RoundAdapter:
 			)
 		start_round = int(round_index + 1 - len(self.window_rows))
 		end_round = int(round_index)
-		self.world_update_rows.append(
-			{
-				"seed": self.seed,
-				"window_index": self.window_index,
-				"round": int(round_index + 1),
-				"window_start_round": start_round,
-				"window_end_round": end_round,
-				"scarcity": float(self.state["scarcity"]),
-				"threat": float(self.state["threat"]),
-				"noise": float(self.state["noise"]),
-				"intel": float(self.state["intel"]),
-				"dominant_event_type": dominant_event_type,
-				"a_new": float(dungeon.a),
-				"b_new": float(dungeon.b),
-				"event_distribution": json.dumps(normalized_distribution, sort_keys=True),
-				"p_aggressive": _safe_mean([float(row["p_aggressive"]) for row in self.window_rows]),
-				"p_defensive": _safe_mean([float(row["p_defensive"]) for row in self.window_rows]),
-				"p_balanced": _safe_mean([float(row["p_balanced"]) for row in self.window_rows]),
-				"mean_reward_window": _safe_mean([float(row.get("avg_reward") or 0.0) for row in self.window_rows]),
-				"event_share_threat": float(self.event_counts["Threat"]) / float(sum(self.event_counts.values()) or 1),
-				"event_share_resource": float(self.event_counts["Resource"]) / float(sum(self.event_counts.values()) or 1),
-				"event_share_uncertainty": float(self.event_counts["Uncertainty"]) / float(sum(self.event_counts.values()) or 1),
-				"event_share_navigation": float(self.event_counts["Navigation"]) / float(sum(self.event_counts.values()) or 1),
-				"event_share_internal": float(self.event_counts["Internal"]) / float(sum(self.event_counts.values()) or 1),
-				"state_deviated": bool(_state_deviated(self.state)),
-				"risk_multipliers_json": json.dumps(profile["risk_multipliers"], sort_keys=True),
-				"reward_multipliers_json": json.dumps(profile["reward_multipliers"], sort_keys=True),
-				"trait_multipliers_json": json.dumps(profile["trait_multipliers"], sort_keys=True),
-			}
-		)
+		row_entry = {
+			"seed": self.seed,
+			"window_index": self.window_index,
+			"round": int(round_index + 1),
+			"window_start_round": start_round,
+			"window_end_round": end_round,
+			"scarcity": float(self.state["scarcity"]),
+			"threat": float(self.state["threat"]),
+			"noise": float(self.state["noise"]),
+			"intel": float(self.state["intel"]),
+			"dominant_event_type": dominant_event_type,
+			"a_new": float(dungeon.a),
+			"b_new": float(dungeon.b),
+			"event_distribution": json.dumps(normalized_distribution, sort_keys=True),
+			"p_aggressive": _safe_mean([float(row["p_aggressive"]) for row in self.window_rows]),
+			"p_defensive": _safe_mean([float(row["p_defensive"]) for row in self.window_rows]),
+			"p_balanced": _safe_mean([float(row["p_balanced"]) for row in self.window_rows]),
+			"mean_reward_window": _safe_mean([float(row.get("avg_reward") or 0.0) for row in self.window_rows]),
+			"event_share_threat": float(self.event_counts["Threat"]) / float(sum(self.event_counts.values()) or 1),
+			"event_share_resource": float(self.event_counts["Resource"]) / float(sum(self.event_counts.values()) or 1),
+			"event_share_uncertainty": float(self.event_counts["Uncertainty"]) / float(sum(self.event_counts.values()) or 1),
+			"event_share_navigation": float(self.event_counts["Navigation"]) / float(sum(self.event_counts.values()) or 1),
+			"event_share_internal": float(self.event_counts["Internal"]) / float(sum(self.event_counts.values()) or 1),
+			"state_deviated": bool(_state_deviated(self.state)),
+			# Diagnostic flags added for provenance: boundary hit and instability
+			"boundary_hit": False,
+			"boundary_hit_vars": "[]",
+			"boundary_hit_type": "",
+			"instability_warning": False,
+			"max_state_delta": 0.0,
+			"risk_multipliers_json": json.dumps(profile["risk_multipliers"], sort_keys=True),
+			"reward_multipliers_json": json.dumps(profile["reward_multipliers"], sort_keys=True),
+			"trait_multipliers_json": json.dumps(profile["trait_multipliers"], sort_keys=True),
+		}
+
+		# Boundary hit detection (runtime hard-coded clamp boundaries)
+		hit_vars: list[str] = []
+		for dim in WORLD_DIMENSIONS:
+			v = float(self.state.get(dim, 0.0))
+			if v <= float(self.HARD_LOWER_BOUND) or v >= float(self.HARD_UPPER_BOUND):
+				hit_vars.append(dim)
+		if hit_vars:
+			row_entry["boundary_hit"] = True
+			row_entry["boundary_hit_vars"] = json.dumps(hit_vars)
+			# classify hit type
+			lower_hit = any(float(self.state.get(d, 0.0)) <= float(self.HARD_LOWER_BOUND) for d in hit_vars)
+			upper_hit = any(float(self.state.get(d, 0.0)) >= float(self.HARD_UPPER_BOUND) for d in hit_vars)
+			if lower_hit and upper_hit:
+				row_entry["boundary_hit_type"] = "both"
+			elif lower_hit:
+				row_entry["boundary_hit_type"] = "lower"
+			else:
+				row_entry["boundary_hit_type"] = "upper"
+
+		# Instability detection: compare to previous world update if present
+		max_delta = 0.0
+		if self.world_update_rows:
+			prev = self.world_update_rows[-1]
+			for dim in WORLD_DIMENSIONS:
+				prev_v = float(prev.get(dim, 0.5))
+				cur_v = float(self.state.get(dim, 0.5))
+				max_delta = max(max_delta, abs(cur_v - prev_v))
+			if max_delta > float(self.STABILITY_THRESHOLD):
+				row_entry["instability_warning"] = True
+		row_entry["max_state_delta"] = float(max_delta)
+
+		self.world_update_rows.append(row_entry)
 		self.window_rows = []
 		self.event_counts = {family: 0 for family in EVENT_FAMILIES}
 		self.window_index += 1
@@ -316,6 +360,16 @@ def run_w1_cell(config: W1CellConfig, seed: int) -> dict[str, Any]:
 		corr_threshold=0.09,
 	)
 	provenance = summarize_event_provenance(sim_cfg.out_csv, events_json=config.events_json)
+	# Add lightweight boundary/instability summary into provenance for quick filtering
+	rows = list(adapter.world_update_rows)
+	boundary_hit_count = sum(1 for r in rows if r.get("boundary_hit"))
+	instability_warning_count = sum(1 for r in rows if r.get("instability_warning"))
+	total_windows = len(rows)
+	boundary_hit_rate = (float(boundary_hit_count) / float(total_windows)) if total_windows else 0.0
+	provenance["boundary_hit_count"] = int(boundary_hit_count)
+	provenance["instability_warning_count"] = int(instability_warning_count)
+	provenance["world_update_windows"] = int(total_windows)
+	provenance["boundary_hit_rate"] = float(boundary_hit_rate)
 	provenance_path = config.provenance_path(int(seed))
 	provenance_path.write_text(json.dumps(provenance, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 	return {

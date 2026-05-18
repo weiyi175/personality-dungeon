@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "godot-ai": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "godot-ai==2.3.2",
+        "godot-ai",
+        "--transport",
+        "stdio"
+      ]
+    }
+  }
+}

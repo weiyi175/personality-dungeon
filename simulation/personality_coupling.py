@@ -36,16 +36,24 @@ def resolve_personality_coupling(
 	lambda_k: float,
 	state_dominance: float | None = None,
 	beta_state_k: float = 0.0,
+	mu_lower: float = 0.0,
+	mu_upper: float = 0.60,
+	k_lower: float = 0.03,
+	k_upper: float = 0.09,
 ) -> dict[str, float]:
+	if float(mu_lower) > float(mu_upper):
+		raise ValueError("mu_lower must be <= mu_upper")
+	if float(k_lower) > float(k_upper):
+		raise ValueError("k_lower must be <= k_upper")
 	signal_mu = float(personality_signal_mu(personality))
 	signal_k = float(personality_signal_k(personality))
-	mu_value = clamp(float(mu_base) + float(lambda_mu) * signal_mu, 0.0, 0.60)
+	mu_value = clamp(float(mu_base) + float(lambda_mu) * signal_mu, float(mu_lower), float(mu_upper))
 	k_raw = float(k_base) * (1.0 + float(lambda_k) * signal_k)
 	k_raw *= personality_state_k_factor(
 		state_dominance=state_dominance,
 		beta_state_k=float(beta_state_k),
 	)
-	k_value = clamp(k_raw, 0.03, 0.09)
+	k_value = clamp(k_raw, float(k_lower), float(k_upper))
 	return {
 		"signal_mu": signal_mu,
 		"signal_k": signal_k,
@@ -73,6 +81,10 @@ def summarize_personality_coupling(
 			lambda_k=float(lambda_k),
 			state_dominance=state_dominance,
 			beta_state_k=float(beta_state_k),
+			mu_lower=float(mu_lower),
+			mu_upper=float(mu_upper),
+			k_lower=float(k_lower),
+			k_upper=float(k_upper),
 		)
 		for personality in personalities
 	]

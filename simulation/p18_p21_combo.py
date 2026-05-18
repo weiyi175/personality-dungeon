@@ -648,9 +648,21 @@ def main() -> None:
     parser.add_argument("--summary-tsv", type=Path, default=DEFAULT_SUMMARY_TSV)
     parser.add_argument("--combined-tsv", type=Path, default=DEFAULT_COMBINED_TSV)
     parser.add_argument("--decision-md", type=Path, default=DEFAULT_DECISION_MD)
+    parser.add_argument(
+        "--conditions", type=str, default=None,
+        help="Comma-separated list of condition names to run (e.g. control,p18_only). "
+             "Omit to run all default conditions.",
+    )
     args = parser.parse_args()
 
-    conditions = _default_conditions()
+    all_conditions = _default_conditions()
+    if args.conditions is not None:
+        allowed = {c.strip() for c in args.conditions.split(",")}
+        conditions = [c for c in all_conditions if c["config_name"] in allowed]
+        if not conditions:
+            raise ValueError(f"No matching conditions for: {args.conditions!r}")
+    else:
+        conditions = all_conditions
     seeds = _parse_seeds(args.seeds)
     print(f"P18×P21 Combo: {len(conditions)} conditions × {len(seeds)} seeds")
     for cond in conditions:

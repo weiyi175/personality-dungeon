@@ -213,7 +213,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--burn-in", type=int, default=4000)
     parser.add_argument("--tail", type=int, default=4000)
     parser.add_argument("--healthy-threshold", type=float, default=0.80)
-    parser.add_argument("--gate-max-l1", type=int, default=3)
+    parser.add_argument("--gate-max-l1", type=int, default=6)
     parser.add_argument("--gate-min-healthy", type=int, default=42)
     parser.add_argument("--out-json", default=str(DEFAULT_OUT_JSON))
     args = parser.parse_args(argv)

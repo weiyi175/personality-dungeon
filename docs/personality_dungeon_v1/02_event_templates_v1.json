@@ -1,5 +1,5 @@
 {
-  "version": "v1.0",
+  "version": "v2.0",
   "schema_status": "research_ready_draft",
   "event_types": [
     "Threat",
@@ -10,17 +10,14 @@
   ],
   "dimensions_order": [
     "impulsiveness",
-    "caution",
-    "greed",
+    "assertiveness",
     "optimism",
+    "risk_aversion",
     "suspicion",
-    "persistence",
+    "endurance",
     "randomness",
     "stability_seeking",
-    "ambition",
-    "patience",
-    "curiosity",
-    "fearfulness"
+    "curiosity"
   ],
   "utility_weight_policy": {
     "raw_range": [-1.0, 1.0],
@@ -97,14 +94,14 @@
       "actions": [
         {
           "name": "attack",
-          "weights": [0.9, -0.7, 0.0, 0.2, -0.4, 0.2, 0.1, -0.5, 0.9, -0.3, 0.0, -0.6],
+          "weights": [0.9, 0.7, 0.2, -0.8, -0.3, 0.1, 0.0, -0.5, 0.0],
           "base_risk": 0.72,
           "risk_model": {
             "risk_bias": 0.0,
             "trait_weights": {
-              "impulsiveness": 0.18,
-              "ambition": 0.12,
-              "caution": -0.10
+              "impulsiveness": 0.14,
+              "assertiveness": 0.08,
+              "risk_aversion": -0.10
             },
             "clamp": [0.0, 1.0],
             "failure_threshold": 0.82
@@ -119,7 +116,7 @@
             "utility_delta": 0.26,
             "risk_delta": -0.06,
             "popularity_shift": {"aggressive": 0.05, "defensive": -0.03, "balanced": -0.02},
-            "trait_deltas": {"ambition": 0.03, "fearfulness": -0.02},
+            "trait_deltas": {"assertiveness": 0.03, "impulsiveness": 0.01},
             "sample_quality": "rare",
             "state_tags": ["clear_path", "dominance_signal"]
           },
@@ -146,20 +143,21 @@
               "utility_delta": -0.28,
               "risk_delta": 0.22,
               "popularity_shift": {"aggressive": -0.05, "defensive": 0.03, "balanced": 0.02},
-              "trait_deltas": {"fearfulness": 0.06, "caution": 0.03},
+              "trait_deltas": {"risk_aversion": 0.04, "endurance": -0.02},
               "state_tags": ["exposed", "tempo_loss"]
             }
           ]
         },
         {
           "name": "observe",
-          "weights": [-0.4, 0.8, -0.2, 0.0, 0.7, 0.1, -0.2, 0.4, 0.0, 0.3, 0.7, 0.1],
+          "weights": [-0.4, -0.2, 0.0, 0.4, 0.7, 0.2, -0.1, 0.5, 0.7],
           "base_risk": 0.18,
           "risk_model": {
             "risk_bias": 0.0,
             "trait_weights": {
               "curiosity": 0.10,
-              "caution": -0.08
+              "suspicion": 0.08,
+              "risk_aversion": -0.08
             },
             "clamp": [0.0, 1.0],
             "failure_threshold": 0.72
@@ -174,7 +172,7 @@
             "utility_delta": 0.14,
             "risk_delta": -0.12,
             "popularity_shift": {"aggressive": -0.01, "defensive": 0.03, "balanced": 0.02},
-            "trait_deltas": {"curiosity": 0.02, "caution": 0.01},
+            "trait_deltas": {"curiosity": 0.02, "suspicion": 0.01},
             "sample_quality": "common",
             "state_tags": ["intel", "future_risk_discount"]
           },
@@ -201,20 +199,20 @@
               "utility_delta": -0.10,
               "risk_delta": 0.10,
               "popularity_shift": {"aggressive": 0.01, "defensive": -0.02, "balanced": 0.01},
-              "trait_deltas": {"suspicion": 0.03},
+              "trait_deltas": {"suspicion": 0.03, "stability_seeking": -0.01},
               "state_tags": ["partial_false_intel"]
             }
           ]
         },
         {
           "name": "retreat",
-          "weights": [-0.8, 0.9, -0.3, -0.2, 0.4, -0.1, 0.0, 0.5, -0.7, 0.2, -0.2, 0.8],
+          "weights": [-0.8, -0.5, -0.2, 0.8, 0.3, 0.3, 0.0, 0.6, -0.1],
           "base_risk": 0.26,
           "risk_model": {
             "risk_bias": 0.0,
             "trait_weights": {
-              "fearfulness": 0.10,
-              "caution": 0.12
+              "risk_aversion": 0.12,
+              "endurance": 0.10
             },
             "clamp": [0.0, 1.0],
             "failure_threshold": 0.78
@@ -229,7 +227,7 @@
             "utility_delta": 0.08,
             "risk_delta": -0.09,
             "popularity_shift": {"aggressive": -0.03, "defensive": 0.04, "balanced": -0.01},
-            "trait_deltas": {"caution": 0.02, "ambition": -0.02},
+            "trait_deltas": {"endurance": 0.02, "assertiveness": -0.01},
             "sample_quality": "common",
             "state_tags": ["survival", "position_reset"]
           },
@@ -256,7 +254,7 @@
               "utility_delta": -0.16,
               "risk_delta": 0.14,
               "popularity_shift": {"aggressive": 0.02, "defensive": -0.01, "balanced": -0.01},
-              "trait_deltas": {"fearfulness": 0.04},
+              "trait_deltas": {"risk_aversion": 0.03, "endurance": -0.02},
               "state_tags": ["pursued"]
             }
           ]
@@ -270,13 +268,13 @@
       "actions": [
         {
           "name": "open_now",
-          "weights": [0.8, -0.6, 0.9, 0.2, -0.3, 0.0, 0.3, -0.4, 0.6, -0.2, 0.1, -0.2],
+          "weights": [0.8, 0.6, 0.3, -0.7, -0.3, 0.1, 0.2, -0.4, 0.1],
           "base_risk": 0.81,
           "risk_model": {
             "risk_bias": 0.0,
             "trait_weights": {
-              "greed": 0.20,
-              "impulsiveness": 0.16,
+              "impulsiveness": 0.15,
+              "optimism": 0.08,
               "suspicion": -0.08
             },
             "clamp": [0.0, 1.0],
@@ -286,7 +284,7 @@
             "utility_delta": 0.32,
             "risk_delta": 0.04,
             "popularity_shift": {"aggressive": 0.04, "defensive": -0.02, "balanced": -0.02},
-            "trait_deltas": {"greed": 0.03, "caution": -0.01},
+            "trait_deltas": {"impulsiveness": 0.02, "risk_aversion": -0.01},
             "sample_quality": "rare",
             "state_tags": ["loot_spike", "variance_up"]
           },
@@ -297,14 +295,14 @@
               "utility_delta": -0.30,
               "risk_delta": 0.26,
               "popularity_shift": {"aggressive": -0.04, "defensive": 0.02, "balanced": 0.02},
-              "trait_deltas": {"fearfulness": 0.05, "suspicion": 0.04},
+              "trait_deltas": {"suspicion": 0.04, "risk_aversion": 0.03},
               "state_tags": ["trap_triggered"]
             }
           ]
         },
         {
           "name": "inspect",
-          "weights": [-0.2, 0.8, 0.0, 0.0, 0.6, 0.1, -0.1, 0.4, 0.0, 0.2, 0.8, 0.0],
+          "weights": [-0.2, -0.1, 0.0, 0.3, 0.6, 0.2, -0.1, 0.3, 0.7],
           "base_risk": 0.22,
           "risk_model": {
             "risk_bias": 0.0,
@@ -351,14 +349,14 @@
               "utility_delta": -0.06,
               "risk_delta": 0.12,
               "popularity_shift": {"aggressive": -0.01, "defensive": 0.00, "balanced": 0.01},
-              "trait_deltas": {"fearfulness": 0.10, "suspicion": 0.12},
+              "trait_deltas": {"risk_aversion": 0.08, "suspicion": 0.12},
               "state_tags": ["misread_trap"]
             }
           ]
         },
         {
           "name": "ignore",
-          "weights": [-0.5, 0.5, -0.6, -0.1, 0.3, -0.1, -0.1, 0.5, -0.3, 0.2, -0.2, 0.2],
+          "weights": [-0.4, -0.2, -0.1, 0.6, 0.2, 0.1, -0.1, 0.6, -0.2],
           "base_risk": 0.04,
           "risk_model": {
             "risk_bias": 0.0,
@@ -383,20 +381,20 @@
               "utility_delta": -0.06,
               "risk_delta": 0.00,
               "popularity_shift": {"aggressive": 0.00, "defensive": 0.00, "balanced": 0.00},
-              "trait_deltas": {"ambition": -0.01},
+              "trait_deltas": {"stability_seeking": -0.01},
               "state_tags": ["tempo_loss"]
             }
           ]
         },
         {
           "name": "break_it",
-          "weights": [0.6, -0.3, 0.2, 0.1, 0.2, 0.2, 0.1, -0.1, 0.4, -0.1, 0.1, -0.1],
+          "weights": [0.6, 0.3, 0.1, -0.3, 0.1, 0.2, 0.1, -0.1, 0.1],
           "base_risk": 0.49,
           "risk_model": {
             "risk_bias": 0.0,
             "trait_weights": {
               "impulsiveness": 0.12,
-              "ambition": 0.08
+              "assertiveness": 0.08
             },
             "clamp": [0.0, 1.0],
             "failure_threshold": 0.78
@@ -416,7 +414,7 @@
               "utility_delta": -0.15,
               "risk_delta": 0.16,
               "popularity_shift": {"aggressive": -0.02, "defensive": 0.01, "balanced": 0.01},
-              "trait_deltas": {"fearfulness": 0.03},
+              "trait_deltas": {"risk_aversion": 0.02},
               "state_tags": ["self_inflicted_noise"]
             }
           ]
@@ -430,12 +428,12 @@
       "actions": [
         {
           "name": "touch",
-          "weights": [0.4, -0.4, 0.2, 0.5, -0.5, 0.1, 0.0, -0.2, 0.5, -0.1, 0.8, -0.3],
+          "weights": [0.3, 0.1, 0.4, -0.5, -0.4, 0.0, 0.1, -0.2, 0.8],
           "base_risk": 0.67,
           "risk_model": {
             "risk_bias": 0.0,
             "trait_weights": {
-              "curiosity": 0.18,
+              "curiosity": 0.15,
               "optimism": 0.10,
               "suspicion": -0.12
             },
@@ -446,7 +444,7 @@
             "utility_delta": 0.30,
             "risk_delta": 0.06,
             "popularity_shift": {"aggressive": 0.02, "defensive": -0.03, "balanced": 0.01},
-            "trait_deltas": {"curiosity": 0.04, "optimism": 0.02},
+            "trait_deltas": {"curiosity": 0.04, "optimism": 0.02, "risk_aversion": -0.01},
             "sample_quality": "critical",
             "state_tags": ["mutation", "rare_sample"]
           },
@@ -457,20 +455,20 @@
               "utility_delta": -0.24,
               "risk_delta": 0.20,
               "popularity_shift": {"aggressive": 0.00, "defensive": 0.03, "balanced": -0.03},
-              "trait_deltas": {"fearfulness": 0.04, "randomness": 0.05},
+              "trait_deltas": {"risk_aversion": 0.03, "randomness": 0.05},
               "state_tags": ["unstable_mark"]
             }
           ]
         },
         {
           "name": "study",
-          "weights": [-0.2, 0.5, -0.1, 0.1, 0.7, 0.3, -0.1, 0.3, 0.0, 0.3, 0.7, 0.0],
+          "weights": [-0.2, -0.1, 0.1, 0.3, 0.6, 0.3, -0.1, 0.3, 0.7],
           "base_risk": 0.24,
           "risk_model": {
             "risk_bias": 0.0,
             "trait_weights": {
               "curiosity": 0.10,
-              "patience": 0.08
+              "endurance": 0.08
             },
             "clamp": [0.0, 1.0],
             "failure_threshold": 0.70
@@ -483,7 +481,7 @@
             "utility_delta": 0.15,
             "risk_delta": -0.08,
             "popularity_shift": {"aggressive": -0.01, "defensive": 0.01, "balanced": 0.00},
-            "trait_deltas": {"patience": 0.04, "curiosity": 0.05},
+            "trait_deltas": {"endurance": 0.03, "curiosity": 0.05},
             "sample_quality": "rare",
             "state_tags": ["future_option_bonus", "lore"]
           },
@@ -510,20 +508,20 @@
               "utility_delta": -0.09,
               "risk_delta": 0.10,
               "popularity_shift": {"aggressive": 0.00, "defensive": 0.01, "balanced": -0.01},
-              "trait_deltas": {"fearfulness": 0.12, "suspicion": 0.08},
+              "trait_deltas": {"risk_aversion": 0.10, "suspicion": 0.08},
               "state_tags": ["incomplete_decoding"]
             }
           ]
         },
         {
           "name": "leave",
-          "weights": [-0.5, 0.6, -0.3, -0.2, 0.4, -0.1, 0.0, 0.4, -0.2, 0.2, -0.3, 0.3],
+          "weights": [-0.4, -0.2, -0.1, 0.5, 0.3, 0.1, 0.0, 0.4, -0.2],
           "base_risk": 0.05,
           "risk_model": {
             "risk_bias": 0.0,
             "trait_weights": {
-              "caution": 0.04,
-              "fearfulness": 0.04
+              "risk_aversion": 0.05,
+              "endurance": 0.04
             },
             "clamp": [0.0, 1.0],
             "failure_threshold": 0.78
@@ -532,7 +530,7 @@
             "utility_delta": 0.06,
             "risk_delta": -0.05,
             "popularity_shift": {"aggressive": -0.01, "defensive": 0.01, "balanced": 0.00},
-            "trait_deltas": {"caution": 0.01},
+            "trait_deltas": {"risk_aversion": 0.01},
             "sample_quality": "common",
             "state_tags": ["safety"]
           },
@@ -543,7 +541,7 @@
               "utility_delta": -0.04,
               "risk_delta": 0.05,
               "popularity_shift": {"aggressive": 0.00, "defensive": 0.00, "balanced": 0.00},
-              "trait_deltas": {"fearfulness": 0.01},
+              "trait_deltas": {"risk_aversion": 0.01},
               "state_tags": ["unresolved_pull"]
             }
           ]
@@ -557,13 +555,13 @@
       "actions": [
         {
           "name": "safe_route",
-          "weights": [-0.4, 0.8, -0.2, -0.1, 0.2, 0.2, -0.1, 0.8, -0.4, 0.4, -0.2, 0.2],
+          "weights": [-0.4, -0.2, -0.1, 0.5, 0.2, 0.3, -0.1, 0.7, -0.2],
           "base_risk": 0.09,
           "risk_model": {
             "risk_bias": 0.0,
             "trait_weights": {
               "stability_seeking": 0.08,
-              "caution": 0.08
+              "endurance": 0.08
             },
             "clamp": [0.0, 1.0],
             "failure_threshold": 0.78
@@ -572,7 +570,7 @@
             "utility_delta": 0.10,
             "risk_delta": -0.10,
             "popularity_shift": {"aggressive": -0.02, "defensive": 0.01, "balanced": 0.01},
-            "trait_deltas": {"stability_seeking": 0.02, "patience": 0.01},
+            "trait_deltas": {"stability_seeking": 0.02, "endurance": 0.01},
             "sample_quality": "common",
             "state_tags": ["lower_future_drift"]
           },
@@ -590,14 +588,14 @@
         },
         {
           "name": "deep_route",
-          "weights": [0.3, -0.4, 0.2, 0.2, -0.2, 0.1, 0.1, -0.3, 0.8, 0.0, 0.5, -0.1],
+          "weights": [0.3, 0.4, 0.2, -0.4, -0.2, 0.1, 0.1, -0.3, 0.5],
           "base_risk": 0.46,
           "risk_model": {
             "risk_bias": 0.0,
             "trait_weights": {
-              "ambition": 0.14,
+              "assertiveness": 0.12,
               "curiosity": 0.10,
-              "caution": -0.08
+              "risk_aversion": -0.08
             },
             "clamp": [0.0, 1.0],
             "failure_threshold": 0.72
@@ -606,7 +604,7 @@
             "utility_delta": 0.24,
             "risk_delta": 0.05,
             "popularity_shift": {"aggressive": 0.03, "defensive": -0.02, "balanced": -0.01},
-            "trait_deltas": {"ambition": 0.03, "curiosity": 0.02},
+            "trait_deltas": {"assertiveness": 0.03, "curiosity": 0.02},
             "sample_quality": "rare",
             "state_tags": ["higher_event_quality", "rare_encounters"]
           },
@@ -617,20 +615,20 @@
               "utility_delta": -0.22,
               "risk_delta": 0.18,
               "popularity_shift": {"aggressive": -0.03, "defensive": 0.02, "balanced": 0.01},
-              "trait_deltas": {"fearfulness": 0.04, "caution": 0.02},
+              "trait_deltas": {"risk_aversion": 0.03, "endurance": 0.02},
               "state_tags": ["ambushed"]
             }
           ]
         },
         {
           "name": "rest_here",
-          "weights": [-0.3, 0.4, -0.4, 0.0, 0.2, 0.1, -0.2, 0.5, -0.4, 0.6, -0.3, 0.2],
+          "weights": [-0.3, -0.1, 0.0, 0.4, 0.2, 0.5, -0.2, 0.7, -0.2],
           "base_risk": 0.13,
           "risk_model": {
             "risk_bias": 0.0,
             "trait_weights": {
-              "patience": 0.06,
-              "fearfulness": 0.05
+              "endurance": 0.06,
+              "risk_aversion": 0.05
             },
             "clamp": [0.0, 1.0],
             "failure_threshold": 0.78
@@ -639,7 +637,7 @@
             "utility_delta": 0.09,
             "risk_delta": -0.14,
             "popularity_shift": {"aggressive": -0.01, "defensive": 0.00, "balanced": 0.01},
-            "trait_deltas": {"patience": 0.02, "randomness": -0.02},
+            "trait_deltas": {"endurance": 0.02, "randomness": -0.02},
             "sample_quality": "common",
             "state_tags": ["volatility_reset", "tempo_loss"]
           },
@@ -650,7 +648,7 @@
               "utility_delta": -0.08,
               "risk_delta": 0.08,
               "popularity_shift": {"aggressive": 0.01, "defensive": 0.00, "balanced": -0.01},
-              "trait_deltas": {"fearfulness": 0.02},
+              "trait_deltas": {"risk_aversion": 0.02},
               "state_tags": ["caught_resting"]
             }
           ]
@@ -664,13 +662,14 @@
       "actions": [
         {
           "name": "push_forward",
-          "weights": [0.5, -0.5, 0.0, 0.3, -0.2, 0.4, 0.0, -0.4, 0.5, -0.3, 0.0, -0.8],
+          "weights": [0.5, 0.4, 0.3, -0.5, -0.2, 0.2, 0.0, -0.4, 0.0],
           "base_risk": 0.42,
           "risk_model": {
             "risk_bias": 0.0,
             "trait_weights": {
               "impulsiveness": 0.12,
-              "fearfulness": -0.18
+              "endurance": 0.10,
+              "risk_aversion": -0.10
             },
             "clamp": [0.0, 1.0],
             "failure_threshold": 0.75
@@ -679,7 +678,7 @@
             "utility_delta": 0.18,
             "risk_delta": 0.02,
             "popularity_shift": {"aggressive": 0.02, "defensive": -0.01, "balanced": -0.01},
-            "trait_deltas": {"fearfulness": -0.03, "ambition": 0.01},
+            "trait_deltas": {"endurance": 0.02, "assertiveness": 0.01},
             "sample_quality": "rare",
             "state_tags": ["momentum", "shock_resistance"]
           },
@@ -690,20 +689,20 @@
               "utility_delta": -0.18,
               "risk_delta": 0.16,
               "popularity_shift": {"aggressive": -0.02, "defensive": 0.01, "balanced": 0.01},
-              "trait_deltas": {"fearfulness": 0.05, "randomness": 0.03},
+              "trait_deltas": {"risk_aversion": 0.04, "randomness": 0.03},
               "state_tags": ["panic_spiral"]
             }
           ]
         },
         {
           "name": "steady_breathing",
-          "weights": [-0.3, 0.5, -0.2, 0.0, 0.1, 0.3, -0.3, 0.7, -0.1, 0.5, -0.1, 0.6],
+          "weights": [-0.2, -0.1, 0.1, 0.3, 0.1, 0.6, -0.2, 0.8, -0.1],
           "base_risk": 0.08,
           "risk_model": {
             "risk_bias": 0.0,
             "trait_weights": {
               "stability_seeking": 0.10,
-              "patience": 0.12
+              "endurance": 0.12
             },
             "clamp": [0.0, 1.0],
             "failure_threshold": 0.65
@@ -716,7 +715,7 @@
             "utility_delta": 0.12,
             "risk_delta": -0.16,
             "popularity_shift": {"aggressive": -0.01, "defensive": -0.01, "balanced": 0.02},
-            "trait_deltas": {"stability_seeking": 0.04, "fearfulness": -0.03},
+            "trait_deltas": {"stability_seeking": 0.04, "endurance": 0.02},
             "sample_quality": "common",
             "state_tags": ["risk_decay", "noise_reduction"]
           },
@@ -743,20 +742,20 @@
               "utility_delta": -0.07,
               "risk_delta": 0.09,
               "popularity_shift": {"aggressive": -0.01, "defensive": -0.01, "balanced": 0.02},
-              "trait_deltas": {"fearfulness": 0.15, "patience": -0.08},
+              "trait_deltas": {"risk_aversion": 0.12, "endurance": -0.06},
               "state_tags": ["stress_linger"]
             }
           ]
         },
         {
           "name": "flee_randomly",
-          "weights": [0.2, -0.2, 0.0, -0.1, -0.2, -0.2, 0.9, -0.4, 0.0, -0.3, 0.0, 0.8],
+          "weights": [0.2, 0.0, -0.1, 0.2, -0.1, -0.1, 0.9, -0.4, 0.0],
           "base_risk": 0.36,
           "risk_model": {
             "risk_bias": 0.0,
             "trait_weights": {
-              "randomness": 0.18,
-              "fearfulness": 0.12
+              "randomness": 0.15,
+              "risk_aversion": 0.10
             },
             "clamp": [0.0, 1.0],
             "failure_threshold": 0.70
@@ -776,8 +775,766 @@
               "utility_delta": -0.17,
               "risk_delta": 0.17,
               "popularity_shift": {"aggressive": -0.01, "defensive": 0.00, "balanced": 0.01},
-              "trait_deltas": {"fearfulness": 0.04, "randomness": 0.02},
+              "trait_deltas": {"risk_aversion": 0.04, "randomness": 0.02},
               "state_tags": ["information_loss", "unstable_position"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "event_id": "threat_ambush",
+      "type": "Threat",
+      "description": "Multiple figures burst from concealed alcoves — no time to plan.",
+      "actions": [
+        {
+          "name": "fight",
+          "weights": [0.8, 0.7, 0.1, -0.6, -0.2, 0.2, 0.1, -0.4, 0.0],
+          "base_risk": 0.65,
+          "risk_model": {
+            "risk_bias": 0.0,
+            "trait_weights": {
+              "impulsiveness": 0.13,
+              "assertiveness": 0.10,
+              "risk_aversion": -0.09
+            },
+            "clamp": [0.0, 1.0],
+            "failure_threshold": 0.80
+          },
+          "success_model": {
+            "probability_formula": "clamp(0, 1, 1 - final_risk)",
+            "success_bias": 1.0,
+            "success_steepness": 6.0,
+            "fallback": "clamp(0, 1, 1 - base_risk)"
+          },
+          "reward_effects": {
+            "utility_delta": 0.24,
+            "risk_delta": -0.04,
+            "popularity_shift": {"aggressive": 0.06, "defensive": -0.03, "balanced": -0.03},
+            "trait_deltas": {"assertiveness": 0.03, "endurance": 0.01},
+            "sample_quality": "rare",
+            "state_tags": ["confrontation", "tempo_hold"]
+          },
+          "state_effects": {
+            "on_success": {
+              "stress_delta": -0.06,
+              "noise_delta": -0.02,
+              "risk_drift_delta": -0.02,
+              "health_delta": -0.04,
+              "intel_delta": 0.02
+            },
+            "on_failure": {
+              "stress_delta": 0.22,
+              "noise_delta": 0.06,
+              "risk_drift_delta": 0.04,
+              "health_delta": -0.16,
+              "intel_delta": -0.01
+            }
+          },
+          "failure_outcomes": [
+            {
+              "kind": "overwhelmed",
+              "probability": 1.0,
+              "utility_delta": -0.26,
+              "risk_delta": 0.24,
+              "popularity_shift": {"aggressive": -0.04, "defensive": 0.02, "balanced": 0.02},
+              "trait_deltas": {"risk_aversion": 0.05, "endurance": -0.02},
+              "state_tags": ["outnumbered", "health_critical"]
+            }
+          ]
+        },
+        {
+          "name": "hide",
+          "weights": [-0.5, -0.3, -0.1, 0.7, 0.5, 0.4, -0.1, 0.5, -0.1],
+          "base_risk": 0.28,
+          "risk_model": {
+            "risk_bias": 0.0,
+            "trait_weights": {
+              "risk_aversion": 0.12,
+              "endurance": 0.08,
+              "impulsiveness": -0.10
+            },
+            "clamp": [0.0, 1.0],
+            "failure_threshold": 0.75
+          },
+          "success_model": "logistic",
+          "success_model_kwargs": {"steepness": 5.0},
+          "reward_effects": {
+            "utility_delta": 0.10,
+            "risk_delta": -0.14,
+            "popularity_shift": {"aggressive": -0.04, "defensive": 0.03, "balanced": 0.01},
+            "trait_deltas": {"risk_aversion": 0.02, "endurance": 0.01},
+            "sample_quality": "common",
+            "state_tags": ["concealed", "intel_opportunity"]
+          },
+          "state_effects": {
+            "on_success": {
+              "stress_delta": -0.10,
+              "noise_delta": -0.04,
+              "risk_drift_delta": -0.03,
+              "health_delta": 0.0,
+              "intel_delta": 0.06
+            },
+            "on_failure": {
+              "stress_delta": 0.16,
+              "noise_delta": 0.05,
+              "risk_drift_delta": 0.03,
+              "health_delta": -0.08,
+              "intel_delta": 0.0
+            }
+          },
+          "failure_outcomes": [
+            {
+              "kind": "discovered_while_hiding",
+              "probability": 1.0,
+              "utility_delta": -0.18,
+              "risk_delta": 0.16,
+              "popularity_shift": {"aggressive": 0.02, "defensive": -0.01, "balanced": -0.01},
+              "trait_deltas": {"suspicion": 0.03, "risk_aversion": 0.02},
+              "state_tags": ["exposed", "no_cover"]
+            }
+          ]
+        },
+        {
+          "name": "run",
+          "weights": [0.3, 0.0, -0.1, 0.3, -0.1, 0.2, 0.6, -0.2, 0.1],
+          "base_risk": 0.38,
+          "risk_model": {
+            "risk_bias": 0.0,
+            "trait_weights": {
+              "randomness": 0.12,
+              "endurance": 0.08
+            },
+            "clamp": [0.0, 1.0],
+            "failure_threshold": 0.72
+          },
+          "reward_effects": {
+            "utility_delta": 0.08,
+            "risk_delta": -0.06,
+            "popularity_shift": {"aggressive": -0.02, "defensive": 0.01, "balanced": 0.01},
+            "trait_deltas": {"randomness": 0.02},
+            "sample_quality": "common",
+            "state_tags": ["position_reset", "unpredictable_exit"]
+          },
+          "failure_outcomes": [
+            {
+              "kind": "cut_off_while_running",
+              "probability": 1.0,
+              "utility_delta": -0.20,
+              "risk_delta": 0.18,
+              "popularity_shift": {"aggressive": 0.01, "defensive": -0.01, "balanced": 0.00},
+              "trait_deltas": {"risk_aversion": 0.04, "endurance": -0.02},
+              "state_tags": ["cornered", "tempo_loss"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "event_id": "resource_hidden_treasure",
+      "type": "Resource",
+      "description": "A gleaming cache of valuables lies barely visible under rubble.",
+      "actions": [
+        {
+          "name": "dig_it_out",
+          "weights": [0.7, 0.6, 0.4, -0.5, 0.0, 0.2, 0.1, -0.3, 0.2],
+          "base_risk": 0.54,
+          "risk_model": {
+            "risk_bias": 0.0,
+            "trait_weights": {
+              "impulsiveness": 0.13,
+              "assertiveness": 0.10,
+              "risk_aversion": -0.08
+            },
+            "clamp": [0.0, 1.0],
+            "failure_threshold": 0.78
+          },
+          "success_model": {
+            "probability_formula": "clamp(0, 1, 1 - final_risk)",
+            "success_bias": 1.0,
+            "success_steepness": 6.0,
+            "fallback": "clamp(0, 1, 1 - base_risk)"
+          },
+          "reward_effects": {
+            "utility_delta": 0.28,
+            "risk_delta": 0.02,
+            "popularity_shift": {"aggressive": 0.03, "defensive": -0.02, "balanced": -0.01},
+            "trait_deltas": {"assertiveness": 0.02, "optimism": 0.01},
+            "sample_quality": "rare",
+            "state_tags": ["loot_spike", "noise_generated"]
+          },
+          "state_effects": {
+            "on_success": {
+              "stress_delta": -0.06,
+              "noise_delta": 0.02,
+              "risk_drift_delta": 0.01,
+              "health_delta": 0.0,
+              "intel_delta": 0.01
+            },
+            "on_failure": {
+              "stress_delta": 0.14,
+              "noise_delta": 0.06,
+              "risk_drift_delta": 0.02,
+              "health_delta": -0.08,
+              "intel_delta": -0.01
+            }
+          },
+          "failure_outcomes": [
+            {
+              "kind": "rubble_collapse",
+              "probability": 1.0,
+              "utility_delta": -0.22,
+              "risk_delta": 0.18,
+              "popularity_shift": {"aggressive": -0.03, "defensive": 0.02, "balanced": 0.01},
+              "trait_deltas": {"risk_aversion": 0.04, "impulsiveness": -0.01},
+              "state_tags": ["blocked_route", "noise_spike"]
+            }
+          ]
+        },
+        {
+          "name": "careful_extract",
+          "weights": [-0.2, 0.2, 0.1, 0.4, 0.5, 0.3, -0.1, 0.4, 0.6],
+          "base_risk": 0.18,
+          "risk_model": {
+            "risk_bias": 0.0,
+            "trait_weights": {
+              "suspicion": 0.12,
+              "curiosity": 0.10,
+              "impulsiveness": -0.06
+            },
+            "clamp": [0.0, 1.0],
+            "failure_threshold": 0.68
+          },
+          "success_model": "logistic",
+          "success_model_kwargs": {"steepness": 5.0},
+          "reward_effects": {
+            "utility_delta": 0.14,
+            "risk_delta": -0.08,
+            "popularity_shift": {"aggressive": -0.01, "defensive": 0.03, "balanced": 0.02},
+            "trait_deltas": {"curiosity": 0.03, "endurance": 0.01},
+            "sample_quality": "common",
+            "state_tags": ["safe_loot", "intel_bonus"]
+          },
+          "state_effects": {
+            "on_success": {
+              "stress_delta": -0.04,
+              "noise_delta": -0.02,
+              "risk_drift_delta": -0.02,
+              "health_delta": 0.0,
+              "intel_delta": 0.05
+            },
+            "on_failure": {
+              "stress_delta": 0.12,
+              "noise_delta": 0.04,
+              "risk_drift_delta": 0.02,
+              "health_delta": 0.0,
+              "intel_delta": -0.02
+            }
+          },
+          "failure_outcomes": [
+            {
+              "kind": "concealed_snare",
+              "probability": 1.0,
+              "utility_delta": -0.10,
+              "risk_delta": 0.12,
+              "popularity_shift": {"aggressive": -0.01, "defensive": 0.01, "balanced": 0.00},
+              "trait_deltas": {"suspicion": 0.04, "risk_aversion": 0.02},
+              "state_tags": ["trap_revealed_late"]
+            }
+          ]
+        },
+        {
+          "name": "mark_and_leave",
+          "weights": [-0.1, 0.0, 0.2, 0.2, 0.1, 0.1, 0.3, 0.7, 0.5],
+          "base_risk": 0.05,
+          "risk_model": {
+            "risk_bias": 0.0,
+            "trait_weights": {
+              "stability_seeking": 0.06,
+              "curiosity": 0.05
+            },
+            "clamp": [0.0, 1.0],
+            "failure_threshold": 0.78
+          },
+          "reward_effects": {
+            "utility_delta": 0.06,
+            "risk_delta": -0.04,
+            "popularity_shift": {"aggressive": -0.01, "defensive": 0.01, "balanced": 0.00},
+            "trait_deltas": {"stability_seeking": 0.01, "curiosity": 0.01},
+            "sample_quality": "common",
+            "state_tags": ["future_return_flag", "low_noise"]
+          },
+          "failure_outcomes": [
+            {
+              "kind": "mark_erased",
+              "probability": 1.0,
+              "utility_delta": -0.04,
+              "risk_delta": 0.02,
+              "popularity_shift": {"aggressive": 0.00, "defensive": 0.00, "balanced": 0.00},
+              "trait_deltas": {"stability_seeking": -0.01},
+              "state_tags": ["opportunity_lost"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "event_id": "uncertainty_ancient_shrine",
+      "type": "Uncertainty",
+      "description": "An ancient shrine pulses with an energy that defies interpretation.",
+      "actions": [
+        {
+          "name": "activate",
+          "weights": [0.4, 0.3, 0.5, -0.4, -0.3, 0.0, 0.3, -0.2, 0.7],
+          "base_risk": 0.70,
+          "risk_model": {
+            "risk_bias": 0.0,
+            "trait_weights": {
+              "curiosity": 0.15,
+              "optimism": 0.10,
+              "risk_aversion": -0.12
+            },
+            "clamp": [0.0, 1.0],
+            "failure_threshold": 0.80
+          },
+          "success_model": {
+            "probability_formula": "clamp(0, 1, 1 - final_risk)",
+            "success_bias": 1.0,
+            "success_steepness": 6.0,
+            "fallback": "clamp(0, 1, 1 - base_risk)"
+          },
+          "reward_effects": {
+            "utility_delta": 0.34,
+            "risk_delta": 0.08,
+            "popularity_shift": {"aggressive": 0.02, "defensive": -0.04, "balanced": 0.02},
+            "trait_deltas": {"curiosity": 0.04, "optimism": 0.02},
+            "sample_quality": "critical",
+            "state_tags": ["mutation", "resonance_triggered"]
+          },
+          "state_effects": {
+            "on_success": {
+              "stress_delta": -0.04,
+              "noise_delta": 0.04,
+              "risk_drift_delta": 0.02,
+              "health_delta": 0.02,
+              "intel_delta": 0.10
+            },
+            "on_failure": {
+              "stress_delta": 0.24,
+              "noise_delta": 0.08,
+              "risk_drift_delta": 0.04,
+              "health_delta": -0.12,
+              "intel_delta": -0.04
+            }
+          },
+          "failure_outcomes": [
+            {
+              "kind": "resonance_overload",
+              "probability": 1.0,
+              "utility_delta": -0.28,
+              "risk_delta": 0.22,
+              "popularity_shift": {"aggressive": 0.00, "defensive": 0.04, "balanced": -0.04},
+              "trait_deltas": {"randomness": 0.06, "risk_aversion": 0.04},
+              "state_tags": ["unstable_mark", "debuff"]
+            }
+          ]
+        },
+        {
+          "name": "meditate",
+          "weights": [-0.2, -0.1, 0.2, 0.3, 0.2, 0.4, -0.1, 0.5, 0.6],
+          "base_risk": 0.22,
+          "risk_model": {
+            "risk_bias": 0.0,
+            "trait_weights": {
+              "endurance": 0.10,
+              "curiosity": 0.10
+            },
+            "clamp": [0.0, 1.0],
+            "failure_threshold": 0.70
+          },
+          "success_model": "logistic",
+          "success_model_kwargs": {"steepness": 4.5},
+          "reward_effects": {
+            "utility_delta": 0.16,
+            "risk_delta": -0.06,
+            "popularity_shift": {"aggressive": -0.01, "defensive": 0.02, "balanced": 0.01},
+            "trait_deltas": {"endurance": 0.03, "stability_seeking": 0.02},
+            "sample_quality": "rare",
+            "state_tags": ["clarity_buff", "noise_reduction"]
+          },
+          "state_effects": {
+            "on_success": {
+              "stress_delta": -0.10,
+              "noise_delta": -0.04,
+              "risk_drift_delta": -0.02,
+              "health_delta": 0.02,
+              "intel_delta": 0.06
+            },
+            "on_failure": {
+              "stress_delta": 0.16,
+              "noise_delta": 0.04,
+              "risk_drift_delta": 0.02,
+              "health_delta": 0.0,
+              "intel_delta": -0.03
+            }
+          },
+          "failure_outcomes": [
+            {
+              "kind": "meditation_interrupted",
+              "probability": 1.0,
+              "utility_delta": -0.08,
+              "risk_delta": 0.08,
+              "popularity_shift": {"aggressive": 0.00, "defensive": 0.01, "balanced": -0.01},
+              "trait_deltas": {"suspicion": 0.02, "stability_seeking": -0.01},
+              "state_tags": ["partial_buff_only"]
+            }
+          ]
+        },
+        {
+          "name": "destroy",
+          "weights": [0.7, 0.5, 0.1, -0.6, -0.2, 0.2, 0.1, -0.4, -0.1],
+          "base_risk": 0.48,
+          "risk_model": {
+            "risk_bias": 0.0,
+            "trait_weights": {
+              "impulsiveness": 0.13,
+              "assertiveness": 0.10,
+              "curiosity": -0.08
+            },
+            "clamp": [0.0, 1.0],
+            "failure_threshold": 0.76
+          },
+          "reward_effects": {
+            "utility_delta": 0.12,
+            "risk_delta": 0.04,
+            "popularity_shift": {"aggressive": 0.04, "defensive": -0.02, "balanced": -0.02},
+            "trait_deltas": {"assertiveness": 0.01, "curiosity": -0.02},
+            "sample_quality": "common",
+            "state_tags": ["threat_neutralised", "knowledge_loss"]
+          },
+          "failure_outcomes": [
+            {
+              "kind": "shrine_retaliation",
+              "probability": 1.0,
+              "utility_delta": -0.22,
+              "risk_delta": 0.20,
+              "popularity_shift": {"aggressive": -0.03, "defensive": 0.02, "balanced": 0.01},
+              "trait_deltas": {"risk_aversion": 0.04, "randomness": 0.04},
+              "state_tags": ["curse_mark", "debuff"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "event_id": "navigation_collapsing_bridge",
+      "type": "Navigation",
+      "description": "A stone bridge over a chasm is cracking underfoot with each step.",
+      "actions": [
+        {
+          "name": "sprint_across",
+          "weights": [0.9, 0.6, 0.3, -0.7, -0.1, 0.2, 0.1, -0.5, 0.1],
+          "base_risk": 0.72,
+          "risk_model": {
+            "risk_bias": 0.0,
+            "trait_weights": {
+              "impulsiveness": 0.14,
+              "endurance": 0.08,
+              "risk_aversion": -0.12
+            },
+            "clamp": [0.0, 1.0],
+            "failure_threshold": 0.82
+          },
+          "success_model": {
+            "probability_formula": "clamp(0, 1, 1 - final_risk)",
+            "success_bias": 1.0,
+            "success_steepness": 6.0,
+            "fallback": "clamp(0, 1, 1 - base_risk)"
+          },
+          "reward_effects": {
+            "utility_delta": 0.20,
+            "risk_delta": -0.08,
+            "popularity_shift": {"aggressive": 0.04, "defensive": -0.02, "balanced": -0.02},
+            "trait_deltas": {"assertiveness": 0.02, "endurance": 0.01},
+            "sample_quality": "rare",
+            "state_tags": ["chasm_cleared", "momentum"]
+          },
+          "state_effects": {
+            "on_success": {
+              "stress_delta": -0.04,
+              "noise_delta": -0.02,
+              "risk_drift_delta": -0.02,
+              "health_delta": 0.0,
+              "intel_delta": 0.01
+            },
+            "on_failure": {
+              "stress_delta": 0.26,
+              "noise_delta": 0.08,
+              "risk_drift_delta": 0.05,
+              "health_delta": -0.20,
+              "intel_delta": -0.02
+            }
+          },
+          "failure_outcomes": [
+            {
+              "kind": "bridge_collapse_midway",
+              "probability": 1.0,
+              "utility_delta": -0.30,
+              "risk_delta": 0.28,
+              "popularity_shift": {"aggressive": -0.04, "defensive": 0.02, "balanced": 0.02},
+              "trait_deltas": {"risk_aversion": 0.06, "endurance": -0.03},
+              "state_tags": ["health_critical", "route_blocked"]
+            }
+          ]
+        },
+        {
+          "name": "test_and_cross",
+          "weights": [-0.2, 0.1, 0.1, 0.4, 0.5, 0.4, 0.0, 0.4, 0.6],
+          "base_risk": 0.32,
+          "risk_model": {
+            "risk_bias": 0.0,
+            "trait_weights": {
+              "suspicion": 0.12,
+              "curiosity": 0.10,
+              "impulsiveness": -0.08
+            },
+            "clamp": [0.0, 1.0],
+            "failure_threshold": 0.72
+          },
+          "success_model": "logistic",
+          "success_model_kwargs": {"steepness": 5.0},
+          "reward_effects": {
+            "utility_delta": 0.14,
+            "risk_delta": -0.10,
+            "popularity_shift": {"aggressive": -0.01, "defensive": 0.03, "balanced": 0.02},
+            "trait_deltas": {"curiosity": 0.02, "endurance": 0.02},
+            "sample_quality": "common",
+            "state_tags": ["safe_cross", "intel"]
+          },
+          "state_effects": {
+            "on_success": {
+              "stress_delta": -0.06,
+              "noise_delta": -0.03,
+              "risk_drift_delta": -0.02,
+              "health_delta": 0.0,
+              "intel_delta": 0.04
+            },
+            "on_failure": {
+              "stress_delta": 0.18,
+              "noise_delta": 0.06,
+              "risk_drift_delta": 0.03,
+              "health_delta": -0.10,
+              "intel_delta": -0.02
+            }
+          },
+          "failure_outcomes": [
+            {
+              "kind": "sudden_fracture",
+              "probability": 1.0,
+              "utility_delta": -0.18,
+              "risk_delta": 0.16,
+              "popularity_shift": {"aggressive": -0.02, "defensive": 0.01, "balanced": 0.01},
+              "trait_deltas": {"risk_aversion": 0.04, "suspicion": 0.02},
+              "state_tags": ["partial_damage", "route_warned"]
+            }
+          ]
+        },
+        {
+          "name": "find_detour",
+          "weights": [-0.5, -0.2, -0.1, 0.6, 0.3, 0.3, 0.1, 0.5, 0.2],
+          "base_risk": 0.10,
+          "risk_model": {
+            "risk_bias": 0.0,
+            "trait_weights": {
+              "risk_aversion": 0.10,
+              "stability_seeking": 0.08
+            },
+            "clamp": [0.0, 1.0],
+            "failure_threshold": 0.78
+          },
+          "reward_effects": {
+            "utility_delta": 0.08,
+            "risk_delta": -0.12,
+            "popularity_shift": {"aggressive": -0.02, "defensive": 0.02, "balanced": 0.00},
+            "trait_deltas": {"stability_seeking": 0.01, "endurance": 0.01},
+            "sample_quality": "common",
+            "state_tags": ["lower_future_drift", "tempo_loss"]
+          },
+          "failure_outcomes": [
+            {
+              "kind": "detour_blocked",
+              "probability": 1.0,
+              "utility_delta": -0.08,
+              "risk_delta": 0.06,
+              "popularity_shift": {"aggressive": 0.00, "defensive": -0.01, "balanced": 0.01},
+              "trait_deltas": {"suspicion": 0.02},
+              "state_tags": ["dead_end", "time_wasted"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "event_id": "internal_resolve_surge",
+      "type": "Internal",
+      "description": "A sudden surge of clarity and determination rises from within.",
+      "actions": [
+        {
+          "name": "channel_resolve",
+          "weights": [0.3, 0.6, 0.5, 0.2, -0.1, 0.7, -0.1, 0.3, 0.1],
+          "base_risk": 0.14,
+          "risk_model": {
+            "risk_bias": 0.0,
+            "trait_weights": {
+              "endurance": 0.12,
+              "assertiveness": 0.10,
+              "risk_aversion": -0.06
+            },
+            "clamp": [0.0, 1.0],
+            "failure_threshold": 0.68
+          },
+          "success_model": "logistic",
+          "success_model_kwargs": {"steepness": 5.0},
+          "reward_effects": {
+            "utility_delta": 0.18,
+            "risk_delta": -0.14,
+            "popularity_shift": {"aggressive": 0.02, "defensive": 0.01, "balanced": 0.01},
+            "trait_deltas": {"endurance": 0.04, "assertiveness": 0.02},
+            "sample_quality": "rare",
+            "state_tags": ["resilience_buff", "risk_decay"]
+          },
+          "state_effects": {
+            "on_success": {
+              "stress_delta": -0.12,
+              "noise_delta": -0.04,
+              "risk_drift_delta": -0.03,
+              "health_delta": 0.04,
+              "intel_delta": 0.02
+            },
+            "on_failure": {
+              "stress_delta": 0.14,
+              "noise_delta": 0.04,
+              "risk_drift_delta": 0.02,
+              "health_delta": 0.0,
+              "intel_delta": -0.01
+            }
+          },
+          "failure_outcomes": [
+            {
+              "kind": "resolve_scattered",
+              "probability": 1.0,
+              "utility_delta": -0.10,
+              "risk_delta": 0.08,
+              "popularity_shift": {"aggressive": -0.01, "defensive": -0.01, "balanced": 0.02},
+              "trait_deltas": {"endurance": -0.02, "stability_seeking": -0.01},
+              "state_tags": ["morale_dip", "noise_spike"]
+            }
+          ]
+        },
+        {
+          "name": "focus_outward",
+          "weights": [0.4, 0.5, 0.4, -0.2, 0.0, 0.2, 0.2, 0.1, 0.5],
+          "base_risk": 0.26,
+          "risk_model": {
+            "risk_bias": 0.0,
+            "trait_weights": {
+              "assertiveness": 0.12,
+              "optimism": 0.10,
+              "risk_aversion": -0.08
+            },
+            "clamp": [0.0, 1.0],
+            "failure_threshold": 0.74
+          },
+          "success_model": {
+            "probability_formula": "clamp(0, 1, 1 - final_risk)",
+            "success_bias": 1.0,
+            "success_steepness": 6.0,
+            "fallback": "clamp(0, 1, 1 - base_risk)"
+          },
+          "reward_effects": {
+            "utility_delta": 0.22,
+            "risk_delta": -0.06,
+            "popularity_shift": {"aggressive": 0.03, "defensive": -0.01, "balanced": 0.02},
+            "trait_deltas": {"assertiveness": 0.02, "curiosity": 0.02},
+            "sample_quality": "rare",
+            "state_tags": ["momentum", "intel_opportunity"]
+          },
+          "state_effects": {
+            "on_success": {
+              "stress_delta": -0.08,
+              "noise_delta": -0.02,
+              "risk_drift_delta": -0.01,
+              "health_delta": 0.0,
+              "intel_delta": 0.06
+            },
+            "on_failure": {
+              "stress_delta": 0.16,
+              "noise_delta": 0.04,
+              "risk_drift_delta": 0.02,
+              "health_delta": -0.04,
+              "intel_delta": -0.02
+            }
+          },
+          "failure_outcomes": [
+            {
+              "kind": "overreach",
+              "probability": 1.0,
+              "utility_delta": -0.14,
+              "risk_delta": 0.12,
+              "popularity_shift": {"aggressive": -0.02, "defensive": 0.01, "balanced": 0.01},
+              "trait_deltas": {"risk_aversion": 0.03, "optimism": -0.01},
+              "state_tags": ["exposed", "tempo_loss"]
+            }
+          ]
+        },
+        {
+          "name": "suppress_surge",
+          "weights": [-0.1, -0.2, 0.0, 0.4, 0.2, 0.6, -0.2, 0.5, 0.0],
+          "base_risk": 0.08,
+          "risk_model": {
+            "risk_bias": 0.0,
+            "trait_weights": {
+              "stability_seeking": 0.10,
+              "endurance": 0.08
+            },
+            "clamp": [0.0, 1.0],
+            "failure_threshold": 0.65
+          },
+          "success_model": "logistic",
+          "success_model_kwargs": {"steepness": 5.0},
+          "reward_effects": {
+            "utility_delta": 0.10,
+            "risk_delta": -0.18,
+            "popularity_shift": {"aggressive": -0.02, "defensive": 0.01, "balanced": 0.01},
+            "trait_deltas": {"stability_seeking": 0.03, "endurance": 0.01},
+            "sample_quality": "common",
+            "state_tags": ["volatility_reset", "risk_decay"]
+          },
+          "state_effects": {
+            "on_success": {
+              "stress_delta": -0.10,
+              "noise_delta": -0.05,
+              "risk_drift_delta": -0.04,
+              "health_delta": 0.0,
+              "intel_delta": 0.0
+            },
+            "on_failure": {
+              "stress_delta": 0.12,
+              "noise_delta": 0.03,
+              "risk_drift_delta": 0.02,
+              "health_delta": 0.0,
+              "intel_delta": -0.01
+            }
+          },
+          "failure_outcomes": [
+            {
+              "kind": "suppression_backfire",
+              "probability": 1.0,
+              "utility_delta": -0.08,
+              "risk_delta": 0.10,
+              "popularity_shift": {"aggressive": -0.01, "defensive": -0.01, "balanced": 0.02},
+              "trait_deltas": {"randomness": 0.03, "stability_seeking": -0.02},
+              "state_tags": ["stress_linger", "noise_spike"]
             }
           ]
         }

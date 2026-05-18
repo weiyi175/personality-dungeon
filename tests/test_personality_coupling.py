@@ -32,6 +32,22 @@ def test_resolve_personality_coupling_applies_linear_state_modulation_before_cla
 	assert params["k"] == pytest.approx(0.036)
 
 
+def test_resolve_personality_coupling_supports_custom_clamp_bounds() -> None:
+	params = resolve_personality_coupling(
+		{},
+		mu_base=0.05,
+		lambda_mu=0.0,
+		k_base=0.30,
+		lambda_k=0.0,
+		mu_lower=0.05,
+		mu_upper=0.25,
+		k_lower=0.05,
+		k_upper=0.25,
+	)
+	assert params["mu"] == pytest.approx(0.05)
+	assert params["k"] == pytest.approx(0.25)
+
+
 def test_beta_state_k_requires_personality_coupled_mode() -> None:
 	with pytest.raises(ValueError, match="beta_state_k"):
 		simulate(

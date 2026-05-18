@@ -130,8 +130,10 @@ class PersonalityRLConfig:
     # ---- World feedback (Little Dragon) ----
     world_feedback: bool = False        # enable adaptive world state
     world_feedback_mode: str = "off"   # off | adaptive_world | read_only | difficulty_only
-    lambda_world: float = 0.08          # world update gain
+    lambda_world: float = 0.04          # world update gain (Hypothesis 1 recalibration: 50% down)
     world_update_interval: int = 200    # rounds between world updates
+    world_feedback_delay_windows: int = 0  # H3: delayed world update signal in window units
+    world_feedback_smooth_windows: int = 1  # H3: moving-average smoothing over window signals
 
     # ---- Output ----
     out_dir: str = "outputs/personality_rl"
@@ -305,11 +307,15 @@ class WorldFeedback:
 
     def __init__(
         self, *,
-        lambda_world: float = 0.08,
+        lambda_world: float = 0.04,
         update_interval: int = 200,
+        delay_windows: int = 0,
+        smooth_windows: int = 1,
     ) -> None:
         self.lambda_world = float(lambda_world)
         self.update_interval = int(update_interval)
+        self.delay_windows = max(0, int(delay_windows))
+        self.smooth_windows = max(1, int(smooth_windows))
         self.state: dict[str, float] = {d: 0.5 for d in _WORLD_DIMS}
         self._window_p: list[tuple[float, float, float]] = []
         self._window_rewards: list[float] = []
@@ -325,7 +331,21 @@ class WorldFeedback:
         self.risk_mult: dict[str, float] = {
             f: 1.0 for f in _EVENT_FAMILIES
         }
-
+        # diagnostic/history for provenance: list of world-update windows
+        self.world_update_rows: list[dict[str, Any]] = []
+        self._window_index: int = 0
+        self._update_signal_history: list[dict[str, float]] = []
+        # monitoring thresholds (keep local to runtime)
+        self.HARD_LOWER_BOUND = 0.0
+        self.HARD_UPPER_BOUND = 1.0
+        self.STABILITY_THRESHOLD = 0.20
+        # attach world-update rows and aggregate boundary/instability stats
+        self.world_update_rows: list[dict[str, Any]] = []
+        self._window_index: int = 0
+        self.HARD_LOWER_BOUND = 0.0
+        self.HARD_UPPER_BOUND = 1.0
+        self.STABILITY_THRESHOLD = 0.20
+        
     def record_round(
         self, *,
         p_agg: float, p_def: float, p_bal: float,
@@ -336,20 +356,78 @@ class WorldFeedback:
         self._window_rewards.append(avg_reward)
         if event_type in self._window_event_counts:
             self._window_event_counts[event_type] += 1
-
+        
     def maybe_update(self, round_idx: int) -> bool:
         """Flush window and update world state if interval reached.
-
+        
         Returns True if an update was performed.
         """
         if (round_idx + 1) % self.update_interval != 0:
             return False
         if not self._window_p:
             return False
+        # capture diagnostics about this window before and after updating
+        n = len(self._window_p)
+        start_round = (round_idx + 1) - n
+        end_round = round_idx
+        prev_state = None
+        if self.world_update_rows:
+            prev_state = {
+                d: float(self.world_update_rows[-1].get(f"state_{d}", 0.5))
+                for d in _WORLD_DIMS
+            }
+        # perform update
         self._update_state()
+        # compute derived multipliers
         self.event_weights = _world_to_event_weights(self.state)
         self.reward_mult = _world_to_reward_mult(self.state)
         self.risk_mult = _world_to_risk_mult(self.state)
+        # diagnostics: boundary hit checks and instability
+        boundary_hit = False
+        boundary_hit_vars: list[str] = []
+        boundary_hit_type = ""
+        for d in _WORLD_DIMS:
+            v = float(self.state.get(d, 0.0))
+            if v <= self.HARD_LOWER_BOUND:
+                boundary_hit = True
+                boundary_hit_vars.append(d)
+                boundary_hit_type = "lower"
+            if v >= self.HARD_UPPER_BOUND:
+                boundary_hit = True
+                boundary_hit_vars.append(d)
+                # if mixed, mark as mixed
+                if boundary_hit_type and boundary_hit_type != "upper":
+                    boundary_hit_type = "mixed"
+                else:
+                    boundary_hit_type = "upper"
+        
+        max_state_delta = 0.0
+        instability_warning = False
+        if prev_state is not None:
+            deltas = [abs(float(self.state.get(d, 0.0)) - float(prev_state.get(d, 0.0))) for d in _WORLD_DIMS]
+            max_state_delta = max(deltas) if deltas else 0.0
+            if max_state_delta > self.STABILITY_THRESHOLD:
+                instability_warning = True
+        
+        row_entry: dict[str, Any] = {
+            "window_index": int(self._window_index),
+            "start_round": int(start_round),
+            "end_round": int(end_round),
+            "window_rows": int(n),
+            "delay_windows": int(self.delay_windows),
+            "smooth_windows": int(self.smooth_windows),
+            "boundary_hit": bool(boundary_hit),
+            "boundary_hit_vars": list(boundary_hit_vars),
+            "boundary_hit_type": str(boundary_hit_type),
+            "instability_warning": bool(instability_warning),
+            "max_state_delta": float(max_state_delta),
+        }
+        for d in _WORLD_DIMS:
+            row_entry[f"state_{d}"] = float(self.state.get(d, 0.0))
+        self.world_update_rows.append(row_entry)
+        self._window_index += 1
+        
+        # clear window accumulators
         self._window_p = []
         self._window_rewards = []
         self._window_event_counts = {f: 0 for f in _EVENT_FAMILIES}
@@ -377,13 +455,26 @@ class WorldFeedback:
             - _REWARD_TARGET
         ) if self._window_rewards else 0.0
 
+        raw_signal: dict[str, float] = {}
         for dim in _WORLD_DIMS:
             bp = _B_P[dim]
             delta_p = bp[0]*p_delta[0] + bp[1]*p_delta[1] + bp[2]*p_delta[2]
             be = _B_E[dim]
             delta_e = reward_gap * sum(be[j]*shares[j] for j in range(len(shares)))
+            raw_signal[dim] = float(delta_p + delta_e)
+
+        # H3 delayed feedback: apply historical window signal with optional smoothing.
+        self._update_signal_history.append(raw_signal)
+        apply_idx = max(0, len(self._update_signal_history) - 1 - self.delay_windows)
+        smooth_start = max(0, apply_idx - self.smooth_windows + 1)
+        smooth_slice = self._update_signal_history[smooth_start : apply_idx + 1]
+
+        for dim in _WORLD_DIMS:
+            avg_signal = (
+                sum(sig.get(dim, 0.0) for sig in smooth_slice) / float(len(smooth_slice))
+            ) if smooth_slice else 0.0
             self.state[dim] = _clamp_world(
-                self.state[dim] + self.lambda_world * (delta_p + delta_e),
+                self.state[dim] + self.lambda_world * avg_signal,
             )
 
     def sample_event_weighted(
@@ -1028,6 +1119,8 @@ def run_personality_rl(cfg: PersonalityRLConfig, *, seed: int) -> RunResult:
         world = WorldFeedback(
             lambda_world=cfg.lambda_world,
             update_interval=cfg.world_update_interval,
+            delay_windows=cfg.world_feedback_delay_windows,
+            smooth_windows=cfg.world_feedback_smooth_windows,
         )
 
     dispatch_mode = str(cfg.event_dispatch_mode).strip().lower() or "sync"
@@ -1765,6 +1858,19 @@ def run_personality_rl(cfg: PersonalityRLConfig, *, seed: int) -> RunResult:
         "dispatch_mode": dispatch_mode,
         "dispatch_target_rate": dispatch_target_rate,
         "world_feedback_mode": world_mode,
+        "world_feedback_delay_windows": int(cfg.world_feedback_delay_windows),
+        "world_feedback_smooth_windows": int(cfg.world_feedback_smooth_windows),
+        "world_feedback_effective_mode": (
+            "adaptive_world_delayed"
+            if (
+                world_mode == "adaptive_world"
+                and (
+                    int(cfg.world_feedback_delay_windows) > 0
+                    or int(cfg.world_feedback_smooth_windows) > 1
+                )
+            )
+            else world_mode
+        ),
         "world_readonly_applied": world_readonly_applied,
         "readonly_leak_eps": readonly_leak_eps,
         "readonly_leak_score": readonly_leak_max,
@@ -1893,6 +1999,31 @@ def run_personality_rl(cfg: PersonalityRLConfig, *, seed: int) -> RunResult:
         ) if phase_lag_rounds else 0.0,
     }
 
+    # attach world-update rows and aggregate boundary/instability stats
+    try:
+        if world is not None and hasattr(world, "world_update_rows"):
+            wrows = list(world.world_update_rows)
+            diagnostics["world_update_rows"] = wrows
+            windows = len(wrows)
+            boundary_hit_count = sum(1 for r in wrows if bool(r.get("boundary_hit")))
+            instability_warning_count = sum(1 for r in wrows if bool(r.get("instability_warning")))
+            diagnostics["boundary_hit_count"] = int(boundary_hit_count)
+            diagnostics["instability_warning_count"] = int(instability_warning_count)
+            diagnostics["world_update_windows"] = int(windows)
+            diagnostics["boundary_hit_rate"] = float(boundary_hit_count / windows) if windows else 0.0
+        else:
+            diagnostics["world_update_rows"] = []
+            diagnostics["boundary_hit_count"] = 0
+            diagnostics["instability_warning_count"] = 0
+            diagnostics["world_update_windows"] = 0
+            diagnostics["boundary_hit_rate"] = 0.0
+    except Exception:
+        diagnostics.setdefault("world_update_rows", [])
+        diagnostics.setdefault("boundary_hit_count", 0)
+        diagnostics.setdefault("instability_warning_count", 0)
+        diagnostics.setdefault("world_update_windows", 0)
+        diagnostics.setdefault("boundary_hit_rate", 0.0)
+
     return RunResult(
         rows=rows,
         players=players,
@@ -1964,6 +2095,26 @@ def _build_provenance(
     prov["dispatch_mode"] = str(diag.get("dispatch_mode", "sync"))
     prov["dispatch_target_rate"] = float(diag.get("dispatch_target_rate", 0.0))
     prov["world_readonly_applied"] = bool(diag.get("world_readonly_applied", False))
+    prov["world_feedback_delay_windows"] = int(
+        diag.get("world_feedback_delay_windows", cfg.world_feedback_delay_windows)
+    )
+    prov["world_feedback_smooth_windows"] = int(
+        diag.get("world_feedback_smooth_windows", cfg.world_feedback_smooth_windows)
+    )
+    prov["world_feedback_effective_mode"] = str(
+        diag.get(
+            "world_feedback_effective_mode",
+            "adaptive_world_delayed"
+            if (
+                diag_world_mode == "adaptive_world"
+                and (
+                    int(cfg.world_feedback_delay_windows) > 0
+                    or int(cfg.world_feedback_smooth_windows) > 1
+                )
+            )
+            else diag_world_mode,
+        )
+    )
     prov["readonly_leak_score"] = float(diag.get("readonly_leak_score", 0.0))
     prov["readonly_leak_pass"] = bool(diag.get("readonly_leak_pass", True))
     prov["difficulty_modulation_applied"] = bool(diag.get("difficulty_modulation_applied", False))
@@ -2065,6 +2216,11 @@ def _build_provenance(
     prov["player_event_queue_depth_p95"] = float(diag.get("player_event_queue_depth_p95", 0.0))
     prov["phase_lag_index_mean"] = float(diag.get("phase_lag_index_mean", 0.0))
     prov["diagnostic_rule_version"] = "diag_v1"
+    prov["world_update_windows"] = int(diag.get("world_update_windows", 0))
+    prov["boundary_hit_count"] = int(diag.get("boundary_hit_count", 0))
+    prov["instability_warning_count"] = int(diag.get("instability_warning_count", 0))
+    prov["boundary_hit_rate"] = float(diag.get("boundary_hit_rate", 0.0))
+    prov["world_update_rows"] = diag.get("world_update_rows", [])
     return prov
 
 
@@ -2174,8 +2330,10 @@ def main() -> None:
         default="off",
         choices=["off", "adaptive_world", "read_only", "difficulty_only"],
     )
-    parser.add_argument("--lambda-world", type=float, default=0.08)
+    parser.add_argument("--lambda-world", type=float, default=0.04)
     parser.add_argument("--world-update-interval", type=int, default=200)
+    parser.add_argument("--world-feedback-delay-windows", type=int, default=0)
+    parser.add_argument("--world-feedback-smooth-windows", type=int, default=1)
     parser.add_argument("--out-dir", default="outputs/personality_rl")
     args = parser.parse_args()
 
@@ -2227,6 +2385,8 @@ def main() -> None:
         world_feedback_mode=args.world_feedback_mode,
         lambda_world=args.lambda_world,
         world_update_interval=args.world_update_interval,
+        world_feedback_delay_windows=max(0, int(args.world_feedback_delay_windows)),
+        world_feedback_smooth_windows=max(1, int(args.world_feedback_smooth_windows)),
         out_dir=args.out_dir,
     )
 
