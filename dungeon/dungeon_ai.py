@@ -13,7 +13,27 @@ class DungeonAI:
 		reward = base_reward - gamma * n_i + epsilon * (n_prev - n_next)
 	
 	Where counts n_* are from the previous round's popularity histogram.
+
+	Adaptive counter (Little Dragon):
+		When adaptive_counter=True, the dungeon observes the dominant strategy each round
+		and adjusts event_loader weights/risk multipliers to disadvantage it.
+		Only activates when one strategy exceeds counter_threshold proportion.
 	"""
+
+	# Maps each strategy to the event types it is assumed to PREFER.
+	# When a strategy is dominant, the dungeon increases risk for its preferred event type
+	# and shifts event weights toward the types it handles poorly.
+	_STRATEGY_PREFERRED_EVENT: dict[str, str] = {
+		"aggressive": "Threat",
+		"defensive": "Resource",
+		"balanced": "Uncertainty",
+	}
+	# Counter event weights: when strategy S dominates, boost these event types (S's weak spots).
+	_STRATEGY_COUNTER_EVENT_WEIGHTS: dict[str, dict[str, float]] = {
+		"aggressive": {"Uncertainty": 1.5, "Navigation": 1.3, "Threat": 0.7},
+		"defensive":  {"Threat": 1.5, "Uncertainty": 1.3, "Resource": 0.7},
+		"balanced":   {"Resource": 1.5, "Threat": 1.3, "Uncertainty": 0.7},
+	}
 
 	def __init__(
 		self,
@@ -36,6 +56,9 @@ class DungeonAI:
 		base_reward: float = 10.0,
 		event_loader: object | None = None,
 		event_rng: random.Random | None = None,
+		adaptive_counter: bool = False,
+		counter_strength: float = 0.3,
+		counter_threshold: float = 0.40,
 	):
 		self.payoff_mode = str(payoff_mode)
 		self.gamma = float(gamma)
@@ -60,6 +83,10 @@ class DungeonAI:
 		self._popularity_history: deque[dict[str, float]] = deque(maxlen=max(1, self.memory_kernel))
 		self._threshold_regime_hi: bool | None = None
 		self._threshold_state_value: float | None = None
+		# Adaptive counter (Little Dragon) — off by default.
+		self.adaptive_counter = bool(adaptive_counter)
+		self.counter_strength = float(counter_strength)
+		self.counter_threshold = float(counter_threshold)
 
 		allowed = {"count_cycle", "matrix_ab", "threshold_ab"}
 		if self.payoff_mode not in allowed:
@@ -112,6 +139,54 @@ class DungeonAI:
 	def set_popularity(self, popularity: dict[str, float]) -> None:
 		self.popularity = dict(popularity)
 		self._append_popularity_history(self.popularity)
+		if self.adaptive_counter:
+			self.adapt_to_dominant()
+
+	def adapt_to_dominant(self) -> str | None:
+		"""Adjust event_loader weights to counter the currently dominant strategy.
+
+		Only activates when:
+		  - adaptive_counter=True
+		  - event_loader is attached
+		  - a strategy in strategy_cycle exceeds counter_threshold proportion
+
+		Returns the name of the dominant strategy being countered, or None.
+		"""
+		if self.event_loader is None or not self.strategy_cycle:
+			return None
+		p = self._proportions()
+		dominant = max(p, key=lambda s: p[s]) if p else None
+		if dominant is None or p[dominant] < self.counter_threshold:
+			# No clear dominant strategy — reset to neutral.
+			_neutral_weights = {s: 1.0 for s in getattr(self.event_loader, "event_types", [])}
+			_neutral_risk = {s: 1.0 for s in getattr(self.event_loader, "event_types", [])}
+			self.event_loader.set_event_type_weights(_neutral_weights)
+			self.event_loader.set_event_type_risk_multipliers(_neutral_risk)
+			return None
+
+		# Scale counter intensity by how dominant the strategy is and counter_strength.
+		# excess = how far above threshold the dominant proportion is (0..1)
+		excess = min(1.0, (p[dominant] - self.counter_threshold) / max(0.01, 1.0 - self.counter_threshold))
+		intensity = self.counter_strength * excess
+
+		# --- Event type weight adjustment ---
+		weight_overrides = self._STRATEGY_COUNTER_EVENT_WEIGHTS.get(dominant, {})
+		new_weights: dict[str, float] = {}
+		for event_type in getattr(self.event_loader, "event_types", []):
+			base = float(weight_overrides.get(event_type, 1.0))
+			# Blend toward the counter weight proportionally to intensity.
+			new_weights[event_type] = 1.0 + (base - 1.0) * intensity
+		self.event_loader.set_event_type_weights(new_weights)
+
+		# --- Risk multiplier for the dominant strategy's preferred event type ---
+		preferred_event = self._STRATEGY_PREFERRED_EVENT.get(dominant)
+		if preferred_event is not None:
+			risk_scale = 1.0 + self.counter_strength * excess
+			# clamp to [0.5, 2.0] per EventLoader contract
+			risk_scale = max(0.5, min(2.0, risk_scale))
+			self.event_loader.set_event_type_risk_multipliers({preferred_event: risk_scale})
+
+		return dominant
 
 	def _proportions(self) -> dict[str, float]:
 		if self._popularity_history:

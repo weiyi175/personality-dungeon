@@ -144,9 +144,9 @@ class PersonalityRLConfig:
 # ===================================================================
 
 _PERSONALITY_KEYS_ORDERED = [
-    "impulsiveness", "caution", "greed", "optimism", "suspicion",
-    "persistence", "randomness", "stability_seeking", "ambition",
-    "patience", "curiosity", "fearfulness",
+    "impulsiveness", "assertiveness", "optimism",    # Drivers
+    "risk_aversion", "suspicion", "endurance",       # Stabilizers
+    "randomness", "stability_seeking", "curiosity",  # Explorers
 ]
 
 
@@ -187,10 +187,10 @@ class EventBridge:
         best_u = -1e9
         best_risk = 0.0
         for act in actions:
-            ws = act.get("weights", [0.0] * 12)
+            ws = act.get("weights", [0.0] * 9)
             u = sum(
                 ws[i] * personality.get(_PERSONALITY_KEYS_ORDERED[i], 0.0)
-                for i in range(min(len(ws), 12))
+                for i in range(min(len(ws), 9))
             )
             noise_amp = abs(personality.get("randomness", 0.0))
             if noise_amp > 0:

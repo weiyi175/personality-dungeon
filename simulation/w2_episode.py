@@ -122,6 +122,7 @@ COMBINED_FIELDNAMES = [
 	"tail_mean_personality_abs_shift",
 	"tail_mean_personality_l2_shift",
 	"tail_mean_personality_centroid_json",
+	"tail_dominant_flip_rate",
 	"tail_gamma_nonnegative",
 	"tail_level3_pass",
 	"full_pass",
@@ -139,6 +140,7 @@ CellRunner = Callable[["W2CellConfig", int], Mapping[str, Any]]
 class W2CellConfig:
 	condition: str
 	testament_alpha: float
+	reverse_dom: bool
 	total_lives: int
 	rounds_per_life: int
 	players: int
@@ -360,6 +362,7 @@ def _next_personality_from_player(
 	alpha: float,
 	mean_utility: float,
 	std_utility: float,
+	reverse_dom: bool,
 ) -> dict[str, float]:
 	if float(alpha) == 0.0:
 		return _copy_personality(player.personality)
@@ -369,6 +372,8 @@ def _next_personality_from_player(
 	if dominant is not None:
 		delta_dom = _add_vectors(DOMINANT_TEMPLATES.get(dominant, {}))
 	normalized_dom = _normalize_template(delta_dom)
+	if reverse_dom:
+		delta_dom = _scale_vector(delta_dom, -1.0)
 	if dominant is None:
 		delta_util = _zero_vector()
 	else:
@@ -403,6 +408,7 @@ def apply_testament(players: list[BasePlayer], alpha: float) -> list[dict[str, f
 			alpha=float(alpha),
 			mean_utility=float(mean_utility),
 			std_utility=float(std_utility),
+			reverse_dom=False,
 		)
 		for player in players
 	]
@@ -484,6 +490,18 @@ def _dominant_strategy_from_labels(labels: list[str | None]) -> str:
 	return ""
 
 
+def _dominant_flip_rate(rows: list[dict[str, Any]]) -> float:
+	if not rows:
+		return 0.0
+	ordered = sorted(rows, key=lambda row: int(row.get("life_index", 0)))
+	labels = [str(row.get("dominant_strategy_last500", "") or "").strip() for row in ordered]
+	labels = [label for label in labels if label]
+	if len(labels) < 2:
+		return 0.0
+	flips = sum(1 for prev, curr in zip(labels, labels[1:]) if curr != prev)
+	return float(flips) / float(len(labels) - 1)
+
+
 def run_life(
 	config: W2CellConfig,
 	*,
@@ -561,6 +579,7 @@ def run_life(
 						alpha=float(config.testament_alpha),
 						mean_utility=float(mean_utility),
 						std_utility=float(std_utility),
+						reverse_dom=bool(config.reverse_dom),
 					)
 					pending_next_personalities[int(player_idx)] = pending_next_personality
 					if int(life_index) < int(config.total_lives):
@@ -675,6 +694,7 @@ def run_w2_cell(config: W2CellConfig, seed: int) -> dict[str, Any]:
 						alpha=float(config.testament_alpha),
 						mean_utility=float(mean_utility),
 						std_utility=float(std_utility),
+						reverse_dom=bool(config.reverse_dom),
 					)
 			current_personalities = [
 				pending if pending is not None else boundary
@@ -691,6 +711,7 @@ def _build_cell_config(
 	*,
 	condition: str,
 	testament_alpha: float,
+	reverse_dom: bool,
 	total_lives: int,
 	rounds_per_life: int,
 	players: int,
@@ -708,6 +729,7 @@ def _build_cell_config(
 	return W2CellConfig(
 		condition=str(condition),
 		testament_alpha=float(testament_alpha),
+		reverse_dom=bool(reverse_dom),
 		total_lives=int(total_lives),
 		rounds_per_life=int(rounds_per_life),
 		players=int(players),
@@ -746,6 +768,7 @@ def _cell_summary(
 	tail_mean_rounds_completed = _safe_mean([float(row["rounds_completed"]) for row in tail_rows])
 	tail_mean_personality_abs_shift = _safe_mean([float(row["mean_personality_abs_shift"]) for row in tail_rows])
 	tail_mean_personality_l2_shift = _safe_mean([float(row["mean_personality_l2_shift"]) for row in tail_rows])
+	tail_dominant_flip_rate = _dominant_flip_rate(tail_rows)
 	mean_n_deaths = _safe_mean([float(row["n_deaths"]) for row in row_group])
 	mean_death_rate = 0.0 if int(config.players) <= 0 else float(mean_n_deaths) / float(config.players)
 	tail_death_rate_band_ok = 0.15 <= float(tail_mean_death_rate) <= 0.40
@@ -795,6 +818,7 @@ def _cell_summary(
 		"tail_mean_personality_abs_shift": _format_float(tail_mean_personality_abs_shift),
 		"tail_mean_personality_l2_shift": _format_float(tail_mean_personality_l2_shift),
 		"tail_mean_personality_centroid_json": _mean_centroid_json(tail_rows),
+		"tail_dominant_flip_rate": _format_float(tail_dominant_flip_rate),
 		"tail_gamma_nonnegative": _yes_no(tail_gamma_nonnegative),
 		"tail_level3_pass": _yes_no(tail_level3_pass),
 		"full_pass": _yes_no(full_pass),
@@ -906,6 +930,7 @@ def run_w2_scout(
 		_build_cell_config(
 			condition="control",
 			testament_alpha=0.0,
+			reverse_dom=False,
 			total_lives=1,
 			rounds_per_life=rounds_per_life,
 			players=players,
@@ -923,6 +948,7 @@ def run_w2_scout(
 		_build_cell_config(
 			condition="w2_base",
 			testament_alpha=0.12,
+			reverse_dom=False,
 			total_lives=total_lives,
 			rounds_per_life=rounds_per_life,
 			players=players,
@@ -940,6 +966,43 @@ def run_w2_scout(
 		_build_cell_config(
 			condition="w2_strong",
 			testament_alpha=0.22,
+			reverse_dom=False,
+			total_lives=total_lives,
+			rounds_per_life=rounds_per_life,
+			players=players,
+			events_json=events_json,
+			selection_strength=selection_strength,
+			init_bias=init_bias,
+			memory_kernel=memory_kernel,
+			burn_in=burn_in,
+			tail=tail,
+			a=a,
+			b=b,
+			cross=cross,
+			out_root=out_root,
+		),
+		_build_cell_config(
+			condition="exp1_2_rev_base",
+			testament_alpha=0.12,
+			reverse_dom=True,
+			total_lives=total_lives,
+			rounds_per_life=rounds_per_life,
+			players=players,
+			events_json=events_json,
+			selection_strength=selection_strength,
+			init_bias=init_bias,
+			memory_kernel=memory_kernel,
+			burn_in=burn_in,
+			tail=tail,
+			a=a,
+			b=b,
+			cross=cross,
+			out_root=out_root,
+		),
+		_build_cell_config(
+			condition="exp1_2_rev_strong",
+			testament_alpha=0.22,
+			reverse_dom=True,
 			total_lives=total_lives,
 			rounds_per_life=rounds_per_life,
 			players=players,

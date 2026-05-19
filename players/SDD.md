@@ -2279,209 +2279,35 @@ Gate 2：Adaptive-World Smoke
 
 ### 7.4 文本 → 9 維人格推斷（LLM 路徑；方案 A）
 
-**目的**：把 20 字以內的短句即時映射成 9 維人格向量，作為 web 遊戲的玩家性格輸入；同時把成功配對記錄成弱標註資料，為未來 MLP 離線訓練打基礎。
+目的：把 20 字以內的短句映射成 9 維人格向量，作為 web 遊戲的即時輸入；同時把成功配對紀錄成弱標註資料。
 
-**落點**：`api/`（service layer；可做 I/O 與 logging），不影響 `simulation/` 與研究主線。
+落點：`api/`（service layer；可做 I/O 與 logging），不影響 `simulation/` 與研究主線。
 
-**實作狀態**：已完成並端到端驗證（2026-05-19），平均響應時間 ≈ 9 秒（Ollama 原生路徑，`qwen3.5:9b`）。
+輸入與輸出契約：
 
----
+1. 輸入 `text` 必須是非空字串，長度上限預設 `20`（可透過設定調整）。
+2. 輸出人格向量使用 9-trait basis（沿用 `DEFAULT_PERSONALITY_KEYS` / `api.schemas.PERSONALITY_BASIS`）。
+3. 每一維必須落在 `[-1, 1]`，任何超界值必須 clamp。
+4. 若 LLM 回傳格式不完整或缺維度，必須回傳錯誤（不得以靜默補零掩蓋）。
 
-#### 實作概覽
+LLM 介面（open-source friendly）：
 
-| 層次 | 檔案 | 職責 |
-|------|------|------|
-| HTTP 層 | `api/server.py` | FastAPI endpoint `POST /personality/infer`，校驗請求、呼叫推斷、回傳結果 |
-| 推斷核心 | `api/personality_text_inference.py` | LLM 呼叫（原生 / OpenAI-compat）、JSON 解析、值域 clamp、弱標註 logging |
-| Schema | `api/schemas.py` | `PERSONALITY_BASIS`（9 個 trait 名稱），不依賴 LLM 部分 |
-| 輸出目錄 | `outputs/personality_text_pairs.tsv` / `.jsonl` | 持久化弱標註資料（每次成功推斷 append） |
+- 使用 OpenAI-compatible `POST /v1/chat/completions`。
+- 必要設定由環境變數供給（不進 repo）：
+  - `PERSONALITY_LLM_BASE_URL`（例：`http://127.0.0.1:8000`）
+  - `PERSONALITY_LLM_MODEL`
+  - `PERSONALITY_LLM_API_KEY`（可選，若使用雲端服務）
+  - `PERSONALITY_LLM_TEMPERATURE`（允許非重現性）
 
----
+弱標註 logging（只記成功配對）：
 
-#### LLM 後端設定
+1. 每次成功推斷需 append 至：
+   - `outputs/personality_text_pairs.tsv`
+   - `outputs/personality_text_pairs.jsonl`
+2. 內容至少包含：`timestamp`, `request_id`, `text`, `model`, `temperature`, 與 9 維向量。
+3. logging 預設為 strict：寫入失敗需回傳錯誤；可透過 `PERSONALITY_LOG_STRICT=0` 放寬。
 
-本實作支援兩種後端呼叫路徑，透過環境變數切換：
-
-**路徑 1：Ollama 原生 API（推薦；`PERSONALITY_LLM_OLLAMA_NATIVE=true`）**
-
-- 呼叫 `POST {OLLAMA_BASE}/api/chat`（自動從 `PERSONALITY_LLM_BASE_URL` 剝除 `/v1` 後綴）
-- Payload：`"think": false`（停用 CoT，直接輸出 JSON）、`"stream": false`
-- 響應時間：≈ 5–15 秒（`qwen3.5:9b`，WSL2 透過 Windows GPU）
-- **注意**：`think: false` 僅在 Ollama 原生 `/api/chat` 有效，在 `/v1/chat/completions` 無效（Ollama v0.23.2 已驗證）
-
-**路徑 2：OpenAI-compatible endpoint（通用；預設）**
-
-- 呼叫 `POST {PERSONALITY_LLM_BASE_URL}/v1/chat/completions`
-- Payload：`response_format: {"type": "json_object"}` + 使用者訊息末尾附加 `/no_think`
-- 適用雲端模型（GPT-4o、Claude 等）或其他 OpenAI-compat 服務
-
-**WSL2 ↔ Windows Ollama 橋接（已驗證設定）**：
-
-```bash
-# Windows PowerShell（只需做一次）
-[System.Environment]::SetEnvironmentVariable("OLLAMA_HOST", "0.0.0.0:11434", "User")
-# 重啟 Ollama 服務
-
-# WSL2 ~/.bashrc（已永久設定）
-export OLLAMA_HOST=http://$(ip route show default | awk '{print $3}'):11434
-
-# 驗證連線
-curl -s $OLLAMA_HOST/api/tags | python3 -c "import sys,json; [print(m['name']) for m in json.load(sys.stdin)['models']]"
-```
-
----
-
-#### 環境變數完整清單
-
-| 變數名稱 | 必要 | 預設值 | 說明 |
-|---------|:----:|--------|------|
-| `PERSONALITY_LLM_BASE_URL` | ✓ | — | LLM 服務地址；Ollama 原生路徑下 `/v1` 後綴會自動被剝除 |
-| `PERSONALITY_LLM_MODEL` | ✓ | — | 模型名稱（例：`qwen3.5:9b`） |
-| `PERSONALITY_LLM_OLLAMA_NATIVE` | — | `false` | 設為 `true` 時使用 Ollama 原生 `/api/chat`（Ollama 使用者必須開啟） |
-| `PERSONALITY_LLM_API_KEY` | — | 空 | API 金鑰；雲端服務才需要，Ollama 不需要 |
-| `PERSONALITY_LLM_TEMPERATURE` | — | `0.35` | LLM 採樣溫度；可被 request 欄位 `temperature` 覆蓋 |
-| `PERSONALITY_LLM_TIMEOUT_SEC` | — | `30.0` | 單次 HTTP timeout（秒）；Ollama 約需 10–30 秒，建議設 `120` |
-| `PERSONALITY_LLM_MAX_TOKENS` | — | `3000` | 最大輸出 token 數；保底用，thinking model 的 CoT 可能耗用大量 token |
-| `PERSONALITY_TEXT_MAX_LEN` | — | `20` | 輸入文本的最大字元數 |
-| `PERSONALITY_LOG_STRICT` | — | `true` | 設為 `0` 時 logging 失敗不中斷推斷（degraded mode） |
-
----
-
-#### 啟動指令（已驗證）
-
-```bash
-cd /home/user/personality-dungeon && \
-PERSONALITY_LLM_BASE_URL="http://172.31.128.1:11434/v1" \
-PERSONALITY_LLM_MODEL="qwen3.5:9b" \
-PERSONALITY_LLM_TIMEOUT_SEC=120 \
-PERSONALITY_LLM_OLLAMA_NATIVE=true \
-./venv/bin/python -m api.server
-```
-
-Server 啟動於 `http://0.0.0.0:8000`，API 文件（Swagger）可於 `http://127.0.0.1:8000/docs` 查閱。
-
----
-
-#### API 接口規格：`POST /personality/infer`
-
-**請求 schema（`PersonalityInferRequest`）**：
-
-```json
-{
-  "text":        "我喜歡快節奏冒險",  // 必要；1–20 字
-  "source":      "player_profile",   // 選填；來源標記（寫入 log）
-  "session_id":  "sess001",           // 選填；遊戲 session id（寫入 log）
-  "user_id":     "u999",             // 選填；玩家 id（寫入 log）
-  "temperature": 0.1                 // 選填；覆蓋 PERSONALITY_LLM_TEMPERATURE
-}
-```
-
-**回應 schema（`PersonalityInferResponse`）**：
-
-```json
-{
-  "request_id": "c071b4e4cca8410dafed7d8bb8ff9ddb",
-  "text":        "我喜歡快節奏冒險",
-  "vector": {
-    "impulsiveness":      0.6,
-    "assertiveness":      0.2,
-    "optimism":           0.4,
-    "risk_aversion":     -0.7,
-    "suspicion":         -0.2,
-    "endurance":          0.3,
-    "randomness":         0.5,
-    "stability_seeking": -0.5,
-    "curiosity":          0.6
-  },
-  "model":       "qwen3.5:9b",
-  "temperature": 0.35,
-  "logged":      true,
-  "log_error":   null
-}
-```
-
-**HTTP 錯誤碼**：
-
-| Code | 情境 |
-|------|------|
-| `400` | `text` 為空 / 超過 `PERSONALITY_TEXT_MAX_LEN` / LLM 回傳格式錯誤 / `temperature < 0` |
-| `500` | env var 缺失 / logging 失敗（strict 模式）/ LLM 服務不可達 |
-
----
-
-#### 9 維人格向量定義（`api.schemas.PERSONALITY_BASIS`）
-
-| 維度 | 群組 | 語意 |
-|------|------|------|
-| `impulsiveness` | Drivers（擴張組） | 衝動性；高 = 快速行動不猶豫 |
-| `assertiveness` | Drivers | 主導性；高 = 積極主張自身意圖 |
-| `optimism` | Drivers | 樂觀度；高 = 預期正面結果 |
-| `risk_aversion` | Stabilizers（防禦組） | 風險迴避；高 = 保守、傾向安全選項 |
-| `suspicion` | Stabilizers | 猜疑度；高 = 不信任他人動機 |
-| `endurance` | Stabilizers | 耐受性；高 = 面對逆境持續堅持 |
-| `randomness` | Explorers（擾動組） | 隨機性；高 = 行為不可預測、多樣化 |
-| `stability_seeking` | Explorers | 穩定追求；高 = 偏好維持現狀 |
-| `curiosity` | Explorers | 好奇心；高 = 主動探索新事物 |
-
-所有值域均為 `[-1, 1]`，超界值於推斷時自動 clamp。
-
----
-
-#### 弱標註 logging schema
-
-成功推斷後 append 至 `outputs/personality_text_pairs.tsv`（tab 分隔）與 `outputs/personality_text_pairs.jsonl`：
-
-| 欄位 | 型別 | 說明 |
-|------|------|------|
-| `timestamp` | ISO 8601 UTC | 推斷時間戳 |
-| `request_id` | hex UUID | 本次請求唯一 ID |
-| `text` | str | 輸入文本（tab／換行替換為空格） |
-| `length` | int | 字元數 |
-| `model` | str | LLM 模型名稱 |
-| `temperature` | float | 實際採用的溫度（6 位小數） |
-| `source` | str | 來源標記（可為空） |
-| `session_id` | str | 遊戲 session（可為空） |
-| `user_id` | str | 玩家 id（可為空） |
-| `impulsiveness` … `curiosity` | float ×9 | 9 維向量（各佔一欄，格式 `0.600000`） |
-
----
-
-#### 回歸測試規劃
-
-| 測試類型 | 驗收條件 | 指令 |
-|---------|---------|------|
-| 冒煙測試 | HTTP 200、9 key、值 ∈ [-1,1]、`logged=true` | 見下方 |
-| 邊界條件 | 空字串 → 400；21 字 → 400；`temperature=-1` → 400 | `curl -d '{"text":""}'` |
-| Logging 一致性 | 成功後 TSV 行數 +1、`request_id` 與 response 一致 | `wc -l outputs/personality_text_pairs.tsv` |
-| LLM 可達性 | `curl ${OLLAMA_HOST}/api/tags` 包含目標模型 | `curl $OLLAMA_HOST/api/tags` |
-
-```bash
-# 冒煙測試（全自動驗收）
-curl -s --max-time 30 -X POST http://127.0.0.1:8000/personality/infer \
-  -H "Content-Type: application/json" \
-  -d '{"text":"我喜歡快節奏冒險"}' | python3 -c "
-import json, sys
-d = json.load(sys.stdin)
-v = d['vector']
-assert len(v) == 9,             f'expected 9 keys, got {len(v)}'
-assert all(-1 <= x <= 1 for x in v.values()), 'value out of [-1,1]'
-assert d['logged'] == True,     'logged must be True'
-print('PASS', {k: round(x,2) for k,x in v.items()})
-"
-```
-
----
-
-#### 未來演進路徑
-
-| 階段 | 描述 | 觸發條件 |
-|------|------|---------|
-| A（現況） | LLM 即時推斷 + 弱標註收集 | 已完成 |
-| B | MLP 回歸模型訓練（`api/personality_mlp_trainer.py`） | 累積 ≥ 1000 筆弱標註 |
-| C | 轉 ONNX（`api/personality_model.onnx`） | MLP 測試 R² ≥ 0.75 |
-| D | 前端本地推理（WebGL/WebGPU + onnxruntime-web） | ONNX 通過前端壓力測試 |
-
-注意：階段 B–D 均屬 `api/` 層，不得影響 `simulation/` 研究主線。
+後續（非本版實作）：累積足量資料（≥1000 筆）後，以弱標註訓練 MLP 回歸模型並轉 ONNX，供前端 WebGL/WebGPU 本地推理。
 
 H5.4：`personality + sampled_inertia` 最小 smoke
 

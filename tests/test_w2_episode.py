@@ -126,17 +126,29 @@ def test_run_w2_scout_writes_outputs_and_close_decision(tmp_path: Path) -> None:
 	)
 
 	assert result["decision"] == "close_w2_1"
-	assert seen_total_lives == {"control": 1, "w2_base": 5, "w2_strong": 5}
+	assert seen_total_lives == {
+		"control": 1,
+		"w2_base": 5,
+		"w2_strong": 5,
+		"exp1_2_rev_base": 5,
+		"exp1_2_rev_strong": 5,
+	}
 	with (tmp_path / "w2_life.tsv").open(newline="", encoding="utf-8") as handle:
 		rows = list(csv.DictReader(handle, delimiter="\t"))
-		assert len(rows) == 22
-		assert {row["condition"] for row in rows} == {"control", "w2_base", "w2_strong"}
+		assert len(rows) == 42
+		assert {row["condition"] for row in rows} == {
+			"control",
+			"w2_base",
+			"w2_strong",
+			"exp1_2_rev_base",
+			"exp1_2_rev_strong",
+		}
 		control_rows = [row for row in rows if row["condition"] == "control"]
 		assert len(control_rows) == 2
 		assert all(row["verdict"] == "control" for row in control_rows)
 	with (tmp_path / "w2_combined.tsv").open(newline="", encoding="utf-8") as handle:
 		rows = list(csv.DictReader(handle, delimiter="\t"))
-		assert len(rows) == 3
+		assert len(rows) == 5
 		assert next(row for row in rows if row["condition"] == "control")["verdict"] == "control"
 		strong_row = next(row for row in rows if row["condition"] == "w2_strong")
 		assert strong_row["tail_level3_seed_count"] == "0"
@@ -148,6 +160,7 @@ def test_run_w2_cell_smoke(tmp_path: Path) -> None:
 	config = W2CellConfig(
 		condition="w2_base",
 		testament_alpha=0.12,
+		reverse_dom=False,
 		total_lives=2,
 		rounds_per_life=20,
 		players=9,

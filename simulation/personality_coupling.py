@@ -71,6 +71,10 @@ def summarize_personality_coupling(
 	lambda_k: float,
 	state_dominance: float | None = None,
 	beta_state_k: float = 0.0,
+	mu_lower: float = 0.0,
+	mu_upper: float = 0.60,
+	k_lower: float = 0.03,
+	k_upper: float = 0.09,
 ) -> dict[str, float]:
 	resolved = [
 		resolve_personality_coupling(
