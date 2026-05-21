@@ -2483,6 +2483,182 @@ print('PASS', {k: round(x,2) for k,x in v.items()})
 
 注意：階段 B–D 均屬 `api/` 層，不得影響 `simulation/` 研究主線。
 
+---
+
+### 7.5 文本 → 9 維人格推斷（SBERT 路徑；方案 B）
+
+**目的**：以離線 SBERT + MLP（v7）取代即時 LLM 呼叫，提供**確定性、無網路依賴**的人格推斷，作為遊戲生產環境的主要推斷路徑。
+
+**落點**：`api/`（service layer），不影響 `simulation/` 研究主線。
+
+**實作狀態**：已完成並端對端驗證（2026-05-21）。回應時間 < 200 ms（首次呼叫含模型載入約 3–5 秒；後續 lazy-load 快取）。
+
+---
+
+#### 實作概覽
+
+| 層次 | 檔案 | 職責 |
+|------|------|------|
+| HTTP 層 | `api/server.py` | FastAPI endpoint `POST /personality/infer_sbert`，校驗請求、呼叫 SBERT 推斷、回傳結果 |
+| 推斷核心 | `api/personality_sbert_inference.py` | SBERT encode → MLP predict，lazy-load（thread-safe），回傳 `(vector, meta)` |
+| 模型權重 | `outputs/mlp_v7_mlp.joblib` | v7 訓練的 MLPRegressor(256, 128) 權重 |
+| 編碼器 | `paraphrase-multilingual-MiniLM-L12-v2` | 384 維語義向量，HuggingFace Hub 快取於 `~/.cache/huggingface/` |
+| Schema | `api/schemas.py` | `PERSONALITY_BASIS`（9 個 trait 名稱，固定順序） |
+
+---
+
+#### 架構對比
+
+| | LLM 路徑（方案 A） | SBERT 路徑（方案 B，v7）|
+|-|-------------------|------------------------|
+| 端點 | `POST /personality/infer` | `POST /personality/infer_sbert` |
+| 模組 | `api/personality_text_inference.py` | `api/personality_sbert_inference.py` |
+| 後端 | Ollama / OpenAI API | 本機 joblib + HuggingFace |
+| 需要 LLM 環境變數 | ✓ | ✗ |
+| 結果確定性 | 非確定（temperature > 0） | 確定性（temperature=0） |
+| 最大輸入長度 | 20 字元（`PERSONALITY_TEXT_MAX_LEN`） | 512 字元 |
+| `logged` 欄位 | `true`（自動寫入 TSV） | `false`（不寫入 TSV） |
+| seed_batch avg R² | N/A | **+0.181**（8/9 正值） |
+| augmented avg R² | N/A | **0.9277** |
+
+---
+
+#### 啟動指令（無需任何環境變數）
+
+```bash
+cd /home/user/personality-dungeon
+./venv/bin/python -m api.server
+# Server 啟動於 http://0.0.0.0:8000
+# Swagger UI: http://127.0.0.1:8000/docs
+```
+
+---
+
+#### API 接口規格：`POST /personality/infer_sbert`
+
+**請求 schema（`PersonalityInferRequest`，與 LLM 路徑共用）**：
+
+```json
+{
+  "text":        "我喜歡冒險挑戰",  // 必要；1–512 字元
+  "source":      null,              // 選填；不影響推斷
+  "session_id":  null,
+  "user_id":     null,
+  "temperature": null               // SBERT 路徑忽略此欄（固定 0.0）
+}
+```
+
+**回應 schema（`PersonalityInferResponse`，與 LLM 路徑共用）**：
+
+```json
+{
+  "request_id": "b1490c9bdcfb46cd83089f04d430dcfa",
+  "text": "我喜歡冒險挑戰",
+  "vector": {
+    "impulsiveness":      0.772,
+    "assertiveness":      0.724,
+    "optimism":           0.576,
+    "risk_aversion":     -0.922,
+    "suspicion":         -0.373,
+    "endurance":          0.324,
+    "randomness":         0.662,
+    "stability_seeking": -0.471,
+    "curiosity":          0.776
+  },
+  "model":       "sbert-mlp-v7",
+  "temperature": 0.0,
+  "logged":      false,
+  "log_error":   null
+}
+```
+
+**HTTP 錯誤碼**：
+
+| Code | 情境 |
+|------|------|
+| `400` | `text` 為空 / 超過 512 字元 |
+| `500` | SBERT 模型或 MLP joblib 載入失敗 |
+
+---
+
+#### 冒煙測試（全自動驗收）
+
+```bash
+# 啟動 server（背景）
+cd /home/user/personality-dungeon && ./venv/bin/python -m api.server &
+sleep 5  # 等候 SBERT 模型 lazy-load
+
+# 驗收
+curl -s -X POST http://127.0.0.1:8000/personality/infer_sbert \
+  -H 'Content-Type: application/json' \
+  -d '{"text": "我喜歡冒險挑戰"}' | ./venv/bin/python -c "
+import json, sys
+d = json.load(sys.stdin)
+v = d['vector']
+assert len(v) == 9,               f'expected 9 keys, got {len(v)}'
+assert d['model'] == 'sbert-mlp-v7'
+assert d['temperature'] == 0.0
+print('PASS', {k: round(x, 2) for k, x in v.items()})
+"
+
+# 邊界測試
+curl -s -X POST http://127.0.0.1:8000/personality/infer_sbert \
+  -H 'Content-Type: application/json' \
+  -d '{"text": ""}' | python3 -m json.tool   # 預期 HTTP 400
+```
+
+---
+
+#### 不變條件（Invariants）
+
+1. `PERSONALITY_BASIS` 固定為 9 個 trait（`api/schemas.py`），SBERT 路徑輸出的 `vector` dict 鍵名與順序必須與之一致。
+2. `outputs/mlp_v7_mlp.joblib` 的輸入維度為 384（SBERT），輸出維度為 9；若模型檔案不存在或維度不符，`_ensure_loaded()` 必須拋出 `RuntimeError`，不得靜默返回隨機值。
+3. SBERT 路徑不寫入 `outputs/personality_text_pairs.tsv`（`logged` 永遠為 `false`）；LLM 路徑的 logging 行為不受影響。
+4. 兩個端點（`/personality/infer` 與 `/personality/infer_sbert`）使用相同的 `PersonalityInferRequest` / `PersonalityInferResponse` Pydantic schema；不得為 SBERT 路徑另建 schema。
+5. SBERT 模型採 lazy-load（thread-safe），首次呼叫時才從 HuggingFace 快取載入；`_sbert` 與 `_mlp` 使用 module-level 全域變數 + `threading.Lock`，確保多 request 並發安全。
+
+---
+
+#### 未來演進路徑
+
+| 階段 | 描述 | 觸發條件 |
+|------|------|----------|
+| v7（現況） | SBERT + MLP offline，`POST /personality/infer_sbert` | 已完成（2026-05-21）|
+| v8+ | 針對弱 trait 補充 seed 後重訓 | seed_batch avg R² < +0.181 且有明確弱 trait |
+| ONNX 匯出 | 把 SBERT 路徑的 MLP 匯出為 ONNX（供前端 WebGL 使用） | v7 seed_batch avg R² 確認穩定 |
+
+#### B 階段訓練規格（草案）
+
+> B 階段的目的不是「先把模型做大」，而是先把資料切分、評估和失敗回退固定下來，確保後續 C/D 階段有穩定的基準可對齊。
+
+**資料輸入與切分**
+- 以 `outputs/personality_text_pairs.tsv/jsonl` 作為唯一資料來源。
+- 以 normalized text hash 做 group split，避免同一句文本跨 train/val。
+- 預設切分為 `80/20`，`random_state=42`。
+- 額外保留 `300` 筆 pilot 子集，先驗證模型家族與指標量級。
+
+**模型家族**
+- Vectorizer 固定為 `TfidfVectorizer(analyzer='char_wb', ngram_range=(1, 3), max_features=3000, sublinear_tf=True)`。
+- Regressor 固定為 `MultiOutputRegressor(MLPRegressor(hidden_layer_sizes=(256, 128), activation='tanh', max_iter=500, early_stopping=True, validation_fraction=0.1))`。
+- 第一輪不做超參數搜尋，優先重現與可比較性。
+
+**驗證矩陣**
+- `overall`：看平均 R²、MAE 與 per-trait 結果。
+- `seed_batch-only`：檢查原始校準層是否保持高辨識度。
+- `augmented-only`：檢查 bootstrap 層是否可獨立學習。
+- `length-bucket`：分別檢查 1–5 / 6–12 / 13–20 三桶，避免模型只吃短句或長句。
+- `trait-wise`：任何單一 trait 低於 `0.55` 都視為進 C 階段失敗；低於 `0.30` 視為結構性不足。
+
+**收官門檻**
+- 平均 R² ≥ 0.75。
+- 每個 trait R² ≥ 0.55。
+- 需產出 `api/personality_pipeline.pkl`、`outputs/mlp_training_report.json`、`outputs/mlp_error_analysis.json`。
+
+**回退規則**
+- 若平均 R² < 0.50，先查 split leakage 與 label noise，再決定是否重收資料。
+- 若某 trait R² < 0.30，先補該 trait 的種子文本，不先擴大模型容量。
+- 若 seed_batch 與 augmented 表現差距過大，必須分來源分析，不能只看 overall。
+
 H5.4：`personality + sampled_inertia` 最小 smoke
 
 1. 只有在 Gate 1 得到 `weak_positive`，且研究主線明確選擇「異質性 + 抗平均化」時才允許啟動

@@ -1,0 +1,39 @@
+text,source,trait_tags,notes
+我做事憑直覺，先衝再說,seed_batch,impulsiveness;risk_aversion,high impulsiveness
+我謹慎評估後再行動,seed_batch,impulsiveness;risk_aversion,high risk aversion
+喜歡主導對話和決策,seed_batch,assertiveness,short assertive
+我偏好聆聽，不喜歡出風頭,seed_batch,assertiveness,low assertiveness
+未來一定更好，我非常樂觀,seed_batch,optimism,high optimism
+事情很少如預期發展,seed_batch,optimism,low optimism
+我能長期堅持一件困難的事,seed_batch,endurance,high endurance
+做事缺乏耐心，遇到困難就放棄,seed_batch,endurance;impulsiveness,low endurance
+我不信任陌生人的好意,seed_batch,suspicion,high suspicion
+人性本善，我願意相信大多數人,seed_batch,suspicion,low suspicion
+我喜歡隨機應變，不按計劃行事,seed_batch,randomness;stability_seeking,high randomness
+穩定規律的生活讓我感到安心,seed_batch,stability_seeking;randomness,high stability seeking
+探索未知事物是我最大樂趣,seed_batch,curiosity,high curiosity
+熟悉的環境才讓我有安全感,seed_batch,curiosity;stability_seeking,low curiosity
+我平時不特別冒進也不保守,seed_batch,neutral,neutral baseline
+冒險,seed_batch,impulsiveness;curiosity,short form
+謹慎,seed_batch,risk_aversion;impulsiveness,short form
+我充滿好奇心，什麼都想嘗試,seed_batch,curiosity;randomness,exploratory
+凡事先想清楚再動手,seed_batch,risk_aversion;impulsiveness,careful
+我喜歡掌控局面，不喜歡被動,seed_batch,assertiveness;endurance,control
+我很衝動,seed_batch,impulsiveness,short impulsive
+我很謹慎,seed_batch,risk_aversion;impulsiveness,short careful
+我很樂觀,seed_batch,optimism,short optimistic
+我不樂觀,seed_batch,optimism,short pessimistic
+我很多疑,seed_batch,suspicion,short suspicious
+我信任人,seed_batch,suspicion,short trusting
+我很堅持,seed_batch,endurance,short persistent
+我易放棄,seed_batch,endurance,short low endurance
+我愛掌控,seed_batch,assertiveness,short controlling
+我怕變動,seed_batch,stability_seeking;randomness,short stability seeking
+我愛探索,seed_batch,curiosity,short curious
+我怕未知,seed_batch,curiosity;stability_seeking,short low curiosity
+我總是先懷疑陌生人的動機與說法,seed_batch,suspicion;risk_aversion,long suspicious
+我願意在穩定節奏中長期投入一件事,seed_batch,endurance;stability_seeking,long persistent
+我喜歡帶頭把事情推進到底並協調大家,seed_batch,assertiveness;endurance,long assertive
+我能在不確定時保持警覺並慢慢判斷,seed_batch,suspicion;risk_aversion,long careful
+我偏好熟悉規律，也不輕易改變習慣,seed_batch,stability_seeking;randomness,long stable
+我喜歡在陌生情境中主動探索新可能,seed_batch,curiosity;assertiveness,long exploratory

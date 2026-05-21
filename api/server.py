@@ -38,6 +38,7 @@ from api.personality_text_inference import (
     load_inference_config,
     log_personality_pair,
 )
+from api.personality_sbert_inference import infer_personality_vector_sbert
 from core.game_engine import GameEngine
 from api.rl_session_manager import get_session_manager
 from simulation.rl_session_engine import RLSessionConfig
@@ -770,6 +771,38 @@ async def personality_infer(req: PersonalityInferRequest) -> PersonalityInferRes
         temperature=float(meta.get("temperature")),
         logged=logged,
         log_error=log_error,
+    )
+
+
+# ===================================================================
+# Endpoint: SBERT Personality Inference (offline, v7 MLP)
+# ===================================================================
+
+
+@app.post("/personality/infer_sbert", response_model=PersonalityInferResponse)
+async def personality_infer_sbert(req: PersonalityInferRequest) -> PersonalityInferResponse:
+    """Infer 9-trait personality vector using offline SBERT + v7 MLP.
+
+    Does NOT require LLM environment variables.  Returns a deterministic
+    (temperature=0) result from the locally trained model.
+    """
+    try:
+        vector, meta = infer_personality_vector_sbert(req.text)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+    except RuntimeError as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"SBERT inference failed: {exc}")
+
+    return PersonalityInferResponse(
+        request_id=str(meta.get("request_id")),
+        text=req.text.strip(),
+        vector=vector,
+        model=str(meta.get("model")),
+        temperature=float(meta.get("temperature")),
+        logged=False,
+        log_error=None,
     )
 
 

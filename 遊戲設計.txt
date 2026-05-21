@@ -1,0 +1,644 @@
+現行程式中，玩家個性向量初始值有兩套路徑，如下：
+
+玩家個性向量初始值
+1. 9D 個性空間定義（rl_player.py）
+群組	維度	值域
+擴張組 The Drivers	impulsiveness, assertiveness, optimism	[-1, 1]
+防禦組 The Stabilizers	risk_aversion, suspicion, endurance	[-1, 1]
+擾動組 The Explorers	randomness, stability_seeking, curiosity	[-1, 1]
+2. 初始化模式（rl_session_engine.py）
+if config.personality_mode == "random_9persona":
+    pers = sample_personality(rng=self.rng)   # 每個維度 Uniform(-1, 1)
+else:  # "none"（BL2 預設/baseline）
+    pers = {k: 0.0 for k in [...9 keys...]}   # 全零，無個性影響
+personality_mode	初始值	當前 BL2 狀態
+"none"	全部 0.0	✅ 正式 BL2 鎖定值
+"random_9persona"	每維度 Uniform(-1, 1)	實驗模式（lambda 全 0 時退化為 BL2）
+3. 原型式初始化（personality_gate0.py，Event-driven 研究用）
+PROTOTYPES 定義三個人格原型的具體起始值：
+
+維度	aggressive	defensive	balanced
+impulsiveness	+0.85	-0.65	+0.10
+assertiveness	+0.82	-0.15	+0.15
+optimism	+0.45	-0.10	+0.25
+risk_aversion	-0.70	+0.85	+0.10
+suspicion	-0.55	+0.80	+0.05
+endurance	-0.20	+0.55	+0.20
+randomness	+0.10	-0.20	+0.30
+stability_seeking	-0.60	+0.65	+0.65
+curiosity	+0.25	+0.15	+0.50
+實際抽樣時加上 jitter：
+personality[key] = clamp(prototype[key] + Uniform(-jitter, +jitter), -1.0, 1.0)
+
+Zexpanding = (impulsiveness+assertiveness+optimism)/3
+
+Zcontracting = (risk_aversion+suspicion+endurance)/3
+​
+Zexploring = (randomness+stability_seeking+curiosity)/3
+
+潛在信號	調制目標	公式
+Zexpanding	αi（學習速率）	αi=αbase⋅(1+λα⋅zα)
+
+Zcontracting	βi（探索率）	βi=βbase⋅(1+λβ⋅zβ)
+
+三者綜合	rs​（策略偏好乘數）	rs+=λr⋅zs
+
+BL2（personality_mode="none"）下 λ 全為 0，三信號全 0，所有玩家 RL 參數完全相同。
+​
+
+以下是完整的 agent 遊玩地下城 → 觸發 event → 選擇行動的全鏈路流程：
+
+Agent 遊玩地下城：Event 觸發與選擇全流程
+完整呼叫鏈（process_turn()）
+
+DungeonAI.resolve_player_outcome(player, strategy)
+  └─▶ EventLoader.process_turn(player, rng=rng, strategy=strategy)
+        │
+        ├── [1] 抽選 Event
+        ├── [2] 選擇 Action（依個性向量）
+        ├── [3] 計算 final_risk
+        ├── [4] 計算 success_prob
+        ├── [5] 擲骰 success/failure
+        └── [6] 套用結果（reward / state / trait delta）
+
+[1] 抽選 Event（sample_event_template()）
+weights = [self._event_type_weight(template) for template in self.templates]
+event = rng.choices(templates, weights=weights, k=1)[0]
+以 JSON schema 中每個事件的 event_type 權重做加權隨機抽樣
+事件類型：Threat / Resource / Uncertainty / Navigation / Internal
+可由外部指定 event_id 強制觸發特定事件（回歸測試用）
+
+[2] 選擇 Action（choose_action()）
+每個 event 有多個可選行動（e.g. fight, flee, negotiate），Agent 依個性向量與動作權重的點積選最高分者：
+# 對每個 action 計算效用
+utility = Σ action.weights[i] × personality[dimension_i]
+
+# 加入隨機性（若 randomness trait > 0）
+utility += Uniform(-1, 1) × 0.1 × randomness × noise_multiplier
+
+# 取最高效用的 action
+action = argmax(utility over all actions)
+
+個性高	傾向選擇的行動類型
+assertiveness 高	攻擊性行動（fight, confront）
+risk_aversion 高	保守行動（flee, observe）
+curiosity 高	探索行動（investigate, interact）
+randomness 高	選擇結果加大隨機雜訊
+
+[3] 計算 final_risk（compute_final_risk()）
+final_risk = base_risk
+           + risk_bias（動作固有偏置）
+           + Σ trait_weights[k] × personality[k]  ← 個性調制
+           + state.risk          ← 當前累積風險
+           + state.risk_drift    ← 風險漂移
+           + stress_risk_coeff × state.stress
+           + risk_ma_mult × state.risk_ma（移動平均）
+           + health_penalty × (1 - state.health)
+
+
+→ 結果 clamp 到 [0.0, 1.0]
+
+[4] 計算 success_prob（compute_success_prob()）
+若 final_risk >= failure_threshold（預設 0.5）→ 強制 0%
+
+否則依 success model 計算：
+
+模型	公式
+linear_risk_complement	1 − final_risk
+logistic	sigmoid(bias − steepness × final_risk)
+linear_clip	slope × final_risk + offset
+threshold	0 or 1，依 risk 是否超過 threshold
+最後加上 state.intel 加成：+= clamp(0.05 × intel, −0.25, +0.25)
+
+[5] 擲骰決定成敗
+success = rng.random() < success_prob
+[6] 套用結果
+成功時（reward_effects）：
+
+回傳值	說明
+utility_delta	加到 player.utility
+risk_delta	加到 player.state.risk
+trait_deltas	各維度人格微幅漂移（clamp(-1, 1)）
+popularity_shift	影響地下城策略人氣（方向偏置）
+state_effects	stress_delta, noise_delta, intel_delta 等
+失敗時（failure_outcomes，加權隨機選一）：
+
+可能有多種失敗結局（kind: "death", "wounded", "escaped"...），依概率權重抽選
+套用對應的 payload（通常 utility_delta 為負，risk_delta 更高）
+每回合結束（_apply_state_decay()）：
+
+狀態變數	被動衰減率（預設）
+stress	× 0.92（高壓時衰減更慢）
+noise	× 0.92
+risk_drift	× 0.90
+risk	× 0.95
+health	+ 0.02（被動回復）
+單回合全鏈路摘要
+
+personality (9D)
+  → choose_action()     ← 點積選出最符合個性的行動
+  → compute_final_risk() ← 個性 + 當前狀態決定危險程度
+  → compute_success_prob() ← 風險映射至成功機率
+  → rng.random() < prob   ← 擲骰
+  → 套用 reward / trait / state delta
+  → state_decay()         ← 被動衰減與 health regen
+
+個性向量在三處發揮作用：行動選擇（偏好）、風險調制（trait_weights）、以及成功後人格漂移（trait_deltas）。
+
+
+Risk 的增加來自多個疊加管道，以具體 event 數據說明：
+
+Event 觸發如何增加 Risk：完整管道
+兩層 Risk 概念
+層次	變數	說明
+評估層（計算用）	final_risk	本回合動作的危險程度評估值，決定成功率
+累積層（狀態儲存）	state.risk	跨回合的殘留風險累積量，下回合再代入評估
+管道 1：final_risk 計算（行動本身的危險度）
+
+final_risk = base_risk
+           + trait_weights · personality        ← 個性放大或縮減
+           + state.risk                         ← 上回合殘留風險
+           + state.risk_drift                   ← 漂移累積
+           + stress_coeff × state.stress
+           + (1 − state.health) × health_penalty
+
+以 threat_shadow_stalker 事件三個行動為例：
+
+行動	base_risk	個性調制（正向 trait）	failure 閾值
+attack	0.72	+impulsiveness×0.14, +assertiveness×0.08	0.82
+observe	0.18	+curiosity×0.10, +suspicion×0.08	0.72
+retreat	0.26	+risk_aversion×0.12, +endurance×0.10	0.78
+→ impulsiveness=+0.85 的 aggressive 玩家選 attack：
+final_risk ≈ 0.72 + 0.14×0.85 + ... ≈ 0.84 → 超過 failure_threshold=0.82 → 強制失敗
+
+管道 2：risk_delta 直接寫入 state.risk
+player.state["risk"] += risk_delta   # 直接累加，跨回合殘留
+
+結果	risk_delta 方向	具體值（threat 事件）
+成功	通常為負（消除緊張）	attack 成功：−0.06
+失敗	正值（懲罰殘留）	attack 失敗 counter_hit：+0.22
+高風險行動（如 open_now 開寶箱）即使成功也可能有正的 risk_delta（+0.04），代表「雖然拿到了，但留下了隱患」。
+
+管道 3：state_effects 間接影響未來風險
+失敗時觸發的 state_effects 修改下回合的 risk 計算輸入：
+on_failure (attack 失敗):
+  stress_delta:     +0.18  → 下回合 final_risk += stress_coeff × stress
+  noise_delta:      +0.06  → 放大 choose_action 的隨機雜訊
+  risk_drift_delta: +0.02  → 下回合 final_risk += 0.02 additional
+  health_delta:     −0.12  → health 降低 → (1-health)×coeff 進一步加風險
+
+反之成功時釋放壓力：stress_delta: −0.08, risk_drift_delta: −0.01
+
+管道 4：_apply_state_decay()（每回合結束被動衰減）
+state.risk       *= 0.95   # 每回合消減 5%
+state.stress     *= 0.92   # 壓力消散（高壓時衰減更慢）
+state.risk_drift *= 0.90
+state.noise      *= 0.92
+state.health     += 0.02   # 被動回血
+
+
+完整 Risk 動態方程（跨回合）
+risk
+(t+1)=0.95⋅risk(t) + Δr event + ε drift
+        ⏟              ⏟              ⏟  
+      衰減    本回合 risk_delta  state_effects 累積
+
+Risk 不斷累積而不重置，最終超過死亡閾值時觸發「命運崩潰（fate collapse）」，即 Agent 死亡。
+
+三事件行動風險對比
+事件	行動	base_risk	失敗 risk_delta	失敗 stress_delta
+Threat 暗影追跡者	attack	0.72	+0.22	+0.18
+Threat 暗影追跡者	observe	0.18	+0.10	+0.10
+Resource 可疑寶箱	open_now	0.81	+0.26	—
+Resource 可疑寶箱	ignore	0.04	0.00	—
+Uncertainty 祭壇	touch	0.67	+0.20	—
+Uncertainty 祭壇	leave	0.05	+0.05	—
+越激進的行動 base_risk 越高，失敗的懲罰 risk_delta 也越重。
+
+以下是 risk 超閾觸發「邏輯崩壞（fate collapse）」的完整實作：
+
+Risk 超閾 → Fate Collapse：一輪遊戲結束
+核心設計原則
+「死亡不是 HP 歸零，而是命運崩潰（fate collapse）——累積風險超過個人承受閾值。」
+— 00_world_framework_v1.md
+
+第一層：個性化死亡閾值（compute_death_threshold()）
+每位玩家的閾值由個性決定，不是固定值：
+
+threshold_i = 1.0 + 0.15 × (endurance + stability_seeking
+                              - impulsiveness - risk_aversion)
+
+個性傾向	影響	閾值方向
+endurance 高（耐力強）	更能承受壓力	閾值升高 ↑
+stability_seeking 高（穩定型）	更不容易崩潰	閾值升高 ↑
+impulsiveness 高（衝動型）	更容易因失控而崩潰	閾值降低 ↓
+risk_aversion 高（焦慮型）	內在焦慮持續消耗承受力	閾值降低 ↓
+典型範圍：~0.70（脆弱型） ～ ~1.30（堅韌型）
+
+第二層：每回合的個性風險累積（compute_personality_risk_delta()）
+除了事件 risk_delta，每回合還有一筆由個性本身帶來的「底層風險」：
+
+delta_risk_personality = impulsiveness  × (+0.22)
+                       + risk_aversion  × (+0.25)   ← 焦慮型自我消耗
+                       + stability_seeking × (−0.20)
+                       + assertiveness  × (−0.18)   ← 自信型緩衝壓力
+
+個性	係數	解釋
+impulsiveness	+0.22	衝動行為持續製造意外風險
+risk_aversion	+0.25	焦慮矛盾：愈害怕風險，內部壓力愈高
+stability_seeking	−0.20	穩定傾向主動化解環境壓力
+assertiveness	−0.18	自信應對讓壓力不易滾雪球
+死亡判斷點（每回合結束後檢查）
+
+# 每回合結算後：
+player.state["risk"] += compute_personality_risk_delta(player)  # 個性底層風險
+threshold = compute_death_threshold(player)
+
+if player.state["risk"] >= threshold:   # ← fate collapse 觸發
+    player.dead = True
+    n_deaths += 1
+​
+死亡觸發後的固定順序（run_life()）
+
+​1. 記錄最終數據
+   └─ final_utility、dominant_strategy、n_active_rounds、final_risk
+
+2. 計算遺言（Testament Update）
+   delta_P = 0.50 × delta_util
+           + 0.35 × delta_dom     ← 主導策略方向
+           + 0.15 × delta_event   ← 事件 trait 漂移
+   delta_P = clip(delta_P, -0.25, +0.25)
+   P_next = clamp(P + alpha_testament × delta_P, -1.0, 1.0)
+
+3. 重置玩家進入下一 life
+   └─ risk=0, stress=0, noise=0, risk_drift=0
+   └─ health=1.0, intel=0, utility=0
+   └─ strategy_weights 依新 personality 重新投影
+   └─ personality 更新為 P_next
+
+
+ 
+​完整 Risk 累積方程（跨回合）
+riski(t)=0.95⋅riski(t−1) + Δr event(t) + Δr personality(t)
+              ⏟                 ⏟                  ⏟
+            衰減         事件 risk_delta    個性底層風險
+​
+ 
+當 riski(t)≥θirisk i(t)≥θ i 時，fate collapse 觸發。
+
+研究發現（W2.1 封卷結論）
+現象	數據
+Control（無 death 修復）的玩家	全部 n_deaths=400/400，平均只撐 23~30 rounds
+加入 testament 後（w2_base）	在 life 4~6 能完整跑滿 4000 rounds
+人格漂移方向	朝 endurance / stability_seeking 收斂（保守存活策略）
+L3 出現率	0/3 seeds，close_w2_1
+結論（W2.1 封板）：death/testament 修復了存活條件，但把人格推向防禦式穩定化，而非創造新的旋轉結構。排除了「只要讓 agent 活久一點，L3 就自然浮現」這個假說。
+
+現在有充分資料，整理如下：
+
+系統如何評分這次冒險
+評分分為兩個層次：個人 Life 評分（局內判斷）與集體循環評分（全局指標）。
+
+層次一：個人 Life 評分（死亡或 Life 結束時）
+一輪遊戲（Life）結束後，系統從三個維度評估這次冒險經歷，加權合成「遺言更新量 ΔP」
+
+【績效計算公式】
+ΔP = (績效分 * 0.50) + (風格分 * 0.35) + (事件分 * 0.15)
+
+各變數對應：
+- 績效分 = Δutil
+- 風格分 = Δdom
+- 事件分 = Δevent
+
+維度	計算方式	意義
+績效分 Δ_util	Z = (uᵢ - ū) / σ_u ，標準化相對排名	這次冒險比同伴更賺還是更虧
+風格分 Δ_dom	本 life 最常用策略對應的人格模板	主導行為風格強化對應人格方向
+事件分 Δ_event	所有事件 trait_deltas 的均值 × 事件成功率	事件磨練所累積的人格偏移
+各策略對應的人格強化方向（DOMINANT_TEMPLATES）：
+
+主導策略	強化哪些人格（+0.18）
+aggressive	impulsiveness, assertiveness, optimism
+defensive	risk_aversion, suspicion, endurance
+balanced	curiosity, randomness, stability_seeking
+最終 clip 到 [−0.25, +0.25]，再乘以 alpha_testament 更新 P_next：
+Pnext =clamp(P+α⋅ΔP, −1.0, 1.0)
+
+層次二：集體循環評分（全局系統分析）
+系統用 classify_cycle_level() 把整批 agent 的策略時間序列評為四個等級：
+Level 0 ─ 無震盪    amplitude < 0.02（策略比例完全靜止）
+Level 1 ─ 有震盪    amplitude ≥ 0.02，但無主頻
+Level 2 ─ 週期震盪  amplitude + 主頻（自相關 corr ≥ 0.3）
+Level 3 ─ 結構循環  Level 2 + 相位旋轉方向一致性 ✅
+
+Stage 1：振幅（冒險有沒有「動起來」）
+amplitude=max(pt)−min(pt)≥0.02
+
+任一策略的策略比例振幅達標即通過。
+
+Stage 2：主頻（有沒有固定節律）
+用自相關找主頻 lag，corr ≥ 0.3 代表震盪週期穩定。
+退路（CC1 fallback）：phase_rotation_r2 ≥ threshold 且 cumulative_rotation ≥ 20°
+
+Stage 3：相位旋轉一致性（三策略有沒有形成循環 RPS）
+將三策略比例投影到 2D 等邊三角形，計算每步的局部轉向叉積：
+zₜ = (Δpₜ × Δpₜ₊₁) = (d1ₓ * d2ᵧ) - (d1ᵧ * d2ₓ)
+
+指標	閾值	意義
+net_rotation = Σ z_t	≥ 0.005	軌跡整體有旋轉量
+consistency = Σ agree / total	≥ 0.65	每步旋轉方向一致（非隨機亂跑）
+turn_strength	≥ eta (0.6)	旋轉佔主導，非左右抖動
+三項全過 → Level 3（最高等級：穩定 RPS 循環）
+
+評分層次對照
+個人層：每輪 life 結束
+    績效分（utility排名）+ 風格分（主導策略）+ 事件分（磨練累積）
+    → 更新下一 life 的 personality（遺言）
+
+集體層：整批 agent 的多輪策略時間序列
+    Stage 1 振幅 → Stage 2 主頻 → Stage 3 旋轉一致性
+    → Level 0 / 1 / 2 / 3（研究核心目標：穩定 Level 3）
+
+BL2（mild_cw）最終達成 6/6 seeds 全 Level 3，s3_score=0.940 即 Stage 3 得分。
+
+現在可以給出完整的遺言機制說明。
+
+步驟 6：玩家留下遺言，改變個性向量
+設計規格 vs 實作狀態
+00_world_framework_v1.md 的原始設計：
+
+"The player can only leave one sentence between runs."
+
+→ 原意是玩家（人類）輸入自然語言，NLP 解析後影響下一 life 的 personality。
+→ 目前此功能尚未實作（SDD 明確標記：W1 「不得引入 testament / NLP」）。
+
+當前 runtime 的等效替代：遺言自動從本 life 的行為紀錄計算
+
+遺言計算流程（_next_personality_from_player()）
+死亡或 Life 結束後，系統自動從三個「行為證據」計算這次冒險的影響：
+
+本 life 的行為紀錄
+    ├─ utility 相對排名    → delta_util
+    ├─ 最常用策略         → delta_dom
+    └─ 事件 trait 累積    → delta_event
+            ↓
+    ΔP = 0.50 × delta_util
+       + 0.35 × delta_dom
+       + 0.15 × delta_event
+            ↓
+    clip(ΔP, −0.25, +0.25)
+            ↓
+    P_next = clamp(P + α × ΔP, −1.0, 1.0)
+
+
+三個分量的詳細計算
+① delta_util（績效分）— 佔 50%
+
+z_util = clamp((player.utility - mean_utility) / std_utility, -1.0, +1.0)
+delta_util = normalized_dom × z_util
+
+比同伴更賺 → z_util > 0 → 強化這次主導的策略人格
+比同伴更虧 → z_util < 0 → 壓抑這次主導的策略人格
+無主導策略 → delta_util = 零向量
+② delta_dom（風格分）— 佔 35%
+
+本 life 主導策略 → 對應人格方向的固定模板：
+
+主導策略	強化的人格維度（各 +0.18，正規化後加入）
+aggressive	impulsiveness, assertiveness, optimism
+defensive	risk_aversion, suspicion, endurance
+balanced	curiosity, randomness, stability_seeking
+→ 不管這次成功或失敗，用什麼風格就強化什麼人格（行為塑造效應）
+
+③ delta_event（事件分）— 佔 15%
+mean_event = (所有事件累積的 trait_deltas 之和) / event_count
+delta_event = mean_event × 事件成功率
+
+mean_event = (所有事件累積的 trait_deltas 之和) / event_count
+delta_event = mean_event × 事件成功率
+
+成功率高 → 事件磨練的 trait 變化比例完整保留
+成功率低 → 影響縮減（失敗的冒險對人格影響較弱）
+個性向量如何被改變
+設某玩家目前 P = {impulsiveness: 0.50, ...}，本 life 主打 aggressive，utility 高於平均，alpha=0.12：
+
+delta_util → 方向：aggressive 模板正向（impulsiveness, assertiveness, optimism 升）
+delta_dom  → 同方向強化
+ΔP = clip(加權合 , −0.25, +0.25)
+P_next[impulsiveness] = clamp(0.50 + 0.12 × ΔP, −1.0, 1.0)
+
+alpha_testament 控制改變強度：
+
+模式	alpha	效果
+control（W2 退化基準）	0.0	人格完全不變
+w2_base	0.12	溫和遺言效果
+w2_strong	0.22	較強遺言效果
+改變後進入下一 Life
+
+reset_player_for_next_life(player, P_next):
+    player.personality = P_next          # ← 遺言改變的新人格
+    player.state = {risk:0, stress:0, ...health:1.0}  # ← 狀態全歸零
+    player.strategy_weights = projected_initial_weights(P_next)  # ← 策略初始權重依新人格重投影
+
+遺言的累積效應（W2.1 實驗結果）：
+多 life 跑下來，人格分布明顯朝 endurance / stability_seeking / caution 收斂——testament 主要放大保守存活策略，而非創造新的旋轉結構（這也是 W2.1 最終封卷的原因）。
+
+步驟 7：開始新的一輪遊戲
+多 Life 外層迴圈（run_w2_cell()）
+for life_index in range(1, total_lives + 1):  # 預設 total_lives = 6
+    # 用更新後的 personality 重設所有玩家
+    reset_player_for_next_life(player, P_next, init_bias)
+    # 跑這一輪 life
+    run_life(config, life_index=life_index, ...)
+    # life 結束後計算遺言 → 更新 current_personalities
+
+新 Life 初始化：reset_player_for_next_life()
+重置項目	新 life 初始值	備註
+personality	P_next（遺言後）	唯一跨 life 保留的資訊
+state.risk	0.0	命運重置歸零
+state.stress	0.0	壓力歸零
+state.noise	0.0	雜訊歸零
+state.risk_drift	0.0	風險偏移歸零
+state.health	1.0	健康值恢復滿
+state.intel	0.0	情報歸零
+utility	0.0	收益重算
+last_strategy	None	策略記憶清除
+strategy_weights	依新 personality 重新投影	見下方計算
+w2_strategy_history	[]	策略歷史清除
+w2_event_count	0	事件計數清除
+event_rng	Random(seed × 1000 + life_index)	每 life 有不同但可重現的事件序列
+個性向量 → 策略初始權重（重新投影）
+每次 life 開始，新的 P_next 會重新決定三策略的出發比重：
+
+第一步：個性分組評分（project_to_simplex()）
+score_aggressive = (impulsiveness + assertiveness + optimism) / 3
+score_defensive  = (risk_aversion + suspicion + endurance) / 3
+score_balanced   = (randomness + stability_seeking + curiosity) / 3
+
+
+第二步：Softmax 轉換為策略概率
+p_i = exp(score_i) / sum(exp(score_j))
+(其中 j 包含 aggressive, defensive, balanced)
+
+第三步：init_bias 調整
+weights["aggressive"] = p_aggressive × 3.0 × (1 + init_bias)   # ← 稍微偏向攻擊
+weights["defensive"]  = p_defensive  × 3.0 × (1 - init_bias)   # ← 稍微壓制防禦
+weights["balanced"]   = p_balanced   × 3.0                      # ← 不變
+
+→ 保守型人格（高 risk_aversion/endurance）的新 life 從高防禦權重出發
+→ 衝動型人格（高 impulsiveness/assertiveness）從高攻擊權重出發
+
+Control vs 非 Control 模式的差異
+control 模式（alpha=0.0）：
+    每輪 life 都用全零初始 personality 重開
+    → 用來當基準，確認沒有 testament 時行為不受干擾
+
+w2_base / w2_strong：
+    life 結束後 → 遺言更新 P_next → 下一 life 帶著新 personality 出發
+    → 人格會隨每輪 life 漸進偏移（保守方向）
+
+完整 Life 生命循環（1～7 步整合）
+Life 1
+  初始化：personality = 全零，state = 全零，strategy_weights = 均等
+  ↓ 步驟 1-4：事件觸發 → 選行動 → risk 累積
+  ↓ 步驟 4：risk ≥ threshold → fate collapse（死亡）
+  ↓ 步驟 5：系統評分（utility 排名 / 策略分布 / Level 0-3）
+  ↓ 步驟 6：遺言計算 → P_next = clamp(P + α·ΔP, -1, 1)
+  ↓ 步驟 7：reset → 帶著 P_next 進入 Life 2
+
+Life 2 → Life 3 → ... → Life 6（total_lives）
+
+W2.1 實測資料（w2_base，alpha=0.12）：
+
+Life	平均存活回合	觀察
+1（control）	23~30 rounds	全滅
+4~6（w2_base）	4000 rounds（跑滿）	遺言修復了存活條件
+死亡率從「幾乎必死」降到「可長期存活」——testament 累積的保守傾向讓 agent 越活越謹慎，最終在地下城中長期生存。
+
+
+這個問題揭示了 W1 和 W2 兩個引擎之間一個關鍵的設計差異：
+
+事件的 trait_deltas：有，但兩引擎處理方式不同
+事件模板中確實有「改變性格」的設計
+每個事件的每個結果（成功/失敗）都帶有 trait_deltas——這正是「遭遇事件後性格改變」的設計：
+
+threat_shadow_stalker（陰影潛行者）事件，attack 行動：
+
+結果	性格改變（trait_deltas）	解釋
+成功	assertiveness +0.03<br>impulsiveness +0.01	攻擊成功 → 更自信、更衝動
+失敗	risk_aversion +0.04<br>endurance −0.02	被反擊 → 更謹慎、耐力下降
+observe 行動：
+
+結果	性格改變	解釋
+成功	curiosity +0.02<br>suspicion +0.01	觀察成功 → 更好奇、更警覺
+失敗	suspicion +0.03<br>stability_seeking −0.01	誤判 → 疑心加深、穩定感下降
+關鍵差異：W1 vs W2 引擎的處理方式
+
+W1 引擎（run_simulation / personality_gate1）
+    每回合事件發生
+        → trait_deltas 立即寫入 player.personality
+        → 性格向量在 life 內逐漸漂移
+        → 下一回合行動選擇直接使用已改變的性格
+    （可用 --disable_event_trait_deltas 關閉）
+
+W2 引擎（w2_episode）
+    每回合事件發生
+        → trait_deltas 先累積進 w2_trait_delta_sum
+        → 但隨即：player.personality = personality_snapshot  ← 強制還原快照！
+        → 性格向量在 life 內保持不變
+        → trait_deltas 只在 life 結束時，透過遺言公式間接影響下一 life
+
+為什麼 W2 要「快照還原」？
+# w2_episode.py - 每回合
+personality_snapshots = [_copy_personality(player.personality) for player in active_players]
+# ... 執行事件（trait_deltas 被套用到 personality）...
+# ... 但之後：
+player.personality = personality_snapshot  # ← 還原，不讓事件直接改變性格
+
+設計意圖：W2 把「事件即時改變性格」和「跨 life 性格累積」分開：
+
+問題	W1 做法	W2 做法
+事件改變性格的速度	快：每回合立即套用	慢：只在 life 結束時套用
+可歸因性	難以分析是哪個事件改了性格	清楚：personality 在 life 內是固定的
+性格漂移機制	事件直接磨損/增益	只透過遺言（testament）結算
+兩種引擎的「性格改變」比較
+
+W1（即時磨練）：
+Pᵢ(t+1) = clamp(Pᵢ(t) + Δevent(t), -1, 1)
+每回合都在發生，每個事件都在塑造性格，類似「人生中每件事都多少改變人」。
+
+W2（延遲結算）：
+P_i(t) ≡ P_i_life  (∀t in current life)
+
+P_i_next_life = clamp(P_i_life + α * ΔP, -1, 1)
+
+life 內性格凍結；所有磨練效果暫存，統一在人生結束時以遺言形式結算。
+
+trait_delta 數值的量級
+典型單次事件 trait_delta：0.01 ～ 0.04
+
+W1 下跑 1000 回合，每回合觸發一次事件：累積影響可達 10 ～ 40 個百分點。
+W2 下同樣 1000 回合：這些 delta 全部累積到 w2_trait_delta_sum，但 personality 不動，只在 life 結束時透過 delta_event × 成功率 × 0.15 的比例折算進遺言。
+
+「相干性漩渦」就是 Level 3
+什麼是相干性漩渦（在本研究中的定義）
+三策略（aggressive / defensive / balanced）在 simplex 空間中形成持續、方向一致的旋轉：
+
+aggressive → balanced → defensive → aggressive → ...
+（攻擊策略盛行 → 平衡策略反制 → 防禦策略崛起 → 攻擊策略再起）
+
+這個旋轉就是 Rock-Paper-Scissors（RPS）拓樸——自然界、生態學、賽局理論中普遍存在的非線性循環結構。
+
+「相干性」 = 旋轉方向一致（65% 以上的步驟都往同一方向轉）
+「漩渦」 = 軌跡在 simplex 投影面上形成持續的環狀運動
+
+評分系統（Step 5）就是「測量漩渦是否存在」
+Level 0 ─ 無動靜        策略比例靜止 → 沒有漩渦
+Level 1 ─ 有震盪        策略比例在動，但無規律
+Level 2 ─ 週期震盪      找到固定頻率，但可能只是來回抖動
+Level 3 ─ 相干性漩渦    方向一致的旋轉 ← 這就是研究目標
+
+Stage 3 的判斷準則就是在問：
+
+「這群 agent 的策略分布，有沒有形成一個方向鎖定的旋轉漩渦？」
+
+研究的核心問題
+整個 Personality Dungeon 的研究主軸是：
+
+個體的「個性向量」能否在集體層面催生並維持相干性漩渦？
+
+用遊戲語言說：
+
+層次	問題
+個人層	每個 agent 的 9 維個性向量如何決定他在地下城中的選擇？
+集體層	300 個性格各異的 agent 同時冒險，策略比例會不會自發形成旋轉結構？
+漩渦問題	這個旋轉是「真正的漩渦（Level 3）」還是「隨機抖動（Level 2 以下）」？
+研究走過的路：為什麼漩渦這麼難出現？
+理論上漩渦應該存在：matrix_ab payoff 矩陣（RPS 結構）在確定性 mean-field 下有封閉軌道。
+
+但實際上幾乎不出現，因為：
+
+阻礙	解釋
+有限族群抽樣噪音	300 人抽樣產生的隨機性把旋轉結構打散
+過度阻尼（overdamping）	μ 慣性參數太小 → 相位記憶不足 → 漩渦無法累積
+全局共榮項（W4）	引入均等化 → 破壞 RPS 需要的「不對稱性」
+記憶核太大/太小（W3）	時間滯後不對 → 旋轉相位錯位
+BL2 突破：個性向量 + 慣性調制 = 漩渦出現
+研究走到 BL2（mild_cw = [1.2, 1.0, 0.8]）時，終於找到關鍵：
+
+個性向量透過 RL 慣性參數（μ）調制旋轉速度：
+velocity(t) = μ_i × velocity(t-1) + k × growth(t)
+
+不同個性的 agent 有不同的 μ_i（慣性/記憶深度）
+慣性異質性 → 相位速度差異 → 自發形成旋轉結構
+最終結果：6/6 seeds 全 Level 3，s3_score = 0.940
+
+遊戲機制 → 研究意義的對應
+遊戲機制（步驟 1-7）	研究意義
+個性向量初始值（步驟 1）	個體異質性的初始條件
+事件觸發選擇（步驟 2-3）	個性如何轉化為行動
+Risk 累積→ fate collapse（步驟 4）	個體約束（生死壓力）
+Level 0-3 評分（步驟 5）	測量相干性漩渦是否形成
+遺言更新個性（步驟 6）	跨代個性演化
+重新一輪（步驟 7）	觀察漩渦是否跨代持續
+步驟 5 是整個研究的「終審」：300 個 agent 各自冒險、各自死亡、各自改變個性——但在集體策略的時間序列上，系統有沒有自發形成一個穩定的、方向鎖定的旋轉漩渦，就是這個遊戲所有機制存在的終極理由。
+
