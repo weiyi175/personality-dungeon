@@ -23,7 +23,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 _SBERT_MODEL_NAME = "paraphrase-multilingual-MiniLM-L12-v2"
 _MLP_PATH = REPO_ROOT / "outputs" / "mlp_v7_mlp.joblib"
 _MODEL_TAG = "sbert-mlp-v7"
-_MAX_CHARS = 512
+_MAX_CHARS = 20
 
 _lock = threading.Lock()
 _sbert = None
