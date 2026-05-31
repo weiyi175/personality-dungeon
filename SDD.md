@@ -4399,7 +4399,8 @@ EventBridge 的**加性獎勵 + 全玩家同步觸發**在 300 玩家規模下�
 2. **World feedback 在 λ_world=0.08 下為破壞性**：Arm C 6/11 healthy
 3. **22-seed / 12-seed probe 不足以檢測 new_L1 風險**：未來變更必須直接 60-seed Gate
 4. **0.555 bifurcation trap 是 EventBridge 架構性限制**：加性同步獎勵在大群體中產生不可逆分岔
-5. **Event 配置依賴 smoke v1 模板**：5 families × 12D personality weights
+5. **Event 配置依賴 smoke v1 模板**：5 families × 9D personality weights（`02_event_templates_smoke_v1.json` 已於 commit `2bb4fe8` 更新為 9 weights，與 `_PERSONALITY_KEYS_ORDERED` 一致）
+6. **r006/r007 事件率掃描（`outputs/b1_async_dispatch_poisson_r00[67]*`）為 pre-fix 執行**：在 EventBridge 修復（2026-05-18）前完成，`compute_reward_risk()` 因 `_PERSONALITY_KEYS_ORDERED` 含 12D 舊鍵導致 4/9 維度歸零。上述 summary 不含 `mean_reward_multiplier_*` 欄位（僅記錄 l1/l2/l3/healthy/fairness_fail_count），**cycle 指標有效；reward coupling 數值不可引用**。「r008 為最佳事件率」的結論以 `*_9d_*` 版本（post-fix）為準。
 
 ##### 不變條件
 

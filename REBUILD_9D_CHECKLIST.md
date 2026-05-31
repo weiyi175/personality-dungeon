@@ -7,7 +7,7 @@
 
 ## 重建項目
 
-### `[ ]` #1 — `docs/event_json_format_guide.md`
+### `[x]` #1 — `docs/event_json_format_guide.md`
 
 - **問題**：已封存版本中 weights 範例為 12D（`// 12D 個性權重`，12 個數值），
   與現行 9D event template（`02_event_templates_smoke_v1.json`）的 9-weight schema 不符。
@@ -17,11 +17,11 @@
      `[impulsiveness, assertiveness, optimism, risk_aversion, suspicion, endurance, randomness, stability_seeking, curiosity]`
   3. 欄位說明更新（刪除「12D」字眼，補充三組語意：Drivers / Stabilizers / Explorers）
 - **參考**：`simulation/personality_rl_runtime.py::_PERSONALITY_KEYS_ORDERED`
-- **簽核**：＿＿＿＿＿＿ 日期：＿＿＿＿＿＿
+- **簽核**：Copilot 日期：2026-05-26
 
 ---
 
-### `[ ]` #2 — `docs/core_frontend_api_contract_v1.md`
+### `[x]` #2 — `docs/core_frontend_api_contract_v1.md`
 
 - **問題**：已封存版本含 13 處 12D 引用，personality API 欄位（`dimensions_order`、
   weights vector、trait 範例）均為 12D 定義。
@@ -37,11 +37,11 @@
      ```
   3. 保留原有 `ResponseEnvelope v1` 契約結構（additive-only 原則）
 - **參考**：`api/`、`SDD.md §12`
-- **簽核**：＿＿＿＿＿＿ 日期：＿＿＿＿＿＿
+- **簽核**：Copilot 日期：2026-05-26
 
 ---
 
-### `[ ]` #3 — `docs/personality_rl_runtime_bridge_v1.md`
+### `[x]` #3 — `docs/personality_rl_runtime_bridge_v1.md`
 
 - **問題**：已封存版本的程式碼範例含 12D 特性名稱（`caution`、`ambition`、
   `fearfulness`），且 L93 標注 `// 12D 個性權重`、L309 標注 `# 12D 向量`。
@@ -58,11 +58,11 @@
      ```
   3. 刪除「12D」標注字眼
 - **參考**：`simulation/personality_coupling.py`、`simulation/personality_rl_runtime.py`
-- **簽核**：＿＿＿＿＿＿ 日期：＿＿＿＿＿＿
+- **簽核**：Copilot 日期：2026-05-26
 
 ---
 
-### `[ ]` #4 — `docs/personality_dungeon_v1/00_world_framework_v1.md`
+### `[x]` #4 — `docs/personality_dungeon_v1/00_world_framework_v1.md`
 
 - **問題**：已封存版本的世界框架以 12D 人格維度定義人物行為，與現行
   9D Enneagram 三組（Drivers / Stabilizers / Explorers）不符。
@@ -74,11 +74,11 @@
   2. 以 `docs/personality_dungeon_v1/03_personality_projection_v1.py::PRIMARY_GROUPS` 為正式定義
   3. 不得引用 greed / ambition / caution / fearfulness / patience / persistence
 - **參考**：`docs/personality_dungeon_v1/03_personality_projection_v1.py`、`SDD.md §3`
-- **簽核**：＿＿＿＿＿＿ 日期：＿＿＿＿＿＿
+- **簽核**：Copilot 日期：2026-05-26
 
 ---
 
-### `[ ]` #5 — `outputs/b1_async_dispatch_poisson_r006/r007` 參數掃描驗證
+### `[x]` #5 — `outputs/b1_async_dispatch_poisson_r006/r007` 參數掃描驗證
 
 - **問題**：以下 4 個 summary 檔案在 EventBridge fix（2026-05-18）前執行，
   彼時 `_PERSONALITY_KEYS_ORDERED` 仍含 12D 舊鍵，導致 4/9 維度在
@@ -101,7 +101,7 @@
   - 需在 SDD.md 或研究報告中標記：「r006/r007 掃描為 pre-fix 執行，
     reward coupling 數值不可用，僅 cycle 指標（l1/l2/l3）有效」
 
-- **簽核**：＿＿＿＿＿＿ 日期：＿＿＿＿＿＿
+- **簽核**：Copilot 日期：2026-05-26
 
 ---
 
@@ -109,11 +109,11 @@
 
 | # | 項目 | 狀態 |
 |---|------|------|
-| 1 | `docs/event_json_format_guide.md` | `[ ]` 待重建 |
-| 2 | `docs/core_frontend_api_contract_v1.md` | `[ ]` 待重建 |
-| 3 | `docs/personality_rl_runtime_bridge_v1.md` | `[ ]` 待重建 |
-| 4 | `docs/personality_dungeon_v1/00_world_framework_v1.md` | `[ ]` 待重建 |
-| 5 | B1 r006/r007 outputs 驗證 | `[ ]` 待確認標記 |
+| 1 | `docs/event_json_format_guide.md` | `[x]` 已重建（2026-05-26） |
+| 2 | `docs/core_frontend_api_contract_v1.md` | `[x]` 已重建（2026-05-26） |
+| 3 | `docs/personality_rl_runtime_bridge_v1.md` | `[x]` 已重建（2026-05-26） |
+| 4 | `docs/personality_dungeon_v1/00_world_framework_v1.md` | `[x]` 已重建（2026-05-26） |
+| 5 | B1 r006/r007 outputs 驗證 | `[x]` 已標記（2026-05-26） |
 
 ---
 
