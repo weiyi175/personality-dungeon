@@ -1,5 +1,9 @@
 # Core / Frontend API Contract v1
 
+> **⚠️ 已棄用（DEPRECATED）**：此為 12D 人格版本的舊契約文件（位於 `api/`）。
+> 請改用已重建的 9D Enneagram 版本：[docs/core_frontend_api_contract_v1.md](../docs/core_frontend_api_contract_v1.md)
+> 本文件保留作歷史參考，所有 12D keys（greed / ambition / caution / fearfulness / patience / persistence）均已於 2026-05-18 EventBridge 修正中廢除。
+
 本文件定義 Python Core Engine 與 Godot Frontend 之間的第一版穩定輸出契約。
 
 核心原則只有一條：**核心內部機制可以改，對外輸出格式不能破壞**。

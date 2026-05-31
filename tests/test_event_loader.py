@@ -152,10 +152,10 @@ def test_event_loader_process_turn_applies_success_updates() -> None:
 	loader = EventLoader(_event_json_path())
 	player = BasePlayer(
 		["aggressive", "defensive", "balanced"],
-		personality={"impulsiveness": 0.8, "ambition": 0.7, "caution": 0.1},
+		personality={"impulsiveness": 0.8, "assertiveness": 0.7, "risk_aversion": 0.1},
 	)
 
-	# Use observe: base_risk=0.18 with this personality gives final_risk≈0.17 < failure_threshold=0.42.
+	# Use observe: base_risk=0.18 with this personality gives final_risk≈0.17 < failure_threshold=0.72.
 	result = loader.process_turn(
 		player,
 		event_id="threat_shadow_stalker",
@@ -179,11 +179,11 @@ def test_event_loader_family_multipliers_scale_event_layer_only() -> None:
 	scaled_loader.set_event_type_trait_delta_multipliers({"Threat": 1.30})
 	baseline_player = BasePlayer(
 		["aggressive", "defensive", "balanced"],
-		personality={"impulsiveness": 0.8, "ambition": 0.7, "caution": 0.1},
+		personality={"impulsiveness": 0.8, "assertiveness": 0.7, "risk_aversion": 0.1},
 	)
 	scaled_player = BasePlayer(
 		["aggressive", "defensive", "balanced"],
-		personality={"impulsiveness": 0.8, "ambition": 0.7, "caution": 0.1},
+		personality={"impulsiveness": 0.8, "assertiveness": 0.7, "risk_aversion": 0.1},
 	)
 	baseline_result = baseline_loader.process_turn(
 		baseline_player,
@@ -241,9 +241,9 @@ def test_state_decay_reduces_stress_and_risk_drift_after_turn() -> None:
 	loader = EventLoader(_event_json_path())
 	player = BasePlayer(
 		["aggressive", "defensive", "balanced"],
-		personality={"caution": 0.8, "patience": 0.5},
+		personality={"risk_aversion": 0.8, "endurance": 0.5},
 	)
-	# Set moderate state values; with caution=0.8 the observe action has
+	# Set moderate state values; with risk_aversion=0.8 the observe action has
 	# final_risk = 0.18 - 0.064 + 0 + 0.2(risk_drift) + 0.04(stress) = 0.356 < 0.42(threshold)
 	player.state["stress"] = 0.4
 	player.state["risk_drift"] = 0.2
@@ -263,7 +263,7 @@ def test_health_regen_occurs_each_turn() -> None:
 	loader = EventLoader(_event_json_path())
 	player = BasePlayer(
 		["aggressive", "defensive", "balanced"],
-		personality={"caution": 0.8},
+		personality={"risk_aversion": 0.8},
 	)
 	player.state["health"] = 0.5
 	loader.process_turn(
@@ -282,7 +282,7 @@ def test_game_engine_can_include_event_loader_reward_stream() -> None:
 	player = BasePlayer(
 		["aggressive", "defensive", "balanced"],
 		rng=random.Random(1),
-		personality={"impulsiveness": 0.8, "ambition": 0.7, "caution": 0.1},
+		personality={"impulsiveness": 0.8, "assertiveness": 0.7, "risk_aversion": 0.1},
 	)
 	player.update_weights({"aggressive": 100.0, "defensive": 1.0, "balanced": 1.0})
 	dungeon = DungeonAI(

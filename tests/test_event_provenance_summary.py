@@ -70,10 +70,10 @@ def test_event_provenance_summary_reports_event_type_and_top_actions(tmp_path: P
 			"successes_json": json.dumps([True, False]),
 			"final_risks_json": json.dumps([0.7, 0.4]),
 			"success_probs_json": json.dumps([0.3, 0.6]),
-			"trait_deltas_json": json.dumps({"ambition": 0.03, "fearfulness": -0.02}),
+			"trait_deltas_json": json.dumps({"assertiveness": 0.03, "endurance": -0.02}),
 			"trait_deltas_per_event_json": json.dumps({
-				"threat_shadow_stalker": {"ambition": 0.03},
-				"resource_suspicious_chest": {"fearfulness": -0.02},
+				"threat_shadow_stalker": {"assertiveness": 0.03},
+				"resource_suspicious_chest": {"endurance": -0.02},
 			}),
 			"p_aggressive": 0.55,
 			"p_defensive": 0.20,
@@ -93,8 +93,8 @@ def test_event_provenance_summary_reports_event_type_and_top_actions(tmp_path: P
 			"successes_json": json.dumps([True]),
 			"final_risks_json": json.dumps([0.5]),
 			"success_probs_json": json.dumps([0.5]),
-			"trait_deltas_json": json.dumps({"ambition": 0.01}),
-			"trait_deltas_per_event_json": json.dumps({"threat_shadow_stalker": {"ambition": 0.01}}),
+			"trait_deltas_json": json.dumps({"assertiveness": 0.01}),
+			"trait_deltas_per_event_json": json.dumps({"threat_shadow_stalker": {"assertiveness": 0.01}}),
 			"p_aggressive": 0.48,
 			"p_defensive": 0.22,
 			"p_balanced": 0.30,
@@ -143,7 +143,7 @@ def test_event_provenance_summary_reports_event_type_and_top_actions(tmp_path: P
 	assert summary["difficulty_modulation_summary"]["available"] is False
 	assert summary["top_event_action_pairs"][0]["event_id"] == "threat_shadow_stalker"
 	assert summary["event_id_summary"][0]["event_id"] == "threat_shadow_stalker"
-	assert summary["event_id_summary"][0]["avg_trait_deltas"]["ambition"] == 0.02
+	assert summary["event_id_summary"][0]["avg_trait_deltas"]["assertiveness"] == 0.02
 
 	types = {row["event_type"]: row for row in summary["event_type_summary"]}
 	assert types["Threat"]["count"] == 2
@@ -188,8 +188,8 @@ def test_event_provenance_summary_filters_by_cycle_level(tmp_path: Path) -> None
 				"successes_json": json.dumps([True]),
 				"final_risks_json": json.dumps([0.5]),
 				"success_probs_json": json.dumps([0.5]),
-				"trait_deltas_json": json.dumps({"ambition": 0.01}),
-				"trait_deltas_per_event_json": json.dumps({"threat_shadow_stalker": {"ambition": 0.01}}),
+				"trait_deltas_json": json.dumps({"assertiveness": 0.01}),
+				"trait_deltas_per_event_json": json.dumps({"threat_shadow_stalker": {"assertiveness": 0.01}}),
 				"p_aggressive": 0.45,
 				"p_defensive": 0.25,
 				"p_balanced": 0.30,
@@ -208,8 +208,8 @@ def test_event_provenance_summary_filters_by_cycle_level(tmp_path: Path) -> None
 				"successes_json": json.dumps([True]),
 				"final_risks_json": json.dumps([0.4]),
 				"success_probs_json": json.dumps([0.6]),
-				"trait_deltas_json": json.dumps({"ambition": 0.04}),
-				"trait_deltas_per_event_json": json.dumps({"threat_shadow_stalker": {"ambition": 0.04}}),
+				"trait_deltas_json": json.dumps({"assertiveness": 0.04}),
+				"trait_deltas_per_event_json": json.dumps({"threat_shadow_stalker": {"assertiveness": 0.04}}),
 				"p_aggressive": 0.56,
 				"p_defensive": 0.18,
 				"p_balanced": 0.26,
@@ -223,7 +223,7 @@ def test_event_provenance_summary_filters_by_cycle_level(tmp_path: Path) -> None
 
 	assert summary["rounds"] == 1
 	assert summary["source_rounds"] == 2
-	assert summary["event_id_summary"][0]["avg_trait_deltas"]["ambition"] == 0.04
+	assert summary["event_id_summary"][0]["avg_trait_deltas"]["assertiveness"] == 0.04
 
 
 def test_event_provenance_summary_can_compare_envelope_gamma(tmp_path: Path) -> None:
@@ -265,8 +265,8 @@ def test_event_provenance_summary_can_compare_envelope_gamma(tmp_path: Path) -> 
 				"successes_json": json.dumps([True]),
 				"final_risks_json": json.dumps([0.4]),
 				"success_probs_json": json.dumps([0.6]),
-				"trait_deltas_json": json.dumps({"ambition": 0.02}),
-				"trait_deltas_per_event_json": json.dumps({"threat_shadow_stalker": {"ambition": 0.02}}),
+				"trait_deltas_json": json.dumps({"assertiveness": 0.02}),
+				"trait_deltas_per_event_json": json.dumps({"threat_shadow_stalker": {"assertiveness": 0.02}}),
 				"p_aggressive": 0.3333333333 + wave,
 				"p_defensive": 0.3333333333 - 0.5 * wave,
 				"p_balanced": 0.3333333334 - 0.5 * wave,

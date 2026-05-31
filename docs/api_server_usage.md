@@ -29,11 +29,14 @@ API documentation (Swagger) available at: `http://localhost:8000/docs`
 **Response:**
 ```json
 {
-    "session_id": "8ee3c2e1-a8cd-410d-abd8-e751420e95c9"
+    "session_id": "8ee3c2e1-a8cd-410d-abd8-e751420e95c9",
+    "status": "burn-in",
+    "tick": 0,
+    "warm": false
 }
 ```
 
-**Description:** Creates a new game session with specified number of players and optional random seed.
+**Description:** Creates a new RL session with specified number of players and optional random seed.
 
 ---
 

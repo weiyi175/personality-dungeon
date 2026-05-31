@@ -12,7 +12,8 @@ import pytest
 from fastapi.testclient import TestClient
 
 from api.schemas import API_VERSION, normalize_response_envelope
-from api.server import app, SESSIONS
+from api.server import app
+from api.rl_session_manager import get_session_manager
 
 
 @pytest.fixture
@@ -24,9 +25,12 @@ def client():
 @pytest.fixture(autouse=True)
 def clear_sessions():
     """Clear all sessions before each test."""
-    SESSIONS.clear()
+    manager = get_session_manager()
+    for session_id in list(manager.sessions.keys()):
+        manager.delete_session(session_id)
     yield
-    SESSIONS.clear()
+    for session_id in list(manager.sessions.keys()):
+        manager.delete_session(session_id)
 
 
 # ===================================================================
@@ -59,11 +63,12 @@ def test_initialize_session_with_params(client):
 
 
 def test_initialize_session_creates_entry_in_sessions_store(client):
-    """Initialize adds session to SESSIONS dict."""
+    """Initialize adds session to manager store."""
     response = client.post("/sessions/initialize", json={})
     session_id = response.json()["session_id"]
-    
-    assert session_id in SESSIONS
+
+    manager = get_session_manager()
+    assert session_id in manager.sessions
 
 
 # ===================================================================

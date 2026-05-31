@@ -1,0 +1,266 @@
+{"timestamp": 1780211710267, "event_type": "smoke_test_write", "sample": 777}
+{"event_type": "api_test_batch", "session_id": "smoke_batch", "value": 1, "timestamp": 1780211848538}
+{"event_type": "api_test_batch", "session_id": "smoke_batch", "value": 2, "timestamp": 1780211848538}
+{"event_type": "wsl_probe", "session_id": "probe", "value": 1, "timestamp": 1780220307541}
+{"event_type": "godot_smoke_metric", "phase": "smoke", "session_id": "godot_smoke", "value": 0, "timestamp": 1780220429830}
+{"event_type": "godot_smoke_metric", "phase": "smoke", "session_id": "godot_smoke", "value": 1, "timestamp": 1780220429830}
+{"event_type": "godot_smoke_metric", "phase": "smoke", "session_id": "godot_smoke", "value": 2, "timestamp": 1780220429830}
+{"event_type": "godot_smoke_metric", "phase": "smoke", "session_id": "godot_smoke", "value": 3, "timestamp": 1780220429830}
+{"event_type": "godot_smoke_metric", "phase": "smoke", "session_id": "godot_smoke", "value": 4, "timestamp": 1780220429830}
+{"event_type": "godot_smoke_metric", "phase": "smoke", "session_id": "godot_smoke", "value": 0, "timestamp": 1780220553781}
+{"event_type": "godot_smoke_metric", "phase": "smoke", "session_id": "godot_smoke", "value": 1, "timestamp": 1780220553781}
+{"event_type": "godot_smoke_metric", "phase": "smoke", "session_id": "godot_smoke", "value": 2, "timestamp": 1780220553781}
+{"event_type": "godot_smoke_metric", "phase": "smoke", "session_id": "godot_smoke", "value": 3, "timestamp": 1780220553781}
+{"event_type": "godot_smoke_metric", "phase": "smoke", "session_id": "godot_smoke", "value": 4, "timestamp": 1780220553781}
+{"timestamp": 1780225008910, "event_type": "rl_session_start", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "n_players": 4, "n_rounds": 200, "burn_in": 50, "seed": 5672, "personality_mode": "balanced", "latency_ms": 1, "status": 200}
+{"event_type": "state_transition", "from_state": "IDLE", "round": 0, "session_id": "", "timestamp": 1780225008863, "to_state": "INITIALIZING"}
+{"timestamp": 1780225009005, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 1, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.018749999999999996}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 0, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225008966, "to_state": "STEPPING"}
+{"timestamp": 1780225009108, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 2, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.075}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 1, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225009070, "to_state": "STEPPING"}
+{"timestamp": 1780225009214, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 3, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": -2.7755575615628914e-17}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 2, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225009173, "to_state": "STEPPING"}
+{"timestamp": 1780225009319, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 4, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.056249999999999994}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 3, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225009276, "to_state": "STEPPING"}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 4, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225009379, "to_state": "STEPPING"}
+{"timestamp": 1780225009425, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 5, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.13124999999999998}
+{"timestamp": 1780225009530, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 6, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.14999999999999997}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 5, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225009483, "to_state": "STEPPING"}
+{"timestamp": 1780225009587, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 7, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.22499999999999992}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 6, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225009539, "to_state": "STEPPING"}
+{"timestamp": 1780225009643, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 8, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.16874999999999996}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 7, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225009593, "to_state": "STEPPING"}
+{"timestamp": 1780225009699, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 9, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.24374999999999994}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 8, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225009649, "to_state": "STEPPING"}
+{"timestamp": 1780225009755, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 10, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.29999999999999993}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 9, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225009704, "to_state": "STEPPING"}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 10, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225009759, "to_state": "STEPPING"}
+{"timestamp": 1780225009812, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 11, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.31875}
+{"timestamp": 1780225009868, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 12, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.31875}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 11, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225009815, "to_state": "STEPPING"}
+{"timestamp": 1780225009924, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 13, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.3937499999999999}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 12, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225009870, "to_state": "STEPPING"}
+{"timestamp": 1780225009980, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 14, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.4499999999999999}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 13, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225009925, "to_state": "STEPPING"}
+{"timestamp": 1780225010036, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 15, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.4687499999999999}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 14, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225009980, "to_state": "STEPPING"}
+{"timestamp": 1780225010093, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 16, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.5249999999999998}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 15, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225010036, "to_state": "STEPPING"}
+{"timestamp": 1780225010149, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 17, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.54375}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 16, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225010090, "to_state": "STEPPING"}
+{"timestamp": 1780225010205, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 18, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.48749999999999993}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 17, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225010146, "to_state": "STEPPING"}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 18, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225010201, "to_state": "STEPPING"}
+{"timestamp": 1780225010262, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 19, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.5437499999999998}
+{"timestamp": 1780225010318, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 20, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.5437499999999998}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 19, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225010257, "to_state": "STEPPING"}
+{"timestamp": 1780225010374, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 21, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.5624999999999999}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 20, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225010311, "to_state": "STEPPING"}
+{"timestamp": 1780225010430, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 22, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.6187499999999998}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 21, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225010367, "to_state": "STEPPING"}
+{"timestamp": 1780225010486, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 23, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.6749999999999998}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 22, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225010422, "to_state": "STEPPING"}
+{"timestamp": 1780225010543, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 24, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.73125}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 23, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225010477, "to_state": "STEPPING"}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 24, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225010533, "to_state": "STEPPING"}
+{"timestamp": 1780225010599, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 25, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.7499999999999999}
+{"timestamp": 1780225010655, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 26, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.6749999999999998}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 25, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225010587, "to_state": "STEPPING"}
+{"timestamp": 1780225010711, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 27, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.7499999999999999}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 26, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225010642, "to_state": "STEPPING"}
+{"timestamp": 1780225010768, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 28, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.8062499999999998}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 27, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225010698, "to_state": "STEPPING"}
+{"timestamp": 1780225010824, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 29, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.8249999999999997}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 28, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225010753, "to_state": "STEPPING"}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 29, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225010809, "to_state": "STEPPING"}
+{"timestamp": 1780225010881, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 30, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.8437499999999997}
+{"timestamp": 1780225010936, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 31, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.9187499999999997}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 30, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225010864, "to_state": "STEPPING"}
+{"timestamp": 1780225010993, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 32, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.9749999999999996}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 31, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225010919, "to_state": "STEPPING"}
+{"timestamp": 1780225011049, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 33, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.9937499999999998}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 32, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225010974, "to_state": "STEPPING"}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 33, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225011029, "to_state": "STEPPING"}
+{"timestamp": 1780225011106, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 34, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.0687499999999999}
+{"timestamp": 1780225011161, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 35, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.0874999999999997}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 34, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225011083, "to_state": "STEPPING"}
+{"timestamp": 1780225011218, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 36, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.1062499999999995}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 35, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225011139, "to_state": "STEPPING"}
+{"timestamp": 1780225011274, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 37, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.1624999999999996}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 36, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225011195, "to_state": "STEPPING"}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 37, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225011250, "to_state": "STEPPING"}
+{"timestamp": 1780225011331, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 38, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.1062499999999997}
+{"timestamp": 1780225011386, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 39, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.1249999999999996}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 38, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225011305, "to_state": "STEPPING"}
+{"timestamp": 1780225011443, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 40, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.1437499999999998}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 39, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225011361, "to_state": "STEPPING"}
+{"timestamp": 1780225011499, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 41, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.0687499999999996}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 40, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225011415, "to_state": "STEPPING"}
+{"timestamp": 1780225011555, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 42, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.0874999999999995}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 41, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225011471, "to_state": "STEPPING"}
+{"timestamp": 1780225011611, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 43, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.1624999999999994}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 42, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225011526, "to_state": "STEPPING"}
+{"timestamp": 1780225011668, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 44, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.1812499999999995}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 43, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225011581, "to_state": "STEPPING"}
+{"timestamp": 1780225011724, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 45, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.1999999999999995}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 44, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225011636, "to_state": "STEPPING"}
+{"timestamp": 1780225011780, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 46, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.1249999999999998}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 45, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225011691, "to_state": "STEPPING"}
+{"timestamp": 1780225011836, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 47, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.1999999999999997}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 46, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225011747, "to_state": "STEPPING"}
+{"timestamp": 1780225011893, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 48, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.1999999999999997}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 47, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225011802, "to_state": "STEPPING"}
+{"timestamp": 1780225011949, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 49, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.1249999999999998}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 48, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225011857, "to_state": "STEPPING"}
+{"timestamp": 1780225012005, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 50, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.18125}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 49, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225011912, "to_state": "STEPPING"}
+{"timestamp": 1780225012061, "event_type": "rl_step_complete", "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "round": 51, "phase": "tail", "latency_ms": 0, "http_status": 200, "avg_reward": 1.1999999999999997}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 50, "session_id": "60e3c5e0-785b-4ac6-9d4a-b192d84b9a91", "timestamp": 1780225011968, "to_state": "STEPPING"}
+{"event_type": "state_transition", "from_state": "ENDED", "round": 0, "session_id": "", "timestamp": 1780225012022, "to_state": "IDLE"}
+{"timestamp": 1780225031167, "event_type": "rl_session_start", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "n_players": 4, "n_rounds": 200, "burn_in": 50, "seed": 2866, "personality_mode": "balanced", "latency_ms": 0, "status": 200}
+{"event_type": "state_transition", "from_state": "IDLE", "round": 0, "session_id": "", "timestamp": 1780225031306, "to_state": "INITIALIZING"}
+{"action": "init_click", "event_type": "user_action", "payload": {"burn_in": 50, "n_players": 4, "n_rounds": 200, "personality_mode": "balanced", "seed": 2866}, "session_id": "", "timestamp": 1780225031307}
+{"event_type": "session_initialized", "phase": "burn-in", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225031341}
+{"timestamp": 1780225031272, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 1, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.0}
+{"event_type": "state_transition", "from_state": "INITIALIZING", "round": 0, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225031341, "to_state": "WAITING_FOR_STEP"}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 0, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225031411, "to_state": "STEPPING"}
+{"action": "step_click", "event_type": "user_action", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225031411}
+{"event_type": "step_complete_client", "phase": "burn-in", "risk_mean": 0.0, "round": 1, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225031445}
+{"timestamp": 1780225031378, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 2, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.05625000000000002}
+{"event_type": "state_transition", "from_state": "STEPPING", "round": 1, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225031445, "to_state": "WAITING_FOR_STEP"}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 1, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225031513, "to_state": "STEPPING"}
+{"timestamp": 1780225031483, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 3, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 2.7755575615628914e-17}
+{"action": "step_click", "event_type": "user_action", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225031513}
+{"event_type": "step_complete_client", "phase": "burn-in", "risk_mean": 0.0, "round": 2, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225031548}
+{"event_type": "state_transition", "from_state": "STEPPING", "round": 2, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225031548, "to_state": "WAITING_FOR_STEP"}
+{"timestamp": 1780225031588, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 4, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.05624999999999997}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 2, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225031618, "to_state": "STEPPING"}
+{"action": "step_click", "event_type": "user_action", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225031618}
+{"event_type": "step_complete_client", "phase": "burn-in", "risk_mean": 0.0, "round": 3, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225031651}
+{"timestamp": 1780225031694, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 5, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.13125}
+{"event_type": "state_transition", "from_state": "STEPPING", "round": 3, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225031651, "to_state": "WAITING_FOR_STEP"}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 3, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225031720, "to_state": "STEPPING"}
+{"action": "step_click", "event_type": "user_action", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225031720}
+{"timestamp": 1780225031799, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 6, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.15}
+{"event_type": "step_complete_client", "phase": "burn-in", "risk_mean": 0.0, "round": 4, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225031755}
+{"event_type": "state_transition", "from_state": "STEPPING", "round": 4, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225031755, "to_state": "WAITING_FOR_STEP"}
+{"timestamp": 1780225031855, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 7, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.16874999999999998}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 4, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225031823, "to_state": "STEPPING"}
+{"action": "step_click", "event_type": "user_action", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225031823}
+{"timestamp": 1780225031912, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 8, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.24375000000000002}
+{"event_type": "step_complete_client", "phase": "burn-in", "risk_mean": 0.0, "round": 5, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225031859}
+{"timestamp": 1780225031968, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 9, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.1875}
+{"event_type": "state_transition", "from_state": "STEPPING", "round": 5, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225031859, "to_state": "WAITING_FOR_STEP"}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 5, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225031928, "to_state": "STEPPING"}
+{"timestamp": 1780225032024, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 10, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.24375000000000002}
+{"action": "step_click", "event_type": "user_action", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225031928}
+{"timestamp": 1780225032081, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 11, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.3}
+{"event_type": "step_complete_client", "phase": "burn-in", "risk_mean": 0.0, "round": 6, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225031963}
+{"event_type": "state_transition", "from_state": "STEPPING", "round": 6, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225031963, "to_state": "WAITING_FOR_STEP"}
+{"timestamp": 1780225032137, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 12, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.22500000000000003}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 6, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225031983, "to_state": "STEPPING"}
+{"action": "step_click", "event_type": "user_action", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225031983}
+{"timestamp": 1780225032193, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 13, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.16875000000000004}
+{"event_type": "step_complete_client", "phase": "burn-in", "risk_mean": 0.0, "round": 7, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032018}
+{"timestamp": 1780225032249, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 14, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.24375000000000002}
+{"event_type": "state_transition", "from_state": "STEPPING", "round": 7, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032018, "to_state": "WAITING_FOR_STEP"}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 7, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032038, "to_state": "STEPPING"}
+{"timestamp": 1780225032306, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 15, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.3}
+{"action": "step_click", "event_type": "user_action", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032038}
+{"timestamp": 1780225032362, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 16, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.35624999999999996}
+{"event_type": "step_complete_client", "phase": "burn-in", "risk_mean": 0.0, "round": 8, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032073}
+{"event_type": "state_transition", "from_state": "STEPPING", "round": 8, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032073, "to_state": "WAITING_FOR_STEP"}
+{"timestamp": 1780225032418, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 17, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.41250000000000003}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 8, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032094, "to_state": "STEPPING"}
+{"action": "step_click", "event_type": "user_action", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032094}
+{"timestamp": 1780225032474, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 18, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.46874999999999994}
+{"event_type": "step_complete_client", "phase": "burn-in", "risk_mean": 0.0, "round": 9, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032128}
+{"timestamp": 1780225032531, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 19, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.525}
+{"event_type": "state_transition", "from_state": "STEPPING", "round": 9, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032128, "to_state": "WAITING_FOR_STEP"}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 9, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032148, "to_state": "STEPPING"}
+{"timestamp": 1780225032587, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 20, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.5437500000000002}
+{"action": "step_click", "event_type": "user_action", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032148}
+{"timestamp": 1780225032643, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 21, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.6187500000000001}
+{"event_type": "step_complete_client", "phase": "burn-in", "risk_mean": 0.0, "round": 10, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032183}
+{"event_type": "state_transition", "from_state": "STEPPING", "round": 10, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032183, "to_state": "WAITING_FOR_STEP"}
+{"timestamp": 1780225032699, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 22, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.675}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 10, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032203, "to_state": "STEPPING"}
+{"action": "step_click", "event_type": "user_action", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032203}
+{"timestamp": 1780225032755, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 23, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.69375}
+{"event_type": "step_complete_client", "phase": "burn-in", "risk_mean": 0.0, "round": 11, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032238}
+{"timestamp": 1780225032812, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 24, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.6375}
+{"event_type": "state_transition", "from_state": "STEPPING", "round": 11, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032238, "to_state": "WAITING_FOR_STEP"}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 11, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032259, "to_state": "STEPPING"}
+{"timestamp": 1780225032868, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 25, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.5625}
+{"action": "step_click", "event_type": "user_action", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032259}
+{"timestamp": 1780225032924, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 26, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.61875}
+{"event_type": "step_complete_client", "phase": "burn-in", "risk_mean": 0.0, "round": 12, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032293}
+{"event_type": "state_transition", "from_state": "STEPPING", "round": 12, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032293, "to_state": "WAITING_FOR_STEP"}
+{"timestamp": 1780225032980, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 27, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.6937500000000001}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 12, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032314, "to_state": "STEPPING"}
+{"action": "step_click", "event_type": "user_action", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032314}
+{"timestamp": 1780225033037, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 28, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.76875}
+{"event_type": "step_complete_client", "phase": "burn-in", "risk_mean": 0.0, "round": 13, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032349}
+{"timestamp": 1780225033093, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 29, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.8250000000000001}
+{"event_type": "state_transition", "from_state": "STEPPING", "round": 13, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032349, "to_state": "WAITING_FOR_STEP"}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 13, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032369, "to_state": "STEPPING"}
+{"timestamp": 1780225033149, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 30, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.8812500000000001}
+{"action": "step_click", "event_type": "user_action", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032369}
+{"timestamp": 1780225033206, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 31, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.9375000000000001}
+{"event_type": "step_complete_client", "phase": "burn-in", "risk_mean": 0.0, "round": 14, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032403}
+{"event_type": "state_transition", "from_state": "STEPPING", "round": 14, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032403, "to_state": "WAITING_FOR_STEP"}
+{"timestamp": 1780225033262, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 32, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.9937500000000001}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 14, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032424, "to_state": "STEPPING"}
+{"action": "step_click", "event_type": "user_action", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032424}
+{"timestamp": 1780225033318, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 33, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.9375}
+{"event_type": "step_complete_client", "phase": "burn-in", "risk_mean": 0.0, "round": 15, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032459}
+{"timestamp": 1780225033374, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 34, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.9937499999999999}
+{"event_type": "state_transition", "from_state": "STEPPING", "round": 15, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032459, "to_state": "WAITING_FOR_STEP"}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 15, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032479, "to_state": "STEPPING"}
+{"timestamp": 1780225033431, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 35, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.05}
+{"action": "step_click", "event_type": "user_action", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032480}
+{"event_type": "step_complete_client", "phase": "burn-in", "risk_mean": 0.0, "round": 16, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032514}
+{"timestamp": 1780225033487, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 36, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.9937500000000001}
+{"event_type": "state_transition", "from_state": "STEPPING", "round": 16, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032514, "to_state": "WAITING_FOR_STEP"}
+{"timestamp": 1780225033543, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 37, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.05}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 16, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032535, "to_state": "STEPPING"}
+{"action": "step_click", "event_type": "user_action", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032535}
+{"timestamp": 1780225033599, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 38, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.125}
+{"event_type": "step_complete_client", "phase": "burn-in", "risk_mean": 0.0, "round": 17, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032569}
+{"timestamp": 1780225033656, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 39, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.125}
+{"event_type": "state_transition", "from_state": "STEPPING", "round": 17, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032569, "to_state": "WAITING_FOR_STEP"}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 17, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032590, "to_state": "STEPPING"}
+{"timestamp": 1780225033712, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 40, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.1812500000000001}
+{"action": "step_click", "event_type": "user_action", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032590}
+{"timestamp": 1780225033768, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 41, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.2375}
+{"event_type": "step_complete_client", "phase": "burn-in", "risk_mean": 0.0, "round": 18, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032625}
+{"event_type": "state_transition", "from_state": "STEPPING", "round": 18, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032625, "to_state": "WAITING_FOR_STEP"}
+{"timestamp": 1780225033824, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 42, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.25625}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 18, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032645, "to_state": "STEPPING"}
+{"action": "step_click", "event_type": "user_action", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032645}
+{"timestamp": 1780225033880, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 43, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.2}
+{"event_type": "step_complete_client", "phase": "burn-in", "risk_mean": 0.0, "round": 19, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032679}
+{"timestamp": 1780225033937, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 44, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.21875}
+{"event_type": "state_transition", "from_state": "STEPPING", "round": 19, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032679, "to_state": "WAITING_FOR_STEP"}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 19, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032701, "to_state": "STEPPING"}
+{"timestamp": 1780225033993, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 45, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.275}
+{"action": "step_click", "event_type": "user_action", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032701}
+{"timestamp": 1780225034049, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 46, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.29375}
+{"event_type": "step_complete_client", "phase": "burn-in", "risk_mean": 0.0, "round": 20, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032735}
+{"event_type": "state_transition", "from_state": "STEPPING", "round": 20, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032735, "to_state": "WAITING_FOR_STEP"}
+{"timestamp": 1780225034106, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 47, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.3499999999999999}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 20, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032756, "to_state": "STEPPING"}
+{"action": "step_click", "event_type": "user_action", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032756}
+{"timestamp": 1780225034162, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 48, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.4062499999999998}
+{"event_type": "step_complete_client", "phase": "burn-in", "risk_mean": 0.0, "round": 21, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032790}
+{"timestamp": 1780225034218, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 49, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.4249999999999998}
+{"event_type": "state_transition", "from_state": "STEPPING", "round": 21, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032790, "to_state": "WAITING_FOR_STEP"}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 21, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032810, "to_state": "STEPPING"}
+{"timestamp": 1780225034274, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 50, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 1.4812499999999997}
+{"action": "step_click", "event_type": "user_action", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032810}
+{"event_type": "step_complete_client", "phase": "burn-in", "risk_mean": 0.0, "round": 22, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032846}
+{"timestamp": 1780225034331, "event_type": "rl_step_complete", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "round": 51, "phase": "tail", "latency_ms": 0, "http_status": 200, "avg_reward": 1.4999999999999998}
+{"event_type": "state_transition", "from_state": "STEPPING", "round": 22, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032846, "to_state": "WAITING_FOR_STEP"}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 22, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032866, "to_state": "STEPPING"}
+{"action": "step_click", "event_type": "user_action", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032866}
+{"event_type": "step_complete_client", "phase": "burn-in", "risk_mean": 0.0, "round": 23, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032901}

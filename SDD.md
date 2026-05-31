@@ -34,6 +34,25 @@ OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
 # 目前可用模型：qwen3.5:9b
 ```
 
+連線程序打包位置：`docs/ollama_connection_package/README.md`
+
+---
+
+## 環境設定：RL Session API（Godot → WSL2）
+
+> Godot 在 Windows 端執行，RL Session API server 在 WSL2 內執行，兩者以 WSL2 Host IP 橋接。
+
+### 目前可用的連線位址
+
+- Godot / Windows 端：`http://172.31.143.82:8000`
+- WSL 內連線檢查腳本：`http://127.0.0.1:8000`
+
+### 連線原則
+
+- Godot 的 `PlayableLoopController.api_base_url` 與 `DungeonSim.api_base_url` 需指向 WSL2 Host IP。
+- WSL 內執行的 `docs/RL_Session/check_rl_session_api.py` 可維持預設 `127.0.0.1:8000`。
+- 若 WSL 重開後 IP 改變，需同步更新 Godot 的 `api_base_url`。
+
 ---
 
 本文件目標：把「研究問題」改寫成可驗證的規格（Spec），再以最小改動落到程式碼與輸出資料契約（CSV），讓研究迭代可重現、可回歸、可比較。

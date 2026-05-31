@@ -18,9 +18,15 @@ Usage:
 from __future__ import annotations
 
 import hashlib
-import uuid
-from dataclasses import dataclass
+import json
+from dataclasses import asdict
 from typing import Any
+import sys
+from pathlib import Path
+
+# Ensure project root is on sys.path so local `api` package resolves
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
@@ -39,59 +45,39 @@ from api.personality_text_inference import (
     log_personality_pair,
 )
 from api.personality_sbert_inference import infer_personality_vector_sbert
-from core.game_engine import GameEngine
 from api.rl_session_manager import get_session_manager
 from simulation.rl_session_engine import RLSessionConfig
+import time
+try:
+    from api.instrumentation import log_metric, persist_metrics_batch
+except Exception:
+    # Fallback minimal implementations if instrumentation module isn't available
+    from pathlib import Path
+    import time, json
 
+    LOG_DIR = ROOT / "logs"
+    LOG_DIR.mkdir(parents=True, exist_ok=True)
 
-# ===================================================================
-# Session Management
-# ===================================================================
+    def _default_log_path():
+        name = f"metrics_{time.strftime('%Y-%m-%d')}.jsonl"
+        return LOG_DIR / name
 
+    def log_metric(event_type: str, **kwargs):
+        ev = {"timestamp": int(time.time() * 1000), "event_type": event_type}
+        ev.update(kwargs)
+        p = _default_log_path()
+        with p.open("a", encoding="utf-8") as f:
+            f.write(json.dumps(ev, ensure_ascii=False) + "\n")
+        return p
 
-@dataclass
-class MockDungeon:
-    """Minimal mock dungeon for testing without full simulation."""
-
-    def evaluate_player(self, player: object, strategy: str) -> float:
-        """Return mock reward."""
-        return 0.5  # Neutral reward
-
-    def update_popularity(self, chosen_strategies: list[str]) -> None:
-        """Track popularity (no-op for mock)."""
-        pass
-
-    def set_popularity(self, popularity: dict[str, float]) -> None:
-        """Set expected popularity (no-op for mock)."""
-        pass
-
-
-@dataclass
-class MockPlayer:
-    """Minimal mock player for testing."""
-
-    def choose_strategy(self) -> str:
-        """Return a strategy."""
-        return "balanced"
-
-    def update_utility(self, reward: float) -> None:
-        """Update internal utility (no-op for mock)."""
-        pass
-
-
-@dataclass
-class GameSession:
-    """In-memory session tracking tick counter and engine state."""
-
-    session_id: str
-    engine: GameEngine
-    tick: int = 0
-    world_state: dict[str, Any] | None = None
-
-    def compute_state_hash(self) -> str:
-        """Compute deterministic hash of current game state."""
-        state_str = f"{self.session_id}:{self.tick}:{self.world_state}"
-        return hashlib.sha256(state_str.encode()).hexdigest()[:16]
+    def persist_metrics_batch(events, path=None):
+        p = _default_log_path() if path is None else Path(path)
+        with p.open("a", encoding="utf-8") as f:
+            for ev in events:
+                if "timestamp" not in ev:
+                    ev["timestamp"] = int(time.time() * 1000)
+                f.write(json.dumps(ev, ensure_ascii=False) + "\n")
+        return p
 
 
 # ===================================================================
@@ -103,10 +89,6 @@ app = FastAPI(
     description="Contract-locked core↔frontend API",
     version=API_VERSION,
 )
-
-# In-memory session store
-SESSIONS: dict[str, GameSession] = {}
-
 
 # ===================================================================
 # Pydantic Request/Response Models
@@ -123,6 +105,9 @@ class InitializeResponse(BaseModel):
     """Response to POST /sessions/initialize."""
 
     session_id: str
+    status: str
+    tick: int
+    warm: bool
 
 
 # ===================================================================
@@ -164,6 +149,63 @@ class RLSessionInfoResponse(BaseModel):
     phase: str
 
 
+class MetricsEventsResponse(BaseModel):
+    """Response to POST /metrics/events."""
+
+    ok: bool
+    received: int
+
+
+# ===================================================================
+# Session Snapshot Helpers (/sessions)
+# ===================================================================
+
+
+def _snapshot_state_hash(snapshot: object) -> str:
+    """Compute deterministic hash for the current session snapshot."""
+    payload = asdict(snapshot)
+    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
+    return hashlib.sha256(encoded.encode()).hexdigest()[:16]
+
+
+def _snapshot_world_state(snapshot: object) -> dict[str, float]:
+    """Map RL snapshot world state to ResponseEnvelope world_state."""
+    return {
+        "scarcity": float(snapshot.world_scarcity),
+        "threat": float(snapshot.world_threat),
+        "noise": float(snapshot.world_noise),
+        "intel": float(snapshot.world_intel),
+    }
+
+
+def _snapshot_extensions(snapshot: object) -> dict[str, Any]:
+    """Expose RL snapshot metrics via ResponseEnvelope extensions."""
+    return {
+        "rl_cycle_level": int(snapshot.cycle_level),
+        "rl_s3_score": float(snapshot.s3_score),
+        "rl_env_gamma": float(snapshot.env_gamma),
+        "rl_entropy": float(snapshot.entropy),
+        "rl_q_std": float(snapshot.q_std),
+        "rl_p_aggressive": float(snapshot.p_aggressive),
+        "rl_p_defensive": float(snapshot.p_defensive),
+        "rl_p_balanced": float(snapshot.p_balanced),
+        "rl_pi_aggressive": float(snapshot.pi_aggressive),
+        "rl_pi_defensive": float(snapshot.pi_defensive),
+        "rl_pi_balanced": float(snapshot.pi_balanced),
+        "rl_q_mean_aggressive": float(snapshot.q_mean_aggressive),
+        "rl_q_mean_defensive": float(snapshot.q_mean_defensive),
+        "rl_q_mean_balanced": float(snapshot.q_mean_balanced),
+        "rl_avg_reward": float(snapshot.avg_reward),
+        "rl_avg_utility": float(snapshot.avg_utility),
+        "rl_success_rate": float(snapshot.success_rate),
+        "rl_risk_mean": float(snapshot.risk_mean),
+        "rl_stress_mean": float(snapshot.stress_mean),
+        "rl_round": int(snapshot.round),
+        "rl_warm": bool(snapshot.warm),
+        "rl_phase": str(snapshot.phase),
+    }
+
+
 # ===================================================================
 # Personality Text Inference (LLM-backed)
 # ===================================================================
@@ -201,32 +243,48 @@ async def initialize_session(
     n_players: int = 10,
     seed: int | None = None,
 ) -> InitializeResponse:
-    """Create new game session.
+    """Create new session backed by RLSessionEngine.
 
     Args:
         n_players: Number of players to initialize.
         seed: Optional random seed for reproducibility.
 
     Returns:
-        InitializeResponse with session_id.
+        InitializeResponse with session_id, warm status, and tick.
     """
-    session_id = str(uuid.uuid4())
-    
-    # Initialize mock players and dungeon
-    players = [MockPlayer() for _ in range(n_players)]
-    dungeon = MockDungeon()
-    
-    engine = GameEngine(players=players, dungeon=dungeon)
-    
-    session = GameSession(
-        session_id=session_id,
-        engine=engine,
-        tick=0,
-        world_state={"scarcity": 0.5, "threat": 0.3, "noise": 0.2, "intel": 0.4},
-    )
-    
-    SESSIONS[session_id] = session
-    return InitializeResponse(session_id=session_id)
+    try:
+        config_kwargs: dict[str, Any] = {"n_players": n_players}
+        if seed is not None:
+            config_kwargs["seed"] = seed
+        config = RLSessionConfig(**config_kwargs)
+
+        manager = get_session_manager()
+        start = time.time()
+        session_id, initial_snapshot = manager.initialize_session(config=config)
+        latency_ms = int((time.time() - start) * 1000)
+
+        # Emit session start metric and API latency
+        log_metric(
+            "session_start",
+            session_id=session_id,
+            n_players=n_players,
+            n_rounds=getattr(config, "n_rounds", None),
+            burn_in=getattr(config, "burn_in", None),
+            seed=getattr(config, "seed", None),
+            personality_mode=getattr(config, "personality_mode", None),
+        )
+        log_metric("rl_init_latency", session_id=session_id, latency_ms=latency_ms, status=200)
+
+        return InitializeResponse(
+            session_id=session_id,
+            status=initial_snapshot.phase,
+            tick=initial_snapshot.tick,
+            warm=initial_snapshot.warm,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=f"Session init failed: {exc}")
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Session init failed: {exc}")
 
 
 # ===================================================================
@@ -236,7 +294,7 @@ async def initialize_session(
 
 @app.post("/sessions/{session_id}/step")
 async def step(session_id: str, req: StepRequest) -> dict[str, Any]:
-    """Execute one game step with optional player action.
+    """Execute one RL step with optional action hint.
 
     Args:
         session_id: Session identifier.
@@ -245,46 +303,59 @@ async def step(session_id: str, req: StepRequest) -> dict[str, Any]:
     Returns:
         JSON-serialized ResponseEnvelope with kind="step".
     """
-    if session_id not in SESSIONS:
+    try:
+        manager = get_session_manager()
+        start = time.time()
+        snapshot = manager.step_session(session_id)
+        latency_ms = int((time.time() - start) * 1000)
+
+        result = ResultState(
+            selected_choice_id=req.action,
+            reward=snapshot.avg_reward,
+            utility_delta=snapshot.avg_utility,
+            risk_delta=snapshot.risk_mean,
+            terminated=False,
+            termination_reason=None,
+        )
+
+        tick = max(snapshot.round - 1, 0)
+        envelope_data = {
+            "api_version": API_VERSION,
+            "kind": "step",
+            "ok": True,
+            "session_id": session_id,
+            "tick": tick,
+            "state_hash": _snapshot_state_hash(snapshot),
+            "world_state": _snapshot_world_state(snapshot),
+            "result": result.to_dict(),
+            "extensions": _snapshot_extensions(snapshot),
+        }
+
+        envelope = normalize_response_envelope(envelope_data)
+
+        # Emit step metric with latency and snapshot fields
+        log_metric(
+            "step_complete",
+            session_id=session_id,
+            round=snapshot.round,
+            phase=str(snapshot.phase),
+            latency_ms=latency_ms,
+            http_status=200,
+            avg_reward=float(getattr(snapshot, "avg_reward", None)),
+            avg_utility=float(getattr(snapshot, "avg_utility", None)),
+            success_rate=float(getattr(snapshot, "success_rate", None)),
+        )
+
+        return envelope.to_dict()
+    except KeyError:
+        log_metric("error", event_type="step_not_found", session_id=session_id)
         raise HTTPException(status_code=404, detail=f"Session {session_id} not found")
-    
-    session = SESSIONS[session_id]
-    
-    # Call engine.step() to get records from all players
-    step_records = session.engine.step()
-    
-    # Build result from step_records
-    # Each record: {"strategy": str, "reward": float, "base_reward": float, "event_result": ...}
-    rewards = [rec.get("reward", 0.0) for rec in step_records]
-    avg_reward = sum(rewards) / len(rewards) if rewards else 0.0
-    
-    result = ResultState(
-        selected_choice_id=req.action or "default",
-        reward=avg_reward,
-        utility_delta=avg_reward,
-        risk_delta=0.0,
-        terminated=False,
-        termination_reason=None,
-    )
-    
-    # Wrap in ResponseEnvelope
-    envelope_data = {
-        "api_version": API_VERSION,
-        "kind": "step",
-        "ok": True,
-        "session_id": session_id,
-        "tick": session.tick,
-        "state_hash": session.compute_state_hash(),
-        "world_state": session.world_state,
-        "result": result.to_dict(),
-    }
-    
-    envelope = normalize_response_envelope(envelope_data)
-    
-    # Increment tick for next step
-    session.tick += 1
-    
-    return envelope.to_dict()
+    except RuntimeError as exc:
+        log_metric("error", event_type="step_runtime_error", session_id=session_id, error=str(exc))
+        raise HTTPException(status_code=400, detail=f"Step failed: {exc}")
+    except Exception as exc:
+        log_metric("error", event_type="step_unexpected", session_id=session_id, error=str(exc))
+        raise HTTPException(status_code=500, detail=f"Step failed: {exc}")
 
 
 # ===================================================================
@@ -294,7 +365,7 @@ async def step(session_id: str, req: StepRequest) -> dict[str, Any]:
 
 @app.get("/sessions/{session_id}/snapshot")
 async def snapshot(session_id: str) -> dict[str, Any]:
-    """Get current game state snapshot without executing a step.
+    """Get current RL state snapshot without executing a step.
 
     Args:
         session_id: Session identifier.
@@ -302,24 +373,27 @@ async def snapshot(session_id: str) -> dict[str, Any]:
     Returns:
         JSON-serialized ResponseEnvelope with kind="snapshot".
     """
-    if session_id not in SESSIONS:
+    try:
+        manager = get_session_manager()
+        snapshot = manager.snapshot_session(session_id)
+
+        envelope_data = {
+            "api_version": API_VERSION,
+            "kind": "snapshot",
+            "ok": True,
+            "session_id": session_id,
+            "tick": snapshot.round,
+            "state_hash": _snapshot_state_hash(snapshot),
+            "world_state": _snapshot_world_state(snapshot),
+            "extensions": _snapshot_extensions(snapshot),
+        }
+
+        envelope = normalize_response_envelope(envelope_data)
+        log_metric("snapshot", session_id=session_id, round=snapshot.round, phase=str(snapshot.phase))
+        return envelope.to_dict()
+    except KeyError:
+        log_metric("error", event_type="snapshot_not_found", session_id=session_id)
         raise HTTPException(status_code=404, detail=f"Session {session_id} not found")
-    
-    session = SESSIONS[session_id]
-    
-    # Build snapshot envelope
-    envelope_data = {
-        "api_version": API_VERSION,
-        "kind": "snapshot",
-        "ok": True,
-        "session_id": session_id,
-        "tick": session.tick,
-        "state_hash": session.compute_state_hash(),
-        "world_state": session.world_state,
-    }
-    
-    envelope = normalize_response_envelope(envelope_data)
-    return envelope.to_dict()
 
 
 # ===================================================================
@@ -335,28 +409,29 @@ async def reset_session(session_id: str) -> dict[str, Any]:
         session_id: Session identifier.
 
     Returns:
-        JSON-serialized ResponseEnvelope with kind="init".
+        JSON-serialized ResponseEnvelope with kind="reset".
     """
-    if session_id not in SESSIONS:
+    try:
+        manager = get_session_manager()
+        snapshot = manager.reset_session(session_id)
+
+        envelope_data = {
+            "api_version": API_VERSION,
+            "kind": "reset",
+            "ok": True,
+            "session_id": session_id,
+            "tick": snapshot.round,
+            "state_hash": _snapshot_state_hash(snapshot),
+            "world_state": _snapshot_world_state(snapshot),
+            "extensions": _snapshot_extensions(snapshot),
+        }
+
+        envelope = normalize_response_envelope(envelope_data)
+        log_metric("reset", session_id=session_id, round=snapshot.round, phase=str(snapshot.phase))
+        return envelope.to_dict()
+    except KeyError:
+        log_metric("error", event_type="reset_not_found", session_id=session_id)
         raise HTTPException(status_code=404, detail=f"Session {session_id} not found")
-    
-    session = SESSIONS[session_id]
-    session.tick = 0
-    session.world_state = {"scarcity": 0.5, "threat": 0.3, "noise": 0.2, "intel": 0.4}
-    
-    # Build reset envelope
-    envelope_data = {
-        "api_version": API_VERSION,
-        "kind": "reset",
-        "ok": True,
-        "session_id": session_id,
-        "tick": session.tick,
-        "state_hash": session.compute_state_hash(),
-        "world_state": session.world_state,
-    }
-    
-    envelope = normalize_response_envelope(envelope_data)
-    return envelope.to_dict()
 
 
 # ===================================================================
@@ -374,11 +449,12 @@ async def get_state_hash(session_id: str) -> dict[str, str]:
     Returns:
         JSON dict with state_hash.
     """
-    if session_id not in SESSIONS:
+    try:
+        manager = get_session_manager()
+        snapshot = manager.snapshot_session(session_id)
+        return {"state_hash": _snapshot_state_hash(snapshot)}
+    except KeyError:
         raise HTTPException(status_code=404, detail=f"Session {session_id} not found")
-    
-    session = SESSIONS[session_id]
-    return {"state_hash": session.compute_state_hash()}
 
 
 # ===================================================================
@@ -419,7 +495,25 @@ async def rl_initialize_session(req: RLSessionInitRequest) -> RLSessionInitRespo
         manager = get_session_manager()
         
         # Initialize session (validates config, creates engine, returns initial snapshot)
+        start = time.time()
         session_id, initial_snapshot = manager.initialize_session(config=config)
+        latency_ms = int((time.time() - start) * 1000)
+
+        # Emit RL session init metric
+        try:
+            log_metric(
+                "rl_session_start",
+                session_id=session_id,
+                n_players=getattr(config, "n_players", None),
+                n_rounds=getattr(config, "n_rounds", None),
+                burn_in=getattr(config, "burn_in", None),
+                seed=getattr(config, "seed", None),
+                personality_mode=getattr(config, "personality_mode", None),
+                latency_ms=latency_ms,
+                status=200,
+            )
+        except Exception:
+            pass
         
         # Convert FrameSnapshot to dict for JSON response
         snapshot_dict = {
@@ -486,7 +580,9 @@ async def rl_step_session(session_id: str) -> RLSessionStepResponse:
     """
     try:
         manager = get_session_manager()
+        start = time.time()
         snapshot = manager.step_session(session_id)
+        latency_ms = int((time.time() - start) * 1000)
         
         # Convert FrameSnapshot to dict
         snapshot_dict = {
@@ -520,6 +616,20 @@ async def rl_step_session(session_id: str) -> RLSessionStepResponse:
             "phase": snapshot.phase,
         }
         
+        # Emit RL step metric
+        try:
+            log_metric(
+                "rl_step_complete",
+                session_id=session_id,
+                round=snapshot.round,
+                phase=str(snapshot.phase),
+                latency_ms=latency_ms,
+                http_status=200,
+                avg_reward=float(getattr(snapshot, "avg_reward", None)),
+            )
+        except Exception:
+            pass
+
         return RLSessionStepResponse(
             session_id=session_id,
             snapshot=snapshot_dict,
@@ -653,6 +763,16 @@ async def rl_reset_session(session_id: str) -> RLSessionStepResponse:
     
     except KeyError:
         raise HTTPException(status_code=404, detail=f"Session {session_id} not found")
+
+
+@app.post("/metrics/events", response_model=MetricsEventsResponse)
+async def post_metrics_events(events: list[dict[str, Any]]) -> MetricsEventsResponse:
+    """Persist a batch of metric events to today's JSONL log."""
+    try:
+        persist_metrics_batch(events)
+        return MetricsEventsResponse(ok=True, received=len(events))
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Metrics write failed: {exc}")
 
 
 @app.get("/rl_sessions/{session_id}/info", response_model=RLSessionInfoResponse)
@@ -820,4 +940,17 @@ if __name__ == "__main__":
         port=8000,
         log_level="info",
     )
+
+
+@app.post("/metrics/events")
+async def receive_metrics(events: list[dict]) -> dict:
+    """Receive batch metrics from clients and persist to JSONL.
+
+    Expects a JSON array of event objects.
+    """
+    try:
+        persist_metrics_batch(events)
+        return {"ok": True, "received": len(events)}
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Metrics persist failed: {exc}")
 
