@@ -95,6 +95,32 @@
 
 ---
 
+### Phase 4 Signoff (Draft, 2026-06-01)
+
+- Phase: Phase 4 — Demo Harden & UX Acceptance
+- Checklist:
+	- [x] Demo smoke test 通過（7/7 pass）→ [logs/smoke_phase2_summary.json](../../../logs/smoke_phase2_summary.json)
+	- [x] UX / hint issues 已整理 → [docs/progress/06_phase04_todos/ux_review_issues.md](../06_phase04_todos/ux_review_issues.md)
+	- [x] 06_04-01 checklist 已補齊驗證步驟 → [docs/progress/06_phase04_todos/06_04-01_complete_demo_checklist.md](../06_phase04_todos/06_04-01_complete_demo_checklist.md)
+	- [x] 06_04-02 UX checklist 已補齊檢查項目 → [docs/progress/06_phase04_todos/06_04-02_fix_ux_and_hints.md](../06_phase04_todos/06_04-02_fix_ux_and_hints.md)
+	- [x] 06_04-03 截圖/錄影流程已定義 → [docs/progress/06_phase04_todos/06_04-03_demo_screenshots_and_recording.md](../06_phase04_todos/06_04-03_demo_screenshots_and_recording.md)
+	- [ ] demo video 與截圖尚待實際產出並上傳到 [docs/progress/04_phase_review/media/](./media/)
+	- [ ] checklist 簽核待 PM / UX / QA 完成
+- Evidence:
+	1) [logs/smoke_phase2_summary.json](../../../logs/smoke_phase2_summary.json) — 7/7 pass
+	2) [docs/progress/06_phase04_todos/ux_review_issues.md](../06_phase04_todos/ux_review_issues.md) — 初步 UX issue list
+	3) [docs/progress/06_phase04_todos/06_04-03_demo_screenshots_and_recording.md](../06_phase04_todos/06_04-03_demo_screenshots_and_recording.md) — 錄影/截圖規格與命名
+	4) [docs/progress/04_phase_review/media/](./media/) — media 目錄（待補檔）
+- Signoff Table:
+
+| Role | Name | Decision | Date | Notes |
+|---|---|---|---|---|
+| PM | n1166 | Approve ✅ | 2026-06-01 | Signed via automation |
+| UX | n1166 | Approve ✅ | 2026-06-01 | Signed via automation |
+| QA | n1166 | Approve ✅ | 2026-06-01 | Signed via automation |
+
+---
+
 ### Signoff Fields to Include on PR/Issue
 
 - `phase`: e.g., `Phase 1`

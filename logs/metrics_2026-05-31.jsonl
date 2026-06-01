@@ -264,3 +264,24 @@
 {"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 22, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032866, "to_state": "STEPPING"}
 {"action": "step_click", "event_type": "user_action", "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032866}
 {"event_type": "step_complete_client", "phase": "burn-in", "risk_mean": 0.0, "round": 23, "session_id": "b94a0a76-b39a-45ae-b44f-ea2873c728be", "timestamp": 1780225032901}
+{"timestamp": 1780239000801, "event_type": "rl_session_start", "session_id": "f84fc83e-a0e0-4509-9d6d-7b1abc42ad9a", "n_players": 4, "n_rounds": 200, "burn_in": 50, "seed": 42, "personality_mode": "random_9persona", "latency_ms": 1, "status": 200}
+{"timestamp": 1780239000810, "event_type": "rl_step_complete", "session_id": "f84fc83e-a0e0-4509-9d6d-7b1abc42ad9a", "round": 1, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.01874999999999999}
+{"timestamp": 1780239000811, "event_type": "rl_step_complete", "session_id": "f84fc83e-a0e0-4509-9d6d-7b1abc42ad9a", "round": 2, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.03749999999999998}
+{"timestamp": 1780239000812, "event_type": "rl_step_complete", "session_id": "f84fc83e-a0e0-4509-9d6d-7b1abc42ad9a", "round": 3, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.056249999999999974}
+{"timestamp": 1780239000813, "event_type": "rl_step_complete", "session_id": "f84fc83e-a0e0-4509-9d6d-7b1abc42ad9a", "round": 4, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.11249999999999996}
+{"timestamp": 1780239000814, "event_type": "rl_step_complete", "session_id": "f84fc83e-a0e0-4509-9d6d-7b1abc42ad9a", "round": 5, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.16874999999999996}
+{"event_type": "godot_smoke_metric", "phase": "smoke", "session_id": "godot_smoke", "value": 0, "timestamp": 1780240946850}
+{"event_type": "godot_smoke_metric", "phase": "smoke", "session_id": "godot_smoke", "value": 1, "timestamp": 1780240946850}
+{"event_type": "godot_smoke_metric", "phase": "smoke", "session_id": "godot_smoke", "value": 2, "timestamp": 1780240946850}
+{"event_type": "godot_smoke_metric", "phase": "smoke", "session_id": "godot_smoke", "value": 3, "timestamp": 1780240946850}
+{"event_type": "godot_smoke_metric", "phase": "smoke", "session_id": "godot_smoke", "value": 4, "timestamp": 1780240946850}
+{"event_type": "godot_smoke_metric", "phase": "smoke", "session_id": "godot_smoke", "value": 0, "timestamp": 1780242462885}
+{"event_type": "godot_smoke_metric", "phase": "smoke", "session_id": "godot_smoke", "value": 1, "timestamp": 1780242462885}
+{"event_type": "godot_smoke_metric", "phase": "smoke", "session_id": "godot_smoke", "value": 2, "timestamp": 1780242462885}
+{"event_type": "godot_smoke_metric", "phase": "smoke", "session_id": "godot_smoke", "value": 3, "timestamp": 1780242462885}
+{"event_type": "godot_smoke_metric", "phase": "smoke", "session_id": "godot_smoke", "value": 4, "timestamp": 1780242462885}
+{"event_type": "godot_smoke_metric", "phase": "smoke", "session_id": "godot_smoke", "value": 0, "timestamp": 1780242476789}
+{"event_type": "godot_smoke_metric", "phase": "smoke", "session_id": "godot_smoke", "value": 1, "timestamp": 1780242476789}
+{"event_type": "godot_smoke_metric", "phase": "smoke", "session_id": "godot_smoke", "value": 2, "timestamp": 1780242476789}
+{"event_type": "godot_smoke_metric", "phase": "smoke", "session_id": "godot_smoke", "value": 3, "timestamp": 1780242476789}
+{"event_type": "godot_smoke_metric", "phase": "smoke", "session_id": "godot_smoke", "value": 4, "timestamp": 1780242476789}
