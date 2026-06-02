@@ -1,0 +1,4 @@
+file,seed,n_runs,n_steps,reward_mean,reward_std,avg_latency_ms
+run_seed42_w0p08_burn50_rounds200.json,42,1,200,-0.164985,0.0,2.0986
+run_seed43_w0p10_burn50_rounds200.json,43,1,200,0.774714,0.0,0.5964
+run_seed44_w0p12_burn50_rounds200.json,44,1,200,0.558761,0.0,1.5213

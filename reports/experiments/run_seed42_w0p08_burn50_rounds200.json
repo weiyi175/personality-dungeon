@@ -1,0 +1,19 @@
+{
+  "seed": 42,
+  "n_runs": 1,
+  "n_steps": 200,
+  "generated_at": "2026-06-01T14:07:29.939940+00:00",
+  "runs": [
+    {
+      "session_id": "seed-42-run-0",
+      "n_steps": 200,
+      "avg_latency_ms": 2.0986,
+      "reward_mean": -0.164985
+    }
+  ],
+  "summary": {
+    "reward_mean": -0.164985,
+    "reward_std": 0.0,
+    "avg_latency_ms": 2.0986
+  }
+}

@@ -1,0 +1,76 @@
+name: CI Regression (Phase 06)
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 2 * * *"   # UTC 02:00 daily (台灣時間 10:00)
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-regression-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  regression:
+    name: Full Matrix Regression (12 rows)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Set up venv and install dependencies
+        run: |
+          set -euo pipefail
+          python -m venv venv
+          ./venv/bin/python -m pip install --upgrade pip
+          ./venv/bin/python -m pip install -r requirements.txt
+
+      - name: Run full matrix regression
+        run: |
+          set -euo pipefail
+          cd scripts/experiments
+          ../../venv/bin/python run_matrix.py \
+            --matrix matrix_phase05_full.csv \
+            --out ../../reports/experiments/ci_regression_${{ github.run_id }} \
+            --log ../../reports/experiments/ci_regression_${{ github.run_id }}/matrix_run_log.txt
+
+      - name: Validate COUNT_MATCH
+        run: |
+          set -euo pipefail
+          EXPECTED=12
+          ACTUAL=$(ls reports/experiments/ci_regression_${{ github.run_id }}/run_*.json 2>/dev/null | wc -l)
+          echo "Expected=$EXPECTED  Actual=$ACTUAL"
+          if [ "$ACTUAL" -ne "$EXPECTED" ]; then
+            echo "COUNT_MATCH FAIL: expected $EXPECTED runs, got $ACTUAL"
+            exit 1
+          fi
+          echo "COUNT_MATCH=True"
+
+      - name: Generate signoff summary
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts
+          ./venv/bin/python scripts/experiments/generate_signoff_summary.py \
+            --matrix-out reports/experiments/ci_regression_${{ github.run_id }} \
+            --expected-rows 12 \
+            --phase phase06 \
+            --out artifacts/signoff_summary.json
+
+      - name: Upload regression artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-regression-${{ github.run_id }}
+          if-no-files-found: warn
+          path: |
+            reports/experiments/ci_regression_${{ github.run_id }}/
+            artifacts/signoff_summary.json

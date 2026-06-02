@@ -1,0 +1,13 @@
+file,seed,n_runs,n_steps,reward_mean,reward_std,avg_latency_ms
+run_seed42_w0p05_burn50_rounds200.json,42,1,200,-0.164985,0.0,2.0986
+run_seed43_w0p05_burn50_rounds200.json,43,1,200,0.774714,0.0,0.5964
+run_seed44_w0p05_burn50_rounds200.json,44,1,200,0.558761,0.0,1.5213
+run_seed45_w0p08_burn50_rounds200.json,45,1,200,0.483239,0.0,1.1797
+run_seed46_w0p08_burn50_rounds200.json,46,1,200,0.359992,0.0,2.7207
+run_seed47_w0p08_burn50_rounds200.json,47,1,200,0.402261,0.0,1.3796
+run_seed48_w0p10_burn50_rounds200.json,48,1,200,-0.015352,0.0,1.8704
+run_seed49_w0p10_burn50_rounds200.json,49,1,200,0.37854,0.0,0.6672
+run_seed50_w0p10_burn50_rounds200.json,50,1,200,0.172643,0.0,1.7438
+run_seed51_w0p12_burn50_rounds200.json,51,1,200,0.503093,0.0,1.1088
+run_seed52_w0p12_burn50_rounds200.json,52,1,200,-0.123668,0.0,2.9459
+run_seed53_w0p12_burn50_rounds200.json,53,1,200,1.046194,0.0,2.0429

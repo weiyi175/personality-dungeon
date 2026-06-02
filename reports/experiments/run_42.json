@@ -1,0 +1,73 @@
+{
+  "seed": 42,
+  "n_runs": 10,
+  "n_steps": 200,
+  "generated_at": "2026-06-01T13:21:15.330012+00:00",
+  "runs": [
+    {
+      "session_id": "seed-42-run-0",
+      "n_steps": 200,
+      "avg_latency_ms": 2.0986,
+      "reward_mean": -0.164985
+    },
+    {
+      "session_id": "seed-42-run-1",
+      "n_steps": 200,
+      "avg_latency_ms": 0.5964,
+      "reward_mean": 0.774714
+    },
+    {
+      "session_id": "seed-42-run-2",
+      "n_steps": 200,
+      "avg_latency_ms": 1.5213,
+      "reward_mean": 0.558761
+    },
+    {
+      "session_id": "seed-42-run-3",
+      "n_steps": 200,
+      "avg_latency_ms": 1.1797,
+      "reward_mean": 0.483239
+    },
+    {
+      "session_id": "seed-42-run-4",
+      "n_steps": 200,
+      "avg_latency_ms": 2.7207,
+      "reward_mean": 0.359992
+    },
+    {
+      "session_id": "seed-42-run-5",
+      "n_steps": 200,
+      "avg_latency_ms": 1.3796,
+      "reward_mean": 0.402261
+    },
+    {
+      "session_id": "seed-42-run-6",
+      "n_steps": 200,
+      "avg_latency_ms": 1.8704,
+      "reward_mean": -0.015352
+    },
+    {
+      "session_id": "seed-42-run-7",
+      "n_steps": 200,
+      "avg_latency_ms": 0.6672,
+      "reward_mean": 0.37854
+    },
+    {
+      "session_id": "seed-42-run-8",
+      "n_steps": 200,
+      "avg_latency_ms": 1.7438,
+      "reward_mean": 0.172643
+    },
+    {
+      "session_id": "seed-42-run-9",
+      "n_steps": 200,
+      "avg_latency_ms": 1.1088,
+      "reward_mean": 0.503093
+    }
+  ],
+  "summary": {
+    "reward_mean": 0.345291,
+    "reward_std": 0.278632,
+    "avg_latency_ms": 1.4887
+  }
+}

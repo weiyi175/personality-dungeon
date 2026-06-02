@@ -1,0 +1,16 @@
+{
+  "phase": "phase06",
+  "generated_at": "2026-06-01T15:25:04.738457+00:00",
+  "matrix_rows": 12,
+  "expected_rows": 12,
+  "count_match": true,
+  "reward_range": {
+    "min": -0.164985,
+    "max": 1.046194
+  },
+  "latency_range": {
+    "min": 0.5964,
+    "max": 2.9459
+  },
+  "gate_pass": true
+}

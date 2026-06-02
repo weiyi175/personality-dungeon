@@ -1,0 +1,64 @@
+name: CI Smoke (Phase 06)
+
+on:
+  pull_request:
+    branches: ["main", "feature/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-smoke-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    name: Smoke Matrix (3 rows)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Set up venv and install dependencies
+        run: |
+          set -euo pipefail
+          python -m venv venv
+          ./venv/bin/python -m pip install --upgrade pip
+          ./venv/bin/python -m pip install -r requirements.txt
+
+      - name: Run smoke matrix
+        run: |
+          set -euo pipefail
+          cd scripts/experiments
+          ../../venv/bin/python run_matrix.py \
+            --matrix matrix.csv \
+            --out ../../reports/experiments/ci_smoke_${{ github.run_id }} \
+            --log ../../reports/experiments/ci_smoke_${{ github.run_id }}/matrix_run_log.txt
+
+      - name: Validate COUNT_MATCH
+        run: |
+          set -euo pipefail
+          EXPECTED=3
+          ACTUAL=$(ls reports/experiments/ci_smoke_${{ github.run_id }}/run_*.json 2>/dev/null | wc -l)
+          echo "Expected=$EXPECTED  Actual=$ACTUAL"
+          if [ "$ACTUAL" -ne "$EXPECTED" ]; then
+            echo "COUNT_MATCH FAIL: expected $EXPECTED runs, got $ACTUAL"
+            exit 1
+          fi
+          echo "COUNT_MATCH=True"
+
+      - name: Upload smoke artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-smoke-${{ github.run_id }}
+          if-no-files-found: warn
+          path: reports/experiments/ci_smoke_${{ github.run_id }}/
