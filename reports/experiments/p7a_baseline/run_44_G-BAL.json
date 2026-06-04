@@ -1,0 +1,1629 @@
+{
+  "seed": 44,
+  "group": "G-BAL",
+  "personality_vector": {
+    "impulsiveness": -0.38403183221817017,
+    "assertiveness": 0.2672184705734253,
+    "optimism": 0.1568218618631363,
+    "risk_aversion": 0.09560714662075043,
+    "suspicion": -0.0843912661075592,
+    "endurance": 0.138105571269989,
+    "randomness": -0.42205721139907837,
+    "stability_seeking": 0.5471899509429932,
+    "curiosity": -0.02734534442424774
+  },
+  "reward_mean": 3.3522499999999993,
+  "reward_std": 1.1071174282794025,
+  "strategy_dist": {
+    "aggressive": 0.35333333333333333,
+    "defensive": 0.285,
+    "balanced": 0.3616666666666667
+  },
+  "dominant_strategy": "balanced",
+  "phase_counts": {
+    "burn-in": 50,
+    "tail": 150
+  },
+  "step_log": [
+    {
+      "round": 1,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 0.0,
+      "phase": "burn-in"
+    },
+    {
+      "round": 2,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 0.018749999999999996,
+      "phase": "burn-in"
+    },
+    {
+      "round": 3,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 0.07499999999999997,
+      "phase": "burn-in"
+    },
+    {
+      "round": 4,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 0.09374999999999994,
+      "phase": "burn-in"
+    },
+    {
+      "round": 5,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 0.14999999999999997,
+      "phase": "burn-in"
+    },
+    {
+      "round": 6,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 0.09374999999999992,
+      "phase": "burn-in"
+    },
+    {
+      "round": 7,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 0.14999999999999986,
+      "phase": "burn-in"
+    },
+    {
+      "round": 8,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 0.16874999999999987,
+      "phase": "burn-in"
+    },
+    {
+      "round": 9,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 0.09374999999999989,
+      "phase": "burn-in"
+    },
+    {
+      "round": 10,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 0.037499999999999825,
+      "phase": "burn-in"
+    },
+    {
+      "round": 11,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 0.09374999999999983,
+      "phase": "burn-in"
+    },
+    {
+      "round": 12,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 0.03749999999999981,
+      "phase": "burn-in"
+    },
+    {
+      "round": 13,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 0.0562499999999998,
+      "phase": "burn-in"
+    },
+    {
+      "round": 14,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 0.1312499999999998,
+      "phase": "burn-in"
+    },
+    {
+      "round": 15,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 0.05624999999999984,
+      "phase": "burn-in"
+    },
+    {
+      "round": 16,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": -0.01875000000000014,
+      "phase": "burn-in"
+    },
+    {
+      "round": 17,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 0.0374999999999997,
+      "phase": "burn-in"
+    },
+    {
+      "round": 18,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 0.11249999999999975,
+      "phase": "burn-in"
+    },
+    {
+      "round": 19,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 0.05624999999999976,
+      "phase": "burn-in"
+    },
+    {
+      "round": 20,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 0.1124999999999998,
+      "phase": "burn-in"
+    },
+    {
+      "round": 21,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 0.18749999999999983,
+      "phase": "burn-in"
+    },
+    {
+      "round": 22,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 0.24374999999999986,
+      "phase": "burn-in"
+    },
+    {
+      "round": 23,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 0.2624999999999998,
+      "phase": "burn-in"
+    },
+    {
+      "round": 24,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.75,
+      "p_balanced": 0.25,
+      "avg_reward": 0.3187499999999998,
+      "phase": "burn-in"
+    },
+    {
+      "round": 25,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 0.3937499999999998,
+      "phase": "burn-in"
+    },
+    {
+      "round": 26,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 0.33749999999999986,
+      "phase": "burn-in"
+    },
+    {
+      "round": 27,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 0.35624999999999984,
+      "phase": "burn-in"
+    },
+    {
+      "round": 28,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 0.28124999999999983,
+      "phase": "burn-in"
+    },
+    {
+      "round": 29,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 0.3374999999999998,
+      "phase": "burn-in"
+    },
+    {
+      "round": 30,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 0.3562499999999998,
+      "phase": "burn-in"
+    },
+    {
+      "round": 31,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 0.4312499999999998,
+      "phase": "burn-in"
+    },
+    {
+      "round": 32,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 0.4874999999999997,
+      "phase": "burn-in"
+    },
+    {
+      "round": 33,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 0.5437499999999997,
+      "phase": "burn-in"
+    },
+    {
+      "round": 34,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 0.5999999999999998,
+      "phase": "burn-in"
+    },
+    {
+      "round": 35,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 0.6187499999999997,
+      "phase": "burn-in"
+    },
+    {
+      "round": 36,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 0.6374999999999996,
+      "phase": "burn-in"
+    },
+    {
+      "round": 37,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.75,
+      "p_balanced": 0.0,
+      "avg_reward": 0.5624999999999996,
+      "phase": "burn-in"
+    },
+    {
+      "round": 38,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 0.6374999999999996,
+      "phase": "burn-in"
+    },
+    {
+      "round": 39,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 0.6562499999999997,
+      "phase": "burn-in"
+    },
+    {
+      "round": 40,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 0.7312499999999997,
+      "phase": "burn-in"
+    },
+    {
+      "round": 41,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 0.7874999999999995,
+      "phase": "burn-in"
+    },
+    {
+      "round": 42,
+      "p_aggressive": 0.0,
+      "p_defensive": 1.0,
+      "p_balanced": 0.0,
+      "avg_reward": 0.8624999999999996,
+      "phase": "burn-in"
+    },
+    {
+      "round": 43,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.75,
+      "p_balanced": 0.0,
+      "avg_reward": 0.9187499999999995,
+      "phase": "burn-in"
+    },
+    {
+      "round": 44,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 0.9937499999999995,
+      "phase": "burn-in"
+    },
+    {
+      "round": 45,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 1.0124999999999993,
+      "phase": "burn-in"
+    },
+    {
+      "round": 46,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 1.0874999999999995,
+      "phase": "burn-in"
+    },
+    {
+      "round": 47,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 1.0124999999999993,
+      "phase": "burn-in"
+    },
+    {
+      "round": 48,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 1.0687499999999992,
+      "phase": "burn-in"
+    },
+    {
+      "round": 49,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 0.9937499999999995,
+      "phase": "burn-in"
+    },
+    {
+      "round": 50,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 1.0499999999999994,
+      "phase": "burn-in"
+    },
+    {
+      "round": 51,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 1.0687499999999994,
+      "phase": "tail"
+    },
+    {
+      "round": 52,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 1.1249999999999996,
+      "phase": "tail"
+    },
+    {
+      "round": 53,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 1.1812499999999995,
+      "phase": "tail"
+    },
+    {
+      "round": 54,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 1.2374999999999994,
+      "phase": "tail"
+    },
+    {
+      "round": 55,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 1.3124999999999996,
+      "phase": "tail"
+    },
+    {
+      "round": 56,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 1.3687499999999995,
+      "phase": "tail"
+    },
+    {
+      "round": 57,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 1.3874999999999995,
+      "phase": "tail"
+    },
+    {
+      "round": 58,
+      "p_aggressive": 1.0,
+      "p_defensive": 0.0,
+      "p_balanced": 0.0,
+      "avg_reward": 1.4437499999999994,
+      "phase": "tail"
+    },
+    {
+      "round": 59,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 1.4999999999999996,
+      "phase": "tail"
+    },
+    {
+      "round": 60,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 1.5562499999999995,
+      "phase": "tail"
+    },
+    {
+      "round": 61,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 1.6124999999999996,
+      "phase": "tail"
+    },
+    {
+      "round": 62,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 1.6874999999999996,
+      "phase": "tail"
+    },
+    {
+      "round": 63,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 1.6312499999999996,
+      "phase": "tail"
+    },
+    {
+      "round": 64,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 1.7062499999999998,
+      "phase": "tail"
+    },
+    {
+      "round": 65,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 1.7624999999999995,
+      "phase": "tail"
+    },
+    {
+      "round": 66,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 1.8187499999999996,
+      "phase": "tail"
+    },
+    {
+      "round": 67,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 1.8749999999999996,
+      "phase": "tail"
+    },
+    {
+      "round": 68,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 1.9499999999999997,
+      "phase": "tail"
+    },
+    {
+      "round": 69,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 2.0062499999999996,
+      "phase": "tail"
+    },
+    {
+      "round": 70,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 1.9499999999999997,
+      "phase": "tail"
+    },
+    {
+      "round": 71,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 1.89375,
+      "phase": "tail"
+    },
+    {
+      "round": 72,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 1.96875,
+      "phase": "tail"
+    },
+    {
+      "round": 73,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 1.9875000000000003,
+      "phase": "tail"
+    },
+    {
+      "round": 74,
+      "p_aggressive": 0.0,
+      "p_defensive": 1.0,
+      "p_balanced": 0.0,
+      "avg_reward": 2.04375,
+      "phase": "tail"
+    },
+    {
+      "round": 75,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 2.0625,
+      "phase": "tail"
+    },
+    {
+      "round": 76,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 2.08125,
+      "phase": "tail"
+    },
+    {
+      "round": 77,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 2.0999999999999996,
+      "phase": "tail"
+    },
+    {
+      "round": 78,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 2.15625,
+      "phase": "tail"
+    },
+    {
+      "round": 79,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 2.2125,
+      "phase": "tail"
+    },
+    {
+      "round": 80,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 2.26875,
+      "phase": "tail"
+    },
+    {
+      "round": 81,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 2.3249999999999997,
+      "phase": "tail"
+    },
+    {
+      "round": 82,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 2.34375,
+      "phase": "tail"
+    },
+    {
+      "round": 83,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 2.4,
+      "phase": "tail"
+    },
+    {
+      "round": 84,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 2.45625,
+      "phase": "tail"
+    },
+    {
+      "round": 85,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 2.475,
+      "phase": "tail"
+    },
+    {
+      "round": 86,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 2.53125,
+      "phase": "tail"
+    },
+    {
+      "round": 87,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 2.5875,
+      "phase": "tail"
+    },
+    {
+      "round": 88,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 2.60625,
+      "phase": "tail"
+    },
+    {
+      "round": 89,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 2.68125,
+      "phase": "tail"
+    },
+    {
+      "round": 90,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 2.68125,
+      "phase": "tail"
+    },
+    {
+      "round": 91,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.75,
+      "p_balanced": 0.0,
+      "avg_reward": 2.7,
+      "phase": "tail"
+    },
+    {
+      "round": 92,
+      "p_aggressive": 0.0,
+      "p_defensive": 1.0,
+      "p_balanced": 0.0,
+      "avg_reward": 2.64375,
+      "phase": "tail"
+    },
+    {
+      "round": 93,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 2.7,
+      "phase": "tail"
+    },
+    {
+      "round": 94,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 2.64375,
+      "phase": "tail"
+    },
+    {
+      "round": 95,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 2.7,
+      "phase": "tail"
+    },
+    {
+      "round": 96,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 2.71875,
+      "phase": "tail"
+    },
+    {
+      "round": 97,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 2.7750000000000004,
+      "phase": "tail"
+    },
+    {
+      "round": 98,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.75,
+      "p_balanced": 0.0,
+      "avg_reward": 2.7750000000000004,
+      "phase": "tail"
+    },
+    {
+      "round": 99,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 2.85,
+      "phase": "tail"
+    },
+    {
+      "round": 100,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 2.86875,
+      "phase": "tail"
+    },
+    {
+      "round": 101,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 2.8875,
+      "phase": "tail"
+    },
+    {
+      "round": 102,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 2.8875,
+      "phase": "tail"
+    },
+    {
+      "round": 103,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 2.90625,
+      "phase": "tail"
+    },
+    {
+      "round": 104,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 2.9625,
+      "phase": "tail"
+    },
+    {
+      "round": 105,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 2.9812499999999997,
+      "phase": "tail"
+    },
+    {
+      "round": 106,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 2.9812499999999997,
+      "phase": "tail"
+    },
+    {
+      "round": 107,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 2.9812499999999997,
+      "phase": "tail"
+    },
+    {
+      "round": 108,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 3.0,
+      "phase": "tail"
+    },
+    {
+      "round": 109,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 3.01875,
+      "phase": "tail"
+    },
+    {
+      "round": 110,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 3.09375,
+      "phase": "tail"
+    },
+    {
+      "round": 111,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 3.1125,
+      "phase": "tail"
+    },
+    {
+      "round": 112,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 3.0562500000000004,
+      "phase": "tail"
+    },
+    {
+      "round": 113,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 3.13125,
+      "phase": "tail"
+    },
+    {
+      "round": 114,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 3.1500000000000004,
+      "phase": "tail"
+    },
+    {
+      "round": 115,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 3.2062500000000003,
+      "phase": "tail"
+    },
+    {
+      "round": 116,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 3.225,
+      "phase": "tail"
+    },
+    {
+      "round": 117,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 3.28125,
+      "phase": "tail"
+    },
+    {
+      "round": 118,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 3.3,
+      "phase": "tail"
+    },
+    {
+      "round": 119,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 3.3187499999999996,
+      "phase": "tail"
+    },
+    {
+      "round": 120,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 3.375,
+      "phase": "tail"
+    },
+    {
+      "round": 121,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 3.3,
+      "phase": "tail"
+    },
+    {
+      "round": 122,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 3.3,
+      "phase": "tail"
+    },
+    {
+      "round": 123,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 3.3187499999999996,
+      "phase": "tail"
+    },
+    {
+      "round": 124,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 3.375,
+      "phase": "tail"
+    },
+    {
+      "round": 125,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 3.3187499999999996,
+      "phase": "tail"
+    },
+    {
+      "round": 126,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 3.3374999999999995,
+      "phase": "tail"
+    },
+    {
+      "round": 127,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 3.39375,
+      "phase": "tail"
+    },
+    {
+      "round": 128,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 3.4124999999999996,
+      "phase": "tail"
+    },
+    {
+      "round": 129,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 3.4312499999999995,
+      "phase": "tail"
+    },
+    {
+      "round": 130,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 3.4875,
+      "phase": "tail"
+    },
+    {
+      "round": 131,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 3.5437499999999993,
+      "phase": "tail"
+    },
+    {
+      "round": 132,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 3.468749999999999,
+      "phase": "tail"
+    },
+    {
+      "round": 133,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 3.39375,
+      "phase": "tail"
+    },
+    {
+      "round": 134,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 3.4499999999999993,
+      "phase": "tail"
+    },
+    {
+      "round": 135,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 3.4687499999999996,
+      "phase": "tail"
+    },
+    {
+      "round": 136,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.75,
+      "p_balanced": 0.25,
+      "avg_reward": 3.5249999999999995,
+      "phase": "tail"
+    },
+    {
+      "round": 137,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 3.5249999999999995,
+      "phase": "tail"
+    },
+    {
+      "round": 138,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 3.5812499999999994,
+      "phase": "tail"
+    },
+    {
+      "round": 139,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 3.5999999999999988,
+      "phase": "tail"
+    },
+    {
+      "round": 140,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 3.656249999999999,
+      "phase": "tail"
+    },
+    {
+      "round": 141,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 3.674999999999999,
+      "phase": "tail"
+    },
+    {
+      "round": 142,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 3.6937499999999988,
+      "phase": "tail"
+    },
+    {
+      "round": 143,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.75,
+      "p_balanced": 0.25,
+      "avg_reward": 3.768749999999999,
+      "phase": "tail"
+    },
+    {
+      "round": 144,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 3.7874999999999988,
+      "phase": "tail"
+    },
+    {
+      "round": 145,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 3.862499999999999,
+      "phase": "tail"
+    },
+    {
+      "round": 146,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 3.9187499999999984,
+      "phase": "tail"
+    },
+    {
+      "round": 147,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 3.8624999999999985,
+      "phase": "tail"
+    },
+    {
+      "round": 148,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 3.8812499999999988,
+      "phase": "tail"
+    },
+    {
+      "round": 149,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 3.8999999999999986,
+      "phase": "tail"
+    },
+    {
+      "round": 150,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 3.8249999999999984,
+      "phase": "tail"
+    },
+    {
+      "round": 151,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 3.8999999999999986,
+      "phase": "tail"
+    },
+    {
+      "round": 152,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 3.956249999999998,
+      "phase": "tail"
+    },
+    {
+      "round": 153,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 3.9749999999999983,
+      "phase": "tail"
+    },
+    {
+      "round": 154,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 3.8999999999999986,
+      "phase": "tail"
+    },
+    {
+      "round": 155,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 3.9562499999999985,
+      "phase": "tail"
+    },
+    {
+      "round": 156,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 3.9562499999999985,
+      "phase": "tail"
+    },
+    {
+      "round": 157,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 4.012499999999998,
+      "phase": "tail"
+    },
+    {
+      "round": 158,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 4.087499999999999,
+      "phase": "tail"
+    },
+    {
+      "round": 159,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 4.1625,
+      "phase": "tail"
+    },
+    {
+      "round": 160,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 4.106249999999998,
+      "phase": "tail"
+    },
+    {
+      "round": 161,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 4.162499999999999,
+      "phase": "tail"
+    },
+    {
+      "round": 162,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 4.106249999999998,
+      "phase": "tail"
+    },
+    {
+      "round": 163,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 4.162499999999999,
+      "phase": "tail"
+    },
+    {
+      "round": 164,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 4.218749999999998,
+      "phase": "tail"
+    },
+    {
+      "round": 165,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 4.237499999999998,
+      "phase": "tail"
+    },
+    {
+      "round": 166,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 4.293749999999998,
+      "phase": "tail"
+    },
+    {
+      "round": 167,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 4.349999999999998,
+      "phase": "tail"
+    },
+    {
+      "round": 168,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 4.349999999999998,
+      "phase": "tail"
+    },
+    {
+      "round": 169,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 4.424999999999997,
+      "phase": "tail"
+    },
+    {
+      "round": 170,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 4.443749999999998,
+      "phase": "tail"
+    },
+    {
+      "round": 171,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 4.462499999999998,
+      "phase": "tail"
+    },
+    {
+      "round": 172,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 4.4812499999999975,
+      "phase": "tail"
+    },
+    {
+      "round": 173,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 4.556249999999997,
+      "phase": "tail"
+    },
+    {
+      "round": 174,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 4.4812499999999975,
+      "phase": "tail"
+    },
+    {
+      "round": 175,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 4.556249999999997,
+      "phase": "tail"
+    },
+    {
+      "round": 176,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 4.612499999999997,
+      "phase": "tail"
+    },
+    {
+      "round": 177,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.75,
+      "p_balanced": 0.0,
+      "avg_reward": 4.6687499999999975,
+      "phase": "tail"
+    },
+    {
+      "round": 178,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 4.724999999999998,
+      "phase": "tail"
+    },
+    {
+      "round": 179,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 4.743749999999997,
+      "phase": "tail"
+    },
+    {
+      "round": 180,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 4.799999999999997,
+      "phase": "tail"
+    },
+    {
+      "round": 181,
+      "p_aggressive": 1.0,
+      "p_defensive": 0.0,
+      "p_balanced": 0.0,
+      "avg_reward": 4.743749999999997,
+      "phase": "tail"
+    },
+    {
+      "round": 182,
+      "p_aggressive": 1.0,
+      "p_defensive": 0.0,
+      "p_balanced": 0.0,
+      "avg_reward": 4.799999999999997,
+      "phase": "tail"
+    },
+    {
+      "round": 183,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.75,
+      "p_balanced": 0.0,
+      "avg_reward": 4.818749999999997,
+      "phase": "tail"
+    },
+    {
+      "round": 184,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 4.837499999999997,
+      "phase": "tail"
+    },
+    {
+      "round": 185,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 4.837499999999997,
+      "phase": "tail"
+    },
+    {
+      "round": 186,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 4.856249999999997,
+      "phase": "tail"
+    },
+    {
+      "round": 187,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 4.8749999999999964,
+      "phase": "tail"
+    },
+    {
+      "round": 188,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 4.893749999999996,
+      "phase": "tail"
+    },
+    {
+      "round": 189,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 4.949999999999997,
+      "phase": "tail"
+    },
+    {
+      "round": 190,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.75,
+      "p_balanced": 0.0,
+      "avg_reward": 5.006249999999996,
+      "phase": "tail"
+    },
+    {
+      "round": 191,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 5.024999999999997,
+      "phase": "tail"
+    },
+    {
+      "round": 192,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 5.043749999999996,
+      "phase": "tail"
+    },
+    {
+      "round": 193,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 5.099999999999996,
+      "phase": "tail"
+    },
+    {
+      "round": 194,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 5.118749999999996,
+      "phase": "tail"
+    },
+    {
+      "round": 195,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 5.174999999999996,
+      "phase": "tail"
+    },
+    {
+      "round": 196,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 5.193749999999996,
+      "phase": "tail"
+    },
+    {
+      "round": 197,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 5.2499999999999964,
+      "phase": "tail"
+    },
+    {
+      "round": 198,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 5.306249999999996,
+      "phase": "tail"
+    },
+    {
+      "round": 199,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 5.381249999999996,
+      "phase": "tail"
+    },
+    {
+      "round": 200,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 5.437499999999996,
+      "phase": "tail"
+    }
+  ]
+}

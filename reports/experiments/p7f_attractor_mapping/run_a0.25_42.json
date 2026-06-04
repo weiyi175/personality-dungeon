@@ -1,0 +1,32 @@
+{
+  "seed": 42,
+  "alpha": 0.25,
+  "group": "G-AGG",
+  "initial_personality": {
+    "impulsiveness": 0.7719128727912903,
+    "assertiveness": 0.7240132093429565,
+    "optimism": 0.5763773322105408,
+    "risk_aversion": -0.9224768280982971,
+    "suspicion": -0.37349775433540344,
+    "endurance": 0.3238774240016937,
+    "randomness": 0.6622713804244995,
+    "stability_seeking": -0.47056442499160767,
+    "curiosity": 0.7763345241546631
+  },
+  "metrics": {
+    "attractor_coordinates": {
+      "impulsiveness": 0.7732503727912905,
+      "assertiveness": 0.7253507093429568,
+      "optimism": 0.6074622280438738,
+      "risk_aversion": -0.9238143280982971,
+      "suspicion": -0.40668785850207,
+      "endurance": 0.292792528168361,
+      "randomness": 0.6920187762578324,
+      "stability_seeking": -0.47190192499160694,
+      "curiosity": 0.8074194199879962
+    },
+    "attractor_distance": 0.06994611100959544,
+    "attractor_norm": 0.6625810704231747,
+    "attractor_variance": 2.713687422154619e-05
+  }
+}

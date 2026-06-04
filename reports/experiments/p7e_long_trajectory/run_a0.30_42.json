@@ -1,0 +1,40 @@
+{
+  "seed": 42,
+  "alpha": 0.3,
+  "group": "G-AGG",
+  "initial_personality": {
+    "impulsiveness": 0.7719128727912903,
+    "assertiveness": 0.7240132093429565,
+    "optimism": 0.5763773322105408,
+    "risk_aversion": -0.9224768280982971,
+    "suspicion": -0.37349775433540344,
+    "endurance": 0.3238774240016937,
+    "randomness": 0.6622713804244995,
+    "stability_seeking": -0.47056442499160767,
+    "curiosity": 0.7763345241546631
+  },
+  "final_personality": {
+    "impulsiveness": 0.5807566227912957,
+    "assertiveness": 0.532856959342962,
+    "optimism": 0.96296875,
+    "risk_aversion": -0.7313205780983025,
+    "suspicion": -0.9984999999999999,
+    "endurance": -0.14393507599830593,
+    "randomness": 0.99896875,
+    "stability_seeking": -0.27940817499160525,
+    "curiosity": 0.96296875
+  },
+  "metrics": {
+    "vdi": 6.229884686113739e-07,
+    "act": 187,
+    "plasticity_window": 0,
+    "coupling_strength": {
+      "mean_correlation": -0.08409928497243352,
+      "std_correlation": 0.14809065539810307,
+      "trend": "weakening",
+      "n_windows": 8
+    },
+    "personality_saturation": 0.4444444444444444
+  },
+  "step_log_size": 1000
+}

@@ -41,6 +41,51 @@ from players.rl_player import RLPlayer, init_rl_player, sample_personality
 
 
 # ===================================================================
+# Personality Feedback Table (P7-B §4.2)
+# ===================================================================
+# g(s, trait_i): reinforcement direction for strategy s and trait i
+# +1 = reinforce, -1 = weaken, 0 = neutral
+_PERSONALITY_REINFORCEMENT: dict[int, dict[str, float]] = {
+    # aggressive (index 0)
+    0: {
+        "impulsiveness": 1.0,
+        "assertiveness": 1.0,
+        "optimism": 1.0,
+        "risk_aversion": -1.0,
+        "suspicion": 0.0,
+        "endurance": -1.0,
+        "randomness": 0.0,
+        "stability_seeking": -1.0,
+        "curiosity": 1.0,
+    },
+    # defensive (index 1)
+    1: {
+        "impulsiveness": -1.0,
+        "assertiveness": -1.0,
+        "optimism": -1.0,
+        "risk_aversion": 1.0,
+        "suspicion": 1.0,
+        "endurance": 1.0,
+        "randomness": 0.0,
+        "stability_seeking": 1.0,
+        "curiosity": -1.0,
+    },
+    # balanced (index 2)
+    2: {
+        "impulsiveness": 0.0,
+        "assertiveness": 0.0,
+        "optimism": 1.0,
+        "risk_aversion": 0.0,
+        "suspicion": -1.0,
+        "endurance": -1.0,
+        "randomness": 1.0,
+        "stability_seeking": 0.0,
+        "curiosity": 1.0,
+    },
+}
+
+
+# ===================================================================
 # Session Configuration
 # ===================================================================
 
@@ -70,11 +115,19 @@ class RLSessionConfig:
     check_interval: int = 200
 
     # ---- Personality modulation (flexible) ----
-    personality_mode: str = "none"  # "none" | "random_9persona"
+    personality_mode: str = "none"  # "none" | "random_9persona" | "static"
     seed: int = 42
     lambda_alpha: float = 0.0
     lambda_beta: float = 0.0
     lambda_r: float = 0.0
+    lambda_risk: float = 0.0
+    lambda_beta_comp: float = 0.0
+    # Fixed personality vector for personality_mode="static" (all players share P₀)
+    fixed_personality_vector: dict | None = None
+    # ---- Personality feedback loop (P7-C/P7-D) ----
+    personality_update_enabled: bool = False  # Enable ΔP updates (P7-C gate)
+    personality_feedback_strength: float = 0.0  # α ∈ [0, 1], main P7-D scan param
+    personality_learning_rate: float = 0.05  # η for ΔP = η·(r - r̄)·g(s)
 
     # ---- Events (locked to Off for Phase 1, Track B restarts) ----
     events_json: str = ""  # Must be "" during Runtime Bridge Phase 1-2
@@ -187,6 +240,16 @@ class RLSessionEngine:
             # Sample or construct personality
             if config.personality_mode == "random_9persona":
                 pers = sample_personality(rng=self.rng)
+            elif config.personality_mode == "static":
+                # All players share the fixed P₀ vector (P7-A protocol)
+                if config.fixed_personality_vector is not None:
+                    pers = dict(config.fixed_personality_vector)
+                else:
+                    pers = {k: 0.0 for k in [
+                        "assertiveness", "risk_aversion", "endurance",
+                        "impulsiveness", "optimism", "suspicion",
+                        "randomness", "stability_seeking", "curiosity",
+                    ]}
             else:  # "none"
                 pers = {k: 0.0 for k in [
                     "assertiveness", "risk_aversion", "endurance",
@@ -205,6 +268,8 @@ class RLSessionEngine:
                 lambda_alpha=config.lambda_alpha,
                 lambda_beta=config.lambda_beta,
                 lambda_r=config.lambda_r,
+                lambda_risk=config.lambda_risk,
+                lambda_beta_comp=config.lambda_beta_comp,
             )
             self.players.append(player)
 
@@ -224,6 +289,10 @@ class RLSessionEngine:
         self.tail_buffer: deque[tuple[float, float, float]] = deque(
             maxlen=config.tail
         )
+
+        # ---- Temporary state for personality feedback (P7-C) ----
+        # Stores (player_id, strategy_idx, reward) for this round's RL update
+        self.last_round_data: list[tuple[int, int, float]] = []
 
         # ---- Cycle metrics state (checked every check_interval rounds) ----
         self.last_cycle_level: int = 0
@@ -246,6 +315,15 @@ class RLSessionEngine:
         for pid in range(self.config.n_players):
             if self.config.personality_mode == "random_9persona":
                 pers = sample_personality(rng=self.rng)
+            elif self.config.personality_mode == "static":
+                if self.config.fixed_personality_vector is not None:
+                    pers = dict(self.config.fixed_personality_vector)
+                else:
+                    pers = {k: 0.0 for k in [
+                        "assertiveness", "risk_aversion", "endurance",
+                        "impulsiveness", "optimism", "suspicion",
+                        "randomness", "stability_seeking", "curiosity",
+                    ]}
             else:  # "none"
                 pers = {k: 0.0 for k in [
                     "assertiveness", "risk_aversion", "endurance",
@@ -263,6 +341,8 @@ class RLSessionEngine:
                 lambda_alpha=self.config.lambda_alpha,
                 lambda_beta=self.config.lambda_beta,
                 lambda_r=self.config.lambda_r,
+                lambda_risk=self.config.lambda_risk,
+                lambda_beta_comp=self.config.lambda_beta_comp,
             )
 
         return self._make_snapshot(cycle_check=False)
@@ -280,6 +360,10 @@ class RLSessionEngine:
 
         # ---- Single-round RL loop ----
         self._single_round_update()
+
+        # ---- Personality feedback update (P7-C) ----
+        if self.config.personality_update_enabled:
+            self._update_personalities()
 
         self.round += 1
 
@@ -314,6 +398,8 @@ class RLSessionEngine:
         1. Each player: compute Boltzmann policy, select strategy
         2. Each player: compute payoff against neighbors (one-hot)
         3. Each player: Q-update
+        
+        Also collects (player_id, strategy_idx, reward) for personality feedback.
         """
         # ---- Step 1: Select strategies for all players ----
         chosen_strategies = []
@@ -331,6 +417,8 @@ class RLSessionEngine:
         all_neighbor_indices = [idx for _, idx, _ in chosen_strategies]
 
         # ---- Step 3: Q-update ----
+        _RISK_SIGN = (-1.0, 1.0, 0.0)  # aggressive=risky, defensive=safe, balanced=neutral
+        self.last_round_data = []  # Reset for this round
         for i, player in enumerate(self.players):
             player_id, chosen_idx, strategy = chosen_strategies[i]
             reward = one_hot_local_payoff(
@@ -341,14 +429,65 @@ class RLSessionEngine:
             # Optional: add strategy-specific bonus
             reward += player.payoff_bias[chosen_idx]
 
-            # Q-update with player-specific alpha
+            # Risk-sensitive reward bias (mirrors personality_rl_runtime §4.2)
+            eff_reward = reward + player.risk_sensitivity * _RISK_SIGN[chosen_idx]
+
+            # Per-strategy alpha multipliers (BL2-compatible, mirrors personality_rl_runtime)
+            eff_alpha = min(1.0, player.alpha * player.strategy_alpha_multipliers[chosen_idx])
+
+            # Q-update with effective alpha
             player.q_values = rl_q_update(
                 q_values=player.q_values,
                 chosen_idx=chosen_idx,
-                reward=reward,
-                alpha=player.alpha,
+                reward=eff_reward,
+                alpha=eff_alpha,
             )
             player.cumulative_utility += reward
+            
+            # Collect for personality feedback (use raw reward, not eff_reward)
+            self.last_round_data.append((player_id, chosen_idx, reward))
+
+    def _update_personalities(self) -> None:
+        """Apply personality feedback update (P7-B §4.1 ΔP rule).
+
+        ΔPᵢ(t) = α · η · (rₜ - r̄) · gᵢ(sₜ)
+
+        where:
+        - α = personality_feedback_strength ∈ [0, 1] (P7-D scan param)
+        - η = personality_learning_rate (typically 0.05)
+        - r̄ = mean reward this round
+        - g(s, i) = reinforcement direction for strategy s and trait i (from table)
+        
+        Invariant: Pᵢ ∈ [-1, 1] after update (clamp enforced).
+        """
+        if not self.last_round_data:
+            return
+
+        # Compute mean reward for this round
+        rewards = [r for _, _, r in self.last_round_data]
+        mean_reward = sum(rewards) / len(rewards) if rewards else 0.0
+
+        # Apply ΔP to each player
+        alpha = self.config.personality_feedback_strength
+        eta = self.config.personality_learning_rate
+
+        for player_id, strategy_idx, reward in self.last_round_data:
+            player = self.players[player_id]
+            reward_delta = reward - mean_reward
+
+            # Fetch reinforcement directions for this strategy
+            g_s = _PERSONALITY_REINFORCEMENT.get(strategy_idx, {})
+
+            # Update each trait
+            for trait_name in player.personality:
+                g_i = g_s.get(trait_name, 0.0)
+                delta_p = alpha * eta * reward_delta * g_i
+
+                # Apply update and clamp
+                player.personality[trait_name] = max(
+                    -1.0,
+                    min(1.0, player.personality[trait_name] + delta_p)
+                )
 
     def _compute_realized_proportions(self) -> tuple[float, float, float]:
         """Compute strategy proportions from last round's choices.

@@ -1,0 +1,3848 @@
+{
+  "seed": 42,
+  "alpha": 0.2,
+  "group": "G-AGG",
+  "initial_personality": {
+    "impulsiveness": 0.7719128727912903,
+    "assertiveness": 0.7240132093429565,
+    "optimism": 0.5763773322105408,
+    "risk_aversion": -0.9224768280982971,
+    "suspicion": -0.37349775433540344,
+    "endurance": 0.3238774240016937,
+    "randomness": 0.6622713804244995,
+    "stability_seeking": -0.47056442499160767,
+    "curiosity": 0.7763345241546631
+  },
+  "final_personality": {
+    "impulsiveness": 0.7321628727912919,
+    "assertiveness": 0.6842632093429581,
+    "optimism": 0.5597523322105413,
+    "risk_aversion": -0.8827268280982987,
+    "suspicion": -0.37618525433540345,
+    "endurance": 0.3405024240016931,
+    "randomness": 0.6853963804244985,
+    "stability_seeking": -0.43081442499160827,
+    "curiosity": 0.7597095241546636
+  },
+  "personality_change": {
+    "impulsiveness": -0.0397499999999984,
+    "assertiveness": -0.0397499999999984,
+    "optimism": -0.016624999999999446,
+    "risk_aversion": 0.0397499999999984,
+    "suspicion": -0.0026875000000000093,
+    "endurance": 0.01662499999999939,
+    "randomness": 0.023124999999998952,
+    "stability_seeking": 0.0397499999999994,
+    "curiosity": -0.016624999999999446
+  },
+  "max_personality_change": 0.0397499999999994,
+  "reward_mean": 3.3738749999999986,
+  "reward_std": 1.1736286478801534,
+  "strategy_dist": {
+    "aggressive": 0.3566666666666667,
+    "defensive": 0.27,
+    "balanced": 0.37333333333333335
+  },
+  "step_log": [
+    {
+      "round": 1,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 0.05624999999999997,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7719128727912903,
+        "assertiveness": 0.7240132093429565,
+        "optimism": 0.5788148322105408,
+        "risk_aversion": -0.9224768280982971,
+        "suspicion": -0.3759352543354034,
+        "endurance": 0.32143992400169374,
+        "randomness": 0.6647088804244995,
+        "stability_seeking": -0.47056442499160767,
+        "curiosity": 0.7787720241546631
+      }
+    },
+    {
+      "round": 2,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": -0.018750000000000044,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7766628727912903,
+        "assertiveness": 0.7287632093429566,
+        "optimism": 0.5835648322105408,
+        "risk_aversion": -0.9272268280982972,
+        "suspicion": -0.3759352543354034,
+        "endurance": 0.31668992400169377,
+        "randomness": 0.6647088804244995,
+        "stability_seeking": -0.47531442499160764,
+        "curiosity": 0.7835220241546631
+      }
+    },
+    {
+      "round": 3,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 0.03749999999999992,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7766628727912903,
+        "assertiveness": 0.7287632093429566,
+        "optimism": 0.5842523322105407,
+        "risk_aversion": -0.9272268280982972,
+        "suspicion": -0.37662275433540343,
+        "endurance": 0.31600242400169376,
+        "randomness": 0.6653963804244994,
+        "stability_seeking": -0.47531442499160764,
+        "curiosity": 0.784209524154663
+      }
+    },
+    {
+      "round": 4,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.75,
+      "p_balanced": 0.25,
+      "avg_reward": 0.09374999999999983,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7766628727912903,
+        "assertiveness": 0.7287632093429566,
+        "optimism": 0.5819398322105407,
+        "risk_aversion": -0.9272268280982972,
+        "suspicion": -0.37431025433540344,
+        "endurance": 0.31831492400169376,
+        "randomness": 0.6630838804244994,
+        "stability_seeking": -0.47531442499160764,
+        "curiosity": 0.781897024154663
+      }
+    },
+    {
+      "round": 5,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 0.16874999999999996,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7766628727912903,
+        "assertiveness": 0.7287632093429566,
+        "optimism": 0.5776898322105407,
+        "risk_aversion": -0.9272268280982972,
+        "suspicion": -0.37006025433540346,
+        "endurance": 0.32256492400169373,
+        "randomness": 0.6588338804244994,
+        "stability_seeking": -0.47531442499160764,
+        "curiosity": 0.777647024154663
+      }
+    },
+    {
+      "round": 6,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.75,
+      "p_balanced": 0.0,
+      "avg_reward": 0.16874999999999996,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7766628727912903,
+        "assertiveness": 0.7287632093429566,
+        "optimism": 0.5776898322105407,
+        "risk_aversion": -0.9272268280982972,
+        "suspicion": -0.37006025433540346,
+        "endurance": 0.32256492400169373,
+        "randomness": 0.6588338804244994,
+        "stability_seeking": -0.47531442499160764,
+        "curiosity": 0.777647024154663
+      }
+    },
+    {
+      "round": 7,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 0.1875,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7782253727912903,
+        "assertiveness": 0.7303257093429566,
+        "optimism": 0.5792523322105407,
+        "risk_aversion": -0.9287893280982972,
+        "suspicion": -0.37006025433540346,
+        "endurance": 0.3210024240016937,
+        "randomness": 0.6588338804244994,
+        "stability_seeking": -0.47687692499160766,
+        "curiosity": 0.779209524154663
+      }
+    },
+    {
+      "round": 8,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 0.26249999999999996,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7782253727912903,
+        "assertiveness": 0.7303257093429566,
+        "optimism": 0.5750023322105408,
+        "risk_aversion": -0.9287893280982972,
+        "suspicion": -0.3658102543354035,
+        "endurance": 0.3252524240016937,
+        "randomness": 0.6545838804244994,
+        "stability_seeking": -0.47687692499160766,
+        "curiosity": 0.7749595241546631
+      }
+    },
+    {
+      "round": 9,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 0.3187499999999999,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7754128727912903,
+        "assertiveness": 0.7275132093429566,
+        "optimism": 0.5721898322105408,
+        "risk_aversion": -0.9259768280982972,
+        "suspicion": -0.3658102543354035,
+        "endurance": 0.3280649240016937,
+        "randomness": 0.6545838804244994,
+        "stability_seeking": -0.47406442499160767,
+        "curiosity": 0.7721470241546631
+      }
+    },
+    {
+      "round": 10,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 0.3374999999999999,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7754128727912903,
+        "assertiveness": 0.7275132093429566,
+        "optimism": 0.5762523322105407,
+        "risk_aversion": -0.9259768280982972,
+        "suspicion": -0.3698727543354035,
+        "endurance": 0.32400242400169366,
+        "randomness": 0.6586463804244994,
+        "stability_seeking": -0.47406442499160767,
+        "curiosity": 0.776209524154663
+      }
+    },
+    {
+      "round": 11,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 0.3562499999999998,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7758503727912903,
+        "assertiveness": 0.7279507093429566,
+        "optimism": 0.5766898322105407,
+        "risk_aversion": -0.9264143280982972,
+        "suspicion": -0.3703102543354035,
+        "endurance": 0.3235649240016937,
+        "randomness": 0.6586463804244994,
+        "stability_seeking": -0.47450192499160765,
+        "curiosity": 0.776647024154663
+      }
+    },
+    {
+      "round": 12,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 0.3749999999999998,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7758503727912903,
+        "assertiveness": 0.7279507093429566,
+        "optimism": 0.5760023322105408,
+        "risk_aversion": -0.9264143280982972,
+        "suspicion": -0.3696227543354035,
+        "endurance": 0.3242524240016937,
+        "randomness": 0.6579588804244995,
+        "stability_seeking": -0.47450192499160765,
+        "curiosity": 0.7759595241546631
+      }
+    },
+    {
+      "round": 13,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 0.4312499999999998,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7727878727912904,
+        "assertiveness": 0.7248882093429566,
+        "optimism": 0.5729398322105408,
+        "risk_aversion": -0.9233518280982972,
+        "suspicion": -0.3696227543354035,
+        "endurance": 0.3273149240016937,
+        "randomness": 0.6579588804244995,
+        "stability_seeking": -0.4714394249916076,
+        "curiosity": 0.7728970241546631
+      }
+    },
+    {
+      "round": 14,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 0.4874999999999998,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7711003727912904,
+        "assertiveness": 0.7232007093429567,
+        "optimism": 0.5712523322105408,
+        "risk_aversion": -0.9216643280982972,
+        "suspicion": -0.36793525433540347,
+        "endurance": 0.3290024240016937,
+        "randomness": 0.6579588804244995,
+        "stability_seeking": -0.4697519249916076,
+        "curiosity": 0.7712095241546632
+      }
+    },
+    {
+      "round": 15,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 0.41249999999999976,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7758503727912904,
+        "assertiveness": 0.7279507093429567,
+        "optimism": 0.5760023322105409,
+        "risk_aversion": -0.9264143280982973,
+        "suspicion": -0.36793525433540347,
+        "endurance": 0.32425242400169374,
+        "randomness": 0.6579588804244995,
+        "stability_seeking": -0.4745019249916076,
+        "curiosity": 0.7759595241546632
+      }
+    },
+    {
+      "round": 16,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 0.4687499999999998,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7730378727912904,
+        "assertiveness": 0.7251382093429567,
+        "optimism": 0.5731898322105409,
+        "risk_aversion": -0.9236018280982973,
+        "suspicion": -0.36793525433540347,
+        "endurance": 0.32706492400169374,
+        "randomness": 0.6579588804244995,
+        "stability_seeking": -0.4716894249916076,
+        "curiosity": 0.7731470241546632
+      }
+    },
+    {
+      "round": 17,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 0.5249999999999998,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7730378727912904,
+        "assertiveness": 0.7251382093429567,
+        "optimism": 0.5738773322105408,
+        "risk_aversion": -0.9236018280982973,
+        "suspicion": -0.3686227543354035,
+        "endurance": 0.32637742400169373,
+        "randomness": 0.6586463804244994,
+        "stability_seeking": -0.4716894249916076,
+        "curiosity": 0.7738345241546631
+      }
+    },
+    {
+      "round": 18,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 0.5437499999999997,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7734753727912904,
+        "assertiveness": 0.7255757093429567,
+        "optimism": 0.5743148322105408,
+        "risk_aversion": -0.9240393280982973,
+        "suspicion": -0.36906025433540346,
+        "endurance": 0.32593992400169375,
+        "randomness": 0.6586463804244994,
+        "stability_seeking": -0.4721269249916076,
+        "curiosity": 0.7742720241546631
+      }
+    },
+    {
+      "round": 19,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 0.5624999999999998,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7730378727912904,
+        "assertiveness": 0.7251382093429567,
+        "optimism": 0.5738773322105408,
+        "risk_aversion": -0.9236018280982973,
+        "suspicion": -0.36906025433540346,
+        "endurance": 0.32637742400169373,
+        "randomness": 0.6586463804244994,
+        "stability_seeking": -0.4716894249916076,
+        "curiosity": 0.7738345241546631
+      }
+    },
+    {
+      "round": 20,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 0.5062499999999998,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7756003727912905,
+        "assertiveness": 0.7277007093429567,
+        "optimism": 0.5764398322105408,
+        "risk_aversion": -0.9261643280982973,
+        "suspicion": -0.36906025433540346,
+        "endurance": 0.3238149240016937,
+        "randomness": 0.6586463804244994,
+        "stability_seeking": -0.4742519249916076,
+        "curiosity": 0.7763970241546632
+      }
+    },
+    {
+      "round": 21,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 0.5812499999999996,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7756003727912905,
+        "assertiveness": 0.7277007093429567,
+        "optimism": 0.5816898322105408,
+        "risk_aversion": -0.9261643280982973,
+        "suspicion": -0.37431025433540344,
+        "endurance": 0.31856492400169373,
+        "randomness": 0.6638963804244994,
+        "stability_seeking": -0.4742519249916076,
+        "curiosity": 0.7816470241546631
+      }
+    },
+    {
+      "round": 22,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.75,
+      "p_balanced": 0.0,
+      "avg_reward": 0.6374999999999997,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7739128727912905,
+        "assertiveness": 0.7260132093429568,
+        "optimism": 0.5800023322105409,
+        "risk_aversion": -0.9244768280982973,
+        "suspicion": -0.3726227543354034,
+        "endurance": 0.32025242400169374,
+        "randomness": 0.6638963804244994,
+        "stability_seeking": -0.4725644249916076,
+        "curiosity": 0.7799595241546632
+      }
+    },
+    {
+      "round": 23,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 0.6937499999999996,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7739128727912905,
+        "assertiveness": 0.7260132093429568,
+        "optimism": 0.5824398322105409,
+        "risk_aversion": -0.9244768280982973,
+        "suspicion": -0.3750602543354034,
+        "endurance": 0.31781492400169375,
+        "randomness": 0.6663338804244994,
+        "stability_seeking": -0.4725644249916076,
+        "curiosity": 0.7823970241546632
+      }
+    },
+    {
+      "round": 24,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 0.6187499999999998,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7786628727912905,
+        "assertiveness": 0.7307632093429568,
+        "optimism": 0.5871898322105409,
+        "risk_aversion": -0.9292268280982974,
+        "suspicion": -0.3750602543354034,
+        "endurance": 0.3130649240016938,
+        "randomness": 0.6663338804244994,
+        "stability_seeking": -0.4773144249916076,
+        "curiosity": 0.7871470241546632
+      }
+    },
+    {
+      "round": 25,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 0.6749999999999997,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7769753727912906,
+        "assertiveness": 0.7290757093429568,
+        "optimism": 0.5855023322105409,
+        "risk_aversion": -0.9275393280982974,
+        "suspicion": -0.3733727543354034,
+        "endurance": 0.3147524240016938,
+        "randomness": 0.6663338804244994,
+        "stability_seeking": -0.4756269249916076,
+        "curiosity": 0.7854595241546632
+      }
+    },
+    {
+      "round": 26,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 0.5999999999999996,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7817253727912906,
+        "assertiveness": 0.7338257093429569,
+        "optimism": 0.590252332210541,
+        "risk_aversion": -0.9322893280982975,
+        "suspicion": -0.3781227543354034,
+        "endurance": 0.3100024240016938,
+        "randomness": 0.6663338804244994,
+        "stability_seeking": -0.48037692499160756,
+        "curiosity": 0.7902095241546633
+      }
+    },
+    {
+      "round": 27,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 0.6749999999999997,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7774753727912906,
+        "assertiveness": 0.7295757093429569,
+        "optimism": 0.586002332210541,
+        "risk_aversion": -0.9280393280982975,
+        "suspicion": -0.3738727543354034,
+        "endurance": 0.3142524240016938,
+        "randomness": 0.6663338804244994,
+        "stability_seeking": -0.4761269249916076,
+        "curiosity": 0.7859595241546633
+      }
+    },
+    {
+      "round": 28,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 0.7499999999999998,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7774753727912906,
+        "assertiveness": 0.7295757093429569,
+        "optimism": 0.581752332210541,
+        "risk_aversion": -0.9280393280982975,
+        "suspicion": -0.3696227543354034,
+        "endurance": 0.31850242400169376,
+        "randomness": 0.6620838804244994,
+        "stability_seeking": -0.4761269249916076,
+        "curiosity": 0.7817095241546633
+      }
+    },
+    {
+      "round": 29,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 0.8062499999999997,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7746628727912906,
+        "assertiveness": 0.7267632093429569,
+        "optimism": 0.578939832210541,
+        "risk_aversion": -0.9252268280982975,
+        "suspicion": -0.3696227543354034,
+        "endurance": 0.32131492400169376,
+        "randomness": 0.6620838804244994,
+        "stability_seeking": -0.4733144249916076,
+        "curiosity": 0.7788970241546633
+      }
+    },
+    {
+      "round": 30,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.75,
+      "p_balanced": 0.25,
+      "avg_reward": 0.8249999999999997,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7746628727912906,
+        "assertiveness": 0.7267632093429569,
+        "optimism": 0.5782523322105411,
+        "risk_aversion": -0.9252268280982975,
+        "suspicion": -0.3689352543354034,
+        "endurance": 0.32200242400169377,
+        "randomness": 0.6613963804244994,
+        "stability_seeking": -0.4733144249916076,
+        "curiosity": 0.7782095241546634
+      }
+    },
+    {
+      "round": 31,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 0.8437499999999996,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7742253727912907,
+        "assertiveness": 0.7263257093429569,
+        "optimism": 0.5778148322105411,
+        "risk_aversion": -0.9247893280982975,
+        "suspicion": -0.3689352543354034,
+        "endurance": 0.32243992400169375,
+        "randomness": 0.6613963804244994,
+        "stability_seeking": -0.4728769249916076,
+        "curiosity": 0.7777720241546634
+      }
+    },
+    {
+      "round": 32,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 0.8999999999999997,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7711628727912907,
+        "assertiveness": 0.723263209342957,
+        "optimism": 0.5747523322105411,
+        "risk_aversion": -0.9217268280982975,
+        "suspicion": -0.3689352543354034,
+        "endurance": 0.32550242400169377,
+        "randomness": 0.6613963804244994,
+        "stability_seeking": -0.4698144249916076,
+        "curiosity": 0.7747095241546634
+      }
+    },
+    {
+      "round": 33,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 0.9562499999999997,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7711628727912907,
+        "assertiveness": 0.723263209342957,
+        "optimism": 0.5754398322105411,
+        "risk_aversion": -0.9217268280982975,
+        "suspicion": -0.3696227543354034,
+        "endurance": 0.32481492400169376,
+        "randomness": 0.6620838804244994,
+        "stability_seeking": -0.4698144249916076,
+        "curiosity": 0.7753970241546634
+      }
+    },
+    {
+      "round": 34,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 0.9749999999999995,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7743503727912907,
+        "assertiveness": 0.726450709342957,
+        "optimism": 0.5786273322105411,
+        "risk_aversion": -0.9249143280982975,
+        "suspicion": -0.37281025433540343,
+        "endurance": 0.32162742400169375,
+        "randomness": 0.6620838804244994,
+        "stability_seeking": -0.4730019249916076,
+        "curiosity": 0.7785845241546634
+      }
+    },
+    {
+      "round": 35,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 0.8999999999999995,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7791003727912907,
+        "assertiveness": 0.731200709342957,
+        "optimism": 0.5833773322105411,
+        "risk_aversion": -0.9296643280982976,
+        "suspicion": -0.37281025433540343,
+        "endurance": 0.3168774240016938,
+        "randomness": 0.6620838804244994,
+        "stability_seeking": -0.47775192499160757,
+        "curiosity": 0.7833345241546634
+      }
+    },
+    {
+      "round": 36,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 0.9562499999999996,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7774128727912908,
+        "assertiveness": 0.729513209342957,
+        "optimism": 0.5816898322105412,
+        "risk_aversion": -0.9279768280982976,
+        "suspicion": -0.3711227543354034,
+        "endurance": 0.3185649240016938,
+        "randomness": 0.6620838804244994,
+        "stability_seeking": -0.47606442499160756,
+        "curiosity": 0.7816470241546635
+      }
+    },
+    {
+      "round": 37,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 0.9749999999999995,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7778503727912908,
+        "assertiveness": 0.729950709342957,
+        "optimism": 0.5821273322105411,
+        "risk_aversion": -0.9284143280982976,
+        "suspicion": -0.3715602543354034,
+        "endurance": 0.3181274240016938,
+        "randomness": 0.6620838804244994,
+        "stability_seeking": -0.47650192499160754,
+        "curiosity": 0.7820845241546635
+      }
+    },
+    {
+      "round": 38,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 1.0499999999999998,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7778503727912908,
+        "assertiveness": 0.729950709342957,
+        "optimism": 0.5778773322105412,
+        "risk_aversion": -0.9284143280982976,
+        "suspicion": -0.36731025433540343,
+        "endurance": 0.3223774240016938,
+        "randomness": 0.6578338804244994,
+        "stability_seeking": -0.47650192499160754,
+        "curiosity": 0.7778345241546635
+      }
+    },
+    {
+      "round": 39,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 1.1062499999999995,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7778503727912908,
+        "assertiveness": 0.729950709342957,
+        "optimism": 0.5803148322105411,
+        "risk_aversion": -0.9284143280982976,
+        "suspicion": -0.3697477543354034,
+        "endurance": 0.3199399240016938,
+        "randomness": 0.6602713804244994,
+        "stability_seeking": -0.47650192499160754,
+        "curiosity": 0.7802720241546635
+      }
+    },
+    {
+      "round": 40,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.0,
+      "p_balanced": 1.0,
+      "avg_reward": 1.1249999999999996,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7782878727912907,
+        "assertiveness": 0.730388209342957,
+        "optimism": 0.5807523322105411,
+        "risk_aversion": -0.9288518280982976,
+        "suspicion": -0.3701852543354034,
+        "endurance": 0.3195024240016938,
+        "randomness": 0.6602713804244994,
+        "stability_seeking": -0.4769394249916075,
+        "curiosity": 0.7807095241546634
+      }
+    },
+    {
+      "round": 41,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 1.1999999999999995,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7730378727912908,
+        "assertiveness": 0.725138209342957,
+        "optimism": 0.5755023322105411,
+        "risk_aversion": -0.9236018280982976,
+        "suspicion": -0.3701852543354034,
+        "endurance": 0.3247524240016938,
+        "randomness": 0.6602713804244994,
+        "stability_seeking": -0.47168942499160754,
+        "curiosity": 0.7754595241546635
+      }
+    },
+    {
+      "round": 42,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 1.2562499999999996,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7730378727912908,
+        "assertiveness": 0.725138209342957,
+        "optimism": 0.5779398322105411,
+        "risk_aversion": -0.9236018280982976,
+        "suspicion": -0.37262275433540337,
+        "endurance": 0.3223149240016938,
+        "randomness": 0.6627088804244994,
+        "stability_seeking": -0.47168942499160754,
+        "curiosity": 0.7778970241546634
+      }
+    },
+    {
+      "round": 43,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 1.3124999999999996,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7730378727912908,
+        "assertiveness": 0.725138209342957,
+        "optimism": 0.5863773322105411,
+        "risk_aversion": -0.9236018280982976,
+        "suspicion": -0.38106025433540336,
+        "endurance": 0.3138774240016938,
+        "randomness": 0.6711463804244994,
+        "stability_seeking": -0.47168942499160754,
+        "curiosity": 0.7863345241546634
+      }
+    },
+    {
+      "round": 44,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 1.3687499999999995,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7711003727912907,
+        "assertiveness": 0.723200709342957,
+        "optimism": 0.5844398322105411,
+        "risk_aversion": -0.9216643280982976,
+        "suspicion": -0.3791227543354034,
+        "endurance": 0.3158149240016938,
+        "randomness": 0.6711463804244994,
+        "stability_seeking": -0.46975192499160756,
+        "curiosity": 0.7843970241546634
+      }
+    },
+    {
+      "round": 45,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 1.3874999999999997,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7711003727912907,
+        "assertiveness": 0.723200709342957,
+        "optimism": 0.588502332210541,
+        "risk_aversion": -0.9216643280982976,
+        "suspicion": -0.3831852543354034,
+        "endurance": 0.3117524240016938,
+        "randomness": 0.6752088804244993,
+        "stability_seeking": -0.46975192499160756,
+        "curiosity": 0.7884595241546634
+      }
+    },
+    {
+      "round": 46,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 1.4062499999999996,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7715378727912907,
+        "assertiveness": 0.723638209342957,
+        "optimism": 0.588939832210541,
+        "risk_aversion": -0.9221018280982975,
+        "suspicion": -0.3836227543354034,
+        "endurance": 0.3113149240016938,
+        "randomness": 0.6752088804244993,
+        "stability_seeking": -0.47018942499160754,
+        "curiosity": 0.7888970241546633
+      }
+    },
+    {
+      "round": 47,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 1.4624999999999995,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7715378727912907,
+        "assertiveness": 0.723638209342957,
+        "optimism": 0.589627332210541,
+        "risk_aversion": -0.9221018280982975,
+        "suspicion": -0.3843102543354034,
+        "endurance": 0.3106274240016938,
+        "randomness": 0.6758963804244993,
+        "stability_seeking": -0.47018942499160754,
+        "curiosity": 0.7895845241546633
+      }
+    },
+    {
+      "round": 48,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 1.4812499999999997,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7715378727912907,
+        "assertiveness": 0.723638209342957,
+        "optimism": 0.593689832210541,
+        "risk_aversion": -0.9221018280982975,
+        "suspicion": -0.3883727543354034,
+        "endurance": 0.3065649240016938,
+        "randomness": 0.6799588804244993,
+        "stability_seeking": -0.47018942499160754,
+        "curiosity": 0.7936470241546633
+      }
+    },
+    {
+      "round": 49,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 1.5374999999999996,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7715378727912907,
+        "assertiveness": 0.723638209342957,
+        "optimism": 0.5913773322105409,
+        "risk_aversion": -0.9221018280982975,
+        "suspicion": -0.3860602543354034,
+        "endurance": 0.30887742400169377,
+        "randomness": 0.6776463804244992,
+        "stability_seeking": -0.47018942499160754,
+        "curiosity": 0.7913345241546632
+      }
+    },
+    {
+      "round": 50,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 1.5374999999999996,
+      "phase": "burn-in",
+      "player0_personality": {
+        "impulsiveness": 0.7715378727912907,
+        "assertiveness": 0.723638209342957,
+        "optimism": 0.5913773322105409,
+        "risk_aversion": -0.9221018280982975,
+        "suspicion": -0.3860602543354034,
+        "endurance": 0.30887742400169377,
+        "randomness": 0.6776463804244992,
+        "stability_seeking": -0.47018942499160754,
+        "curiosity": 0.7913345241546632
+      }
+    },
+    {
+      "round": 51,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 1.5562499999999997,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7715378727912907,
+        "assertiveness": 0.723638209342957,
+        "optimism": 0.5954398322105409,
+        "risk_aversion": -0.9221018280982975,
+        "suspicion": -0.39012275433540344,
+        "endurance": 0.30481492400169374,
+        "randomness": 0.6817088804244992,
+        "stability_seeking": -0.47018942499160754,
+        "curiosity": 0.7953970241546632
+      }
+    },
+    {
+      "round": 52,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 1.5749999999999995,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7711003727912907,
+        "assertiveness": 0.723200709342957,
+        "optimism": 0.5950023322105409,
+        "risk_aversion": -0.9216643280982976,
+        "suspicion": -0.39012275433540344,
+        "endurance": 0.3052524240016937,
+        "randomness": 0.6817088804244992,
+        "stability_seeking": -0.46975192499160756,
+        "curiosity": 0.7949595241546632
+      }
+    },
+    {
+      "round": 53,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 1.6312499999999996,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7711003727912907,
+        "assertiveness": 0.723200709342957,
+        "optimism": 0.5956898322105408,
+        "risk_aversion": -0.9216643280982976,
+        "suspicion": -0.39081025433540345,
+        "endurance": 0.3045649240016937,
+        "randomness": 0.6823963804244991,
+        "stability_seeking": -0.46975192499160756,
+        "curiosity": 0.7956470241546632
+      }
+    },
+    {
+      "round": 54,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 1.6874999999999998,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7711003727912907,
+        "assertiveness": 0.723200709342957,
+        "optimism": 0.5933773322105408,
+        "risk_aversion": -0.9216643280982976,
+        "suspicion": -0.38849775433540346,
+        "endurance": 0.3068774240016937,
+        "randomness": 0.6800838804244991,
+        "stability_seeking": -0.46975192499160756,
+        "curiosity": 0.7933345241546631
+      }
+    },
+    {
+      "round": 55,
+      "p_aggressive": 1.0,
+      "p_defensive": 0.0,
+      "p_balanced": 0.0,
+      "avg_reward": 1.6124999999999998,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7758503727912908,
+        "assertiveness": 0.727950709342957,
+        "optimism": 0.5981273322105408,
+        "risk_aversion": -0.9264143280982976,
+        "suspicion": -0.39324775433540343,
+        "endurance": 0.30212742400169373,
+        "randomness": 0.6800838804244991,
+        "stability_seeking": -0.47450192499160754,
+        "curiosity": 0.7980845241546631
+      }
+    },
+    {
+      "round": 56,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 1.6312499999999999,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7790378727912908,
+        "assertiveness": 0.731138209342957,
+        "optimism": 0.6013148322105408,
+        "risk_aversion": -0.9296018280982976,
+        "suspicion": -0.39643525433540344,
+        "endurance": 0.2989399240016937,
+        "randomness": 0.6800838804244991,
+        "stability_seeking": -0.47768942499160755,
+        "curiosity": 0.8012720241546631
+      }
+    },
+    {
+      "round": 57,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 1.6875,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7721003727912907,
+        "assertiveness": 0.724200709342957,
+        "optimism": 0.5943773322105408,
+        "risk_aversion": -0.9226643280982976,
+        "suspicion": -0.38949775433540346,
+        "endurance": 0.3058774240016937,
+        "randomness": 0.6800838804244991,
+        "stability_seeking": -0.47075192499160756,
+        "curiosity": 0.7943345241546631
+      }
+    },
+    {
+      "round": 58,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 1.6124999999999998,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7768503727912908,
+        "assertiveness": 0.728950709342957,
+        "optimism": 0.5991273322105408,
+        "risk_aversion": -0.9274143280982976,
+        "suspicion": -0.39424775433540343,
+        "endurance": 0.30112742400169373,
+        "randomness": 0.6800838804244991,
+        "stability_seeking": -0.47550192499160754,
+        "curiosity": 0.7990845241546631
+      }
+    },
+    {
+      "round": 59,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 1.55625,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7790378727912908,
+        "assertiveness": 0.731138209342957,
+        "optimism": 0.6013148322105408,
+        "risk_aversion": -0.9296018280982976,
+        "suspicion": -0.39643525433540344,
+        "endurance": 0.2989399240016937,
+        "randomness": 0.6800838804244991,
+        "stability_seeking": -0.47768942499160755,
+        "curiosity": 0.8012720241546631
+      }
+    },
+    {
+      "round": 60,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 1.6125,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7790378727912908,
+        "assertiveness": 0.731138209342957,
+        "optimism": 0.5990023322105408,
+        "risk_aversion": -0.9296018280982976,
+        "suspicion": -0.39412275433540345,
+        "endurance": 0.3012524240016937,
+        "randomness": 0.677771380424499,
+        "stability_seeking": -0.47768942499160755,
+        "curiosity": 0.7989595241546631
+      }
+    },
+    {
+      "round": 61,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 1.66875,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7773503727912908,
+        "assertiveness": 0.7294507093429571,
+        "optimism": 0.5973148322105408,
+        "risk_aversion": -0.9279143280982977,
+        "suspicion": -0.39243525433540344,
+        "endurance": 0.30293992400169373,
+        "randomness": 0.677771380424499,
+        "stability_seeking": -0.47600192499160754,
+        "curiosity": 0.7972720241546631
+      }
+    },
+    {
+      "round": 62,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 1.6875000000000004,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7769128727912908,
+        "assertiveness": 0.7290132093429571,
+        "optimism": 0.5968773322105408,
+        "risk_aversion": -0.9274768280982977,
+        "suspicion": -0.39243525433540344,
+        "endurance": 0.3033774240016937,
+        "randomness": 0.677771380424499,
+        "stability_seeking": -0.47556442499160756,
+        "curiosity": 0.7968345241546632
+      }
+    },
+    {
+      "round": 63,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 1.7437500000000004,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7769128727912908,
+        "assertiveness": 0.7290132093429571,
+        "optimism": 0.5975648322105408,
+        "risk_aversion": -0.9274768280982977,
+        "suspicion": -0.39312275433540345,
+        "endurance": 0.3026899240016937,
+        "randomness": 0.678458880424499,
+        "stability_seeking": -0.47556442499160756,
+        "curiosity": 0.7975220241546631
+      }
+    },
+    {
+      "round": 64,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 1.6875,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7791003727912909,
+        "assertiveness": 0.7312007093429571,
+        "optimism": 0.5997523322105408,
+        "risk_aversion": -0.9296643280982977,
+        "suspicion": -0.39531025433540345,
+        "endurance": 0.3005024240016937,
+        "randomness": 0.678458880424499,
+        "stability_seeking": -0.47775192499160757,
+        "curiosity": 0.7997095241546631
+      }
+    },
+    {
+      "round": 65,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 1.74375,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7791003727912909,
+        "assertiveness": 0.7312007093429571,
+        "optimism": 0.6021898322105408,
+        "risk_aversion": -0.9296643280982977,
+        "suspicion": -0.39774775433540344,
+        "endurance": 0.2980649240016937,
+        "randomness": 0.680896380424499,
+        "stability_seeking": -0.47775192499160757,
+        "curiosity": 0.8021470241546631
+      }
+    },
+    {
+      "round": 66,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 1.7625000000000002,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7791003727912909,
+        "assertiveness": 0.7312007093429571,
+        "optimism": 0.6015023322105408,
+        "risk_aversion": -0.9296643280982977,
+        "suspicion": -0.39706025433540343,
+        "endurance": 0.2987524240016937,
+        "randomness": 0.680208880424499,
+        "stability_seeking": -0.47775192499160757,
+        "curiosity": 0.8014595241546631
+      }
+    },
+    {
+      "round": 67,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 1.8375,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7791003727912909,
+        "assertiveness": 0.7312007093429571,
+        "optimism": 0.6067523322105408,
+        "risk_aversion": -0.9296643280982977,
+        "suspicion": -0.4023102543354034,
+        "endurance": 0.29350242400169374,
+        "randomness": 0.685458880424499,
+        "stability_seeking": -0.47775192499160757,
+        "curiosity": 0.8067095241546631
+      }
+    },
+    {
+      "round": 68,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 1.89375,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7762878727912909,
+        "assertiveness": 0.7283882093429571,
+        "optimism": 0.6039398322105408,
+        "risk_aversion": -0.9268518280982977,
+        "suspicion": -0.4023102543354034,
+        "endurance": 0.29631492400169374,
+        "randomness": 0.685458880424499,
+        "stability_seeking": -0.4749394249916076,
+        "curiosity": 0.8038970241546631
+      }
+    },
+    {
+      "round": 69,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 1.89375,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7762878727912909,
+        "assertiveness": 0.7283882093429571,
+        "optimism": 0.6039398322105408,
+        "risk_aversion": -0.9268518280982977,
+        "suspicion": -0.4023102543354034,
+        "endurance": 0.29631492400169374,
+        "randomness": 0.685458880424499,
+        "stability_seeking": -0.4749394249916076,
+        "curiosity": 0.8038970241546631
+      }
+    },
+    {
+      "round": 70,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 1.89375,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7762878727912909,
+        "assertiveness": 0.7283882093429571,
+        "optimism": 0.6039398322105408,
+        "risk_aversion": -0.9268518280982977,
+        "suspicion": -0.4023102543354034,
+        "endurance": 0.29631492400169374,
+        "randomness": 0.685458880424499,
+        "stability_seeking": -0.4749394249916076,
+        "curiosity": 0.8038970241546631
+      }
+    },
+    {
+      "round": 71,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 1.96875,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7762878727912909,
+        "assertiveness": 0.7283882093429571,
+        "optimism": 0.5996898322105408,
+        "risk_aversion": -0.9268518280982977,
+        "suspicion": -0.39806025433540343,
+        "endurance": 0.3005649240016937,
+        "randomness": 0.681208880424499,
+        "stability_seeking": -0.4749394249916076,
+        "curiosity": 0.7996470241546632
+      }
+    },
+    {
+      "round": 72,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 1.9125,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7788503727912909,
+        "assertiveness": 0.7309507093429571,
+        "optimism": 0.6022523322105409,
+        "risk_aversion": -0.9294143280982977,
+        "suspicion": -0.39806025433540343,
+        "endurance": 0.2980024240016937,
+        "randomness": 0.681208880424499,
+        "stability_seeking": -0.4775019249916076,
+        "curiosity": 0.8022095241546632
+      }
+    },
+    {
+      "round": 73,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 1.96875,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7769128727912908,
+        "assertiveness": 0.7290132093429571,
+        "optimism": 0.6003148322105408,
+        "risk_aversion": -0.9274768280982977,
+        "suspicion": -0.39612275433540345,
+        "endurance": 0.29993992400169367,
+        "randomness": 0.681208880424499,
+        "stability_seeking": -0.4755644249916076,
+        "curiosity": 0.8002720241546631
+      }
+    },
+    {
+      "round": 74,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 2.025,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7769128727912908,
+        "assertiveness": 0.7290132093429571,
+        "optimism": 0.6087523322105408,
+        "risk_aversion": -0.9274768280982977,
+        "suspicion": -0.40456025433540344,
+        "endurance": 0.2915024240016937,
+        "randomness": 0.689646380424499,
+        "stability_seeking": -0.4755644249916076,
+        "curiosity": 0.8087095241546631
+      }
+    },
+    {
+      "round": 75,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 2.08125,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7769128727912908,
+        "assertiveness": 0.7290132093429571,
+        "optimism": 0.6064398322105408,
+        "risk_aversion": -0.9274768280982977,
+        "suspicion": -0.40224775433540344,
+        "endurance": 0.2938149240016937,
+        "randomness": 0.6873338804244989,
+        "stability_seeking": -0.4755644249916076,
+        "curiosity": 0.8063970241546631
+      }
+    },
+    {
+      "round": 76,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 2.0999999999999996,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7764753727912909,
+        "assertiveness": 0.7285757093429571,
+        "optimism": 0.6060023322105408,
+        "risk_aversion": -0.9270393280982977,
+        "suspicion": -0.40224775433540344,
+        "endurance": 0.29425242400169366,
+        "randomness": 0.6873338804244989,
+        "stability_seeking": -0.47512692499160764,
+        "curiosity": 0.8059595241546631
+      }
+    },
+    {
+      "round": 77,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 2.0437499999999997,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7790378727912909,
+        "assertiveness": 0.7311382093429571,
+        "optimism": 0.6085648322105408,
+        "risk_aversion": -0.9296018280982977,
+        "suspicion": -0.40224775433540344,
+        "endurance": 0.29168992400169363,
+        "randomness": 0.6873338804244989,
+        "stability_seeking": -0.47768942499160766,
+        "curiosity": 0.8085220241546631
+      }
+    },
+    {
+      "round": 78,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 2.0625,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7806003727912909,
+        "assertiveness": 0.7327007093429572,
+        "optimism": 0.6101273322105408,
+        "risk_aversion": -0.9311643280982977,
+        "suspicion": -0.40224775433540344,
+        "endurance": 0.2901274240016936,
+        "randomness": 0.6873338804244989,
+        "stability_seeking": -0.4792519249916077,
+        "curiosity": 0.8100845241546631
+      }
+    },
+    {
+      "round": 79,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 2.1187499999999995,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7806003727912909,
+        "assertiveness": 0.7327007093429572,
+        "optimism": 0.6125648322105408,
+        "risk_aversion": -0.9311643280982977,
+        "suspicion": -0.4046852543354034,
+        "endurance": 0.28768992400169363,
+        "randomness": 0.6897713804244989,
+        "stability_seeking": -0.4792519249916077,
+        "curiosity": 0.8125220241546631
+      }
+    },
+    {
+      "round": 80,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 2.175,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7786628727912909,
+        "assertiveness": 0.7307632093429571,
+        "optimism": 0.6106273322105408,
+        "risk_aversion": -0.9292268280982977,
+        "suspicion": -0.40274775433540344,
+        "endurance": 0.2896274240016936,
+        "randomness": 0.6897713804244989,
+        "stability_seeking": -0.4773144249916077,
+        "curiosity": 0.8105845241546631
+      }
+    },
+    {
+      "round": 81,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 2.25,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7744128727912909,
+        "assertiveness": 0.7265132093429572,
+        "optimism": 0.6063773322105408,
+        "risk_aversion": -0.9249768280982977,
+        "suspicion": -0.39849775433540346,
+        "endurance": 0.2938774240016936,
+        "randomness": 0.6897713804244989,
+        "stability_seeking": -0.4730644249916077,
+        "curiosity": 0.8063345241546631
+      }
+    },
+    {
+      "round": 82,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 2.30625,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7744128727912909,
+        "assertiveness": 0.7265132093429572,
+        "optimism": 0.6070648322105408,
+        "risk_aversion": -0.9249768280982977,
+        "suspicion": -0.39918525433540347,
+        "endurance": 0.2931899240016936,
+        "randomness": 0.6904588804244989,
+        "stability_seeking": -0.4730644249916077,
+        "curiosity": 0.8070220241546631
+      }
+    },
+    {
+      "round": 83,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 2.3625,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7724753727912909,
+        "assertiveness": 0.7245757093429571,
+        "optimism": 0.6051273322105407,
+        "risk_aversion": -0.9230393280982977,
+        "suspicion": -0.3972477543354035,
+        "endurance": 0.29512742400169356,
+        "randomness": 0.6904588804244989,
+        "stability_seeking": -0.47112692499160774,
+        "curiosity": 0.805084524154663
+      }
+    },
+    {
+      "round": 84,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.75,
+      "p_balanced": 0.0,
+      "avg_reward": 2.3812499999999996,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7720378727912909,
+        "assertiveness": 0.7241382093429571,
+        "optimism": 0.6046898322105407,
+        "risk_aversion": -0.9226018280982977,
+        "suspicion": -0.3972477543354035,
+        "endurance": 0.29556492400169354,
+        "randomness": 0.6904588804244989,
+        "stability_seeking": -0.47068942499160776,
+        "curiosity": 0.804647024154663
+      }
+    },
+    {
+      "round": 85,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 2.4,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7716003727912909,
+        "assertiveness": 0.7237007093429572,
+        "optimism": 0.6042523322105408,
+        "risk_aversion": -0.9221643280982977,
+        "suspicion": -0.3972477543354035,
+        "endurance": 0.2960024240016935,
+        "randomness": 0.6904588804244989,
+        "stability_seeking": -0.4702519249916078,
+        "curiosity": 0.8042095241546631
+      }
+    },
+    {
+      "round": 86,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.75,
+      "p_balanced": 0.25,
+      "avg_reward": 2.4187499999999997,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7716003727912909,
+        "assertiveness": 0.7237007093429572,
+        "optimism": 0.6035648322105408,
+        "risk_aversion": -0.9221643280982977,
+        "suspicion": -0.3965602543354035,
+        "endurance": 0.29668992400169353,
+        "randomness": 0.6897713804244989,
+        "stability_seeking": -0.4702519249916078,
+        "curiosity": 0.8035220241546631
+      }
+    },
+    {
+      "round": 87,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 2.4374999999999996,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7720378727912909,
+        "assertiveness": 0.7241382093429571,
+        "optimism": 0.6040023322105408,
+        "risk_aversion": -0.9226018280982977,
+        "suspicion": -0.39699775433540346,
+        "endurance": 0.29625242400169355,
+        "randomness": 0.6897713804244989,
+        "stability_seeking": -0.47068942499160776,
+        "curiosity": 0.8039595241546631
+      }
+    },
+    {
+      "round": 88,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 2.4937499999999995,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7720378727912909,
+        "assertiveness": 0.7241382093429571,
+        "optimism": 0.6064398322105408,
+        "risk_aversion": -0.9226018280982977,
+        "suspicion": -0.39943525433540344,
+        "endurance": 0.29381492400169357,
+        "randomness": 0.6922088804244989,
+        "stability_seeking": -0.47068942499160776,
+        "curiosity": 0.8063970241546631
+      }
+    },
+    {
+      "round": 89,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 2.5499999999999994,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7720378727912909,
+        "assertiveness": 0.7241382093429571,
+        "optimism": 0.6041273322105407,
+        "risk_aversion": -0.9226018280982977,
+        "suspicion": -0.39712275433540345,
+        "endurance": 0.29612742400169356,
+        "randomness": 0.6898963804244989,
+        "stability_seeking": -0.47068942499160776,
+        "curiosity": 0.804084524154663
+      }
+    },
+    {
+      "round": 90,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 2.568749999999999,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7716003727912909,
+        "assertiveness": 0.7237007093429572,
+        "optimism": 0.6036898322105407,
+        "risk_aversion": -0.9221643280982977,
+        "suspicion": -0.39712275433540345,
+        "endurance": 0.29656492400169354,
+        "randomness": 0.6898963804244989,
+        "stability_seeking": -0.4702519249916078,
+        "curiosity": 0.803647024154663
+      }
+    },
+    {
+      "round": 91,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 2.624999999999999,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7716003727912909,
+        "assertiveness": 0.7237007093429572,
+        "optimism": 0.6043773322105407,
+        "risk_aversion": -0.9221643280982977,
+        "suspicion": -0.39781025433540346,
+        "endurance": 0.29587742400169353,
+        "randomness": 0.6905838804244988,
+        "stability_seeking": -0.4702519249916078,
+        "curiosity": 0.804334524154663
+      }
+    },
+    {
+      "round": 92,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 2.5687499999999996,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7737878727912909,
+        "assertiveness": 0.7258882093429572,
+        "optimism": 0.6065648322105407,
+        "risk_aversion": -0.9243518280982977,
+        "suspicion": -0.39999775433540347,
+        "endurance": 0.2936899240016935,
+        "randomness": 0.6905838804244988,
+        "stability_seeking": -0.4724394249916078,
+        "curiosity": 0.806522024154663
+      }
+    },
+    {
+      "round": 93,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 2.5874999999999995,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7753503727912909,
+        "assertiveness": 0.7274507093429572,
+        "optimism": 0.6081273322105407,
+        "risk_aversion": -0.9259143280982978,
+        "suspicion": -0.39999775433540347,
+        "endurance": 0.2921274240016935,
+        "randomness": 0.6905838804244988,
+        "stability_seeking": -0.4740019249916078,
+        "curiosity": 0.808084524154663
+      }
+    },
+    {
+      "round": 94,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 2.662499999999999,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.771100372791291,
+        "assertiveness": 0.7232007093429572,
+        "optimism": 0.6038773322105407,
+        "risk_aversion": -0.9216643280982978,
+        "suspicion": -0.3957477543354035,
+        "endurance": 0.2963774240016935,
+        "randomness": 0.6905838804244988,
+        "stability_seeking": -0.46975192499160784,
+        "curiosity": 0.803834524154663
+      }
+    },
+    {
+      "round": 95,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 2.6812499999999986,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.770662872791291,
+        "assertiveness": 0.7227632093429572,
+        "optimism": 0.6034398322105408,
+        "risk_aversion": -0.9212268280982978,
+        "suspicion": -0.3957477543354035,
+        "endurance": 0.29681492400169346,
+        "randomness": 0.6905838804244988,
+        "stability_seeking": -0.46931442499160786,
+        "curiosity": 0.8033970241546631
+      }
+    },
+    {
+      "round": 96,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 2.737499999999999,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.767850372791291,
+        "assertiveness": 0.7199507093429572,
+        "optimism": 0.6006273322105408,
+        "risk_aversion": -0.9184143280982978,
+        "suspicion": -0.3957477543354035,
+        "endurance": 0.29962742400169345,
+        "randomness": 0.6905838804244988,
+        "stability_seeking": -0.46650192499160786,
+        "curiosity": 0.8005845241546631
+      }
+    },
+    {
+      "round": 97,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 2.756249999999999,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.769412872791291,
+        "assertiveness": 0.7215132093429573,
+        "optimism": 0.6021898322105408,
+        "risk_aversion": -0.9199768280982978,
+        "suspicion": -0.3957477543354035,
+        "endurance": 0.29806492400169343,
+        "randomness": 0.6905838804244988,
+        "stability_seeking": -0.4680644249916079,
+        "curiosity": 0.8021470241546631
+      }
+    },
+    {
+      "round": 98,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 2.774999999999999,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.772600372791291,
+        "assertiveness": 0.7247007093429573,
+        "optimism": 0.6053773322105408,
+        "risk_aversion": -0.9231643280982978,
+        "suspicion": -0.3989352543354035,
+        "endurance": 0.2948774240016934,
+        "randomness": 0.6905838804244988,
+        "stability_seeking": -0.4712519249916079,
+        "curiosity": 0.8053345241546631
+      }
+    },
+    {
+      "round": 99,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 2.7937499999999993,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.772162872791291,
+        "assertiveness": 0.7242632093429573,
+        "optimism": 0.6049398322105408,
+        "risk_aversion": -0.9227268280982979,
+        "suspicion": -0.3989352543354035,
+        "endurance": 0.2953149240016934,
+        "randomness": 0.6905838804244988,
+        "stability_seeking": -0.4708144249916079,
+        "curiosity": 0.8048970241546631
+      }
+    },
+    {
+      "round": 100,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 2.812499999999999,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.772600372791291,
+        "assertiveness": 0.7247007093429573,
+        "optimism": 0.6053773322105408,
+        "risk_aversion": -0.9231643280982978,
+        "suspicion": -0.3993727543354035,
+        "endurance": 0.2948774240016934,
+        "randomness": 0.6905838804244988,
+        "stability_seeking": -0.4712519249916079,
+        "curiosity": 0.8053345241546631
+      }
+    },
+    {
+      "round": 101,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 2.737499999999999,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.777350372791291,
+        "assertiveness": 0.7294507093429573,
+        "optimism": 0.6101273322105408,
+        "risk_aversion": -0.9279143280982979,
+        "suspicion": -0.40412275433540346,
+        "endurance": 0.29012742400169345,
+        "randomness": 0.6905838804244988,
+        "stability_seeking": -0.47600192499160787,
+        "curiosity": 0.8100845241546631
+      }
+    },
+    {
+      "round": 102,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 2.7562499999999988,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7769128727912911,
+        "assertiveness": 0.7290132093429573,
+        "optimism": 0.6096898322105408,
+        "risk_aversion": -0.9274768280982979,
+        "suspicion": -0.40412275433540346,
+        "endurance": 0.2905649240016934,
+        "randomness": 0.6905838804244988,
+        "stability_seeking": -0.4755644249916079,
+        "curiosity": 0.8096470241546632
+      }
+    },
+    {
+      "round": 103,
+      "p_aggressive": 1.0,
+      "p_defensive": 0.0,
+      "p_balanced": 0.0,
+      "avg_reward": 2.7562499999999988,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7769128727912911,
+        "assertiveness": 0.7290132093429573,
+        "optimism": 0.6096898322105408,
+        "risk_aversion": -0.9274768280982979,
+        "suspicion": -0.40412275433540346,
+        "endurance": 0.2905649240016934,
+        "randomness": 0.6905838804244988,
+        "stability_seeking": -0.4755644249916079,
+        "curiosity": 0.8096470241546632
+      }
+    },
+    {
+      "round": 104,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 2.831249999999999,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7769128727912911,
+        "assertiveness": 0.7290132093429573,
+        "optimism": 0.6054398322105409,
+        "risk_aversion": -0.9274768280982979,
+        "suspicion": -0.3998727543354035,
+        "endurance": 0.2948149240016934,
+        "randomness": 0.6863338804244988,
+        "stability_seeking": -0.4755644249916079,
+        "curiosity": 0.8053970241546632
+      }
+    },
+    {
+      "round": 105,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 2.8499999999999988,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.777350372791291,
+        "assertiveness": 0.7294507093429573,
+        "optimism": 0.6058773322105409,
+        "risk_aversion": -0.9279143280982979,
+        "suspicion": -0.40031025433540346,
+        "endurance": 0.2943774240016934,
+        "randomness": 0.6863338804244988,
+        "stability_seeking": -0.47600192499160787,
+        "curiosity": 0.8058345241546632
+      }
+    },
+    {
+      "round": 106,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 2.774999999999999,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7821003727912911,
+        "assertiveness": 0.7342007093429573,
+        "optimism": 0.6106273322105409,
+        "risk_aversion": -0.9326643280982979,
+        "suspicion": -0.40031025433540346,
+        "endurance": 0.28962742400169345,
+        "randomness": 0.6863338804244988,
+        "stability_seeking": -0.48075192499160785,
+        "curiosity": 0.8105845241546632
+      }
+    },
+    {
+      "round": 107,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 2.831249999999999,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7804128727912911,
+        "assertiveness": 0.7325132093429574,
+        "optimism": 0.6089398322105409,
+        "risk_aversion": -0.930976828098298,
+        "suspicion": -0.39862275433540345,
+        "endurance": 0.29131492400169345,
+        "randomness": 0.6863338804244988,
+        "stability_seeking": -0.47906442499160784,
+        "curiosity": 0.8088970241546632
+      }
+    },
+    {
+      "round": 108,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.75,
+      "p_balanced": 0.25,
+      "avg_reward": 2.8499999999999988,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7836003727912911,
+        "assertiveness": 0.7357007093429574,
+        "optimism": 0.6121273322105409,
+        "risk_aversion": -0.934164328098298,
+        "suspicion": -0.40181025433540346,
+        "endurance": 0.28812742400169344,
+        "randomness": 0.6863338804244988,
+        "stability_seeking": -0.48225192499160785,
+        "curiosity": 0.8120845241546633
+      }
+    },
+    {
+      "round": 109,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 2.906249999999999,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7807878727912911,
+        "assertiveness": 0.7328882093429574,
+        "optimism": 0.609314832210541,
+        "risk_aversion": -0.931351828098298,
+        "suspicion": -0.40181025433540346,
+        "endurance": 0.29093992400169344,
+        "randomness": 0.6863338804244988,
+        "stability_seeking": -0.47943942499160785,
+        "curiosity": 0.8092720241546633
+      }
+    },
+    {
+      "round": 110,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 2.924999999999999,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7839753727912911,
+        "assertiveness": 0.7360757093429574,
+        "optimism": 0.612502332210541,
+        "risk_aversion": -0.934539328098298,
+        "suspicion": -0.40499775433540347,
+        "endurance": 0.28775242400169343,
+        "randomness": 0.6863338804244988,
+        "stability_seeking": -0.48262692499160786,
+        "curiosity": 0.8124595241546633
+      }
+    },
+    {
+      "round": 111,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 2.981249999999999,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7822878727912912,
+        "assertiveness": 0.7343882093429575,
+        "optimism": 0.610814832210541,
+        "risk_aversion": -0.932851828098298,
+        "suspicion": -0.40331025433540346,
+        "endurance": 0.28943992400169344,
+        "randomness": 0.6863338804244988,
+        "stability_seeking": -0.48093942499160786,
+        "curiosity": 0.8107720241546633
+      }
+    },
+    {
+      "round": 112,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 2.9062499999999996,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7870378727912912,
+        "assertiveness": 0.7391382093429575,
+        "optimism": 0.615564832210541,
+        "risk_aversion": -0.9376018280982981,
+        "suspicion": -0.40806025433540344,
+        "endurance": 0.28468992400169346,
+        "randomness": 0.6863338804244988,
+        "stability_seeking": -0.48568942499160783,
+        "curiosity": 0.8155220241546633
+      }
+    },
+    {
+      "round": 113,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 2.8499999999999988,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7896003727912912,
+        "assertiveness": 0.7417007093429575,
+        "optimism": 0.6181273322105411,
+        "risk_aversion": -0.9401643280982981,
+        "suspicion": -0.40806025433540344,
+        "endurance": 0.28212742400169344,
+        "randomness": 0.6863338804244988,
+        "stability_seeking": -0.48825192499160786,
+        "curiosity": 0.8180845241546634
+      }
+    },
+    {
+      "round": 114,
+      "p_aggressive": 1.0,
+      "p_defensive": 0.0,
+      "p_balanced": 0.0,
+      "avg_reward": 2.8687499999999986,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7900378727912912,
+        "assertiveness": 0.7421382093429575,
+        "optimism": 0.618564832210541,
+        "risk_aversion": -0.9406018280982981,
+        "suspicion": -0.4084977543354034,
+        "endurance": 0.28168992400169346,
+        "randomness": 0.6863338804244988,
+        "stability_seeking": -0.48868942499160783,
+        "curiosity": 0.8185220241546634
+      }
+    },
+    {
+      "round": 115,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 2.924999999999999,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7872253727912912,
+        "assertiveness": 0.7393257093429575,
+        "optimism": 0.615752332210541,
+        "risk_aversion": -0.9377893280982981,
+        "suspicion": -0.4084977543354034,
+        "endurance": 0.28450242400169345,
+        "randomness": 0.6863338804244988,
+        "stability_seeking": -0.48587692499160784,
+        "curiosity": 0.8157095241546634
+      }
+    },
+    {
+      "round": 116,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 2.999999999999999,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7819753727912913,
+        "assertiveness": 0.7340757093429575,
+        "optimism": 0.6105023322105411,
+        "risk_aversion": -0.9325393280982981,
+        "suspicion": -0.4084977543354034,
+        "endurance": 0.28975242400169343,
+        "randomness": 0.6863338804244988,
+        "stability_seeking": -0.48062692499160786,
+        "curiosity": 0.8104595241546634
+      }
+    },
+    {
+      "round": 117,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 3.0562499999999986,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7802878727912913,
+        "assertiveness": 0.7323882093429576,
+        "optimism": 0.6088148322105411,
+        "risk_aversion": -0.9308518280982981,
+        "suspicion": -0.4068102543354034,
+        "endurance": 0.29143992400169344,
+        "randomness": 0.6863338804244988,
+        "stability_seeking": -0.47893942499160785,
+        "curiosity": 0.8087720241546634
+      }
+    },
+    {
+      "round": 118,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 2.981249999999999,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7850378727912913,
+        "assertiveness": 0.7371382093429576,
+        "optimism": 0.6135648322105411,
+        "risk_aversion": -0.9356018280982982,
+        "suspicion": -0.4068102543354034,
+        "endurance": 0.28668992400169346,
+        "randomness": 0.6863338804244988,
+        "stability_seeking": -0.48368942499160783,
+        "curiosity": 0.8135220241546635
+      }
+    },
+    {
+      "round": 119,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.75,
+      "p_balanced": 0.25,
+      "avg_reward": 2.999999999999999,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7854753727912913,
+        "assertiveness": 0.7375757093429576,
+        "optimism": 0.6140023322105411,
+        "risk_aversion": -0.9360393280982982,
+        "suspicion": -0.4072477543354034,
+        "endurance": 0.2862524240016935,
+        "randomness": 0.6863338804244988,
+        "stability_seeking": -0.4841269249916078,
+        "curiosity": 0.8139595241546634
+      }
+    },
+    {
+      "round": 120,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 3.0187499999999994,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7859128727912913,
+        "assertiveness": 0.7380132093429576,
+        "optimism": 0.6144398322105411,
+        "risk_aversion": -0.9364768280982981,
+        "suspicion": -0.40768525433540337,
+        "endurance": 0.2858149240016935,
+        "randomness": 0.6863338804244988,
+        "stability_seeking": -0.4845644249916078,
+        "curiosity": 0.8143970241546634
+      }
+    },
+    {
+      "round": 121,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 3.0937499999999987,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7806628727912913,
+        "assertiveness": 0.7327632093429576,
+        "optimism": 0.6091898322105411,
+        "risk_aversion": -0.9312268280982982,
+        "suspicion": -0.40768525433540337,
+        "endurance": 0.2910649240016935,
+        "randomness": 0.6863338804244988,
+        "stability_seeking": -0.4793144249916078,
+        "curiosity": 0.8091470241546634
+      }
+    },
+    {
+      "round": 122,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 3.112499999999999,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7806628727912913,
+        "assertiveness": 0.7327632093429576,
+        "optimism": 0.6085023322105412,
+        "risk_aversion": -0.9312268280982982,
+        "suspicion": -0.40699775433540336,
+        "endurance": 0.2917524240016935,
+        "randomness": 0.6856463804244989,
+        "stability_seeking": -0.4793144249916078,
+        "curiosity": 0.8084595241546635
+      }
+    },
+    {
+      "round": 123,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 3.056249999999999,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7872253727912913,
+        "assertiveness": 0.7393257093429576,
+        "optimism": 0.6150648322105412,
+        "risk_aversion": -0.9377893280982982,
+        "suspicion": -0.40699775433540336,
+        "endurance": 0.28518992400169346,
+        "randomness": 0.6856463804244989,
+        "stability_seeking": -0.48587692499160784,
+        "curiosity": 0.8150220241546635
+      }
+    },
+    {
+      "round": 124,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 3.112499999999999,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7844128727912913,
+        "assertiveness": 0.7365132093429576,
+        "optimism": 0.6122523322105412,
+        "risk_aversion": -0.9349768280982982,
+        "suspicion": -0.40699775433540336,
+        "endurance": 0.28800242400169346,
+        "randomness": 0.6856463804244989,
+        "stability_seeking": -0.48306442499160784,
+        "curiosity": 0.8122095241546635
+      }
+    },
+    {
+      "round": 125,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.0,
+      "p_balanced": 1.0,
+      "avg_reward": 3.187499999999999,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7844128727912913,
+        "assertiveness": 0.7365132093429576,
+        "optimism": 0.6080023322105412,
+        "risk_aversion": -0.9349768280982982,
+        "suspicion": -0.4027477543354034,
+        "endurance": 0.29225242400169343,
+        "randomness": 0.6813963804244989,
+        "stability_seeking": -0.48306442499160784,
+        "curiosity": 0.8079595241546635
+      }
+    },
+    {
+      "round": 126,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 3.2437499999999995,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7844128727912913,
+        "assertiveness": 0.7365132093429576,
+        "optimism": 0.6021898322105412,
+        "risk_aversion": -0.9349768280982982,
+        "suspicion": -0.3969352543354034,
+        "endurance": 0.29806492400169343,
+        "randomness": 0.6755838804244989,
+        "stability_seeking": -0.48306442499160784,
+        "curiosity": 0.8021470241546635
+      }
+    },
+    {
+      "round": 127,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 3.318749999999999,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7791628727912914,
+        "assertiveness": 0.7312632093429576,
+        "optimism": 0.5969398322105413,
+        "risk_aversion": -0.9297268280982982,
+        "suspicion": -0.3969352543354034,
+        "endurance": 0.3033149240016934,
+        "randomness": 0.6755838804244989,
+        "stability_seeking": -0.47781442499160787,
+        "curiosity": 0.7968970241546636
+      }
+    },
+    {
+      "round": 128,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 3.374999999999999,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7791628727912914,
+        "assertiveness": 0.7312632093429576,
+        "optimism": 0.5993773322105412,
+        "risk_aversion": -0.9297268280982982,
+        "suspicion": -0.39937275433540337,
+        "endurance": 0.3008774240016934,
+        "randomness": 0.6780213804244989,
+        "stability_seeking": -0.47781442499160787,
+        "curiosity": 0.7993345241546636
+      }
+    },
+    {
+      "round": 129,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.75,
+      "p_balanced": 0.0,
+      "avg_reward": 3.393749999999999,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7796003727912914,
+        "assertiveness": 0.7317007093429576,
+        "optimism": 0.5998148322105412,
+        "risk_aversion": -0.9301643280982982,
+        "suspicion": -0.39981025433540335,
+        "endurance": 0.30043992400169345,
+        "randomness": 0.6780213804244989,
+        "stability_seeking": -0.47825192499160785,
+        "curiosity": 0.7997720241546635
+      }
+    },
+    {
+      "round": 130,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 3.4499999999999984,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7796003727912914,
+        "assertiveness": 0.7317007093429576,
+        "optimism": 0.6022523322105412,
+        "risk_aversion": -0.9301643280982982,
+        "suspicion": -0.40224775433540333,
+        "endurance": 0.29800242400169347,
+        "randomness": 0.6804588804244989,
+        "stability_seeking": -0.47825192499160785,
+        "curiosity": 0.8022095241546635
+      }
+    },
+    {
+      "round": 131,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 3.5249999999999986,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7796003727912914,
+        "assertiveness": 0.7317007093429576,
+        "optimism": 0.6075023322105412,
+        "risk_aversion": -0.9301643280982982,
+        "suspicion": -0.4074977543354033,
+        "endurance": 0.2927524240016935,
+        "randomness": 0.6857088804244988,
+        "stability_seeking": -0.47825192499160785,
+        "curiosity": 0.8074595241546635
+      }
+    },
+    {
+      "round": 132,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 3.543749999999999,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7791628727912914,
+        "assertiveness": 0.7312632093429576,
+        "optimism": 0.6070648322105412,
+        "risk_aversion": -0.9297268280982982,
+        "suspicion": -0.4074977543354033,
+        "endurance": 0.29318992400169347,
+        "randomness": 0.6857088804244988,
+        "stability_seeking": -0.47781442499160787,
+        "curiosity": 0.8070220241546635
+      }
+    },
+    {
+      "round": 133,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 3.5624999999999987,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7787253727912914,
+        "assertiveness": 0.7308257093429577,
+        "optimism": 0.6066273322105412,
+        "risk_aversion": -0.9292893280982982,
+        "suspicion": -0.4074977543354033,
+        "endurance": 0.29362742400169345,
+        "randomness": 0.6857088804244988,
+        "stability_seeking": -0.4773769249916079,
+        "curiosity": 0.8065845241546635
+      }
+    },
+    {
+      "round": 134,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 3.581249999999998,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7782878727912914,
+        "assertiveness": 0.7303882093429577,
+        "optimism": 0.6061898322105412,
+        "risk_aversion": -0.9288518280982982,
+        "suspicion": -0.4074977543354033,
+        "endurance": 0.29406492400169343,
+        "randomness": 0.6857088804244988,
+        "stability_seeking": -0.4769394249916079,
+        "curiosity": 0.8061470241546635
+      }
+    },
+    {
+      "round": 135,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.75,
+      "p_balanced": 0.25,
+      "avg_reward": 3.5249999999999986,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7804753727912914,
+        "assertiveness": 0.7325757093429577,
+        "optimism": 0.6083773322105412,
+        "risk_aversion": -0.9310393280982983,
+        "suspicion": -0.4096852543354033,
+        "endurance": 0.2918774240016934,
+        "randomness": 0.6857088804244988,
+        "stability_seeking": -0.4791269249916079,
+        "curiosity": 0.8083345241546636
+      }
+    },
+    {
+      "round": 136,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 3.5812499999999985,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7785378727912914,
+        "assertiveness": 0.7306382093429576,
+        "optimism": 0.6064398322105412,
+        "risk_aversion": -0.9291018280982982,
+        "suspicion": -0.40774775433540333,
+        "endurance": 0.2938149240016934,
+        "randomness": 0.6857088804244988,
+        "stability_seeking": -0.47718942499160794,
+        "curiosity": 0.8063970241546635
+      }
+    },
+    {
+      "round": 137,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 3.599999999999998,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7781003727912914,
+        "assertiveness": 0.7302007093429577,
+        "optimism": 0.6060023322105412,
+        "risk_aversion": -0.9286643280982982,
+        "suspicion": -0.40774775433540333,
+        "endurance": 0.2942524240016934,
+        "randomness": 0.6857088804244988,
+        "stability_seeking": -0.47675192499160796,
+        "curiosity": 0.8059595241546635
+      }
+    },
+    {
+      "round": 138,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 3.543749999999998,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7857878727912914,
+        "assertiveness": 0.7378882093429576,
+        "optimism": 0.6136898322105412,
+        "risk_aversion": -0.9363518280982982,
+        "suspicion": -0.41543525433540335,
+        "endurance": 0.28656492400169337,
+        "randomness": 0.6857088804244988,
+        "stability_seeking": -0.48443942499160797,
+        "curiosity": 0.8136470241546635
+      }
+    },
+    {
+      "round": 139,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 3.6187499999999977,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7805378727912914,
+        "assertiveness": 0.7326382093429576,
+        "optimism": 0.6084398322105412,
+        "risk_aversion": -0.9311018280982982,
+        "suspicion": -0.41543525433540335,
+        "endurance": 0.29181492400169334,
+        "randomness": 0.6857088804244988,
+        "stability_seeking": -0.479189424991608,
+        "curiosity": 0.8083970241546635
+      }
+    },
+    {
+      "round": 140,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 3.6937499999999983,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7762878727912914,
+        "assertiveness": 0.7283882093429577,
+        "optimism": 0.6041898322105412,
+        "risk_aversion": -0.9268518280982982,
+        "suspicion": -0.41118525433540337,
+        "endurance": 0.2960649240016933,
+        "randomness": 0.6857088804244988,
+        "stability_seeking": -0.474939424991608,
+        "curiosity": 0.8041470241546635
+      }
+    },
+    {
+      "round": 141,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 3.712499999999998,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7778503727912914,
+        "assertiveness": 0.7299507093429577,
+        "optimism": 0.6057523322105413,
+        "risk_aversion": -0.9284143280982983,
+        "suspicion": -0.41118525433540337,
+        "endurance": 0.2945024240016933,
+        "randomness": 0.6857088804244988,
+        "stability_seeking": -0.47650192499160804,
+        "curiosity": 0.8057095241546636
+      }
+    },
+    {
+      "round": 142,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 3.7312499999999975,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7794128727912915,
+        "assertiveness": 0.7315132093429577,
+        "optimism": 0.6073148322105413,
+        "risk_aversion": -0.9299768280982983,
+        "suspicion": -0.41118525433540337,
+        "endurance": 0.2929399240016933,
+        "randomness": 0.6857088804244988,
+        "stability_seeking": -0.47806442499160806,
+        "curiosity": 0.8072720241546636
+      }
+    },
+    {
+      "round": 143,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.75,
+      "p_balanced": 0.25,
+      "avg_reward": 3.6749999999999976,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7859753727912915,
+        "assertiveness": 0.7380757093429577,
+        "optimism": 0.6138773322105413,
+        "risk_aversion": -0.9365393280982983,
+        "suspicion": -0.41118525433540337,
+        "endurance": 0.28637742400169325,
+        "randomness": 0.6857088804244988,
+        "stability_seeking": -0.4846269249916081,
+        "curiosity": 0.8138345241546636
+      }
+    },
+    {
+      "round": 144,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 3.6937499999999974,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7855378727912915,
+        "assertiveness": 0.7376382093429578,
+        "optimism": 0.6134398322105413,
+        "risk_aversion": -0.9361018280982983,
+        "suspicion": -0.41118525433540337,
+        "endurance": 0.28681492400169323,
+        "randomness": 0.6857088804244988,
+        "stability_seeking": -0.4841894249916081,
+        "curiosity": 0.8133970241546636
+      }
+    },
+    {
+      "round": 145,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 3.7124999999999972,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7859753727912915,
+        "assertiveness": 0.7380757093429577,
+        "optimism": 0.6138773322105413,
+        "risk_aversion": -0.9365393280982983,
+        "suspicion": -0.41162275433540335,
+        "endurance": 0.28637742400169325,
+        "randomness": 0.6857088804244988,
+        "stability_seeking": -0.4846269249916081,
+        "curiosity": 0.8138345241546636
+      }
+    },
+    {
+      "round": 146,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 3.7687499999999976,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7790378727912914,
+        "assertiveness": 0.7311382093429577,
+        "optimism": 0.6069398322105413,
+        "risk_aversion": -0.9296018280982983,
+        "suspicion": -0.40468525433540337,
+        "endurance": 0.29331492400169323,
+        "randomness": 0.6857088804244988,
+        "stability_seeking": -0.4776894249916081,
+        "curiosity": 0.8068970241546636
+      }
+    },
+    {
+      "round": 147,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 3.7874999999999974,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7806003727912915,
+        "assertiveness": 0.7327007093429577,
+        "optimism": 0.6085023322105413,
+        "risk_aversion": -0.9311643280982983,
+        "suspicion": -0.40468525433540337,
+        "endurance": 0.2917524240016932,
+        "randomness": 0.6857088804244988,
+        "stability_seeking": -0.4792519249916081,
+        "curiosity": 0.8084595241546636
+      }
+    },
+    {
+      "round": 148,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 3.8437499999999973,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7806003727912915,
+        "assertiveness": 0.7327007093429577,
+        "optimism": 0.6091898322105412,
+        "risk_aversion": -0.9311643280982983,
+        "suspicion": -0.4053727543354034,
+        "endurance": 0.2910649240016932,
+        "randomness": 0.6863963804244988,
+        "stability_seeking": -0.4792519249916081,
+        "curiosity": 0.8091470241546636
+      }
+    },
+    {
+      "round": 149,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 3.862499999999997,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7837878727912915,
+        "assertiveness": 0.7358882093429577,
+        "optimism": 0.6123773322105412,
+        "risk_aversion": -0.9343518280982983,
+        "suspicion": -0.4085602543354034,
+        "endurance": 0.2878774240016932,
+        "randomness": 0.6863963804244988,
+        "stability_seeking": -0.48243942499160813,
+        "curiosity": 0.8123345241546636
+      }
+    },
+    {
+      "round": 150,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 3.787499999999998,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7885378727912915,
+        "assertiveness": 0.7406382093429578,
+        "optimism": 0.6171273322105413,
+        "risk_aversion": -0.9391018280982983,
+        "suspicion": -0.4085602543354034,
+        "endurance": 0.2831274240016932,
+        "randomness": 0.6863963804244988,
+        "stability_seeking": -0.4871894249916081,
+        "curiosity": 0.8170845241546636
+      }
+    },
+    {
+      "round": 151,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.75,
+      "p_balanced": 0.25,
+      "avg_reward": 3.8624999999999976,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7842878727912915,
+        "assertiveness": 0.7363882093429578,
+        "optimism": 0.6128773322105413,
+        "risk_aversion": -0.9348518280982984,
+        "suspicion": -0.4043102543354034,
+        "endurance": 0.2873774240016932,
+        "randomness": 0.6863963804244988,
+        "stability_seeking": -0.48293942499160813,
+        "curiosity": 0.8128345241546636
+      }
+    },
+    {
+      "round": 152,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 3.881249999999997,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7847253727912915,
+        "assertiveness": 0.7368257093429578,
+        "optimism": 0.6133148322105413,
+        "risk_aversion": -0.9352893280982983,
+        "suspicion": -0.4047477543354034,
+        "endurance": 0.2869399240016932,
+        "randomness": 0.6863963804244988,
+        "stability_seeking": -0.4833769249916081,
+        "curiosity": 0.8132720241546636
+      }
+    },
+    {
+      "round": 153,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 3.8999999999999977,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7842878727912915,
+        "assertiveness": 0.7363882093429578,
+        "optimism": 0.6128773322105413,
+        "risk_aversion": -0.9348518280982984,
+        "suspicion": -0.4047477543354034,
+        "endurance": 0.2873774240016932,
+        "randomness": 0.6863963804244988,
+        "stability_seeking": -0.48293942499160813,
+        "curiosity": 0.8128345241546636
+      }
+    },
+    {
+      "round": 154,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 3.8999999999999977,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7842878727912915,
+        "assertiveness": 0.7363882093429578,
+        "optimism": 0.6128773322105413,
+        "risk_aversion": -0.9348518280982984,
+        "suspicion": -0.4047477543354034,
+        "endurance": 0.2873774240016932,
+        "randomness": 0.6863963804244988,
+        "stability_seeking": -0.48293942499160813,
+        "curiosity": 0.8128345241546636
+      }
+    },
+    {
+      "round": 155,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 3.9562499999999976,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7842878727912915,
+        "assertiveness": 0.7363882093429578,
+        "optimism": 0.6070648322105413,
+        "risk_aversion": -0.9348518280982984,
+        "suspicion": -0.3989352543354034,
+        "endurance": 0.2931899240016932,
+        "randomness": 0.6805838804244988,
+        "stability_seeking": -0.48293942499160813,
+        "curiosity": 0.8070220241546636
+      }
+    },
+    {
+      "round": 156,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 4.0124999999999975,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7823503727912915,
+        "assertiveness": 0.7344507093429578,
+        "optimism": 0.6051273322105413,
+        "risk_aversion": -0.9329143280982983,
+        "suspicion": -0.3969977543354034,
+        "endurance": 0.2951274240016932,
+        "randomness": 0.6805838804244988,
+        "stability_seeking": -0.48100192499160815,
+        "curiosity": 0.8050845241546636
+      }
+    },
+    {
+      "round": 157,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 3.9374999999999973,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7871003727912915,
+        "assertiveness": 0.7392007093429578,
+        "optimism": 0.6098773322105413,
+        "risk_aversion": -0.9376643280982984,
+        "suspicion": -0.4017477543354034,
+        "endurance": 0.2903774240016932,
+        "randomness": 0.6805838804244988,
+        "stability_seeking": -0.48575192499160813,
+        "curiosity": 0.8098345241546636
+      }
+    },
+    {
+      "round": 158,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 3.9937499999999977,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7871003727912915,
+        "assertiveness": 0.7392007093429578,
+        "optimism": 0.6123148322105413,
+        "risk_aversion": -0.9376643280982984,
+        "suspicion": -0.40418525433540337,
+        "endurance": 0.2879399240016932,
+        "randomness": 0.6830213804244988,
+        "stability_seeking": -0.48575192499160813,
+        "curiosity": 0.8122720241546636
+      }
+    },
+    {
+      "round": 159,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 3.9374999999999973,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7892878727912915,
+        "assertiveness": 0.7413882093429578,
+        "optimism": 0.6145023322105413,
+        "risk_aversion": -0.9398518280982984,
+        "suspicion": -0.4063727543354034,
+        "endurance": 0.2857524240016932,
+        "randomness": 0.6830213804244988,
+        "stability_seeking": -0.48793942499160814,
+        "curiosity": 0.8144595241546636
+      }
+    },
+    {
+      "round": 160,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 3.9937499999999972,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7862253727912916,
+        "assertiveness": 0.7383257093429578,
+        "optimism": 0.6114398322105413,
+        "risk_aversion": -0.9367893280982984,
+        "suspicion": -0.4063727543354034,
+        "endurance": 0.28881492400169323,
+        "randomness": 0.6830213804244988,
+        "stability_seeking": -0.4848769249916081,
+        "curiosity": 0.8113970241546636
+      }
+    },
+    {
+      "round": 161,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 4.049999999999997,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7862253727912916,
+        "assertiveness": 0.7383257093429578,
+        "optimism": 0.6091273322105413,
+        "risk_aversion": -0.9367893280982984,
+        "suspicion": -0.4040602543354034,
+        "endurance": 0.2911274240016932,
+        "randomness": 0.6807088804244987,
+        "stability_seeking": -0.4848769249916081,
+        "curiosity": 0.8090845241546636
+      }
+    },
+    {
+      "round": 162,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 4.1062499999999975,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7862253727912916,
+        "assertiveness": 0.7383257093429578,
+        "optimism": 0.6175648322105413,
+        "risk_aversion": -0.9367893280982984,
+        "suspicion": -0.41249775433540337,
+        "endurance": 0.28268992400169324,
+        "randomness": 0.6891463804244987,
+        "stability_seeking": -0.4848769249916081,
+        "curiosity": 0.8175220241546636
+      }
+    },
+    {
+      "round": 163,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 4.162499999999998,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7834128727912916,
+        "assertiveness": 0.7355132093429578,
+        "optimism": 0.6147523322105413,
+        "risk_aversion": -0.9339768280982984,
+        "suspicion": -0.41249775433540337,
+        "endurance": 0.28550242400169323,
+        "randomness": 0.6891463804244987,
+        "stability_seeking": -0.4820644249916081,
+        "curiosity": 0.8147095241546636
+      }
+    },
+    {
+      "round": 164,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 4.181249999999997,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7838503727912915,
+        "assertiveness": 0.7359507093429578,
+        "optimism": 0.6151898322105412,
+        "risk_aversion": -0.9344143280982984,
+        "suspicion": -0.41293525433540335,
+        "endurance": 0.28506492400169325,
+        "randomness": 0.6891463804244987,
+        "stability_seeking": -0.4825019249916081,
+        "curiosity": 0.8151470241546636
+      }
+    },
+    {
+      "round": 165,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.0,
+      "p_balanced": 1.0,
+      "avg_reward": 4.256249999999997,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7786003727912916,
+        "assertiveness": 0.7307007093429578,
+        "optimism": 0.6099398322105413,
+        "risk_aversion": -0.9291643280982984,
+        "suspicion": -0.41293525433540335,
+        "endurance": 0.29031492400169323,
+        "randomness": 0.6891463804244987,
+        "stability_seeking": -0.4772519249916081,
+        "curiosity": 0.8098970241546636
+      }
+    },
+    {
+      "round": 166,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 4.312499999999997,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7757878727912916,
+        "assertiveness": 0.7278882093429578,
+        "optimism": 0.6071273322105413,
+        "risk_aversion": -0.9263518280982984,
+        "suspicion": -0.41293525433540335,
+        "endurance": 0.2931274240016932,
+        "randomness": 0.6891463804244987,
+        "stability_seeking": -0.4744394249916081,
+        "curiosity": 0.8070845241546636
+      }
+    },
+    {
+      "round": 167,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 4.331249999999997,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7762253727912916,
+        "assertiveness": 0.7283257093429578,
+        "optimism": 0.6075648322105413,
+        "risk_aversion": -0.9267893280982984,
+        "suspicion": -0.4133727543354033,
+        "endurance": 0.29268992400169325,
+        "randomness": 0.6891463804244987,
+        "stability_seeking": -0.4748769249916081,
+        "curiosity": 0.8075220241546636
+      }
+    },
+    {
+      "round": 168,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 4.406249999999997,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7719753727912916,
+        "assertiveness": 0.7240757093429578,
+        "optimism": 0.6033148322105413,
+        "risk_aversion": -0.9225393280982984,
+        "suspicion": -0.40912275433540335,
+        "endurance": 0.2969399240016932,
+        "randomness": 0.6891463804244987,
+        "stability_seeking": -0.47062692499160813,
+        "curiosity": 0.8032720241546636
+      }
+    },
+    {
+      "round": 169,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 4.481249999999997,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7677253727912916,
+        "assertiveness": 0.7198257093429579,
+        "optimism": 0.5990648322105413,
+        "risk_aversion": -0.9182893280982984,
+        "suspicion": -0.4048727543354034,
+        "endurance": 0.3011899240016932,
+        "randomness": 0.6891463804244987,
+        "stability_seeking": -0.46637692499160815,
+        "curiosity": 0.7990220241546636
+      }
+    },
+    {
+      "round": 170,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 4.481249999999997,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7677253727912916,
+        "assertiveness": 0.7198257093429579,
+        "optimism": 0.5990648322105413,
+        "risk_aversion": -0.9182893280982984,
+        "suspicion": -0.4048727543354034,
+        "endurance": 0.3011899240016932,
+        "randomness": 0.6891463804244987,
+        "stability_seeking": -0.46637692499160815,
+        "curiosity": 0.7990220241546636
+      }
+    },
+    {
+      "round": 171,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 4.537499999999997,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7677253727912916,
+        "assertiveness": 0.7198257093429579,
+        "optimism": 0.5997523322105413,
+        "risk_aversion": -0.9182893280982984,
+        "suspicion": -0.4055602543354034,
+        "endurance": 0.3005024240016932,
+        "randomness": 0.6898338804244987,
+        "stability_seeking": -0.46637692499160815,
+        "curiosity": 0.7997095241546636
+      }
+    },
+    {
+      "round": 172,
+      "p_aggressive": 1.0,
+      "p_defensive": 0.0,
+      "p_balanced": 0.0,
+      "avg_reward": 4.5937499999999964,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7677253727912916,
+        "assertiveness": 0.7198257093429579,
+        "optimism": 0.6021898322105412,
+        "risk_aversion": -0.9182893280982984,
+        "suspicion": -0.40799775433540336,
+        "endurance": 0.2980649240016932,
+        "randomness": 0.6922713804244987,
+        "stability_seeking": -0.46637692499160815,
+        "curiosity": 0.8021470241546635
+      }
+    },
+    {
+      "round": 173,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 4.668749999999997,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7624753727912916,
+        "assertiveness": 0.7145757093429579,
+        "optimism": 0.5969398322105413,
+        "risk_aversion": -0.9130393280982985,
+        "suspicion": -0.40799775433540336,
+        "endurance": 0.3033149240016932,
+        "randomness": 0.6922713804244987,
+        "stability_seeking": -0.4611269249916082,
+        "curiosity": 0.7968970241546636
+      }
+    },
+    {
+      "round": 174,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 4.743749999999997,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7582253727912917,
+        "assertiveness": 0.7103257093429579,
+        "optimism": 0.5926898322105413,
+        "risk_aversion": -0.9087893280982985,
+        "suspicion": -0.4037477543354034,
+        "endurance": 0.30756492400169316,
+        "randomness": 0.6922713804244987,
+        "stability_seeking": -0.4568769249916082,
+        "curiosity": 0.7926470241546636
+      }
+    },
+    {
+      "round": 175,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 4.799999999999996,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7582253727912917,
+        "assertiveness": 0.7103257093429579,
+        "optimism": 0.5868773322105413,
+        "risk_aversion": -0.9087893280982985,
+        "suspicion": -0.3979352543354034,
+        "endurance": 0.31337742400169316,
+        "randomness": 0.6864588804244987,
+        "stability_seeking": -0.4568769249916082,
+        "curiosity": 0.7868345241546636
+      }
+    },
+    {
+      "round": 176,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 4.818749999999997,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7586628727912916,
+        "assertiveness": 0.7107632093429579,
+        "optimism": 0.5873148322105413,
+        "risk_aversion": -0.9092268280982985,
+        "suspicion": -0.39837275433540337,
+        "endurance": 0.3129399240016932,
+        "randomness": 0.6864588804244987,
+        "stability_seeking": -0.4573144249916082,
+        "curiosity": 0.7872720241546636
+      }
+    },
+    {
+      "round": 177,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 4.743749999999997,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7634128727912917,
+        "assertiveness": 0.7155132093429579,
+        "optimism": 0.5920648322105413,
+        "risk_aversion": -0.9139768280982985,
+        "suspicion": -0.39837275433540337,
+        "endurance": 0.3081899240016932,
+        "randomness": 0.6864588804244987,
+        "stability_seeking": -0.46206442499160816,
+        "curiosity": 0.7920220241546636
+      }
+    },
+    {
+      "round": 178,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 4.818749999999997,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7591628727912917,
+        "assertiveness": 0.711263209342958,
+        "optimism": 0.5878148322105413,
+        "risk_aversion": -0.9097268280982985,
+        "suspicion": -0.3941227543354034,
+        "endurance": 0.3124399240016932,
+        "randomness": 0.6864588804244987,
+        "stability_seeking": -0.4578144249916082,
+        "curiosity": 0.7877720241546636
+      }
+    },
+    {
+      "round": 179,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 4.8749999999999964,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7522253727912916,
+        "assertiveness": 0.7043257093429579,
+        "optimism": 0.5808773322105413,
+        "risk_aversion": -0.9027893280982985,
+        "suspicion": -0.3871852543354034,
+        "endurance": 0.31937742400169317,
+        "randomness": 0.6864588804244987,
+        "stability_seeking": -0.4508769249916082,
+        "curiosity": 0.7808345241546636
+      }
+    },
+    {
+      "round": 180,
+      "p_aggressive": 1.0,
+      "p_defensive": 0.0,
+      "p_balanced": 0.0,
+      "avg_reward": 4.818749999999997,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7544128727912917,
+        "assertiveness": 0.7065132093429579,
+        "optimism": 0.5830648322105413,
+        "risk_aversion": -0.9049768280982985,
+        "suspicion": -0.3893727543354034,
+        "endurance": 0.31718992400169316,
+        "randomness": 0.6864588804244987,
+        "stability_seeking": -0.4530644249916082,
+        "curiosity": 0.7830220241546636
+      }
+    },
+    {
+      "round": 181,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 4.893749999999996,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7544128727912917,
+        "assertiveness": 0.7065132093429579,
+        "optimism": 0.5788148322105413,
+        "risk_aversion": -0.9049768280982985,
+        "suspicion": -0.38512275433540344,
+        "endurance": 0.32143992400169313,
+        "randomness": 0.6822088804244987,
+        "stability_seeking": -0.4530644249916082,
+        "curiosity": 0.7787720241546636
+      }
+    },
+    {
+      "round": 182,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 4.9687499999999964,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7544128727912917,
+        "assertiveness": 0.7065132093429579,
+        "optimism": 0.5840648322105413,
+        "risk_aversion": -0.9049768280982985,
+        "suspicion": -0.3903727543354034,
+        "endurance": 0.31618992400169316,
+        "randomness": 0.6874588804244987,
+        "stability_seeking": -0.4530644249916082,
+        "curiosity": 0.7840220241546636
+      }
+    },
+    {
+      "round": 183,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 4.987499999999996,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7539753727912917,
+        "assertiveness": 0.7060757093429579,
+        "optimism": 0.5836273322105413,
+        "risk_aversion": -0.9045393280982985,
+        "suspicion": -0.3903727543354034,
+        "endurance": 0.31662742400169314,
+        "randomness": 0.6874588804244987,
+        "stability_seeking": -0.4526269249916082,
+        "curiosity": 0.7835845241546636
+      }
+    },
+    {
+      "round": 184,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.75,
+      "p_balanced": 0.25,
+      "avg_reward": 5.043749999999997,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7511628727912917,
+        "assertiveness": 0.7032632093429579,
+        "optimism": 0.5808148322105413,
+        "risk_aversion": -0.9017268280982985,
+        "suspicion": -0.3903727543354034,
+        "endurance": 0.31943992400169313,
+        "randomness": 0.6874588804244987,
+        "stability_seeking": -0.44981442499160823,
+        "curiosity": 0.7807720241546636
+      }
+    },
+    {
+      "round": 185,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 5.099999999999997,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7511628727912917,
+        "assertiveness": 0.7032632093429579,
+        "optimism": 0.5832523322105413,
+        "risk_aversion": -0.9017268280982985,
+        "suspicion": -0.3928102543354034,
+        "endurance": 0.31700242400169315,
+        "randomness": 0.6898963804244986,
+        "stability_seeking": -0.44981442499160823,
+        "curiosity": 0.7832095241546636
+      }
+    },
+    {
+      "round": 186,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 5.1562499999999964,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7511628727912917,
+        "assertiveness": 0.7032632093429579,
+        "optimism": 0.5809398322105412,
+        "risk_aversion": -0.9017268280982985,
+        "suspicion": -0.3904977543354034,
+        "endurance": 0.31931492400169315,
+        "randomness": 0.6875838804244986,
+        "stability_seeking": -0.44981442499160823,
+        "curiosity": 0.7808970241546636
+      }
+    },
+    {
+      "round": 187,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 5.231249999999997,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7511628727912917,
+        "assertiveness": 0.7032632093429579,
+        "optimism": 0.5861898322105412,
+        "risk_aversion": -0.9017268280982985,
+        "suspicion": -0.3957477543354034,
+        "endurance": 0.31406492400169317,
+        "randomness": 0.6928338804244986,
+        "stability_seeking": -0.44981442499160823,
+        "curiosity": 0.7861470241546635
+      }
+    },
+    {
+      "round": 188,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 5.306249999999996,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7459128727912917,
+        "assertiveness": 0.698013209342958,
+        "optimism": 0.5809398322105412,
+        "risk_aversion": -0.8964768280982985,
+        "suspicion": -0.3957477543354034,
+        "endurance": 0.31931492400169315,
+        "randomness": 0.6928338804244986,
+        "stability_seeking": -0.44456442499160825,
+        "curiosity": 0.7808970241546636
+      }
+    },
+    {
+      "round": 189,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 5.362499999999996,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7439753727912917,
+        "assertiveness": 0.6960757093429579,
+        "optimism": 0.5790023322105412,
+        "risk_aversion": -0.8945393280982985,
+        "suspicion": -0.3938102543354034,
+        "endurance": 0.3212524240016931,
+        "randomness": 0.6928338804244986,
+        "stability_seeking": -0.4426269249916083,
+        "curiosity": 0.7789595241546635
+      }
+    },
+    {
+      "round": 190,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 5.418749999999997,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7439753727912917,
+        "assertiveness": 0.6960757093429579,
+        "optimism": 0.5731898322105412,
+        "risk_aversion": -0.8945393280982985,
+        "suspicion": -0.3879977543354034,
+        "endurance": 0.3270649240016931,
+        "randomness": 0.6870213804244986,
+        "stability_seeking": -0.4426269249916083,
+        "curiosity": 0.7731470241546635
+      }
+    },
+    {
+      "round": 191,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 5.493749999999996,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7397253727912917,
+        "assertiveness": 0.691825709342958,
+        "optimism": 0.5689398322105412,
+        "risk_aversion": -0.8902893280982985,
+        "suspicion": -0.3837477543354034,
+        "endurance": 0.3313149240016931,
+        "randomness": 0.6870213804244986,
+        "stability_seeking": -0.4383769249916083,
+        "curiosity": 0.7688970241546635
+      }
+    },
+    {
+      "round": 192,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.0,
+      "p_balanced": 1.0,
+      "avg_reward": 5.549999999999996,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7366628727912917,
+        "assertiveness": 0.688763209342958,
+        "optimism": 0.5658773322105413,
+        "risk_aversion": -0.8872268280982986,
+        "suspicion": -0.3837477543354034,
+        "endurance": 0.3343774240016931,
+        "randomness": 0.6870213804244986,
+        "stability_seeking": -0.4353144249916083,
+        "curiosity": 0.7658345241546636
+      }
+    },
+    {
+      "round": 193,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.75,
+      "p_balanced": 0.25,
+      "avg_reward": 5.606249999999996,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7349753727912918,
+        "assertiveness": 0.687075709342958,
+        "optimism": 0.5641898322105413,
+        "risk_aversion": -0.8855393280982986,
+        "suspicion": -0.3820602543354034,
+        "endurance": 0.33606492400169313,
+        "randomness": 0.6870213804244986,
+        "stability_seeking": -0.43362692499160826,
+        "curiosity": 0.7641470241546636
+      }
+    },
+    {
+      "round": 194,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 5.5312499999999964,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7397253727912918,
+        "assertiveness": 0.6918257093429581,
+        "optimism": 0.5689398322105413,
+        "risk_aversion": -0.8902893280982986,
+        "suspicion": -0.3820602543354034,
+        "endurance": 0.33131492400169316,
+        "randomness": 0.6870213804244986,
+        "stability_seeking": -0.43837692499160824,
+        "curiosity": 0.7688970241546637
+      }
+    },
+    {
+      "round": 195,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 5.474999999999995,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7422878727912918,
+        "assertiveness": 0.6943882093429581,
+        "optimism": 0.5715023322105414,
+        "risk_aversion": -0.8928518280982987,
+        "suspicion": -0.3820602543354034,
+        "endurance": 0.32875242400169313,
+        "randomness": 0.6870213804244986,
+        "stability_seeking": -0.44093942499160826,
+        "curiosity": 0.7714595241546637
+      }
+    },
+    {
+      "round": 196,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 5.531249999999996,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7422878727912918,
+        "assertiveness": 0.6943882093429581,
+        "optimism": 0.5691898322105413,
+        "risk_aversion": -0.8928518280982987,
+        "suspicion": -0.3797477543354034,
+        "endurance": 0.33106492400169313,
+        "randomness": 0.6847088804244985,
+        "stability_seeking": -0.44093942499160826,
+        "curiosity": 0.7691470241546636
+      }
+    },
+    {
+      "round": 197,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 5.606249999999997,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7380378727912918,
+        "assertiveness": 0.6901382093429581,
+        "optimism": 0.5649398322105413,
+        "risk_aversion": -0.8886018280982987,
+        "suspicion": -0.37549775433540344,
+        "endurance": 0.3353149240016931,
+        "randomness": 0.6847088804244985,
+        "stability_seeking": -0.4366894249916083,
+        "curiosity": 0.7648970241546637
+      }
+    },
+    {
+      "round": 198,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 5.662499999999996,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7349753727912919,
+        "assertiveness": 0.6870757093429581,
+        "optimism": 0.5618773322105414,
+        "risk_aversion": -0.8855393280982987,
+        "suspicion": -0.37549775433540344,
+        "endurance": 0.33837742400169313,
+        "randomness": 0.6847088804244985,
+        "stability_seeking": -0.43362692499160826,
+        "curiosity": 0.7618345241546637
+      }
+    },
+    {
+      "round": 199,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 5.7187499999999964,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7321628727912919,
+        "assertiveness": 0.6842632093429581,
+        "optimism": 0.5590648322105414,
+        "risk_aversion": -0.8827268280982987,
+        "suspicion": -0.37549775433540344,
+        "endurance": 0.3411899240016931,
+        "randomness": 0.6847088804244985,
+        "stability_seeking": -0.43081442499160827,
+        "curiosity": 0.7590220241546637
+      }
+    },
+    {
+      "round": 200,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 5.774999999999996,
+      "phase": "tail",
+      "player0_personality": {
+        "impulsiveness": 0.7321628727912919,
+        "assertiveness": 0.6842632093429581,
+        "optimism": 0.5597523322105413,
+        "risk_aversion": -0.8827268280982987,
+        "suspicion": -0.37618525433540345,
+        "endurance": 0.3405024240016931,
+        "randomness": 0.6853963804244985,
+        "stability_seeking": -0.43081442499160827,
+        "curiosity": 0.7597095241546636
+      }
+    }
+  ]
+}

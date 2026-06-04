@@ -1,0 +1,10 @@
+{"timestamp": 1780449891025, "event_type": "rl_session_start", "session_id": "4e7507cc-c111-42a3-b0aa-85d41d49b360", "n_players": 4, "n_rounds": 200, "burn_in": 50, "seed": 4179, "personality_mode": "balanced", "latency_ms": 0, "status": 200}
+{"event_type": "state_transition", "from_state": "IDLE", "round": 0, "session_id": "", "timestamp": 1780449891078, "to_state": "INITIALIZING"}
+{"action": "init_click", "event_type": "user_action", "payload": {"burn_in": 50, "n_players": 4, "n_rounds": 200, "personality_mode": "balanced", "seed": 4179}, "session_id": "", "timestamp": 1780449891078}
+{"event_type": "session_initialized", "phase": "burn-in", "session_id": "4e7507cc-c111-42a3-b0aa-85d41d49b360", "timestamp": 1780449891144}
+{"event_type": "state_transition", "from_state": "INITIALIZING", "round": 0, "session_id": "4e7507cc-c111-42a3-b0aa-85d41d49b360", "timestamp": 1780449891144, "to_state": "WAITING_FOR_STEP"}
+{"timestamp": 1780449893157, "event_type": "rl_step_complete", "session_id": "4e7507cc-c111-42a3-b0aa-85d41d49b360", "round": 1, "phase": "burn-in", "latency_ms": 0, "http_status": 200, "avg_reward": 0.07499999999999998}
+{"event_type": "state_transition", "from_state": "WAITING_FOR_STEP", "round": 0, "session_id": "4e7507cc-c111-42a3-b0aa-85d41d49b360", "timestamp": 1780449893144, "to_state": "STEPPING"}
+{"action": "step_click", "event_type": "user_action", "session_id": "4e7507cc-c111-42a3-b0aa-85d41d49b360", "timestamp": 1780449893145}
+{"event_type": "step_complete_client", "phase": "burn-in", "risk_mean": 0.0, "round": 1, "session_id": "4e7507cc-c111-42a3-b0aa-85d41d49b360", "timestamp": 1780449893211}
+{"event_type": "state_transition", "from_state": "STEPPING", "round": 1, "session_id": "4e7507cc-c111-42a3-b0aa-85d41d49b360", "timestamp": 1780449893211, "to_state": "WAITING_FOR_STEP"}

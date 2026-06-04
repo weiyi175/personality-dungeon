@@ -1,0 +1,247 @@
+{
+  "0.1": [
+    {
+      "impulsiveness": 0.7724478727912896,
+      "assertiveness": 0.7245482093429558,
+      "optimism": 0.5888112905438737,
+      "risk_aversion": -0.9230118280982964,
+      "suspicion": -0.3867737960020699,
+      "endurance": 0.31144346566836023,
+      "randomness": 0.6741703387578332,
+      "stability_seeking": -0.4710994249916083,
+      "curiosity": 0.788768482487996
+    },
+    {
+      "impulsiveness": 0.7707199561246233,
+      "assertiveness": 0.7228202926762896,
+      "optimism": 0.5943660822105409,
+      "risk_aversion": -0.9212839114316304,
+      "suspicion": -0.4067577543354032,
+      "endurance": 0.30588867400169356,
+      "randomness": 0.6814530470911665,
+      "stability_seeking": -0.46937150832494157,
+      "curiosity": 0.7943232741546632
+    },
+    {
+      "impulsiveness": 0.7727357894579565,
+      "assertiveness": 0.7248361260096228,
+      "optimism": 0.5982729572105406,
+      "risk_aversion": -0.9232997447649631,
+      "suspicion": -0.4141462960020697,
+      "endurance": 0.3019817990016938,
+      "randomness": 0.6833440887578331,
+      "stability_seeking": -0.4713873416582747,
+      "curiosity": 0.798230149154663
+    }
+  ],
+  "0.15": [
+    {
+      "impulsiveness": 0.7727153727912899,
+      "assertiveness": 0.7248157093429561,
+      "optimism": 0.5950282697105403,
+      "risk_aversion": -0.9232793280982965,
+      "suspicion": -0.39341181683540377,
+      "endurance": 0.30522648650169343,
+      "randomness": 0.6801198179244997,
+      "stability_seeking": -0.4713669249916078,
+      "curiosity": 0.7949854616546627
+    },
+    {
+      "impulsiveness": 0.7701234977912897,
+      "assertiveness": 0.722223834342956,
+      "optimism": 0.6033604572105402,
+      "risk_aversion": -0.9206874530982966,
+      "suspicion": -0.4233877543354037,
+      "endurance": 0.2968942990016932,
+      "randomness": 0.6910438804244997,
+      "stability_seeking": -0.46877504999160824,
+      "curiosity": 0.8033176491546625
+    },
+    {
+      "impulsiveness": 0.7731472477912897,
+      "assertiveness": 0.725247584342956,
+      "optimism": 0.6092207697105406,
+      "risk_aversion": -0.9237112030982964,
+      "suspicion": -0.4344705668354038,
+      "endurance": 0.2910339865016933,
+      "randomness": 0.6938804429244997,
+      "stability_seeking": -0.4717987999916079,
+      "curiosity": 0.8091779616546629
+    }
+  ],
+  "0.2": [
+    {
+      "impulsiveness": 0.7729828727912913,
+      "assertiveness": 0.7250832093429576,
+      "optimism": 0.6012452488772078,
+      "risk_aversion": -0.9235468280982984,
+      "suspicion": -0.40004983766873675,
+      "endurance": 0.2990095073350268,
+      "randomness": 0.6860692970911656,
+      "stability_seeking": -0.47163442499160785,
+      "curiosity": 0.8012024408213301
+    },
+    {
+      "impulsiveness": 0.7695270394579579,
+      "assertiveness": 0.7216273760096241,
+      "optimism": 0.6123548322105411,
+      "risk_aversion": -0.9200909947649649,
+      "suspicion": -0.4400177543354034,
+      "endurance": 0.28789992400169356,
+      "randomness": 0.7006347137578322,
+      "stability_seeking": -0.4681785916582746,
+      "curiosity": 0.8123120241546634
+    },
+    {
+      "impulsiveness": 0.7735587061246246,
+      "assertiveness": 0.7256590426762909,
+      "optimism": 0.6201685822105406,
+      "risk_aversion": -0.9241226614316311,
+      "suspicion": -0.45479483766873663,
+      "endurance": 0.2800861740016934,
+      "randomness": 0.7044167970911652,
+      "stability_seeking": -0.4722102583249413,
+      "curiosity": 0.820125774154663
+    }
+  ],
+  "0.25": [
+    {
+      "impulsiveness": 0.7732503727912905,
+      "assertiveness": 0.7253507093429568,
+      "optimism": 0.6074622280438738,
+      "risk_aversion": -0.9238143280982971,
+      "suspicion": -0.40668785850207,
+      "endurance": 0.292792528168361,
+      "randomness": 0.6920187762578324,
+      "stability_seeking": -0.47190192499160694,
+      "curiosity": 0.8074194199879962
+    },
+    {
+      "impulsiveness": 0.7689305811246235,
+      "assertiveness": 0.7210309176762898,
+      "optimism": 0.6213492072105403,
+      "risk_aversion": -0.9194945364316304,
+      "suspicion": -0.45664775433540333,
+      "endurance": 0.2789055490016945,
+      "randomness": 0.7102255470911657,
+      "stability_seeking": -0.4675821333249399,
+      "curiosity": 0.8213063991546626
+    },
+    {
+      "impulsiveness": 0.773970164457957,
+      "assertiveness": 0.7260705010096232,
+      "optimism": 0.6311163947105406,
+      "risk_aversion": -0.9245341197649638,
+      "suspicion": -0.47511910850207006,
+      "endurance": 0.26913836150169435,
+      "randomness": 0.7149531512578325,
+      "stability_seeking": -0.4726217166582734,
+      "curiosity": 0.831073586654663
+    }
+  ],
+  "0.3": [
+    {
+      "impulsiveness": 0.7735178727912906,
+      "assertiveness": 0.7256182093429568,
+      "optimism": 0.6136792072105414,
+      "risk_aversion": -0.9240818280982974,
+      "suspicion": -0.41332587933540377,
+      "endurance": 0.28657554900169396,
+      "randomness": 0.6979682554244996,
+      "stability_seeking": -0.4721694249916074,
+      "curiosity": 0.8136363991546637
+    },
+    {
+      "impulsiveness": 0.7683341227912912,
+      "assertiveness": 0.7204344593429575,
+      "optimism": 0.6303435822105419,
+      "risk_aversion": -0.9188980780982983,
+      "suspicion": -0.47327775433540364,
+      "endurance": 0.269911174001694,
+      "randomness": 0.7198163804244998,
+      "stability_seeking": -0.4669856749916075,
+      "curiosity": 0.8303007741546642
+    },
+    {
+      "impulsiveness": 0.774381622791291,
+      "assertiveness": 0.7264819593429572,
+      "optimism": 0.6420642072105416,
+      "risk_aversion": -0.9249455780982976,
+      "suspicion": -0.49544337933540383,
+      "endurance": 0.2581905490016941,
+      "randomness": 0.7254895054244997,
+      "stability_seeking": -0.47303317499160735,
+      "curiosity": 0.8420213991546639
+    }
+  ],
+  "0.35": [
+    {
+      "impulsiveness": 0.77378537279129,
+      "assertiveness": 0.7258857093429563,
+      "optimism": 0.6198961863772077,
+      "risk_aversion": -0.9243493280982968,
+      "suspicion": -0.41996390016873686,
+      "endurance": 0.28035856983502705,
+      "randomness": 0.7039177345911664,
+      "stability_seeking": -0.47243692499160755,
+      "curiosity": 0.81985337832133
+    },
+    {
+      "impulsiveness": 0.7677376644579565,
+      "assertiveness": 0.7198380010096228,
+      "optimism": 0.6393379572105407,
+      "risk_aversion": -0.9183016197649632,
+      "suspicion": -0.48990775433540357,
+      "endurance": 0.2609167990016938,
+      "randomness": 0.7294072137578329,
+      "stability_seeking": -0.4663892166582741,
+      "curiosity": 0.8392951491546629
+    },
+    {
+      "impulsiveness": 0.7747930811246232,
+      "assertiveness": 0.7268934176762895,
+      "optimism": 0.6530120197105403,
+      "risk_aversion": -0.9253570364316303,
+      "suspicion": -0.515767650168737,
+      "endurance": 0.2472427365016937,
+      "randomness": 0.7360258595911662,
+      "stability_seeking": -0.47344463332494074,
+      "curiosity": 0.8529692116546626
+    }
+  ],
+  "0.4": [
+    {
+      "impulsiveness": 0.7740528727912909,
+      "assertiveness": 0.7261532093429571,
+      "optimism": 0.6261131655438746,
+      "risk_aversion": -0.9246168280982975,
+      "suspicion": -0.42660192100207034,
+      "endurance": 0.2741415906683602,
+      "randomness": 0.7098672137578329,
+      "stability_seeking": -0.4727044249916075,
+      "curiosity": 0.8260703574879972
+    },
+    {
+      "impulsiveness": 0.7671412061246241,
+      "assertiveness": 0.7192415426762904,
+      "optimism": 0.6483323322105411,
+      "risk_aversion": -0.917705161431631,
+      "suspicion": -0.5065377543354039,
+      "endurance": 0.2519224240016935,
+      "randomness": 0.7389980470911661,
+      "stability_seeking": -0.4657927583249411,
+      "curiosity": 0.8482895241546635
+    },
+    {
+      "impulsiveness": 0.7752045394579575,
+      "assertiveness": 0.7273048760096238,
+      "optimism": 0.6639598322105414,
+      "risk_aversion": -0.9257684947649644,
+      "suspicion": -0.5360919210020705,
+      "endurance": 0.23629492400169355,
+      "randomness": 0.7465622137578328,
+      "stability_seeking": -0.47385609165827475,
+      "curiosity": 0.8639170241546636
+    }
+  ]
+}

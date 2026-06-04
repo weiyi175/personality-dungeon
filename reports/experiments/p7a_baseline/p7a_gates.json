@@ -1,0 +1,9 @@
+{
+  "G7A-01": true,
+  "G7A-02": true,
+  "G7A-02_detail": "max seed std = 0.1352",
+  "G7A-03": true,
+  "G7A-03_detail": "mean_p_agg G-AGG=0.3803 G-DEF=0.3173 [AGG>DEF: True]  |  mean_p_def G-DEF=0.3300 G-AGG=0.2607 [DEF>AGG: True]",
+  "G7A-04": true,
+  "G7A-04_detail": "feedback_strength α=0.0 enforced by personality_mode='static' (no ΔP update)"
+}

@@ -1,0 +1,10 @@
+{
+  "G7E-01": true,
+  "G7E-02": true,
+  "G7E-03": false,
+  "G7E-03_detail": "min VDI: -0.0000, max VDI: 0.0000",
+  "G7E-04": true,
+  "G7E-04_detail": "std(PW) per α: {\"0.2\": 0.0, \"0.3\": 4.8}",
+  "G7E-05": true,
+  "G7E-05_detail": "cosine similarity per α: {\"0.2\": 0.997, \"0.3\": 0.993}"
+}

@@ -1,0 +1,11 @@
+{
+  "G7C-01": true,
+  "G7C-02": true,
+  "G7C-02_detail": "α=0.0 max_Δp=0.00e+00",
+  "G7C-03": true,
+  "G7C-03_detail": "α>0: max_Δp ∈ [0.0397, 0.2155]",
+  "G7C-04": true,
+  "G7C-04_detail": "personality_vector and personality_delta fields present",
+  "G7C-05": true,
+  "G7C-05_detail": "All rewards finite"
+}

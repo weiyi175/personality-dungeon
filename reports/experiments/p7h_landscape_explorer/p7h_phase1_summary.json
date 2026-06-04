@@ -1,0 +1,15 @@
+{
+  "total_points": 1681,
+  "basin_distribution": {
+    "main": 1681
+  },
+  "basin_percentages": {
+    "main": 100.0
+  },
+  "statistics": {
+    "mean_distance": 5.786565383617412e-07,
+    "std_distance": 2.1530594401266387e-07,
+    "mean_norm": 1.9804506546767835,
+    "std_norm": 4.365767674683451e-07
+  }
+}

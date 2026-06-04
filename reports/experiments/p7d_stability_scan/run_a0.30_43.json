@@ -1,0 +1,3018 @@
+{
+  "seed": 43,
+  "alpha": 0.3,
+  "group": "G-AGG",
+  "metrics": {
+    "amplitude_p": 0.1170937500000005,
+    "oscillation_score": 0.10057171540443785,
+    "convergence_time": 0,
+    "coupling_score": 0.12509573713660294,
+    "reward_mean": 4.405949999999997,
+    "reward_std": 1.8329062230512485,
+    "strategy_entropy_mean": 0.7788806141753248,
+    "personality_saturation": 0.0
+  },
+  "classification": "S2",
+  "step_log": [
+    {
+      "round": 1,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 0.07500000000000001,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.0047516444521870675,
+      "phase": "burn-in"
+    },
+    {
+      "round": 2,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 0.09375000000000003,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.0043865917863416485,
+      "phase": "burn-in"
+    },
+    {
+      "round": 3,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.75,
+      "p_balanced": 0.0,
+      "avg_reward": 0.15000000000000002,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.006310952780682164,
+      "phase": "burn-in"
+    },
+    {
+      "round": 4,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 0.22500000000000003,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.012210395161500685,
+      "phase": "burn-in"
+    },
+    {
+      "round": 5,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 0.28125,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.014500538783093502,
+      "phase": "burn-in"
+    },
+    {
+      "round": 6,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 0.3375,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.016817494611267105,
+      "phase": "burn-in"
+    },
+    {
+      "round": 7,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 0.35625,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.014891895604237189,
+      "phase": "burn-in"
+    },
+    {
+      "round": 8,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 0.41250000000000003,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.014302056779533449,
+      "phase": "burn-in"
+    },
+    {
+      "round": 9,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 0.43124999999999997,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.014843618420469424,
+      "phase": "burn-in"
+    },
+    {
+      "round": 10,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 0.48749999999999993,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.012930704737174963,
+      "phase": "burn-in"
+    },
+    {
+      "round": 11,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 0.54375,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.022682850763296864,
+      "phase": "burn-in"
+    },
+    {
+      "round": 12,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 0.5999999999999999,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.02658802082823193,
+      "phase": "burn-in"
+    },
+    {
+      "round": 13,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.0,
+      "p_balanced": 1.0,
+      "avg_reward": 0.54375,
+      "strategy_entropy": -1.000000082690371e-10,
+      "personality_norm": 0.023317023689785,
+      "phase": "burn-in"
+    },
+    {
+      "round": 14,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 0.5999999999999999,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.018736896462928327,
+      "phase": "burn-in"
+    },
+    {
+      "round": 15,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 0.5249999999999998,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.013014752746882938,
+      "phase": "burn-in"
+    },
+    {
+      "round": 16,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 0.5437499999999997,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.009333083376489176,
+      "phase": "burn-in"
+    },
+    {
+      "round": 17,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 0.4687499999999998,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.006316907495958769,
+      "phase": "burn-in"
+    },
+    {
+      "round": 18,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 0.4874999999999998,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.007670013139656364,
+      "phase": "burn-in"
+    },
+    {
+      "round": 19,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 0.5437499999999997,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.006881814804250428,
+      "phase": "burn-in"
+    },
+    {
+      "round": 20,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 0.5624999999999998,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.006252889956851962,
+      "phase": "burn-in"
+    },
+    {
+      "round": 21,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 0.6187499999999998,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.006669880410284701,
+      "phase": "burn-in"
+    },
+    {
+      "round": 22,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 0.6374999999999997,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.006602334459303048,
+      "phase": "burn-in"
+    },
+    {
+      "round": 23,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 0.7124999999999997,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.0028512949360772703,
+      "phase": "burn-in"
+    },
+    {
+      "round": 24,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 0.6374999999999996,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.006467240161962521,
+      "phase": "burn-in"
+    },
+    {
+      "round": 25,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 0.6937499999999996,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.007143616031114859,
+      "phase": "burn-in"
+    },
+    {
+      "round": 26,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 0.6187499999999997,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.012489057710652278,
+      "phase": "burn-in"
+    },
+    {
+      "round": 27,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 0.6749999999999996,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.0089033986663803,
+      "phase": "burn-in"
+    },
+    {
+      "round": 28,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 0.7499999999999996,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.004913807872973904,
+      "phase": "burn-in"
+    },
+    {
+      "round": 29,
+      "p_aggressive": 0.0,
+      "p_defensive": 1.0,
+      "p_balanced": 0.0,
+      "avg_reward": 0.8249999999999996,
+      "strategy_entropy": -1.000000082690371e-10,
+      "personality_norm": 0.010264328780417227,
+      "phase": "burn-in"
+    },
+    {
+      "round": 30,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 0.8437499999999997,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.010617874448895216,
+      "phase": "burn-in"
+    },
+    {
+      "round": 31,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 0.8999999999999997,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.009814589745628715,
+      "phase": "burn-in"
+    },
+    {
+      "round": 32,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 0.9749999999999996,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.012023333434409821,
+      "phase": "burn-in"
+    },
+    {
+      "round": 33,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 0.8999999999999997,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.011653443026633804,
+      "phase": "burn-in"
+    },
+    {
+      "round": 34,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 0.9562499999999997,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.019824597056119525,
+      "phase": "burn-in"
+    },
+    {
+      "round": 35,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 0.8812499999999998,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.023551286290508778,
+      "phase": "burn-in"
+    },
+    {
+      "round": 36,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.75,
+      "p_balanced": 0.0,
+      "avg_reward": 0.9562499999999998,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.02014398851860036,
+      "phase": "burn-in"
+    },
+    {
+      "round": 37,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 1.0125,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.020863067323023326,
+      "phase": "burn-in"
+    },
+    {
+      "round": 38,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 0.9375,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.023232898616509474,
+      "phase": "burn-in"
+    },
+    {
+      "round": 39,
+      "p_aggressive": 1.0,
+      "p_defensive": 0.0,
+      "p_balanced": 0.0,
+      "avg_reward": 0.9562499999999998,
+      "strategy_entropy": -1.000000082690371e-10,
+      "personality_norm": 0.026495872320042795,
+      "phase": "burn-in"
+    },
+    {
+      "round": 40,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 0.8812499999999999,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.031925572626031545,
+      "phase": "burn-in"
+    },
+    {
+      "round": 41,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 0.9374999999999999,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.029522320078417163,
+      "phase": "burn-in"
+    },
+    {
+      "round": 42,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 0.9562499999999999,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.02912050662763291,
+      "phase": "burn-in"
+    },
+    {
+      "round": 43,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 0.9,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.03155230342720662,
+      "phase": "burn-in"
+    },
+    {
+      "round": 44,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 0.91875,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.035608699669989585,
+      "phase": "burn-in"
+    },
+    {
+      "round": 45,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 0.9937499999999999,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.030228604908058725,
+      "phase": "burn-in"
+    },
+    {
+      "round": 46,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 0.9374999999999999,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.03278361824143294,
+      "phase": "burn-in"
+    },
+    {
+      "round": 47,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 0.8812499999999999,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.03560443485368103,
+      "phase": "burn-in"
+    },
+    {
+      "round": 48,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 0.9562499999999997,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.04087715017280459,
+      "phase": "burn-in"
+    },
+    {
+      "round": 49,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 1.0124999999999997,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.03845472175169152,
+      "phase": "burn-in"
+    },
+    {
+      "round": 50,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 1.0687499999999996,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.04098748141582402,
+      "phase": "burn-in"
+    },
+    {
+      "round": 51,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 1.0874999999999997,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.04152334857116561,
+      "phase": "tail"
+    },
+    {
+      "round": 52,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 1.1062499999999997,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.04206149005102557,
+      "phase": "tail"
+    },
+    {
+      "round": 53,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 1.1249999999999996,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.04260181966844287,
+      "phase": "tail"
+    },
+    {
+      "round": 54,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 1.1812499999999997,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.04513729056999355,
+      "phase": "tail"
+    },
+    {
+      "round": 55,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.75,
+      "p_balanced": 0.0,
+      "avg_reward": 1.2374999999999996,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.0391332983412148,
+      "phase": "tail"
+    },
+    {
+      "round": 56,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 1.1812499999999997,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.041784977862863934,
+      "phase": "tail"
+    },
+    {
+      "round": 57,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 1.1999999999999997,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.042349342342886884,
+      "phase": "tail"
+    },
+    {
+      "round": 58,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 1.2187499999999996,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.04291520527447159,
+      "phase": "tail"
+    },
+    {
+      "round": 59,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.75,
+      "p_balanced": 0.25,
+      "avg_reward": 1.2749999999999997,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.0453568425274791,
+      "phase": "tail"
+    },
+    {
+      "round": 60,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 1.2937499999999995,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.044900367133800086,
+      "phase": "tail"
+    },
+    {
+      "round": 61,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 1.3124999999999996,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.04444673998520626,
+      "phase": "tail"
+    },
+    {
+      "round": 62,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 1.3687499999999995,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.0421154477300198,
+      "phase": "tail"
+    },
+    {
+      "round": 63,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 1.3687499999999995,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.0421154477300198,
+      "phase": "tail"
+    },
+    {
+      "round": 64,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 1.3687499999999995,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.0421154477300198,
+      "phase": "tail"
+    },
+    {
+      "round": 65,
+      "p_aggressive": 1.0,
+      "p_defensive": 0.0,
+      "p_balanced": 0.0,
+      "avg_reward": 1.3124999999999996,
+      "strategy_entropy": -1.000000082690371e-10,
+      "personality_norm": 0.04494756059148298,
+      "phase": "tail"
+    },
+    {
+      "round": 66,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 1.3874999999999995,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.03954983505812672,
+      "phase": "tail"
+    },
+    {
+      "round": 67,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 1.4437499999999994,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.04025396671059301,
+      "phase": "tail"
+    },
+    {
+      "round": 68,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 1.4624999999999992,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.04426907471997278,
+      "phase": "tail"
+    },
+    {
+      "round": 69,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 1.5374999999999994,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.038939569066214985,
+      "phase": "tail"
+    },
+    {
+      "round": 70,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 1.6124999999999996,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.03383901744381064,
+      "phase": "tail"
+    },
+    {
+      "round": 71,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 1.6687499999999997,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.031461409893709734,
+      "phase": "tail"
+    },
+    {
+      "round": 72,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 1.7249999999999996,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.029364043834467245,
+      "phase": "tail"
+    },
+    {
+      "round": 73,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 1.7437499999999997,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.02906700233942284,
+      "phase": "tail"
+    },
+    {
+      "round": 74,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.75,
+      "p_balanced": 0.25,
+      "avg_reward": 1.7999999999999996,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.031710805655367935,
+      "phase": "tail"
+    },
+    {
+      "round": 75,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 1.7249999999999996,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.035316164079816484,
+      "phase": "tail"
+    },
+    {
+      "round": 76,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 1.7812499999999996,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.032899586813515125,
+      "phase": "tail"
+    },
+    {
+      "round": 77,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 1.7999999999999998,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.03732936438398759,
+      "phase": "tail"
+    },
+    {
+      "round": 78,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 1.8562499999999997,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.046598769431177335,
+      "phase": "tail"
+    },
+    {
+      "round": 79,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 1.9124999999999999,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.044051339455373255,
+      "phase": "tail"
+    },
+    {
+      "round": 80,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 1.8562499999999997,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.04630658489553648,
+      "phase": "tail"
+    },
+    {
+      "round": 81,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 1.9124999999999996,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.04705915907796302,
+      "phase": "tail"
+    },
+    {
+      "round": 82,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 1.93125,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.047520719165433836,
+      "phase": "tail"
+    },
+    {
+      "round": 83,
+      "p_aggressive": 1.0,
+      "p_defensive": 0.0,
+      "p_balanced": 0.0,
+      "avg_reward": 1.9874999999999998,
+      "strategy_entropy": -1.000000082690371e-10,
+      "personality_norm": 0.045255966889047115,
+      "phase": "tail"
+    },
+    {
+      "round": 84,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 2.0625,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.040601351289858874,
+      "phase": "tail"
+    },
+    {
+      "round": 85,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 2.11875,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.0389453367916176,
+      "phase": "tail"
+    },
+    {
+      "round": 86,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 2.1374999999999997,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.03866232520975714,
+      "phase": "tail"
+    },
+    {
+      "round": 87,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 2.2125,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.04442789541071043,
+      "phase": "tail"
+    },
+    {
+      "round": 88,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 2.26875,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.042599664849767564,
+      "phase": "tail"
+    },
+    {
+      "round": 89,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 2.1937499999999996,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.04555805233778689,
+      "phase": "tail"
+    },
+    {
+      "round": 90,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 2.26875,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.042330509922661255,
+      "phase": "tail"
+    },
+    {
+      "round": 91,
+      "p_aggressive": 0.0,
+      "p_defensive": 1.0,
+      "p_balanced": 0.0,
+      "avg_reward": 2.2874999999999996,
+      "strategy_entropy": -1.000000082690371e-10,
+      "personality_norm": 0.04515642301004949,
+      "phase": "tail"
+    },
+    {
+      "round": 92,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 2.2124999999999995,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.04842093466737848,
+      "phase": "tail"
+    },
+    {
+      "round": 93,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 2.26875,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.041751555453809444,
+      "phase": "tail"
+    },
+    {
+      "round": 94,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 2.2874999999999996,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.04099352082951676,
+      "phase": "tail"
+    },
+    {
+      "round": 95,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 2.3437499999999996,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.039567831394328686,
+      "phase": "tail"
+    },
+    {
+      "round": 96,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 2.26875,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.04379502147790352,
+      "phase": "tail"
+    },
+    {
+      "round": 97,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 2.2874999999999996,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.04827696178367623,
+      "phase": "tail"
+    },
+    {
+      "round": 98,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 2.3062499999999995,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.04751767763159342,
+      "phase": "tail"
+    },
+    {
+      "round": 99,
+      "p_aggressive": 0.0,
+      "p_defensive": 1.0,
+      "p_balanced": 0.0,
+      "avg_reward": 2.3624999999999994,
+      "strategy_entropy": -1.000000082690371e-10,
+      "personality_norm": 0.044966057077116844,
+      "phase": "tail"
+    },
+    {
+      "round": 100,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 2.437499999999999,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.04191836607100189,
+      "phase": "tail"
+    },
+    {
+      "round": 101,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 2.456249999999999,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.04463660782152388,
+      "phase": "tail"
+    },
+    {
+      "round": 102,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 2.381249999999999,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.049177661420735895,
+      "phase": "tail"
+    },
+    {
+      "round": 103,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 2.456249999999999,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.05491325723641367,
+      "phase": "tail"
+    },
+    {
+      "round": 104,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 2.5124999999999993,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.05301371616442801,
+      "phase": "tail"
+    },
+    {
+      "round": 105,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 2.587499999999999,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.049905232456752754,
+      "phase": "tail"
+    },
+    {
+      "round": 106,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 2.5312499999999987,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.05179667467910013,
+      "phase": "tail"
+    },
+    {
+      "round": 107,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.75,
+      "p_balanced": 0.25,
+      "avg_reward": 2.5312499999999987,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.05179667467910013,
+      "phase": "tail"
+    },
+    {
+      "round": 108,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 2.549999999999999,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.052188744371392336,
+      "phase": "tail"
+    },
+    {
+      "round": 109,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 2.624999999999999,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.047567560916684924,
+      "phase": "tail"
+    },
+    {
+      "round": 110,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 2.681249999999999,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.04587377595437863,
+      "phase": "tail"
+    },
+    {
+      "round": 111,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 2.6999999999999993,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.04624747670481633,
+      "phase": "tail"
+    },
+    {
+      "round": 112,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 2.7562499999999988,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.046992311538697804,
+      "phase": "tail"
+    },
+    {
+      "round": 113,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 2.774999999999999,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.04737161927251414,
+      "phase": "tail"
+    },
+    {
+      "round": 114,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 2.831249999999999,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.04486809008429632,
+      "phase": "tail"
+    },
+    {
+      "round": 115,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 2.8874999999999993,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.04237440080697338,
+      "phase": "tail"
+    },
+    {
+      "round": 116,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 2.8874999999999993,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.04237440080697338,
+      "phase": "tail"
+    },
+    {
+      "round": 117,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 2.906249999999999,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.042145754809203795,
+      "phase": "tail"
+    },
+    {
+      "round": 118,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 2.9624999999999986,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.04288467911883014,
+      "phase": "tail"
+    },
+    {
+      "round": 119,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 2.9062499999999987,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.044322206711901554,
+      "phase": "tail"
+    },
+    {
+      "round": 120,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.75,
+      "p_balanced": 0.25,
+      "avg_reward": 2.9624999999999986,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.046969280186628735,
+      "phase": "tail"
+    },
+    {
+      "round": 121,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 3.018749999999999,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.04521964624198238,
+      "phase": "tail"
+    },
+    {
+      "round": 122,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 3.0374999999999988,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.045606203319833956,
+      "phase": "tail"
+    },
+    {
+      "round": 123,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 3.112499999999999,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.04308299584813043,
+      "phase": "tail"
+    },
+    {
+      "round": 124,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 3.1687499999999984,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.04207321325306066,
+      "phase": "tail"
+    },
+    {
+      "round": 125,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.0,
+      "p_balanced": 1.0,
+      "avg_reward": 3.1874999999999987,
+      "strategy_entropy": -1.000000082690371e-10,
+      "personality_norm": 0.04195891777977618,
+      "phase": "tail"
+    },
+    {
+      "round": 126,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.75,
+      "p_balanced": 0.0,
+      "avg_reward": 3.262499999999999,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.04120134441071078,
+      "phase": "tail"
+    },
+    {
+      "round": 127,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 3.3374999999999986,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.03725361769345365,
+      "phase": "tail"
+    },
+    {
+      "round": 128,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.0,
+      "p_balanced": 1.0,
+      "avg_reward": 3.2812499999999987,
+      "strategy_entropy": -1.000000082690371e-10,
+      "personality_norm": 0.03728530992143566,
+      "phase": "tail"
+    },
+    {
+      "round": 129,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 3.3562499999999984,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.03755057787088632,
+      "phase": "tail"
+    },
+    {
+      "round": 130,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 3.4124999999999988,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.04511186183394569,
+      "phase": "tail"
+    },
+    {
+      "round": 131,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 3.4687499999999987,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.045758612150474005,
+      "phase": "tail"
+    },
+    {
+      "round": 132,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 3.5249999999999986,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.04640908030089595,
+      "phase": "tail"
+    },
+    {
+      "round": 133,
+      "p_aggressive": 1.0,
+      "p_defensive": 0.0,
+      "p_balanced": 0.0,
+      "avg_reward": 3.5999999999999988,
+      "strategy_entropy": -1.000000082690371e-10,
+      "personality_norm": 0.04682787214229361,
+      "phase": "tail"
+    },
+    {
+      "round": 134,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 3.6562499999999987,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.04741908198117609,
+      "phase": "tail"
+    },
+    {
+      "round": 135,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 3.581249999999999,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.047052985010916246,
+      "phase": "tail"
+    },
+    {
+      "round": 136,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 3.5999999999999988,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.047115466542315076,
+      "phase": "tail"
+    },
+    {
+      "round": 137,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 3.656249999999999,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.047068340856009645,
+      "phase": "tail"
+    },
+    {
+      "round": 138,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 3.674999999999999,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.04825438168252198,
+      "phase": "tail"
+    },
+    {
+      "round": 139,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 3.7312499999999993,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.04817006818294955,
+      "phase": "tail"
+    },
+    {
+      "round": 140,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 3.749999999999999,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.05199824403585675,
+      "phase": "tail"
+    },
+    {
+      "round": 141,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.75,
+      "p_balanced": 0.0,
+      "avg_reward": 3.6937499999999988,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.05292599675785537,
+      "phase": "tail"
+    },
+    {
+      "round": 142,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 3.6937499999999988,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.05292599675785537,
+      "phase": "tail"
+    },
+    {
+      "round": 143,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 3.7124999999999986,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.05313891361916444,
+      "phase": "tail"
+    },
+    {
+      "round": 144,
+      "p_aggressive": 1.0,
+      "p_defensive": 0.0,
+      "p_balanced": 0.0,
+      "avg_reward": 3.6562499999999982,
+      "strategy_entropy": -1.000000082690371e-10,
+      "personality_norm": 0.05488081012806328,
+      "phase": "tail"
+    },
+    {
+      "round": 145,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 3.7312499999999984,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.052148347963406505,
+      "phase": "tail"
+    },
+    {
+      "round": 146,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 3.7499999999999982,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.052404386520238225,
+      "phase": "tail"
+    },
+    {
+      "round": 147,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 3.8062499999999986,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.05131745751021304,
+      "phase": "tail"
+    },
+    {
+      "round": 148,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 3.8062499999999986,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.05131745751021304,
+      "phase": "tail"
+    },
+    {
+      "round": 149,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 3.8624999999999985,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.050901732073918814,
+      "phase": "tail"
+    },
+    {
+      "round": 150,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 3.8062499999999986,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.05194065874871073,
+      "phase": "tail"
+    },
+    {
+      "round": 151,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 3.8249999999999984,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.051868683726912904,
+      "phase": "tail"
+    },
+    {
+      "round": 152,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 3.8437499999999982,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.053623078709754496,
+      "phase": "tail"
+    },
+    {
+      "round": 153,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 3.862499999999998,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.05406132585430205,
+      "phase": "tail"
+    },
+    {
+      "round": 154,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 3.9187499999999984,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.05477895032252379,
+      "phase": "tail"
+    },
+    {
+      "round": 155,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 3.862499999999998,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06055496115358794,
+      "phase": "tail"
+    },
+    {
+      "round": 156,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 3.918749999999998,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.05924132979812352,
+      "phase": "tail"
+    },
+    {
+      "round": 157,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 3.974999999999998,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.05311846467154837,
+      "phase": "tail"
+    },
+    {
+      "round": 158,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 3.899999999999998,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.057003229417836865,
+      "phase": "tail"
+    },
+    {
+      "round": 159,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 3.974999999999998,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.05466425398798133,
+      "phase": "tail"
+    },
+    {
+      "round": 160,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 4.031249999999998,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.05718705600920576,
+      "phase": "tail"
+    },
+    {
+      "round": 161,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 4.087499999999999,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.05595376858398401,
+      "phase": "tail"
+    },
+    {
+      "round": 162,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 4.106249999999998,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.05580678687164792,
+      "phase": "tail"
+    },
+    {
+      "round": 163,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 4.124999999999998,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.058160515023618374,
+      "phase": "tail"
+    },
+    {
+      "round": 164,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 4.124999999999998,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.058160515023618374,
+      "phase": "tail"
+    },
+    {
+      "round": 165,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 4.181249999999999,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.05669875680680781,
+      "phase": "tail"
+    },
+    {
+      "round": 166,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 4.237499999999998,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.05922878378056601,
+      "phase": "tail"
+    },
+    {
+      "round": 167,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 4.293749999999998,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.0599454748995914,
+      "phase": "tail"
+    },
+    {
+      "round": 168,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 4.312499999999998,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.06027266333349261,
+      "phase": "tail"
+    },
+    {
+      "round": 169,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 4.331249999999997,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.06278916699708277,
+      "phase": "tail"
+    },
+    {
+      "round": 170,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 4.3874999999999975,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.0717503947071029,
+      "phase": "tail"
+    },
+    {
+      "round": 171,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 4.406249999999998,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.07211920470651395,
+      "phase": "tail"
+    },
+    {
+      "round": 172,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 4.462499999999998,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.07051247950274518,
+      "phase": "tail"
+    },
+    {
+      "round": 173,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 4.537499999999998,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06599415516259793,
+      "phase": "tail"
+    },
+    {
+      "round": 174,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 4.593749999999997,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06672286287088973,
+      "phase": "tail"
+    },
+    {
+      "round": 175,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 4.537499999999998,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06852874197417141,
+      "phase": "tail"
+    },
+    {
+      "round": 176,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 4.556249999999997,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.06890090682231668,
+      "phase": "tail"
+    },
+    {
+      "round": 177,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.75,
+      "p_balanced": 0.25,
+      "avg_reward": 4.5749999999999975,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.06927659828767986,
+      "phase": "tail"
+    },
+    {
+      "round": 178,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 4.649999999999997,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06578270485327095,
+      "phase": "tail"
+    },
+    {
+      "round": 179,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 4.6687499999999975,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.06612567196019682,
+      "phase": "tail"
+    },
+    {
+      "round": 180,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 4.743749999999997,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.0641599791902051,
+      "phase": "tail"
+    },
+    {
+      "round": 181,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 4.799999999999997,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.06486872260091957,
+      "phase": "tail"
+    },
+    {
+      "round": 182,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 4.874999999999997,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.07032245762823608,
+      "phase": "tail"
+    },
+    {
+      "round": 183,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 4.893749999999997,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.07264465633307149,
+      "phase": "tail"
+    },
+    {
+      "round": 184,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 4.9499999999999975,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.07522316407904261,
+      "phase": "tail"
+    },
+    {
+      "round": 185,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 4.968749999999997,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.0755605549274062,
+      "phase": "tail"
+    },
+    {
+      "round": 186,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 4.987499999999997,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.0781226812155892,
+      "phase": "tail"
+    },
+    {
+      "round": 187,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 5.0437499999999975,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.07194673051119187,
+      "phase": "tail"
+    },
+    {
+      "round": 188,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 5.062499999999997,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.0727030360116589,
+      "phase": "tail"
+    },
+    {
+      "round": 189,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 5.118749999999997,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06725677388049889,
+      "phase": "tail"
+    },
+    {
+      "round": 190,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 5.174999999999997,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.0698122482090361,
+      "phase": "tail"
+    },
+    {
+      "round": 191,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 5.193749999999998,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.0690901599022072,
+      "phase": "tail"
+    },
+    {
+      "round": 192,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 5.212499999999997,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06836908681012242,
+      "phase": "tail"
+    },
+    {
+      "round": 193,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 5.156249999999997,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06938377619038591,
+      "phase": "tail"
+    },
+    {
+      "round": 194,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 5.174999999999997,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.06919983516960182,
+      "phase": "tail"
+    },
+    {
+      "round": 195,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 5.2312499999999975,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.06675717570278536,
+      "phase": "tail"
+    },
+    {
+      "round": 196,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 5.287499999999997,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06066979659393996,
+      "phase": "tail"
+    },
+    {
+      "round": 197,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 5.3437499999999964,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.05965289409104593,
+      "phase": "tail"
+    },
+    {
+      "round": 198,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 5.399999999999997,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06214723885157769,
+      "phase": "tail"
+    },
+    {
+      "round": 199,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 5.474999999999998,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.059528666282515,
+      "phase": "tail"
+    },
+    {
+      "round": 200,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 5.399999999999997,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06077974773207807,
+      "phase": "tail"
+    },
+    {
+      "round": 201,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 5.343749999999997,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.062333904297741966,
+      "phase": "tail"
+    },
+    {
+      "round": 202,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 5.362499999999997,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06265843979963957,
+      "phase": "tail"
+    },
+    {
+      "round": 203,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 5.4187499999999975,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.058077803419206896,
+      "phase": "tail"
+    },
+    {
+      "round": 204,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 5.474999999999998,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.05877526883445572,
+      "phase": "tail"
+    },
+    {
+      "round": 205,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 5.5312499999999964,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.05785149867062683,
+      "phase": "tail"
+    },
+    {
+      "round": 206,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 5.549999999999997,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.05815812228313464,
+      "phase": "tail"
+    },
+    {
+      "round": 207,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 5.474999999999997,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.05952290788007634,
+      "phase": "tail"
+    },
+    {
+      "round": 208,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 5.399999999999997,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.06150247708426114,
+      "phase": "tail"
+    },
+    {
+      "round": 209,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 5.3437499999999964,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.06280599313312045,
+      "phase": "tail"
+    },
+    {
+      "round": 210,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 5.399999999999997,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.06126677066322385,
+      "phase": "tail"
+    },
+    {
+      "round": 211,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 5.324999999999996,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.06528070398287752,
+      "phase": "tail"
+    },
+    {
+      "round": 212,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 5.2499999999999964,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06971207526318593,
+      "phase": "tail"
+    },
+    {
+      "round": 213,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 5.268749999999997,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.07288210192667403,
+      "phase": "tail"
+    },
+    {
+      "round": 214,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 5.324999999999997,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.07099604549946846,
+      "phase": "tail"
+    },
+    {
+      "round": 215,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 5.381249999999996,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.07362661819104624,
+      "phase": "tail"
+    },
+    {
+      "round": 216,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 5.4374999999999964,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.07113077332675778,
+      "phase": "tail"
+    },
+    {
+      "round": 217,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 5.512499999999997,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06713187377514934,
+      "phase": "tail"
+    },
+    {
+      "round": 218,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 5.5312499999999964,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06805202513518674,
+      "phase": "tail"
+    },
+    {
+      "round": 219,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 5.587499999999997,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06201483567461958,
+      "phase": "tail"
+    },
+    {
+      "round": 220,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.75,
+      "p_balanced": 0.0,
+      "avg_reward": 5.643749999999996,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.05579598894914007,
+      "phase": "tail"
+    },
+    {
+      "round": 221,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 5.699999999999997,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.054664941776014477,
+      "phase": "tail"
+    },
+    {
+      "round": 222,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 5.643749999999997,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.05568631627529837,
+      "phase": "tail"
+    },
+    {
+      "round": 223,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 5.6999999999999975,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.05422429726665487,
+      "phase": "tail"
+    },
+    {
+      "round": 224,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 5.643749999999997,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.055304519198254146,
+      "phase": "tail"
+    },
+    {
+      "round": 225,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 5.662499999999997,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.05510682984270243,
+      "phase": "tail"
+    },
+    {
+      "round": 226,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 5.606249999999997,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.056339477444772836,
+      "phase": "tail"
+    },
+    {
+      "round": 227,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 5.6249999999999964,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.05559814133865057,
+      "phase": "tail"
+    },
+    {
+      "round": 228,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 5.699999999999997,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.06127630971927545,
+      "phase": "tail"
+    },
+    {
+      "round": 229,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 5.7187499999999964,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.060530661135494546,
+      "phase": "tail"
+    },
+    {
+      "round": 230,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 5.774999999999997,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.0580269754753129,
+      "phase": "tail"
+    },
+    {
+      "round": 231,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 5.7187499999999964,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.05944318453363743,
+      "phase": "tail"
+    },
+    {
+      "round": 232,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 5.793749999999996,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.05672163387985275,
+      "phase": "tail"
+    },
+    {
+      "round": 233,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 5.868749999999997,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.05219015711798587,
+      "phase": "tail"
+    },
+    {
+      "round": 234,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 5.943749999999997,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.047701546096537,
+      "phase": "tail"
+    },
+    {
+      "round": 235,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 5.9999999999999964,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.04842424213720382,
+      "phase": "tail"
+    },
+    {
+      "round": 236,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 5.9999999999999964,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.04842424213720382,
+      "phase": "tail"
+    },
+    {
+      "round": 237,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 6.056249999999997,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.04914833256327266,
+      "phase": "tail"
+    },
+    {
+      "round": 238,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 6.074999999999996,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.04842424213720382,
+      "phase": "tail"
+    },
+    {
+      "round": 239,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 5.9999999999999964,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.05233979462667541,
+      "phase": "tail"
+    },
+    {
+      "round": 240,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 6.018749999999995,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.05210869799035529,
+      "phase": "tail"
+    },
+    {
+      "round": 241,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 6.074999999999996,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.054705541666841793,
+      "phase": "tail"
+    },
+    {
+      "round": 242,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 6.0937499999999964,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.05397181700897295,
+      "phase": "tail"
+    },
+    {
+      "round": 243,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 6.149999999999996,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.054705541666841793,
+      "phase": "tail"
+    },
+    {
+      "round": 244,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 6.168749999999996,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.05447594796100441,
+      "phase": "tail"
+    },
+    {
+      "round": 245,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 6.112499999999995,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.05589258846495274,
+      "phase": "tail"
+    },
+    {
+      "round": 246,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 6.037499999999996,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.058945659893774906,
+      "phase": "tail"
+    },
+    {
+      "round": 247,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 5.981249999999995,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06079907354351784,
+      "phase": "tail"
+    },
+    {
+      "round": 248,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 5.999999999999996,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06424823684351266,
+      "phase": "tail"
+    },
+    {
+      "round": 249,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 5.924999999999995,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06821295927094875,
+      "phase": "tail"
+    },
+    {
+      "round": 250,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 5.943749999999994,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06783314057993785,
+      "phase": "tail"
+    },
+    {
+      "round": 251,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 5.962499999999994,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.07215490335469321,
+      "phase": "tail"
+    },
+    {
+      "round": 252,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 5.906249999999995,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.07439173262408012,
+      "phase": "tail"
+    },
+    {
+      "round": 253,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 5.981249999999995,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06950745379319122,
+      "phase": "tail"
+    },
+    {
+      "round": 254,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 5.9249999999999945,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.07172134390734129,
+      "phase": "tail"
+    },
+    {
+      "round": 255,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 5.981249999999995,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.06395051187246356,
+      "phase": "tail"
+    },
+    {
+      "round": 256,
+      "p_aggressive": 0.0,
+      "p_defensive": 1.0,
+      "p_balanced": 0.0,
+      "avg_reward": 6.037499999999994,
+      "strategy_entropy": -1.000000082690371e-10,
+      "personality_norm": 0.057638056072464784,
+      "phase": "tail"
+    },
+    {
+      "round": 257,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 6.056249999999995,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06120118430992657,
+      "phase": "tail"
+    },
+    {
+      "round": 258,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 6.1124999999999945,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.06381774892712143,
+      "phase": "tail"
+    },
+    {
+      "round": 259,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 6.131249999999994,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.06344803637869816,
+      "phase": "tail"
+    },
+    {
+      "round": 260,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 6.149999999999994,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.06708495808720918,
+      "phase": "tail"
+    },
+    {
+      "round": 261,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 6.224999999999994,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.06257277793947305,
+      "phase": "tail"
+    },
+    {
+      "round": 262,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 6.149999999999995,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.0682483473357606,
+      "phase": "tail"
+    },
+    {
+      "round": 263,
+      "p_aggressive": 1.0,
+      "p_defensive": 0.0,
+      "p_balanced": 0.0,
+      "avg_reward": 6.224999999999994,
+      "strategy_entropy": -1.000000082690371e-10,
+      "personality_norm": 0.06316057939144168,
+      "phase": "tail"
+    },
+    {
+      "round": 264,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 6.2999999999999945,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06872966318528423,
+      "phase": "tail"
+    },
+    {
+      "round": 265,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 6.374999999999996,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.06430992615112073,
+      "phase": "tail"
+    },
+    {
+      "round": 266,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.0,
+      "p_balanced": 1.0,
+      "avg_reward": 6.431249999999995,
+      "strategy_entropy": -1.000000082690371e-10,
+      "personality_norm": 0.062479035546434275,
+      "phase": "tail"
+    },
+    {
+      "round": 267,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 6.449999999999994,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.06214151880486262,
+      "phase": "tail"
+    },
+    {
+      "round": 268,
+      "p_aggressive": 1.0,
+      "p_defensive": 0.0,
+      "p_balanced": 0.0,
+      "avg_reward": 6.468749999999995,
+      "strategy_entropy": -1.000000082690371e-10,
+      "personality_norm": 0.06654966865760942,
+      "phase": "tail"
+    },
+    {
+      "round": 269,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 6.524999999999995,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06729742461175692,
+      "phase": "tail"
+    },
+    {
+      "round": 270,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 6.5812499999999945,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06478418951362747,
+      "phase": "tail"
+    },
+    {
+      "round": 271,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 6.599999999999994,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06524985781833247,
+      "phase": "tail"
+    },
+    {
+      "round": 272,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 6.618749999999995,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.06871552402614427,
+      "phase": "tail"
+    },
+    {
+      "round": 273,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 6.693749999999994,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.06415449948902728,
+      "phase": "tail"
+    },
+    {
+      "round": 274,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.25,
+      "p_balanced": 0.25,
+      "avg_reward": 6.749999999999995,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06489045757563361,
+      "phase": "tail"
+    },
+    {
+      "round": 275,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 6.7687499999999945,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.06619104835861575,
+      "phase": "tail"
+    },
+    {
+      "round": 276,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 6.824999999999995,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06692547744506655,
+      "phase": "tail"
+    },
+    {
+      "round": 277,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 6.768749999999994,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.06943013012194432,
+      "phase": "tail"
+    },
+    {
+      "round": 278,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 6.843749999999995,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.0646107032058165,
+      "phase": "tail"
+    },
+    {
+      "round": 279,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.0,
+      "p_balanced": 1.0,
+      "avg_reward": 6.843749999999995,
+      "strategy_entropy": -1.000000082690371e-10,
+      "personality_norm": 0.0646107032058165,
+      "phase": "tail"
+    },
+    {
+      "round": 280,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 6.899999999999994,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.0653502358091584,
+      "phase": "tail"
+    },
+    {
+      "round": 281,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 6.974999999999994,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.061308876358261495,
+      "phase": "tail"
+    },
+    {
+      "round": 282,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 7.031249999999995,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.0588082158375859,
+      "phase": "tail"
+    },
+    {
+      "round": 283,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.5,
+      "p_balanced": 0.5,
+      "avg_reward": 7.049999999999994,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.0580662085064333,
+      "phase": "tail"
+    },
+    {
+      "round": 284,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 7.068749999999993,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.05775250265140104,
+      "phase": "tail"
+    },
+    {
+      "round": 285,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.0,
+      "p_balanced": 0.25,
+      "avg_reward": 7.143749999999994,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.06343568347152959,
+      "phase": "tail"
+    },
+    {
+      "round": 286,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.25,
+      "p_balanced": 0.75,
+      "avg_reward": 7.199999999999994,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.0660853865866925,
+      "phase": "tail"
+    },
+    {
+      "round": 287,
+      "p_aggressive": 0.75,
+      "p_defensive": 0.25,
+      "p_balanced": 0.0,
+      "avg_reward": 7.274999999999993,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.07181163647218049,
+      "phase": "tail"
+    },
+    {
+      "round": 288,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.5,
+      "p_balanced": 0.0,
+      "avg_reward": 7.274999999999993,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.07181163647218049,
+      "phase": "tail"
+    },
+    {
+      "round": 289,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 7.3312499999999945,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06928640175929256,
+      "phase": "tail"
+    },
+    {
+      "round": 290,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 7.256249999999994,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.07284661218100752,
+      "phase": "tail"
+    },
+    {
+      "round": 291,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 7.274999999999994,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.07250323942116388,
+      "phase": "tail"
+    },
+    {
+      "round": 292,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 7.349999999999994,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.0680644297821013,
+      "phase": "tail"
+    },
+    {
+      "round": 293,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 7.406249999999994,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06593720379080456,
+      "phase": "tail"
+    },
+    {
+      "round": 294,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.25,
+      "p_balanced": 0.5,
+      "avg_reward": 7.462499999999994,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.06432803201657179,
+      "phase": "tail"
+    },
+    {
+      "round": 295,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 7.5187499999999945,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.06276836135745525,
+      "phase": "tail"
+    },
+    {
+      "round": 296,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.0,
+      "p_balanced": 0.75,
+      "avg_reward": 7.593749999999995,
+      "strategy_entropy": 0.5623351444188083,
+      "personality_norm": 0.06854076113890252,
+      "phase": "tail"
+    },
+    {
+      "round": 297,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 7.6124999999999945,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.07301814441673107,
+      "phase": "tail"
+    },
+    {
+      "round": 298,
+      "p_aggressive": 0.25,
+      "p_defensive": 0.5,
+      "p_balanced": 0.25,
+      "avg_reward": 7.6312499999999925,
+      "strategy_entropy": 1.0397207705399178,
+      "personality_norm": 0.07225986632460712,
+      "phase": "tail"
+    },
+    {
+      "round": 299,
+      "p_aggressive": 0.5,
+      "p_defensive": 0.0,
+      "p_balanced": 0.5,
+      "avg_reward": 7.687499999999994,
+      "strategy_entropy": 0.6931471803599453,
+      "personality_norm": 0.0663818411022553,
+      "phase": "tail"
+    },
+    {
+      "round": 300,
+      "p_aggressive": 0.0,
+      "p_defensive": 0.0,
+      "p_balanced": 1.0,
+      "avg_reward": 7.743749999999993,
+      "strategy_entropy": -1.000000082690371e-10,
+      "personality_norm": 0.0650018404186571,
+      "phase": "tail"
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "v1": {
+    "values": [
+      -0.38472310395015424,
+      -0.36085415090501716,
+      -0.30908290079298933,
+      0.45975085405928484,
+      0.2226119137420228,
+      -0.13952439532859778,
+      -0.3518148486168995,
+      0.23455770751654462,
+      -0.40872386864028465
+    ],
+    "sigma": 9.195296792430849,
+    "explained_variance_pct": 99.93308270896476,
+    "dominant_positive": "risk_aversion",
+    "dominant_negative": "curiosity"
+  },
+  "v2": {
+    "values": [
+      -0.21240226471286897,
+      -0.1994477953457271,
+      0.22205220807677992,
+      0.2531223033604125,
+      -0.7061672663973916,
+      -0.46552620815102236,
+      0.20246049452147696,
+      0.1309025431111202,
+      0.167973763025197
+    ],
+    "sigma": 0.23448708802815058,
+    "explained_variance_pct": 0.06498537789736436,
+    "dominant_positive": "risk_aversion",
+    "dominant_negative": "suspicion"
+  },
+  "feature_names": [
+    "impulsiveness",
+    "assertiveness",
+    "optimism",
+    "risk_aversion",
+    "suspicion",
+    "endurance",
+    "randomness",
+    "stability_seeking",
+    "curiosity"
+  ]
+}

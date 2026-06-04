@@ -1,0 +1,11 @@
+{
+  "G7G-01": true,
+  "G7G-02": true,
+  "G7G-02_detail": "mean_cosine_sim=0.9998",
+  "G7G-03": false,
+  "G7G-03_detail": "mean_recovery=165.5, success_rate=12/36",
+  "G7G-04": false,
+  "G7G-04_detail": "mean_λ=-0.000000, q75_λ=0.000000",
+  "G7G-05": true,
+  "G7G-05_detail": "Cross-seed consistency check"
+}

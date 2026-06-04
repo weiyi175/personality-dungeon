@@ -1,0 +1,11 @@
+seed,alpha,group,vdi,act,plasticity_window,coupling_mean,coupling_std,coupling_trend,personality_saturation
+42,0.2,G-AGG,5e-06,196,0,-0.08189,0.144477,weakening,0.2222
+43,0.2,G-AGG,1e-06,200,0,-0.09443,0.170715,strengthening,0.1111
+44,0.2,G-AGG,-3e-06,165,0,-0.032596,0.147889,weakening,0.1111
+101,0.2,G-AGG,-1.8e-05,200,0,-0.015499,0.091496,weakening,0.3333
+102,0.2,G-AGG,-4e-06,195,0,-0.062,0.088091,weakening,0.2222
+42,0.3,G-AGG,1e-06,187,0,-0.084099,0.148091,weakening,0.4444
+43,0.3,G-AGG,2e-06,200,0,-0.095156,0.166935,strengthening,0.2222
+44,0.3,G-AGG,-7e-06,155,0,-0.044865,0.13955,weakening,0.2222
+101,0.3,G-AGG,-4.4e-05,200,0,-0.02188,0.100824,weakening,0.4444
+102,0.3,G-AGG,-8e-06,174,12,-0.069077,0.13599,weakening,0.2222
