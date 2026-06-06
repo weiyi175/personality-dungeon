@@ -1,0 +1,110 @@
+{
+  "primary_dv": "max_proximity",
+  "base": {
+    "exp_mean": 0.9584613879157767,
+    "exp_sd": 0.034008968510310225,
+    "ctrl_mean": 0.525466136993312,
+    "ctrl_sd": 0.18921862371816983,
+    "raw_cohens_d": 3.1851537559432654,
+    "base_sessions": 400
+  },
+  "planned_n": 106,
+  "mc_reps": 1500,
+  "H1_scenarios": [
+    {
+      "attenuation": 1.0,
+      "sigma": 0.0,
+      "power_at_planned": 1.0,
+      "min_n_80": 10
+    },
+    {
+      "attenuation": 1.0,
+      "sigma": 0.15,
+      "power_at_planned": 1.0,
+      "min_n_80": 10
+    },
+    {
+      "attenuation": 1.0,
+      "sigma": 0.3,
+      "power_at_planned": 1.0,
+      "min_n_80": 10
+    },
+    {
+      "attenuation": 0.6,
+      "sigma": 0.0,
+      "power_at_planned": 1.0,
+      "min_n_80": 15
+    },
+    {
+      "attenuation": 0.6,
+      "sigma": 0.15,
+      "power_at_planned": 1.0,
+      "min_n_80": 15
+    },
+    {
+      "attenuation": 0.6,
+      "sigma": 0.3,
+      "power_at_planned": 0.9993333333333333,
+      "min_n_80": 30
+    },
+    {
+      "attenuation": 0.4,
+      "sigma": 0.0,
+      "power_at_planned": 1.0,
+      "min_n_80": 25
+    },
+    {
+      "attenuation": 0.4,
+      "sigma": 0.15,
+      "power_at_planned": 0.998,
+      "min_n_80": 40
+    },
+    {
+      "attenuation": 0.4,
+      "sigma": 0.3,
+      "power_at_planned": 0.9373333333333334,
+      "min_n_80": 80
+    },
+    {
+      "attenuation": 0.25,
+      "sigma": 0.0,
+      "power_at_planned": 0.9713333333333334,
+      "min_n_80": 64
+    },
+    {
+      "attenuation": 0.25,
+      "sigma": 0.15,
+      "power_at_planned": 0.8573333333333333,
+      "min_n_80": 106
+    },
+    {
+      "attenuation": 0.25,
+      "sigma": 0.3,
+      "power_at_planned": 0.6213333333333333,
+      "min_n_80": 212
+    }
+  ],
+  "H2_analytic": [
+    {
+      "d": 0.2,
+      "power_at_planned": 0.30746882288287025,
+      "n_for_80": 392.4439867174543
+    },
+    {
+      "d": 0.3,
+      "power_at_planned": 0.5886652514920989,
+      "n_for_80": 174.41954965220197
+    },
+    {
+      "d": 0.5,
+      "power_at_planned": 0.9535302009815827,
+      "n_for_80": 62.79103787479271
+    },
+    {
+      "d": 0.8,
+      "power_at_planned": 0.999944255694012,
+      "n_for_80": 24.527749169840895
+    }
+  ],
+  "model_notes": "attenuation a: P(experiment session responds to manipulation); non-responders drawn from control distribution. sigma: additive Gaussian on max_proximity, clipped to [0,1]."
+}
