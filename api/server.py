@@ -68,11 +68,13 @@ from simulation.passive_choice import (
     resolve_passive_choice,
     vector_to_personality,
 )
+from simulation.personality_space import a_to_b as space_a_to_b
 from dungeon.event_loader import EventLoader
 import asyncio
 import os
 import random
 import time
+import numpy as np
 try:
     from api.instrumentation import log_metric, persist_metrics_batch
 except Exception:
@@ -186,6 +188,9 @@ class RLSessionInitRequest(BaseModel):
     burn_in: int = 4000
     seed: int | None = None
     personality_mode: str = "random_9persona"
+    # Enable Space-A bifurcation events for this session (P7-H). Off by default
+    # so existing Runtime-Bridge sessions are unchanged.
+    space_a_events_enabled: bool = False
 
 
 class RLSessionInitResponse(BaseModel):
@@ -528,6 +533,47 @@ async def get_state_hash(session_id: str) -> dict[str, str]:
 # ===================================================================
 
 
+def _rl_snapshot_to_dict(s: Any) -> dict[str, Any]:
+    """Serialize a FrameSnapshot to the RL-session response dict.
+
+    Single source of truth for the /rl_sessions/* snapshot shape (init, step,
+    snapshot, reset, apply-event all use this).
+    """
+    return {
+        "session_id": s.session_id,
+        "round": s.round,
+        "tick": s.tick,
+        "warm": s.warm,
+        "cycle_level": s.cycle_level,
+        "s3_score": s.s3_score,
+        "env_gamma": s.env_gamma,
+        "entropy": s.entropy,
+        "q_std": s.q_std,
+        "p_aggressive": s.p_aggressive,
+        "p_defensive": s.p_defensive,
+        "p_balanced": s.p_balanced,
+        "pi_aggressive": s.pi_aggressive,
+        "pi_defensive": s.pi_defensive,
+        "pi_balanced": s.pi_balanced,
+        "q_mean_aggressive": s.q_mean_aggressive,
+        "q_mean_defensive": s.q_mean_defensive,
+        "q_mean_balanced": s.q_mean_balanced,
+        "avg_reward": s.avg_reward,
+        "avg_utility": s.avg_utility,
+        "success_rate": s.success_rate,
+        "risk_mean": s.risk_mean,
+        "stress_mean": s.stress_mean,
+        "world_scarcity": s.world_scarcity,
+        "world_threat": s.world_threat,
+        "world_noise": s.world_noise,
+        "world_intel": s.world_intel,
+        "phase": s.phase,
+        # Space-A personality aggregate + displacement DV (P7-H)
+        "mean_personality": s.mean_personality,
+        "personality_displacement": s.personality_displacement,
+    }
+
+
 @app.post("/rl_sessions/initialize", response_model=RLSessionInitResponse)
 async def rl_initialize_session(req: RLSessionInitRequest) -> RLSessionInitResponse:
     """Create and initialize new RL session (BL2 anchor locked).
@@ -554,6 +600,7 @@ async def rl_initialize_session(req: RLSessionInitRequest) -> RLSessionInitRespo
             burn_in=req.burn_in,
             seed=req.seed if req.seed is not None else 42,
             personality_mode=req.personality_mode,
+            space_a_events_enabled=req.space_a_events_enabled,
             # All other fields use defaults (BL2-locked: alpha_lo=0.005, alpha_hi=0.40, beta=3.0, etc.)
         )
         
@@ -588,37 +635,8 @@ async def rl_initialize_session(req: RLSessionInitRequest) -> RLSessionInitRespo
             pass
         
         # Convert FrameSnapshot to dict for JSON response
-        snapshot_dict = {
-            "session_id": initial_snapshot.session_id,
-            "round": initial_snapshot.round,
-            "tick": initial_snapshot.tick,
-            "warm": initial_snapshot.warm,
-            "cycle_level": initial_snapshot.cycle_level,
-            "s3_score": initial_snapshot.s3_score,
-            "env_gamma": initial_snapshot.env_gamma,
-            "entropy": initial_snapshot.entropy,
-            "q_std": initial_snapshot.q_std,
-            "p_aggressive": initial_snapshot.p_aggressive,
-            "p_defensive": initial_snapshot.p_defensive,
-            "p_balanced": initial_snapshot.p_balanced,
-            "pi_aggressive": initial_snapshot.pi_aggressive,
-            "pi_defensive": initial_snapshot.pi_defensive,
-            "pi_balanced": initial_snapshot.pi_balanced,
-            "q_mean_aggressive": initial_snapshot.q_mean_aggressive,
-            "q_mean_defensive": initial_snapshot.q_mean_defensive,
-            "q_mean_balanced": initial_snapshot.q_mean_balanced,
-            "avg_reward": initial_snapshot.avg_reward,
-            "avg_utility": initial_snapshot.avg_utility,
-            "success_rate": initial_snapshot.success_rate,
-            "risk_mean": initial_snapshot.risk_mean,
-            "stress_mean": initial_snapshot.stress_mean,
-            "world_scarcity": initial_snapshot.world_scarcity,
-            "world_threat": initial_snapshot.world_threat,
-            "world_noise": initial_snapshot.world_noise,
-            "world_intel": initial_snapshot.world_intel,
-            "phase": initial_snapshot.phase,
-        }
-        
+        snapshot_dict = _rl_snapshot_to_dict(initial_snapshot)
+
         return RLSessionInitResponse(
             session_id=session_id,
             initial_snapshot=snapshot_dict,
@@ -660,36 +678,7 @@ async def rl_step_session(session_id: str) -> RLSessionStepResponse:
         latency_ms = int((time.time() - start) * 1000)
         
         # Convert FrameSnapshot to dict
-        snapshot_dict = {
-            "session_id": snapshot.session_id,
-            "round": snapshot.round,
-            "tick": snapshot.tick,
-            "warm": snapshot.warm,
-            "cycle_level": snapshot.cycle_level,
-            "s3_score": snapshot.s3_score,
-            "env_gamma": snapshot.env_gamma,
-            "entropy": snapshot.entropy,
-            "q_std": snapshot.q_std,
-            "p_aggressive": snapshot.p_aggressive,
-            "p_defensive": snapshot.p_defensive,
-            "p_balanced": snapshot.p_balanced,
-            "pi_aggressive": snapshot.pi_aggressive,
-            "pi_defensive": snapshot.pi_defensive,
-            "pi_balanced": snapshot.pi_balanced,
-            "q_mean_aggressive": snapshot.q_mean_aggressive,
-            "q_mean_defensive": snapshot.q_mean_defensive,
-            "q_mean_balanced": snapshot.q_mean_balanced,
-            "avg_reward": snapshot.avg_reward,
-            "avg_utility": snapshot.avg_utility,
-            "success_rate": snapshot.success_rate,
-            "risk_mean": snapshot.risk_mean,
-            "stress_mean": snapshot.stress_mean,
-            "world_scarcity": snapshot.world_scarcity,
-            "world_threat": snapshot.world_threat,
-            "world_noise": snapshot.world_noise,
-            "world_intel": snapshot.world_intel,
-            "phase": snapshot.phase,
-        }
+        snapshot_dict = _rl_snapshot_to_dict(snapshot)
         
         # Emit RL step metric
         try:
@@ -739,36 +728,7 @@ async def rl_snapshot_session(session_id: str) -> RLSessionStepResponse:
         snapshot = manager.snapshot_session(session_id)
         
         # Convert FrameSnapshot to dict
-        snapshot_dict = {
-            "session_id": snapshot.session_id,
-            "round": snapshot.round,
-            "tick": snapshot.tick,
-            "warm": snapshot.warm,
-            "cycle_level": snapshot.cycle_level,
-            "s3_score": snapshot.s3_score,
-            "env_gamma": snapshot.env_gamma,
-            "entropy": snapshot.entropy,
-            "q_std": snapshot.q_std,
-            "p_aggressive": snapshot.p_aggressive,
-            "p_defensive": snapshot.p_defensive,
-            "p_balanced": snapshot.p_balanced,
-            "pi_aggressive": snapshot.pi_aggressive,
-            "pi_defensive": snapshot.pi_defensive,
-            "pi_balanced": snapshot.pi_balanced,
-            "q_mean_aggressive": snapshot.q_mean_aggressive,
-            "q_mean_defensive": snapshot.q_mean_defensive,
-            "q_mean_balanced": snapshot.q_mean_balanced,
-            "avg_reward": snapshot.avg_reward,
-            "avg_utility": snapshot.avg_utility,
-            "success_rate": snapshot.success_rate,
-            "risk_mean": snapshot.risk_mean,
-            "stress_mean": snapshot.stress_mean,
-            "world_scarcity": snapshot.world_scarcity,
-            "world_threat": snapshot.world_threat,
-            "world_noise": snapshot.world_noise,
-            "world_intel": snapshot.world_intel,
-            "phase": snapshot.phase,
-        }
+        snapshot_dict = _rl_snapshot_to_dict(snapshot)
         
         return RLSessionStepResponse(
             session_id=session_id,
@@ -800,36 +760,7 @@ async def rl_reset_session(session_id: str) -> RLSessionStepResponse:
         snapshot = manager.reset_session(session_id)
         
         # Convert FrameSnapshot to dict
-        snapshot_dict = {
-            "session_id": snapshot.session_id,
-            "round": snapshot.round,
-            "tick": snapshot.tick,
-            "warm": snapshot.warm,
-            "cycle_level": snapshot.cycle_level,
-            "s3_score": snapshot.s3_score,
-            "env_gamma": snapshot.env_gamma,
-            "entropy": snapshot.entropy,
-            "q_std": snapshot.q_std,
-            "p_aggressive": snapshot.p_aggressive,
-            "p_defensive": snapshot.p_defensive,
-            "p_balanced": snapshot.p_balanced,
-            "pi_aggressive": snapshot.pi_aggressive,
-            "pi_defensive": snapshot.pi_defensive,
-            "pi_balanced": snapshot.pi_balanced,
-            "q_mean_aggressive": snapshot.q_mean_aggressive,
-            "q_mean_defensive": snapshot.q_mean_defensive,
-            "q_mean_balanced": snapshot.q_mean_balanced,
-            "avg_reward": snapshot.avg_reward,
-            "avg_utility": snapshot.avg_utility,
-            "success_rate": snapshot.success_rate,
-            "risk_mean": snapshot.risk_mean,
-            "stress_mean": snapshot.stress_mean,
-            "world_scarcity": snapshot.world_scarcity,
-            "world_threat": snapshot.world_threat,
-            "world_noise": snapshot.world_noise,
-            "world_intel": snapshot.world_intel,
-            "phase": snapshot.phase,
-        }
+        snapshot_dict = _rl_snapshot_to_dict(snapshot)
         
         return RLSessionStepResponse(
             session_id=session_id,
@@ -838,6 +769,100 @@ async def rl_reset_session(session_id: str) -> RLSessionStepResponse:
     
     except KeyError:
         raise HTTPException(status_code=404, detail=f"Session {session_id} not found")
+
+
+# ── Space-A personality events on an RL session (P7-H) ────────────────────────
+
+
+class RLApplyEventRequest(BaseModel):
+    """POST /rl_sessions/{session_id}/apply-event payload.
+
+    Either pass an explicit ``displacement`` (a 9D Space-A delta), or omit it to
+    have the server design one from the session's current population-mean
+    personality. ``group`` selects the A/B arm: experiment → v1-aligned,
+    control → random direction of equal magnitude.
+    """
+
+    displacement: list[float] | None = None
+    group: str = "experiment"
+    target: str = "personality_shift"
+    intensity_scale: float = 1.0
+    seed: int | None = None
+
+
+@app.post("/rl_sessions/{session_id}/apply-event", response_model=RLSessionStepResponse)
+async def rl_apply_event(session_id: str, req: RLApplyEventRequest) -> RLSessionStepResponse:
+    """Apply a Space-A bifurcation event to an RL session's population.
+
+    The event perturbs every player's personality in Space A and persists across
+    later rounds; the resulting snapshot carries the updated mean_personality and
+    the displacement DV. Requires the session to have been initialized with
+    space_a_events_enabled=True.
+    """
+    manager = get_session_manager()
+
+    # Resolve the displacement: explicit, or designed from the current mean.
+    if req.displacement is not None:
+        if len(req.displacement) != 9:
+            raise HTTPException(
+                status_code=422,
+                detail=f"displacement must have 9 elements, got {len(req.displacement)}",
+            )
+        displacement = req.displacement
+    else:
+        try:
+            current = manager.snapshot_session(session_id)
+        except KeyError:
+            raise HTTPException(status_code=404, detail=f"Session {session_id} not found")
+        mean_a = current.mean_personality
+        rng = np.random.RandomState(req.seed) if req.group == "control" else None
+        event = design_bifurcation_event(
+            mean_a,
+            target=req.target,
+            intensity_scale=req.intensity_scale,
+            app_calibrated=True,
+            direction_mode=_direction_mode_for_group(req.group),
+            rng=rng,
+        )
+        displacement = event["displacement"]
+
+    try:
+        snapshot = await asyncio.to_thread(
+            manager.apply_personality_event, session_id, displacement
+        )
+    except KeyError:
+        raise HTTPException(status_code=404, detail=f"Session {session_id} not found")
+    except RuntimeError as exc:
+        # space_a_events_enabled is False on this session.
+        raise HTTPException(status_code=409, detail=str(exc))
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc))
+
+    return RLSessionStepResponse(session_id=session_id, snapshot=_rl_snapshot_to_dict(snapshot))
+
+
+@app.get("/rl_sessions/{session_id}/personality")
+async def rl_session_personality(session_id: str) -> dict[str, Any]:
+    """Report the session's Space-A population personality, the Space-B mapping,
+    the displacement DV, and the current bifurcation proximity.
+    """
+    manager = get_session_manager()
+    try:
+        snapshot = manager.snapshot_session(session_id)
+    except KeyError:
+        raise HTTPException(status_code=404, detail=f"Session {session_id} not found")
+
+    mean_a = np.asarray(snapshot.mean_personality, dtype=float)
+    proximity = compute_bifurcation_distance(mean_a, mode="projection")
+    return {
+        "session_id": session_id,
+        "round": snapshot.round,
+        "feature_names": _BF_FEATURE_NAMES,
+        "mean_personality_space_a": snapshot.mean_personality,
+        "mean_personality_space_b": space_a_to_b(mean_a).tolist(),
+        "personality_displacement": snapshot.personality_displacement,
+        "bifurcation": proximity,
+    }
 
 
 @app.post("/metrics/events", response_model=MetricsEventsResponse)

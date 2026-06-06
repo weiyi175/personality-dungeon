@@ -136,6 +136,32 @@ class RLSessionManager:
         
         return snapshot
 
+    def apply_personality_event(
+        self, session_id: str, displacement: list[float]
+    ) -> FrameSnapshot:
+        """Apply a Space-A personality event to a session, then return a snapshot.
+
+        Args:
+            session_id: Session identifier
+            displacement: 9D Space-A delta to add to every player's personality
+
+        Returns:
+            FrameSnapshot reflecting the perturbed population (does not advance round)
+
+        Raises:
+            KeyError: If session not found
+            RuntimeError: If space_a_events_enabled is False on the session
+            ValueError: If displacement is not 9D
+        """
+        engine = self._get_engine(session_id)
+        lock = self.session_locks[session_id]
+
+        with lock:
+            engine.apply_personality_event(displacement)
+            snapshot = engine.snapshot()
+
+        return snapshot
+
     def reset_session(self, session_id: str) -> FrameSnapshot:
         """Reset session to initial state (round=0, warm=False).
         

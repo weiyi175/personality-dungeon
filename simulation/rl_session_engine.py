@@ -23,7 +23,7 @@ from collections import deque
 from dataclasses import dataclass, field
 from math import exp, log, sqrt
 from pathlib import Path
-from typing import Any
+from typing import Any, Sequence
 
 import numpy as np
 
@@ -37,7 +37,12 @@ from evolution.independent_rl import (
     rl_q_update,
     strategy_payoff_matrix,
 )
-from players.rl_player import RLPlayer, init_rl_player, sample_personality
+from players.rl_player import (
+    RLPlayer,
+    _PERSONALITY_KEYS,
+    init_rl_player,
+    sample_personality,
+)
 
 
 # ===================================================================
@@ -128,6 +133,13 @@ class RLSessionConfig:
     personality_update_enabled: bool = False  # Enable ΔP updates (P7-C gate)
     personality_feedback_strength: float = 0.0  # α ∈ [0, 1], main P7-D scan param
     personality_learning_rate: float = 0.05  # η for ΔP = η·(r - r̄)·g(s)
+    # ---- Space-A bifurcation events (P7-H) ----
+    # When True, apply_personality_event() perturbs the population personality in
+    # Space A (engine/SVD coords). This is a SEPARATE subsystem from the legacy
+    # events_json EventBridge (still locked off below); it is the path the P7-H
+    # study uses so events persist across rounds and the DV is measured in the
+    # same space the events are designed in. See simulation/personality_space.py.
+    space_a_events_enabled: bool = False
 
     # ---- Events (locked to Off for Phase 1, Track B restarts) ----
     events_json: str = ""  # Must be "" during Runtime Bridge Phase 1-2
@@ -212,6 +224,16 @@ class FrameSnapshot:
 
     # Phase indicator for cycle metrics context
     phase: str = "burn-in"  # "burn-in" | "tail"
+
+    # ---- Space-A personality aggregate (P7-H) ----
+    # Population-mean 9D personality in Space A (engine/SVD coords, key order =
+    # players.rl_player._PERSONALITY_KEYS == bifurcation_detector.FEATURE_NAMES).
+    # This is the experiment's measurement surface: events perturb it and the DV
+    # is its displacement from the session's initial mean.
+    mean_personality: list[float] = field(default_factory=list)
+    # ‖mean_personality_now − mean_personality_at_session_start‖ (Space A). The
+    # P7-H primary DV, measured in the same space events are designed in.
+    personality_displacement: float = 0.0
 
 
 # ===================================================================
@@ -301,6 +323,54 @@ class RLSessionEngine:
         self.last_entropy: float = 0.0
         self.last_q_std: float = 0.0
 
+        # ---- Space-A event state (P7-H) ----
+        # Baseline for the displacement DV: the population-mean personality at
+        # session start, captured in Space A before any event is applied.
+        self._initial_mean_personality: np.ndarray = self._mean_personality_vector()
+
+    def _mean_personality_vector(self) -> np.ndarray:
+        """Population-mean 9D personality in Space A (key order = _PERSONALITY_KEYS)."""
+        if not self.players:
+            return np.zeros(len(_PERSONALITY_KEYS))
+        mat = np.array([
+            [p.personality.get(k, 0.0) for k in _PERSONALITY_KEYS]
+            for p in self.players
+        ])
+        return mat.mean(axis=0)
+
+    def apply_personality_event(self, displacement: "Sequence[float]") -> np.ndarray:
+        """Apply a Space-A bifurcation event to the whole population.
+
+        Adds ``displacement`` (a 9D Space-A delta, e.g. from
+        event_generator.design_bifurcation_event) to every player's personality
+        and clamps to [-1, 1]. The perturbation persists across subsequent rounds
+        (it mutates player.personality, which the RL loop reads but never wholly
+        overwrites), so its effect can accumulate and be measured as the
+        Space-A displacement DV.
+
+        Returns the new population-mean personality (Space A).
+
+        Raises RuntimeError if space_a_events_enabled is False, so the locked
+        Phase-1/2 dead zone cannot be perturbed by accident.
+        """
+        if not self.config.space_a_events_enabled:
+            raise RuntimeError(
+                "space_a_events_enabled is False; enable it in RLSessionConfig "
+                "to apply Space-A personality events (P7-H)."
+            )
+        disp = np.asarray(displacement, dtype=float)
+        if disp.shape != (len(_PERSONALITY_KEYS),):
+            raise ValueError(
+                f"displacement must have {len(_PERSONALITY_KEYS)} elements, "
+                f"got {disp.shape}"
+            )
+        for player in self.players:
+            for i, k in enumerate(_PERSONALITY_KEYS):
+                player.personality[k] = float(
+                    np.clip(player.personality.get(k, 0.0) + disp[i], -1.0, 1.0)
+                )
+        return self._mean_personality_vector()
+
     def reset(self) -> FrameSnapshot:
         """Reset session to initial state.
 
@@ -344,6 +414,9 @@ class RLSessionEngine:
                 lambda_risk=self.config.lambda_risk,
                 lambda_beta_comp=self.config.lambda_beta_comp,
             )
+
+        # Re-baseline the Space-A displacement DV after re-initialising players.
+        self._initial_mean_personality = self._mean_personality_vector()
 
         return self._make_snapshot(cycle_check=False)
 
@@ -693,6 +766,10 @@ class RLSessionEngine:
 
         entropy = self._compute_entropy_from_players()
 
+        # Space-A personality aggregate + displacement DV (P7-H)
+        mean_pers = self._mean_personality_vector()
+        pers_disp = float(np.linalg.norm(mean_pers - self._initial_mean_personality))
+
         return FrameSnapshot(
             session_id=self.session_id,
             round=self.round,
@@ -718,4 +795,6 @@ class RLSessionEngine:
             risk_mean=0.0,  # Placeholder, off during Phase 1
             stress_mean=0.0,  # Placeholder, off during Phase 1
             phase=phase,
+            mean_personality=mean_pers.tolist(),
+            personality_displacement=pers_disp,
         )
