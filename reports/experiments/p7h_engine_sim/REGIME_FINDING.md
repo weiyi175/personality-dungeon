@@ -100,6 +100,26 @@ aims at (the bifurcation), independent of how the modulation scales force.
 3. With ΔP feedback ON, common-mode personality drift adds variance that further
    dilutes displacement DVs; the proximity DV is unaffected.
 
+## Primary-DV robustness (`sweep_p7h_robustness.py`)
+
+The `max_proximity` effect is not seed- or tuning-dependent. In the capped
+regime (12 actions / 4 events, 40 sessions/run), Cohen's d on max_proximity
+over 8 seeds per cell:
+
+| feedback | intensity | d_mean | d_sd | d_min | d_max | % seeds p<0.05 |
+|----------|-----------|--------|------|-------|-------|----------------|
+| on  | 0.5 | 2.44 | 0.40 | 1.84 | 2.99 | 100% |
+| on  | 1.0 | 3.71 | 0.40 | 3.09 | 4.34 | 100% |
+| off | 0.5 | 3.92 | 0.60 | 3.43 | 5.11 | 100% |
+| off | 1.0 | 5.26 | 0.69 | 4.73 | 6.67 | 100% |
+
+Every cell and every seed is significant. The hardest realistic condition
+(feedback on, low intensity) still gives d≈2.4 (worst single seed d=1.84 → N≈6
+per group for 80% power). **The apparatus is massively over-powered for the
+objective H1 with N=106/group; the binding sample-size constraint is the
+subjective survey (H2).** Feedback ON lowers d (common-mode ΔP drift adds noise)
+but the effect remains very large.
+
 ## Reproduce
 
 ```bash
