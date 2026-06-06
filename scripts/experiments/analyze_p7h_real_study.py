@@ -8,7 +8,8 @@ API `tracker.save()` / `survey.save()`) and runs the pre-registered analysis:
 
   H1 (primary, objective) : Welch two-sample t-test on total_displacement
                             (experiment > control) + Cohen's d with 95% CI.
-  H2 (co-primary, subjective): Mann-Whitney U on survey UX composite + per-item.
+  H2 (exploratory, subjective): Mann-Whitney U on survey UX composite + per-item
+                                (effect size + CI reported; no go/no-go — see pre-reg §4).
   H3 (exploratory)        : Spearman correlation between n_critical_crossings
                             and survey UX composite.
 
@@ -347,7 +348,7 @@ def main() -> None:
     _print_dv("  n_critical_crossings", h1_cross, show_power=False)
     if "error" not in h2:
         c = h2["composite"]
-        print("\nH2 (co-primary, subjective): survey UX composite")
+        print("\nH2 (EXPLORATORY, subjective): survey UX composite  [effect size + CI; no go/no-go]")
         print(f"  control={c['control_mean']:.1f}  experiment={c['experiment_mean']:.1f}  "
               f"lift={c['ux_lift']:+.2f}")
         print(f"  Mann-Whitney U={c['mann_whitney_u']:.0f}  p={c['p_one_sided']:.2e}  "

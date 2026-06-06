@@ -33,7 +33,9 @@ P7-F/P7-G 已在動力學層辨識出人格軌跡的分岔結構（敏感方向 
 ## 3. 樣本量與檢定力
 
 - **目標 N = 212**（`control` 106 / `experiment` 106）。
-- **檢定力依據**：主要客觀 DV（`max_proximity`）在模擬下效應量極大（d≈+3.8~+4.4），所需 N 遠低於 64/組；目標 N 主要由**共主要主觀 DV（H2）**與 106/106 計數平衡決定。保守以 Cohen's d ≈ 0.5 估算：雙臂 Welch t（單尾 α=0.05、power=0.80）所需約 **64/組**（公式見 [analyze_p7h_real_study.py](../../../scripts/experiments/analyze_p7h_real_study.py) `n_per_group_for_power`）。106/組相對 64/組留有充足餘裕。
+- **唯一 confirmatory 假設為 H1（客觀）**；H2、H3 為探索性，不驅動樣本量（理由見下與 §4、§10）。
+- **檢定力依據（H1）**：主要客觀 DV（`max_proximity`）在模擬下效應量極大（d≈+3.2~+4.4）。真人噪音檢定力分析（[POWER_ANALYSIS.md](../../../reports/experiments/p7h_power/POWER_ANALYSIS.md)）顯示：即使僅 40% 玩家回應操作且加入高個體噪音，N=106/組仍有 ≥94% power；要到參與度 ≤25% 且高噪音才需 N≈212。故 **106/組對 H1 嚴重過度檢定力，遠超 80% 所需**。
+- **保留 N=212 的理由**（非 H1 power 需求）：① `control` 106 / `experiment` 106 計數平衡；② 提升 H2/H3 探索性效應量估計的精度（縮窄 CI），供後續 UX 研究設計用；③ 對參與度極差情境留安全餘裕。
 - 分析腳本另會回報**在觀測 N 下達成的檢定力**與**達 80% 所需 N**。
 
 ---
@@ -52,11 +54,11 @@ P7-F/P7-G 已在動力學層辨識出人格軌跡的分岔結構（敏感方向 
 - **檢定／判準**：同 H1（Welch 單尾、Cohen's d、p < 0.05）。
 - **⚠ 有效性條件**：僅在實驗組未飽和（max proximity < ~0.95）時有效；遊戲設計須將事件序列收到此範圍（現行 `intensity_scale=1.0` 下約 ≤ 4 個分岔事件/場次，取代 §6 原「30 步」預期）。否則此 DV 預期 null／反轉，**不得**據以推翻 H1 主結論。
 
-### H2 — 共主要假設（主觀）
+### H2 — 探索性假設（主觀，2026-06-06 由共主要降為探索性）
 - **依變項**：問卷 UX composite ＝ `q1_naturalness + q2_fun + q3_replay`（每題 1–10）。
-- **主檢定**：Mann-Whitney U，**單尾**（experiment > control）於 composite。
-- **次級（逐題）**：q1/q2/q3 各自 Mann-Whitney U（單尾），三題以 **Holm-Bonferroni** 校正。
-- **顯著判準**：composite 單尾 p < 0.05；逐題以 Holm 校正後 p < 0.05。
+- **報告內容**：Mann-Whitney U（單尾 experiment > control）於 composite，以及逐題 q1/q2/q3（Holm-Bonferroni 校正）。**一併報告效應量（Cliff's δ／標準化均差）與 95% CI。**
+- **判定方式**：**不作 go/no-go 顯著性判定**。H2 的目的是產出真人 UX 效應量的點估計與 CI，作為**後續專門 UX/體驗研究**的檢定力設計輸入。
+- **降為探索性的理由**：真人噪音檢定力分析顯示，若真實 UX 效應為小（d≤0.3），N=106/組僅 31–59% power（需 174–392/組）；在不加大 N 的前提下，將其列為 confirmatory 共主要會鎖入一個可能不可解的 null。P7-H 的 confirmatory 重量在客觀控制論主張（H1）；主觀體驗作為探索性更誠實，也更能推進未來方向。見 [POWER_ANALYSIS.md](../../../reports/experiments/p7h_power/POWER_ANALYSIS.md) 與 §10。
 
 ### H3 — 探索性假設
 - **變項（原始預先登記）**：`n_critical_crossings`（proximity 由 < 0.8 跨越到 ≥ 0.8 的次數）對上 UX composite，依 `session_id` 配對。
@@ -94,7 +96,9 @@ P7-F/P7-G 已在動力學層辨識出人格軌跡的分岔結構（敏感方向 
 ## 7. 停止規則
 
 - 達 **212 個合格完成場次**（且 `control` 106 / `experiment` 106 皆滿）即停止收案。
-- **不做期中偷看（no interim peeking）**：收案完成前不執行 H1/H2/H3 之顯著性檢定。進度監控僅看各組 `n_completed` 計數（`GET /player-test/summary`），不看效應或 p 值。
+- **唯一 confirmatory 檢定為 H1**（max_proximity，Welch 單尾 p<0.05）；H2、H3 僅報告效應量與 CI，不作顯著性判定。
+- **不做期中偷看（no interim peeking）**：收案完成前不執行 H1（及 H2/H3）之檢定。進度監控僅看各組 `n_completed` 計數（`GET /player-test/summary`），不看效應或 p 值。
+- **參與度監控（不偷看效應）**：可監看實驗組 `max_proximity` 的**分佈**是否遠低於模擬預期（~0.95），以偵測真人參與度過低（若實際參與度 < a≈0.4 會侵蝕 H1 power）。此為單組分佈監控，**不**涉及組間對比或 p 值。
 
 ---
 
@@ -149,3 +153,8 @@ P7-F/P7-G 已在動力學層辨識出人格軌跡的分岔結構（敏感方向 
 > **① 將主要客觀 DV 改為 `max_proximity`**（連續、無混淆、跨區間穩健 d≈+3.8~+4.4）。此亦復活了**原始**預先登記的 crossing 類 DV（`n_critical_crossings`，當初棄用僅因舊裝置全飽和成 1.0，Space A/B 修復後已不再）；優先用 `max_proximity` 以避免零變異退化。
 > **② 若保留淨位移為次級 DV**，須把事件序列收到實驗組 max proximity < ~0.95（`intensity_scale=1.0` 下約 ≤ 4 事件/場次），它僅在飽和前有效。
 > 詳見 [reports/experiments/p7h_engine_sim/REGIME_FINDING.md](../../../reports/experiments/p7h_engine_sim/REGIME_FINDING.md)。
+
+> **決策 — H2 由共主要降為探索性（2026-06-06，使用者確認）**
+> 真人噪音檢定力分析（[POWER_ANALYSIS.md](../../../reports/experiments/p7h_power/POWER_ANALYSIS.md)）顯示：客觀 H1（max_proximity）對 N=106/組嚴重過度檢定力（即使僅 40% 玩家回應 + 高噪音仍 ≥94% power）；但主觀 H2 若真實效應為小（d≤0.3）則 N=106 僅 31–59% power（需 174–392/組）。
+> 在不加大 N 的前提下，將 H2 由 confirmatory 共主要**降為探索性**：僅報告效應量與 95% CI、不作 go/no-go。理由：P7-H 的 confirmatory 重量在客觀控制論主張（H1，已驗證且穩健），主觀體驗作為探索性更誠實，且其效應量估計可作為**後續專門 UX 研究**的設計輸入（避免把唯一一次共主要機會花在 underpowered、可能不可解的 null 上）。
+> 影響條目：§3（樣本量改以 H1 為唯一 confirmatory 驅動，212 保留作計數平衡／探索性精度／安全餘裕）、§4 H2（改列探索性）、§7（H1 為唯一 confirmatory 檢定 + 新增不偷看效應的參與度分佈監控）。
