@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from contextlib import asynccontextmanager
 from dataclasses import asdict
 from typing import Any
 import sys
@@ -47,6 +48,30 @@ from api.personality_text_inference import (
 from api.personality_sbert_inference import infer_personality_vector_sbert
 from api.rl_session_manager import get_session_manager
 from simulation.rl_session_engine import RLSessionConfig
+from api.ab_test_manager import get_manager as _get_ab_manager
+from api.player_test_tracker import get_tracker as _get_tracker
+from api.survey_manager import get_survey as _get_survey
+from simulation.bifurcation_detector import (
+    compute_bifurcation_distance,
+    compute_sensitive_direction,
+    get_jacobian,
+    FEATURE_NAMES as _BF_FEATURE_NAMES,
+)
+from simulation.event_generator import (
+    design_bifurcation_event,
+    event_sequence_planner,
+    intensity_modulation,
+    is_in_effective_zone,
+    rollback_distance,
+)
+from simulation.passive_choice import (
+    resolve_passive_choice,
+    vector_to_personality,
+)
+from dungeon.event_loader import EventLoader
+import asyncio
+import os
+import random
 import time
 try:
     from api.instrumentation import log_metric, persist_metrics_batch
@@ -81,6 +106,43 @@ except Exception:
 
 
 # ===================================================================
+# P7-H real-study persistence
+# Real-human collection spans days and the server may restart, so the
+# A/B / tracker / survey singletons (in-memory) are mirrored to disk.
+# Output goes to P7H_OUT_DIR (default p7h_real_study) — kept separate
+# from the simulated p7h_player_test/ validation data.
+# ===================================================================
+
+P7H_OUT_DIR = os.environ.get(
+    "P7H_OUT_DIR", "reports/experiments/p7h_real_study"
+)
+
+
+async def _p7h_save(manager) -> None:
+    """Persist a P7-H manager to disk off the event loop (best-effort)."""
+    try:
+        await asyncio.to_thread(manager.save, P7H_OUT_DIR)
+    except Exception as exc:  # never fail a request because a save hiccupped
+        log_metric("p7h_save_error", error=str(exc))
+
+
+@asynccontextmanager
+async def _lifespan(app: FastAPI):
+    """Backfill managers from disk so a restart mid-study keeps assignments,
+    trajectories, and survey responses (and the 106/106 count balance).
+
+    Uses the lifespan protocol (the @app.on_event("startup") hook is
+    deprecated in current FastAPI/Starlette).
+    """
+    for mgr in (_get_ab_manager(), _get_tracker(), _get_survey()):
+        try:
+            mgr.load(P7H_OUT_DIR)
+        except Exception as exc:
+            log_metric("p7h_load_error", error=str(exc))
+    yield
+
+
+# ===================================================================
 # FastAPI App
 # ===================================================================
 
@@ -88,6 +150,7 @@ app = FastAPI(
     title="Personality Dungeon API",
     description="Contract-locked core↔frontend API",
     version=API_VERSION,
+    lifespan=_lifespan,
 )
 
 # ===================================================================
@@ -305,8 +368,11 @@ async def step(session_id: str, req: StepRequest) -> dict[str, Any]:
     """
     try:
         manager = get_session_manager()
+        # Offload the synchronous RL step to a worker thread so the event loop
+        # stays responsive to concurrent requests (metrics, snapshot polls).
+        # A blocked loop refuses concurrent connections → RESULT_CANT_CONNECT.
         start = time.time()
-        snapshot = manager.step_session(session_id)
+        snapshot = await asyncio.to_thread(manager.step_session, session_id)
         latency_ms = int((time.time() - start) * 1000)
 
         result = ResultState(
@@ -348,13 +414,13 @@ async def step(session_id: str, req: StepRequest) -> dict[str, Any]:
 
         return envelope.to_dict()
     except KeyError:
-        log_metric("error", event_type="step_not_found", session_id=session_id)
+        log_metric("error", error_kind="step_not_found", session_id=session_id)
         raise HTTPException(status_code=404, detail=f"Session {session_id} not found")
     except RuntimeError as exc:
-        log_metric("error", event_type="step_runtime_error", session_id=session_id, error=str(exc))
+        log_metric("error", error_kind="step_runtime_error", session_id=session_id, error=str(exc))
         raise HTTPException(status_code=400, detail=f"Step failed: {exc}")
     except Exception as exc:
-        log_metric("error", event_type="step_unexpected", session_id=session_id, error=str(exc))
+        log_metric("error", error_kind="step_unexpected", session_id=session_id, error=str(exc))
         raise HTTPException(status_code=500, detail=f"Step failed: {exc}")
 
 
@@ -392,7 +458,7 @@ async def snapshot(session_id: str) -> dict[str, Any]:
         log_metric("snapshot", session_id=session_id, round=snapshot.round, phase=str(snapshot.phase))
         return envelope.to_dict()
     except KeyError:
-        log_metric("error", event_type="snapshot_not_found", session_id=session_id)
+        log_metric("error", error_kind="snapshot_not_found", session_id=session_id)
         raise HTTPException(status_code=404, detail=f"Session {session_id} not found")
 
 
@@ -430,7 +496,7 @@ async def reset_session(session_id: str) -> dict[str, Any]:
         log_metric("reset", session_id=session_id, round=snapshot.round, phase=str(snapshot.phase))
         return envelope.to_dict()
     except KeyError:
-        log_metric("error", event_type="reset_not_found", session_id=session_id)
+        log_metric("error", error_kind="reset_not_found", session_id=session_id)
         raise HTTPException(status_code=404, detail=f"Session {session_id} not found")
 
 
@@ -494,9 +560,15 @@ async def rl_initialize_session(req: RLSessionInitRequest) -> RLSessionInitRespo
         # Get global session manager
         manager = get_session_manager()
         
-        # Initialize session (validates config, creates engine, returns initial snapshot)
+        # Initialize session (validates config, creates engine, returns initial snapshot).
+        # Run the synchronous, CPU-bound init in a worker thread so the event loop
+        # stays free to accept concurrent connections (e.g. /metrics/events from the
+        # Godot client). Otherwise the burn-in loop blocks uvicorn and concurrent
+        # requests get refused → RESULT_CANT_CONNECT on the client side.
         start = time.time()
-        session_id, initial_snapshot = manager.initialize_session(config=config)
+        session_id, initial_snapshot = await asyncio.to_thread(
+            manager.initialize_session, config=config
+        )
         latency_ms = int((time.time() - start) * 1000)
 
         # Emit RL session init metric
@@ -580,8 +652,11 @@ async def rl_step_session(session_id: str) -> RLSessionStepResponse:
     """
     try:
         manager = get_session_manager()
+        # Offload the synchronous RL step to a worker thread so the event loop
+        # stays responsive to concurrent requests (metrics, snapshot polls).
+        # A blocked loop refuses concurrent connections → RESULT_CANT_CONNECT.
         start = time.time()
-        snapshot = manager.step_session(session_id)
+        snapshot = await asyncio.to_thread(manager.step_session, session_id)
         latency_ms = int((time.time() - start) * 1000)
         
         # Convert FrameSnapshot to dict
@@ -926,10 +1001,383 @@ async def personality_infer_sbert(req: PersonalityInferRequest) -> PersonalityIn
     )
 
 
-# ===================================================================
-# Entry Point
-# ===================================================================
+# NOTE: The __main__ / uvicorn entry point lives at the END of this file.
+# It must be defined after ALL @app routes — otherwise `python -m api.server`
+# calls uvicorn.run() (which blocks) before later routes register, silently
+# dropping every endpoint defined below this point (bifurcation, player-test,
+# survey). See git history / dev log "問題 3: server entrypoint ordering".
 
+
+# ── Bifurcation API ──────────────────────────────────────────────────────────
+
+# NOTE: app_calibrated defaults to True — the bifurcation API is the
+# application layer, so proximity uses the v1-v2 projection + ε_c_app=0.11
+# (avoids instant saturation; see bifurcation_detector.py B1 calibration).
+class BifurcationDetectRequest(BaseModel):
+    personality_vector: list[float]
+    app_calibrated: bool = True
+
+class BifurcationEventRequest(BaseModel):
+    personality_vector: list[float]
+    target: str = "personality_shift"
+    intensity_scale: float = 1.0
+    app_calibrated: bool = True
+    # A/B arm: "experiment" → v1-aligned, "control" → random direction. The
+    # control arm MUST be requested with group="control" so the manipulation is
+    # real; otherwise both arms receive identical aligned events.
+    group: str = "experiment"
+    seed: int | None = None
+
+class BifurcationSequenceRequest(BaseModel):
+    personality_vector: list[float]
+    n_steps: int = 5
+    target: str = "personality_shift"
+    app_calibrated: bool = True
+    group: str = "experiment"
+    seed: int | None = None
+
+
+def _direction_mode_for_group(group: str) -> str:
+    """Map an A/B group label to the event direction mode."""
+    return "random" if group == "control" else "aligned"
+
+
+@app.post("/bifurcation/detect")
+async def bifurcation_detect(req: BifurcationDetectRequest) -> dict[str, Any]:
+    """Compute bifurcation proximity and sensitive direction for a personality vector."""
+    if len(req.personality_vector) != 9:
+        raise HTTPException(
+            status_code=422,
+            detail=f"personality_vector must have 9 elements, got {len(req.personality_vector)}",
+        )
+    import numpy as np
+    pv = np.array(req.personality_vector)
+    mode = "projection" if req.app_calibrated else "euclidean"
+    bifurc = compute_bifurcation_distance(pv, mode=mode)
+    sens = compute_sensitive_direction(pv)
+    return {
+        "feature_names": _BF_FEATURE_NAMES,
+        "bifurcation": bifurc,
+        "sensitive_direction": sens,
+    }
+
+
+@app.post("/bifurcation/event")
+async def bifurcation_event(req: BifurcationEventRequest) -> dict[str, Any]:
+    """Design a single bifurcation-triggering game event."""
+    if len(req.personality_vector) != 9:
+        raise HTTPException(
+            status_code=422,
+            detail=f"personality_vector must have 9 elements, got {len(req.personality_vector)}",
+        )
+    import numpy as np
+    pv = np.array(req.personality_vector)
+    rng = np.random.RandomState(req.seed) if req.group == "control" else None
+    event = design_bifurcation_event(
+        pv, target=req.target, intensity_scale=req.intensity_scale,
+        app_calibrated=req.app_calibrated,
+        direction_mode=_direction_mode_for_group(req.group), rng=rng,
+    )
+    return event
+
+
+@app.post("/bifurcation/sequence")
+async def bifurcation_sequence(req: BifurcationSequenceRequest) -> dict[str, Any]:
+    """Plan a multi-step event sequence to guide a trajectory toward bifurcation."""
+    if len(req.personality_vector) != 9:
+        raise HTTPException(
+            status_code=422,
+            detail=f"personality_vector must have 9 elements, got {len(req.personality_vector)}",
+        )
+    if not (1 <= req.n_steps <= 20):
+        raise HTTPException(status_code=422, detail="n_steps must be between 1 and 20")
+    import numpy as np
+    pv = np.array(req.personality_vector)
+    sequence = event_sequence_planner(
+        pv, n_steps=req.n_steps, target=req.target,
+        app_calibrated=req.app_calibrated,
+        direction_mode=_direction_mode_for_group(req.group), seed=req.seed,
+    )
+    return sequence
+
+
+@app.post("/bifurcation/zone-check")
+async def bifurcation_zone_check(req: BifurcationDetectRequest) -> dict[str, Any]:
+    """Check whether the personality is in the effective bifurcation event zone."""
+    if len(req.personality_vector) != 9:
+        raise HTTPException(
+            status_code=422,
+            detail=f"personality_vector must have 9 elements, got {len(req.personality_vector)}",
+        )
+    import numpy as np
+    pv = np.array(req.personality_vector)
+    return is_in_effective_zone(pv, app_calibrated=req.app_calibrated)
+
+
+@app.post("/bifurcation/rollback")
+async def bifurcation_rollback(req: BifurcationDetectRequest) -> dict[str, Any]:
+    """Estimate free-dynamics rounds needed to recover from current bifurcation proximity."""
+    if len(req.personality_vector) != 9:
+        raise HTTPException(
+            status_code=422,
+            detail=f"personality_vector must have 9 elements, got {len(req.personality_vector)}",
+        )
+    import numpy as np
+    pv = np.array(req.personality_vector)
+    return rollback_distance(pv, app_calibrated=req.app_calibrated)
+
+
+# ── Passive event choice API ──────────────────────────────────────────────────
+# 「被動版」：給人格向量 → AI 分身依 weights·personality 自動選擇選項並結算，
+# 供「你的分身做了選擇 X，結果…」展示，以及人格→選擇對應關係的驗證。
+
+_EVENT_TEMPLATES_JSON = ROOT / "docs" / "personality_dungeon_v1" / "02_event_templates_v1.json"
+_event_loader: EventLoader | None = None
+
+
+def _get_event_loader() -> EventLoader:
+    """Lazily construct and cache the EventLoader (templates are read-only)."""
+    global _event_loader
+    if _event_loader is None:
+        _event_loader = EventLoader(_EVENT_TEMPLATES_JSON)
+    return _event_loader
+
+
+class EventChooseRequest(BaseModel):
+    personality_vector: list[float]
+    # 指定事件；None → 隨機抽一個
+    event_id: str | None = None
+    # 可選的玩家狀態（stress/noise/...），影響 risk；省略則全 0
+    state: dict[str, float] | None = None
+    # 隨機種子（控制隨機抽事件與成敗擲骰），供可重現
+    seed: int | None = None
+    # True → 不擲骰，success = success_prob >= 0.5
+    deterministic_outcome: bool = False
+
+
+@app.post("/event/choose")
+async def event_choose(req: EventChooseRequest) -> dict[str, Any]:
+    """Let the personality avatar passively face an event and resolve the outcome.
+
+    Returns the chosen action plus per-option utilities / lean probabilities and
+    the success/failure result. Read-only: applies no trait or state deltas.
+    """
+    loader = _get_event_loader()
+    if len(req.personality_vector) != len(loader.dimensions_order):
+        raise HTTPException(
+            status_code=422,
+            detail=(
+                f"personality_vector must have {len(loader.dimensions_order)} "
+                f"elements, got {len(req.personality_vector)}"
+            ),
+        )
+    if req.event_id is not None and req.event_id not in loader.template_by_id:
+        raise HTTPException(status_code=404, detail=f"unknown event_id: {req.event_id}")
+
+    personality = vector_to_personality(loader, req.personality_vector)
+    rng = random.Random(req.seed) if req.seed is not None else None
+    return resolve_passive_choice(
+        loader,
+        personality,
+        event_id=req.event_id,
+        state=req.state,
+        rng=rng,
+        deterministic_outcome=req.deterministic_outcome,
+    )
+
+
+# ── A/B Test API ──────────────────────────────────────────────────────────────
+
+class ABAssignRequest(BaseModel):
+    session_id: str
+
+class ABRecordStepRequest(BaseModel):
+    session_id: str
+    personality_before: list[float]
+    personality_after: list[float]
+    proximity: float
+    step_index: int = 0
+
+
+@app.post("/bifurcation/ab-test/assign")
+async def ab_test_assign(req: ABAssignRequest) -> dict[str, Any]:
+    """Assign or retrieve A/B test group for a session.
+
+    Returns {"session_id", "group": "control"|"experiment", "existing": bool}.
+    """
+    mgr = _get_ab_manager()
+    result = mgr.assign_session(req.session_id)
+    await _p7h_save(mgr)  # persist count-balance state across restarts
+    return result
+
+
+@app.post("/bifurcation/ab-test/record-step")
+async def ab_test_record_step(req: ABRecordStepRequest) -> dict[str, Any]:
+    """Record one event step's before/after personality snapshot."""
+    if len(req.personality_before) != 9 or len(req.personality_after) != 9:
+        raise HTTPException(status_code=422, detail="personality vectors must have 9 elements")
+    _get_ab_manager().record_event_step(
+        session_id=req.session_id,
+        personality_before=req.personality_before,
+        personality_after=req.personality_after,
+        proximity=req.proximity,
+        step_index=req.step_index,
+    )
+    return {"ok": True, "session_id": req.session_id}
+
+
+# NOTE: static "/summary" MUST precede the "/{session_id}" catch-all (route shadowing).
+@app.get("/bifurcation/ab-test/summary")
+async def ab_test_summary() -> dict[str, Any]:
+    """Return group-level statistics across all recorded sessions."""
+    return _get_ab_manager().summary()
+
+
+@app.get("/bifurcation/ab-test/{session_id}")
+async def ab_test_get_session(session_id: str) -> dict[str, Any]:
+    """Get the full record for a session."""
+    record = _get_ab_manager().get_session(session_id)
+    if record is None:
+        raise HTTPException(status_code=404, detail=f"Session '{session_id}' not found")
+    return record
+
+
+# ── Player Test API ───────────────────────────────────────────────────────────
+
+class PlayerTestStartRequest(BaseModel):
+    session_id: str
+    group: str
+    player_alias: str = "anon"
+
+class PlayerTestStepRequest(BaseModel):
+    session_id: str
+    action_text: str = ""
+    personality_before: list[float]
+    personality_after: list[float]
+    proximity_before: float = 0.0
+    proximity_after: float = 0.0
+    event_type: str = "none"
+    response_time_ms: float = 0.0
+
+class PlayerTestEndRequest(BaseModel):
+    session_id: str
+
+
+@app.post("/player-test/start")
+async def player_test_start(req: PlayerTestStartRequest) -> dict[str, Any]:
+    """Start a new player test session."""
+    return _get_tracker().start_session(
+        session_id=req.session_id,
+        group=req.group,  # type: ignore[arg-type]
+        player_alias=req.player_alias,
+    )
+
+
+@app.post("/player-test/step")
+async def player_test_step(req: PlayerTestStepRequest) -> dict[str, Any]:
+    """Record one step of a player test session."""
+    for label, v in [("before", req.personality_before), ("after", req.personality_after)]:
+        if len(v) != 9:
+            raise HTTPException(
+                status_code=422,
+                detail=f"personality_{label} must have 9 elements, got {len(v)}",
+            )
+    return _get_tracker().record_step(
+        session_id=req.session_id,
+        action_text=req.action_text,
+        personality_before=req.personality_before,
+        personality_after=req.personality_after,
+        proximity_before=req.proximity_before,
+        proximity_after=req.proximity_after,
+        event_type=req.event_type,
+        response_time_ms=req.response_time_ms,
+    )
+
+
+@app.post("/player-test/end")
+async def player_test_end(req: PlayerTestEndRequest) -> dict[str, Any]:
+    """End a player test session and compute derived metrics."""
+    tracker = _get_tracker()
+    result = tracker.end_session(req.session_id)
+    if not result.get("ok"):
+        raise HTTPException(status_code=404, detail=result.get("error", "unknown"))
+    await _p7h_save(tracker)  # persist completed session
+    return result
+
+
+# NOTE: static "/summary" MUST be declared before the "/{session_id}" catch-all,
+# otherwise FastAPI matches "summary" as a session_id (route shadowing).
+@app.get("/player-test/summary")
+async def player_test_group_summary() -> dict[str, Any]:
+    """Group-level trajectory statistics across all completed player test sessions."""
+    return _get_tracker().group_summary()
+
+
+@app.get("/player-test/{session_id}")
+async def player_test_get(session_id: str) -> dict[str, Any]:
+    """Get full trajectory data for a player test session."""
+    data = _get_tracker().get_session(session_id)
+    if data is None:
+        raise HTTPException(status_code=404, detail=f"Session '{session_id}' not found")
+    return data
+
+
+# ── Survey API ────────────────────────────────────────────────────────────────
+
+class SurveySubmitRequest(BaseModel):
+    session_id: str
+    group: str
+    q1_naturalness: int
+    q2_fun: int
+    q3_replay: int
+    q1_comment: str = ""
+    q2_comment: str = ""
+    q3_comment: str = ""
+    overall_comments: str = ""
+
+
+@app.get("/survey/questions")
+async def survey_questions() -> dict[str, Any]:
+    """Return the survey question list."""
+    from api.survey_manager import QUESTIONS
+    return {"questions": QUESTIONS}
+
+
+@app.post("/survey/submit")
+async def survey_submit(req: SurveySubmitRequest) -> dict[str, Any]:
+    """Submit a survey response for a completed player test session."""
+    survey = _get_survey()
+    result = survey.submit(
+        session_id=req.session_id,
+        group=req.group,
+        q1=req.q1_naturalness,
+        q2=req.q2_fun,
+        q3=req.q3_replay,
+        q1_comment=req.q1_comment,
+        q2_comment=req.q2_comment,
+        q3_comment=req.q3_comment,
+        overall_comments=req.overall_comments,
+    )
+    if not result.get("ok"):
+        raise HTTPException(status_code=422, detail=result.get("error"))
+    await _p7h_save(survey)  # persist survey response
+    return result
+
+
+@app.get("/survey/summary")
+async def survey_summary() -> dict[str, Any]:
+    """Return group-level survey statistics."""
+    return _get_survey().summary()
+
+
+# NOTE: /metrics/events is defined once above (post_metrics_events). A second
+# duplicate definition used to live here but was dead code — FastAPI matches the
+# first registered route, so this one never ran. Removed to avoid confusion.
+
+
+# ===================================================================
+# Entry Point — MUST stay at the very end (after all @app routes)
+# ===================================================================
 
 if __name__ == "__main__":
     import uvicorn
@@ -940,17 +1388,4 @@ if __name__ == "__main__":
         port=8000,
         log_level="info",
     )
-
-
-@app.post("/metrics/events")
-async def receive_metrics(events: list[dict]) -> dict:
-    """Receive batch metrics from clients and persist to JSONL.
-
-    Expects a JSON array of event objects.
-    """
-    try:
-        persist_metrics_batch(events)
-        return {"ok": True, "received": len(events)}
-    except Exception as exc:
-        raise HTTPException(status_code=500, detail=f"Metrics persist failed: {exc}")
 

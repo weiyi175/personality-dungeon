@@ -490,27 +490,31 @@ class RLSessionEngine:
                 )
 
     def _compute_realized_proportions(self) -> tuple[float, float, float]:
-        """Compute strategy proportions from last round's choices.
+        """Compute strategy proportions from last round's actual choices.
 
-        Uses Boltzmann selection to get current policy distribution.
+        Reads the choices recorded during the most recent round update
+        (``last_round_data``) instead of re-sampling. This keeps ``snapshot()``
+        a pure read-only view: it does not consume ``self.rng``, so repeated
+        snapshots of an unchanged session are deterministic.
+
+        Before any round has been played (round 0), ``last_round_data`` is
+        empty; fall back to the deterministic Boltzmann policy expectation.
         """
+        if not self.last_round_data:
+            return self._compute_policy_means()
+
         n_agg = 0
         n_def = 0
         n_bal = 0
-        for player in self.players:
-            idx = boltzmann_select(
-                q_values=player.q_values,
-                beta=player.beta,
-                rng=self.rng,
-            )
-            if idx == 0:
+        for _, chosen_idx, _ in self.last_round_data:
+            if chosen_idx == 0:
                 n_agg += 1
-            elif idx == 1:
+            elif chosen_idx == 1:
                 n_def += 1
             else:
                 n_bal += 1
 
-        total = len(self.players)
+        total = len(self.last_round_data)
         return (
             float(n_agg) / total,
             float(n_def) / total,
