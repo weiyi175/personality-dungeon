@@ -1,53 +1,5 @@
 {
-  "H1_displacement": {
-    "endpoint": "total_displacement",
-    "control": {
-      "n": 30,
-      "mean": 0.07456025829019892,
-      "sd": 0.021114258667584304
-    },
-    "experiment": {
-      "n": 30,
-      "mean": 0.08874404457665223,
-      "sd": 0.012580017291786233
-    },
-    "welch_t": 3.1608917300787747,
-    "p_one_sided": 0.0013719541676447933,
-    "p_two_sided": 0.0027439083352895867,
-    "cohens_d": 0.816138735317323,
-    "cohens_d_95ci": [
-      0.2894223166488564,
-      1.3428551539857896
-    ],
-    "achieved_power": 0.8851105368290823,
-    "n_per_group_for_80pct": 23.5672923306753,
-    "significant": true
-  },
-  "H1_path_displacement": {
-    "endpoint": "path_displacement",
-    "control": {
-      "n": 30,
-      "mean": 0.14940105366346262,
-      "sd": 0.03350605354232299
-    },
-    "experiment": {
-      "n": 30,
-      "mean": 0.08874404457665222,
-      "sd": 0.012580017291786233
-    },
-    "welch_t": -9.282862004442032,
-    "p_one_sided": 0.9999999999833207,
-    "p_two_sided": 3.3358694596337475e-11,
-    "cohens_d": -2.396824663223039,
-    "cohens_d_95ci": [
-      -3.0601615719647777,
-      -1.7334877544813008
-    ],
-    "achieved_power": 0.9999999999998787,
-    "n_per_group_for_80pct": 2.732531269269455,
-    "significant": false
-  },
-  "H1_max_proximity": {
+  "H1_primary_max_proximity": {
     "endpoint": "max_proximity",
     "control": {
       "n": 30,
@@ -71,29 +23,80 @@
     "n_per_group_for_80pct": 0.7954430425177137,
     "significant": true
   },
-  "H1_n_critical_crossings": {
-    "endpoint": "n_critical_crossings",
+  "H1b_total_displacement": {
+    "endpoint": "total_displacement",
     "control": {
       "n": 30,
-      "mean": 0.0,
-      "sd": 0.0
+      "mean": 0.07456025829019892,
+      "sd": 0.021114258667584304
     },
     "experiment": {
       "n": 30,
-      "mean": 1.0,
-      "sd": 0.0
+      "mean": 0.08874404457665223,
+      "sd": 0.012580017291786233
     },
-    "welch_t": Infinity,
-    "p_one_sided": 0.0,
-    "p_two_sided": 0.0,
-    "cohens_d": 0.0,
+    "welch_t": 3.1608917300787747,
+    "p_one_sided": 0.0013719541676447933,
+    "p_two_sided": 0.0027439083352895867,
+    "cohens_d": 0.816138735317323,
     "cohens_d_95ci": [
-      -0.5060698239044358,
-      0.5060698239044358
+      0.2894223166488564,
+      1.3428551539857896
     ],
-    "achieved_power": 0.050000000000000024,
-    "n_per_group_for_80pct": Infinity,
+    "achieved_power": 0.8851105368290823,
+    "n_per_group_for_80pct": 23.5672923306753,
     "significant": true
+  },
+  "H1_diagnostics": {
+    "path_displacement": {
+      "endpoint": "path_displacement",
+      "control": {
+        "n": 30,
+        "mean": 0.14940105366346262,
+        "sd": 0.03350605354232299
+      },
+      "experiment": {
+        "n": 30,
+        "mean": 0.08874404457665222,
+        "sd": 0.012580017291786233
+      },
+      "welch_t": -9.282862004442032,
+      "p_one_sided": 0.9999999999833207,
+      "p_two_sided": 3.3358694596337475e-11,
+      "cohens_d": -2.396824663223039,
+      "cohens_d_95ci": [
+        -3.0601615719647777,
+        -1.7334877544813008
+      ],
+      "achieved_power": 0.9999999999998787,
+      "n_per_group_for_80pct": 2.732531269269455,
+      "significant": false
+    },
+    "n_critical_crossings": {
+      "endpoint": "n_critical_crossings",
+      "control": {
+        "n": 30,
+        "mean": 0.0,
+        "sd": 0.0
+      },
+      "experiment": {
+        "n": 30,
+        "mean": 1.0,
+        "sd": 0.0
+      },
+      "welch_t": null,
+      "p_one_sided": 0.0,
+      "p_two_sided": 0.0,
+      "cohens_d": null,
+      "cohens_d_95ci": [
+        null,
+        null
+      ],
+      "achieved_power": null,
+      "n_per_group_for_80pct": null,
+      "significant": true,
+      "note": "zero within-group variance; separation is exact, t/d undefined"
+    }
   },
   "H2_survey": {
     "composite": {
@@ -133,9 +136,10 @@
   },
   "H3_correlation": {
     "n_pairs": 60,
-    "spearman_rho": 0.40053275122634235,
-    "p_two_sided": 0.0015183819064737167,
+    "x_variable": "max_proximity",
+    "spearman_rho": 0.7261800183608577,
+    "p_two_sided": 5.164471501153749e-11,
     "significant": true,
-    "deviation_note": "x=total_displacement (pre-reg: n_critical_crossings; all zero due to structural proximity=1.0)"
+    "deviation_note": "x=max_proximity (pre-reg: n_critical_crossings; interim: total_displacement under the broken apparatus)"
   }
 }

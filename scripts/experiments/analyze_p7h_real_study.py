@@ -163,6 +163,26 @@ def analyze_h1_proximity(groups: dict, dv_key: str = "max_proximity") -> dict:
     ctrl = np.array([float(s[dv_key]) for s in groups["control"]])
     if len(exp) < 2 or len(ctrl) < 2:
         return {"error": "insufficient data"}
+    # Degenerate guard: a count DV (e.g. n_critical_crossings) can have zero
+    # within-group variance (every experiment session crosses exactly once),
+    # which makes Welch's t blow up to ±inf and triggers a scipy precision
+    # warning. Report the direction without a spurious t in that case.
+    if exp.std(ddof=1) == 0 and ctrl.std(ddof=1) == 0:
+        same = exp.mean() == ctrl.mean()
+        return {
+            "endpoint": dv_key,
+            "control": {"n": len(ctrl), "mean": float(ctrl.mean()), "sd": 0.0},
+            "experiment": {"n": len(exp), "mean": float(exp.mean()), "sd": 0.0},
+            "welch_t": None,
+            "p_one_sided": 1.0 if same else (0.0 if exp.mean() > ctrl.mean() else 1.0),
+            "p_two_sided": 1.0 if same else 0.0,
+            "cohens_d": None,
+            "cohens_d_95ci": [None, None],
+            "achieved_power": None,
+            "n_per_group_for_80pct": None,
+            "significant": bool((not same) and exp.mean() > ctrl.mean()),
+            "note": "zero within-group variance; separation is exact, t/d undefined",
+        }
     t, p_two = stats.ttest_ind(exp, ctrl, equal_var=False)
     p_one = p_two / 2 if t > 0 else 1 - p_two / 2
     d, ci = cohens_d(exp, ctrl)
@@ -225,33 +245,34 @@ def analyze_h2(survey: dict) -> dict:
 
 
 def analyze_h3(groups: dict, survey: dict) -> dict:
-    # PRE-REG DEVIATION (2026-06-06): n_critical_crossings is structurally 0 for all
-    # sessions because bifurcation proximity is always 1.0 (all personality vectors are
-    # past the critical threshold in this simulator configuration). Replaced x-variable
-    # with total_displacement, which varies meaningfully across sessions.
-    # Original pre-reg: Spearman(n_critical_crossings, UX_composite).
-    # Actual analysis:  Spearman(total_displacement,   UX_composite).
-    disp_by_sid, ux_by_sid = {}, {}
+    # H3 x-variable = max_proximity (2026-06-06). The original pre-reg used
+    # n_critical_crossings; it was first swapped to total_displacement when the OLD
+    # broken apparatus pinned proximity at 1.0 for everyone. The Space A/B fix
+    # restores a varying proximity, so we use max_proximity — consistent with the
+    # new primary objective DV (H1) and closer to the original crossing intent.
+    prox_by_sid, ux_by_sid = {}, {}
     for grp in groups.values():
         for s in grp:
-            disp_by_sid[s["session_id"]] = s["total_displacement"]
+            prox_by_sid[s["session_id"]] = float(s["max_proximity"])
     for grp in survey.values():
         for r in grp:
             ux_by_sid[r["session_id"]] = (
                 r["q1_naturalness"] + r["q2_fun"] + r["q3_replay"]
             )
-    sids = sorted(set(disp_by_sid) & set(ux_by_sid))
+    sids = sorted(set(prox_by_sid) & set(ux_by_sid))
     if len(sids) < 3:
         return {"error": "insufficient paired data"}
-    x = np.array([disp_by_sid[s] for s in sids])
+    x = np.array([prox_by_sid[s] for s in sids])
     y = np.array([ux_by_sid[s] for s in sids])
     rho, p = stats.spearmanr(x, y)
     return {
         "n_pairs": len(sids),
+        "x_variable": "max_proximity",
         "spearman_rho": float(rho),
         "p_two_sided": float(p),
         "significant": bool(p < 0.05),
-        "deviation_note": "x=total_displacement (pre-reg: n_critical_crossings; all zero due to structural proximity=1.0)",
+        "deviation_note": "x=max_proximity (pre-reg: n_critical_crossings; "
+                          "interim: total_displacement under the broken apparatus)",
     }
 
 
@@ -275,10 +296,16 @@ def main() -> None:
     h3 = analyze_h3(groups, survey)
 
     report = {
-        "H1_displacement": h1,
-        "H1_path_displacement": h1_path,
-        "H1_max_proximity": h1_prox,
-        "H1_n_critical_crossings": h1_cross,
+        # Primary objective DV (2026-06-06): max_proximity — unconfounded by the
+        # proximity-modulated event intensity. See REGIME_FINDING.md.
+        "H1_primary_max_proximity": h1_prox,
+        # Secondary objective DV: net displacement (valid only sub-saturation).
+        "H1b_total_displacement": h1,
+        # Diagnostics: alternative DVs kept for transparency / regime auditing.
+        "H1_diagnostics": {
+            "path_displacement": h1_path,
+            "n_critical_crossings": h1_cross,
+        },
         "H2_survey": h2,
         "H3_correlation": h3,
     }
@@ -292,36 +319,32 @@ def main() -> None:
     print("=" * 68)
     print("P7-H CONFIRMATORY STUDY ANALYSIS")
     print("=" * 68)
-    if "error" not in h1:
-        print("\nH1 (primary, objective): personality displacement")
-        print(f"  control    n={h1['control']['n']}  mean={h1['control']['mean']:.5f}")
-        print(f"  experiment n={h1['experiment']['n']}  mean={h1['experiment']['mean']:.5f}")
-        print(f"  Welch t={h1['welch_t']:.3f}  p(1-sided)={h1['p_one_sided']:.2e}  "
-              f"{'✅ sig' if h1['significant'] else '✗ ns'}")
-        print(f"  Cohen's d={h1['cohens_d']:.3f}  "
-              f"95%CI [{h1['cohens_d_95ci'][0]:.3f}, {h1['cohens_d_95ci'][1]:.3f}]")
-        print(f"  achieved power={h1['achieved_power']:.3f}  "
-              f"(N/group for 80%: {h1['n_per_group_for_80pct']:.0f})")
-    if "error" not in h1_path:
-        print("\nH1-alt (saturation-robust DV): personality PATH length Σ‖Δ‖")
-        print(f"  control    n={h1_path['control']['n']}  mean={h1_path['control']['mean']:.5f}")
-        print(f"  experiment n={h1_path['experiment']['n']}  mean={h1_path['experiment']['mean']:.5f}")
-        print(f"  Welch t={h1_path['welch_t']:.3f}  p(1-sided)={h1_path['p_one_sided']:.2e}  "
-              f"{'✅ sig' if h1_path['significant'] else '✗ ns'}")
-        print(f"  Cohen's d={h1_path['cohens_d']:.3f}  "
-              f"95%CI [{h1_path['cohens_d_95ci'][0]:.3f}, {h1_path['cohens_d_95ci'][1]:.3f}]")
-        print(f"  achieved power={h1_path['achieved_power']:.3f}  "
-              f"(N/group for 80%: {h1_path['n_per_group_for_80pct']:.0f})")
-    for label, hp in (("max proximity", h1_prox), ("n_critical_crossings", h1_cross)):
+    def _print_dv(title: str, hp: dict, show_power: bool = True) -> None:
         if "error" in hp:
-            continue
-        print(f"\nH1-prox (unconfounded DV): {label}")
+            print(f"\n{title}\n  (insufficient data)")
+            return
+        print(f"\n{title}")
         print(f"  control    n={hp['control']['n']}  mean={hp['control']['mean']:.5f}")
         print(f"  experiment n={hp['experiment']['n']}  mean={hp['experiment']['mean']:.5f}")
+        if hp.get("welch_t") is None:
+            print(f"  {hp.get('note', 'undefined t/d')}  "
+                  f"p(1-sided)={hp['p_one_sided']:.2e}  "
+                  f"{'✅ sig' if hp['significant'] else '✗ ns'}")
+            return
         print(f"  Welch t={hp['welch_t']:.3f}  p(1-sided)={hp['p_one_sided']:.2e}  "
               f"{'✅ sig' if hp['significant'] else '✗ ns'}")
         print(f"  Cohen's d={hp['cohens_d']:.3f}  "
               f"95%CI [{hp['cohens_d_95ci'][0]:.3f}, {hp['cohens_d_95ci'][1]:.3f}]")
+        if show_power:
+            print(f"  achieved power={hp['achieved_power']:.3f}  "
+                  f"(N/group for 80%: {hp['n_per_group_for_80pct']:.0f})")
+
+    _print_dv("H1 (PRIMARY, objective): max bifurcation proximity", h1_prox)
+    _print_dv("H1b (secondary, objective): net displacement ‖Pf−P0‖ "
+              "[valid only sub-saturation]", h1)
+    print("\n── H1 diagnostics (confounded by proximity-modulated intensity) ──")
+    _print_dv("  path length Σ‖Δ‖", h1_path, show_power=False)
+    _print_dv("  n_critical_crossings", h1_cross, show_power=False)
     if "error" not in h2:
         c = h2["composite"]
         print("\nH2 (co-primary, subjective): survey UX composite")
@@ -333,7 +356,7 @@ def main() -> None:
             print(f"    {key:16s} ctrl={it['control_mean']:.1f} exp={it['experiment_mean']:.1f} "
                   f"p_holm={it['p_holm']:.2e} {'✅' if it['significant_holm'] else '✗'}")
     if "error" not in h3:
-        print("\nH3 (exploratory): displacement ↔ UX composite  [pre-reg deviation: crossings→displacement]")
+        print("\nH3 (exploratory): max_proximity ↔ UX composite  [pre-reg deviation: crossings→max_proximity]")
         print(f"  Spearman ρ={h3['spearman_rho']:.3f}  p={h3['p_two_sided']:.2e}  "
               f"(n={h3['n_pairs']})  {'✅ sig' if h3['significant'] else '✗ ns'}")
 

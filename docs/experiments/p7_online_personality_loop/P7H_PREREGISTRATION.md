@@ -33,7 +33,7 @@ P7-F/P7-G 已在動力學層辨識出人格軌跡的分岔結構（敏感方向 
 ## 3. 樣本量與檢定力
 
 - **目標 N = 212**（`control` 106 / `experiment` 106）。
-- **檢定力依據**：以模擬與先導估計效應量 Cohen's d ≈ 0.5。雙臂 Welch t（單尾 α=0.05、power=0.80）所需約 **64/組**（公式見 [analyze_p7h_real_study.py](../../../scripts/experiments/analyze_p7h_real_study.py) `n_per_group_for_power`）。106/組相對 64/組留有充足餘裕。
+- **檢定力依據**：主要客觀 DV（`max_proximity`）在模擬下效應量極大（d≈+3.8~+4.4），所需 N 遠低於 64/組；目標 N 主要由**共主要主觀 DV（H2）**與 106/106 計數平衡決定。保守以 Cohen's d ≈ 0.5 估算：雙臂 Welch t（單尾 α=0.05、power=0.80）所需約 **64/組**（公式見 [analyze_p7h_real_study.py](../../../scripts/experiments/analyze_p7h_real_study.py) `n_per_group_for_power`）。106/組相對 64/組留有充足餘裕。
 - 分析腳本另會回報**在觀測 N 下達成的檢定力**與**達 80% 所需 N**。
 
 ---
@@ -41,10 +41,16 @@ P7-F/P7-G 已在動力學層辨識出人格軌跡的分岔結構（敏感方向 
 ## 4. 假設與檢定（逐字對齊分析腳本）
 
 ### H1 — 主要假設（客觀）
-- **依變項**：`total_displacement` ＝ 場次首尾 9D 人格向量的歐氏距離 `‖P_final − P_initial‖`（定義見 [api/player_test_tracker.py](../../../api/player_test_tracker.py) `end_session`）。
+- **依變項（主要，2026-06-06 修訂）**：`max_proximity` ＝ 場次中 9D 人格軌跡達到的最大 bifurcation proximity（定義見 [api/player_test_tracker.py](../../../api/player_test_tracker.py) `record_step`／`max_proximity`）。
 - **檢定**：Welch 兩樣本 t 檢定，**單尾**（H1: experiment > control）。
 - **效應量**：Cohen's d 及 95% CI（pooled SD）。
 - **顯著判準**：單尾 p < 0.05。
+- **改採此 DV 的理由**：事件強度受 proximity 調制（越近分岔施力越小），對齊組接近臨界後自我節流、隨機組永遠拿全力，故**任何位移量級 DV（淨位移、路徑長度）都系統性偏袒對照組**，並在序列夠長時 null／反轉。`max_proximity` 直接量測操作所瞄準的目標（抵達分岔），無此混淆，跨操作區間穩健（模擬 d≈+3.8~+4.4, p<1e-14；詳見 [REGIME_FINDING.md](../../../reports/experiments/p7h_engine_sim/REGIME_FINDING.md)）。此亦回歸原先 crossing 類 DV 的精神（見 §4 H3 偏差說明）。
+
+### H1b — 次級假設（客觀，位移幅度）
+- **依變項**：`total_displacement` ＝ 場次首尾 9D 人格向量的歐氏距離 `‖P_final − P_initial‖`（[api/player_test_tracker.py](../../../api/player_test_tracker.py) `end_session`）。
+- **檢定／判準**：同 H1（Welch 單尾、Cohen's d、p < 0.05）。
+- **⚠ 有效性條件**：僅在實驗組未飽和（max proximity < ~0.95）時有效；遊戲設計須將事件序列收到此範圍（現行 `intensity_scale=1.0` 下約 ≤ 4 個分岔事件/場次，取代 §6 原「30 步」預期）。否則此 DV 預期 null／反轉，**不得**據以推翻 H1 主結論。
 
 ### H2 — 共主要假設（主觀）
 - **依變項**：問卷 UX composite ＝ `q1_naturalness + q2_fun + q3_replay`（每題 1–10）。
@@ -79,7 +85,8 @@ P7-F/P7-G 已在動力學層辨識出人格軌跡的分岔結構（敏感方向 
 ## 6. 納入 / 排除條件
 
 - **納入分析**：場次須 `ended_at` 非空（已正常結束）。分析腳本自動過濾未結束場次（[analyze_p7h_real_study.py](../../../scripts/experiments/analyze_p7h_real_study.py) `_load_sessions`）。
-- **最少動作數**：場次軌跡須至少 **10 個動作步驟**才入分析（N_min = 10；遊戲設計預期為 30 步，10 步確保玩家至少觸發 3 次分岔事件，並排除極早中離場次）。
+- **最少動作數**：場次軌跡須至少 **10 個動作步驟**才入分析（N_min = 10，確保玩家至少觸發數次分岔事件並排除極早中離場次）。
+- **事件序列上限（2026-06-06 新增）**：為使次級 DV H1b（淨位移）有效並避免飽和假象，事件序列須使**實驗組 max proximity 維持 < ~0.95**，現行 `intensity_scale=1.0` 下約 **≤ 4 個分岔事件/場次**。此取代先前「遊戲設計預期 30 步（≈10 事件）」之描述——30 步正落在飽和反轉區。主要 DV `max_proximity` 不受此限制影響，但序列上限仍用於 H1b 與遊戲體驗設計。
 - **排除**：明顯逾時/中離（未呼叫 `/player-test/end`，即 `ended_at` 為空）之場次自動排除。反應時間異常排除：場次各步驟 `response_time_ms` 的**中位數** < 500 ms（自動化/機器人行為）或 > 180,000 ms（長時間無操作 AFK；即每步平均逾 3 分鐘）者排除。最終報告須記錄排除場次數與各排除理由。
 
 ---
