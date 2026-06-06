@@ -128,4 +128,17 @@ P7-F/P7-G 已在動力學層辨識出人格軌跡的分岔結構（敏感方向 
 > | 30 | 10 | 1.00 | **−0.64（反轉）** |
 >
 > **此與 §6 line 82「遊戲設計預期為 30 步」直接衝突** —— 30 步（約 10 事件）正落在飽和反轉區。重現了歷史「效果反轉」，確認其為 **proximity 調制 DV 在飽和時的量測假象**，非科學發現。
-> **建議（待使用者拍板）**：① 將事件序列上限收到實驗組 max proximity < ~0.95（現行 `intensity_scale=1.0` 下約 ≤ 4 事件/場次）；或 ② 改用不受飽和偏誤影響的 DV（如路徑長度 Σ‖Δ‖，tracker 已記錄 `path_displacement`）。詳見 [reports/experiments/p7h_engine_sim/REGIME_FINDING.md](../../../reports/experiments/p7h_engine_sim/REGIME_FINDING.md)。
+>
+> **DV 對照測試（在同一份資料上跑四種 DV）**：根因是 DV 家族選錯，不是序列長度。事件強度受 proximity 調制 → 對齊組接近臨界後自我節流、隨機組永遠拿全力，故**任何位移量級 DV 都偏袒對照組**。
+>
+> | DV | 最佳區(12 步) | 反轉區(30 步) | 抗飽和 |
+> |---|---|---|---|
+> | 淨位移 total_displacement | d=+0.82 ✅ | d=−0.64 ✗ | 否（僅飽和前） |
+> | 路徑長度 path_displacement | d=−2.40 ✗ | d=−4.90 ✗ | **否（更糟）** |
+> | **max_proximity** | **d=+4.44（p=4e-17）** | **d=+3.78（p=3e-15）** | **是** |
+> | n_critical_crossings | exp 1.0/ctrl 0.0（p≈0） | d=+2.82 ✅ | 是（計數，var=0 時 d 退化） |
+>
+> **更正**：先前建議的「路徑長度 DV」經實測**證明錯誤（反而放大反轉）**。正確建議：
+> **① 將主要客觀 DV 改為 `max_proximity`**（連續、無混淆、跨區間穩健 d≈+3.8~+4.4）。此亦復活了**原始**預先登記的 crossing 類 DV（`n_critical_crossings`，當初棄用僅因舊裝置全飽和成 1.0，Space A/B 修復後已不再）；優先用 `max_proximity` 以避免零變異退化。
+> **② 若保留淨位移為次級 DV**，須把事件序列收到實驗組 max proximity < ~0.95（`intensity_scale=1.0` 下約 ≤ 4 事件/場次），它僅在飽和前有效。
+> 詳見 [reports/experiments/p7h_engine_sim/REGIME_FINDING.md](../../../reports/experiments/p7h_engine_sim/REGIME_FINDING.md)。

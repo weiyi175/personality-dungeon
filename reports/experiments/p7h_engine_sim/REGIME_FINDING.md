@@ -65,17 +65,40 @@ This reproduces the historical "effect direction reversal" — confirming it is 
 **apparatus/measurement artifact of the proximity-modulated DV at saturation**,
 not a scientific finding.
 
+## DV comparison — the displacement DVs are confounded; the proximity DV is not
+
+Running all four candidate DVs on the SAME data (via the extended
+`analyze_p7h_real_study.py`) shows the confound is in the **DV family**, not the
+sequence length. Event intensity is proximity-modulated, so the aligned
+(experiment) arm throttles its own force once it nears the critical point, while
+the control arm — staying farther away — keeps receiving full-size nudges. Any
+displacement-MAGNITUDE DV therefore favours control over a sequence.
+
+| DV | best regime (12 act) | reversed regime (30 act) | robust? |
+|----|----------------------|--------------------------|---------|
+| net displacement `total_displacement` | d=+0.82 ✅ | d=−0.64 ✗ | no (only pre-saturation) |
+| path length `path_displacement` Σ‖Δ‖ | d=−2.40 ✗ | d=−4.90 ✗ | **no — worse** (control gets bigger steps throughout) |
+| **max proximity** | **d=+4.44 ✅ (p=4e-17)** | **d=+3.78 ✅ (p=3e-15)** | **YES** |
+| n_critical_crossings | exp 1.0 / ctrl 0.0 (p≈0)* | d=+2.82 ✅ | yes (count; *degenerate Cohen's d when exp var=0) |
+
+**Path length is NOT the fix** (it amplifies the artifact). The unconfounded DV
+is **proximity-based**: it rewards reaching the target the manipulation actually
+aims at (the bifurcation), independent of how the modulation scales force.
+
 ### Recommendation for the real-human study
 
-- **Cap the event sequence so the experiment arm stays sub-saturation**
-  (target max proximity < ~0.95): roughly **≤ 4 bifurcation events per session**
-  with the current `intensity_scale=1.0`.
-- Consider a **saturation-aware DV** (e.g. path length Σ‖Δ‖, or proximity-gain)
-  in addition to net displacement, since net displacement is biased once an arm
-  saturates. (Path displacement is already recorded by the tracker.)
-- With ΔP feedback ON, the common-mode personality drift adds variance that
-  dilutes the net-displacement effect over long sequences; the short-regime
-  effect survives feedback (smoke test: d≈1.07 at 4 events, feedback on).
+1. **Switch the primary objective DV to `max_proximity`** (continuous,
+   unconfounded, saturation-robust: d≈+3.8 to +4.4 across all regimes). This
+   also revives the *originally* pre-registered crossing-based DV
+   (`n_critical_crossings`), which was abandoned only because the OLD broken
+   apparatus saturated everything to proximity=1.0 — no longer true after the
+   Space A/B fix. Prefer `max_proximity` over the count to avoid the zero-variance
+   degeneracy.
+2. If net displacement is kept as a secondary DV, **cap the event sequence so the
+   experiment arm stays sub-saturation** (max proximity < ~0.95 ≈ ≤4 events at
+   `intensity_scale=1.0`); it is only valid pre-saturation.
+3. With ΔP feedback ON, common-mode personality drift adds variance that further
+   dilutes displacement DVs; the proximity DV is unaffected.
 
 ## Reproduce
 
