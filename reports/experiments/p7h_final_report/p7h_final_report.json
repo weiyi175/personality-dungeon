@@ -1,0 +1,33 @@
+{
+  "report_date": "2026-06-05",
+  "metrics": {
+    "phase1_total_points": 1681,
+    "phase1_main_basin_pct": 100.0,
+    "phase3_lambda_max": 1.2875567278195977e-10,
+    "phase3_lambda_min": 7.324452155630841e-11,
+    "phase3_ky_dimension": 9.0,
+    "phase3_trace": 9.92267601360684e-10,
+    "verification_success_rate": 0.86,
+    "verification_mean_peak_proximity": 0.92374181266119,
+    "verification_alignment_advantage": 0.17398364120675772,
+    "verification_prox_after_100_rounds": 0.00688483647961019,
+    "best_n_steps": 1,
+    "best_intensity_scale": 2.0,
+    "rollback_half_life_rounds": 15.0,
+    "player_test_cohens_d": 0.5398,
+    "player_test_ux_lift": 2.73,
+    "ctrl_mean_displacement": 0.08373337676302259,
+    "exp_mean_displacement": 0.0911801753957225,
+    "ctrl_mean_max_proximity": 0.5129583548637917,
+    "exp_mean_max_proximity": 0.9179757353532539,
+    "ctrl_ux_composite": 5.25,
+    "exp_ux_composite": 7.98
+  },
+  "raw_sources": [
+    "phase1",
+    "phase3",
+    "phase2_verify",
+    "player_test",
+    "survey"
+  ]
+}

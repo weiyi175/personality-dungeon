@@ -60,6 +60,113 @@ def test_bifurcation_sequence_validates_n_steps(client):
     assert r.status_code == 422
 
 
+# ── Space-B-input bifurcation routes (Godot loop fix) ─────────────────────────
+
+
+def test_bifurcation_b_detect_equals_a_route_on_mapped_vector(client):
+    """b/detect on a Space-B vector == detect on b_to_a() of that vector."""
+    from simulation.personality_space import b_to_a
+
+    b = client.post("/bifurcation/b/detect", json={"personality_vector": PV}).json()
+    a = client.post(
+        "/bifurcation/detect", json={"personality_vector": b_to_a(PV).tolist()}
+    ).json()
+    assert b["bifurcation"] == a["bifurcation"]
+    assert b["input_space"] == "B"
+
+
+def test_bifurcation_b_detect_does_not_saturate_when_raw_does(client):
+    """A vector that saturates proximity when read as Space A stays sub-critical
+    via the b-route (the exact apparatus-bypass bug: raw Space-B → proximity 1.0)."""
+    raw = client.post("/bifurcation/detect", json={"personality_vector": PV}).json()
+    mapped = client.post("/bifurcation/b/detect", json={"personality_vector": PV}).json()
+    assert raw["bifurcation"]["bifurcation_proximity"] == 1.0  # saturated (far from baseline in A)
+    assert mapped["bifurcation"]["bifurcation_proximity"] < 1.0  # realistic via b_to_a
+
+
+def test_bifurcation_b_event_displacement_roundtrips_to_space_a(client):
+    """b/event returns displacement in Space B that maps back to the Space-A event."""
+    from simulation.personality_space import b_to_a, displacement_b_to_a
+    import numpy as np
+
+    b = client.post("/bifurcation/b/event", json={"personality_vector": PV}).json()
+    a = client.post(
+        "/bifurcation/event", json={"personality_vector": b_to_a(PV).tolist()}
+    ).json()
+    # Direction is a unit vector → invariant under the isotropic transform.
+    assert np.allclose(b["direction"], a["direction"])
+    # Space-B displacement inverts back to the Space-A displacement.
+    assert np.allclose(displacement_b_to_a(b["displacement"]), a["displacement"])
+    assert b["space"] == "B" and b["input_space"] == "B"
+
+
+def test_bifurcation_b_routes_reject_wrong_length(client):
+    for route in ("detect", "event", "sequence", "zone-check", "rollback"):
+        r = client.post(f"/bifurcation/b/{route}", json={"personality_vector": [0.0] * 8})
+        assert r.status_code == 422, route
+
+
+# ── personality_mode validation ───────────────────────────────────────────────
+
+
+def test_rl_initialize_rejects_unknown_personality_mode(client):
+    r = client.post("/rl_sessions/initialize", json={"personality_mode": "balanced"})
+    assert r.status_code == 422
+    assert "personality_mode" in r.json()["detail"]
+
+
+def test_rl_session_config_validate_rejects_unknown_personality_mode():
+    from simulation.rl_session_engine import RLSessionConfig
+
+    with pytest.raises(ValueError, match="personality_mode"):
+        RLSessionConfig(personality_mode="balanced").validate()
+
+
+# ── Sub-critical seeding (validated H1 regime on the live path) ───────────────
+
+
+def test_sample_sub_critical_is_unsaturated():
+    import numpy as np
+    from simulation.personality_seed import sample_sub_critical
+    from simulation.bifurcation_detector import compute_bifurcation_distance
+
+    p0 = sample_sub_critical(np.random.RandomState(0), headroom=0.5)
+    prox = compute_bifurcation_distance(np.asarray(p0), mode="projection")["bifurcation_proximity"]
+    assert prox < 1.0  # near baseline, not saturated
+
+
+def test_rl_initialize_sub_critical_headroom_unsaturated(client):
+    r = client.post("/rl_sessions/initialize", json={
+        "n_players": 4, "n_rounds": 10, "burn_in": 0, "seed": 1,
+        "sub_critical_headroom": 0.5, "space_a_events_enabled": True,
+    })
+    assert r.status_code == 200
+    prox = r.json()["initial_snapshot"].get("bifurcation_proximity")
+    assert prox is not None and prox < 1.0  # population seeded sub-critical
+
+
+def test_rl_initialize_sub_critical_headroom_out_of_range_422(client):
+    r = client.post("/rl_sessions/initialize", json={
+        "n_players": 4, "n_rounds": 10, "burn_in": 0, "sub_critical_headroom": 1.5,
+    })
+    assert r.status_code == 422
+
+
+def test_rl_initialize_seed_options_mutually_exclusive_422(client):
+    r = client.post("/rl_sessions/initialize", json={
+        "n_players": 4, "n_rounds": 10, "burn_in": 0,
+        "sub_critical_headroom": 0.5, "fixed_personality_vector": [0.0] * 9,
+    })
+    assert r.status_code == 422
+
+
+def test_rl_initialize_fixed_vector_wrong_length_422(client):
+    r = client.post("/rl_sessions/initialize", json={
+        "n_players": 4, "n_rounds": 10, "burn_in": 0, "fixed_personality_vector": [0.0] * 8,
+    })
+    assert r.status_code == 422
+
+
 # ── Passive event choice ──────────────────────────────────────────────────────
 
 

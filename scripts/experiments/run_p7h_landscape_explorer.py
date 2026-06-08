@@ -7,10 +7,7 @@ Purpose:
   Characterize attractor basins, separatrix topology, and Lyapunov spectra
   
 Key Features:
-  - Phase 1: 2D grid cell mapping (1,681 × 200 round trajectories)
-  - Phase 2: Boundary refinement scanning
-  - Phase 3: Full 9D Lyapunov spectra (QR decomposition method)
-  - Phase 4: Bifurcation continuation (pseudo-arclength)
+   
   
 Author: P7-H Research Pipeline
 Date: 2025-06-04

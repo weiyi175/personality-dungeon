@@ -1,0 +1,14 @@
+P7-H LIVE 200-RUN (HTTP, corrected apparatus)
+====================================================
+session        : ecdf2978-bf77-46ad-af9c-fd6d4d64c306
+rounds         : 200   players: 4   mode: random_9persona
+events applied : 20 (every 10, v1-aligned, persisting)
+elapsed        : 0.6s
+
+PROXIMITY (corrected vs the bypass bug)
+  corrected  max_proximity (DV) = 1.0000   min=0.1579  mean=0.9141
+  naive bug  max=1.0000  min=1.0000  mean=1.0000
+  saturated@1.0 rounds:  corrected=130/200   naive_bug=200/200
+
+route consistency: max |b/detect − Space-A direct| = 0.00e+00 (OK)
+displacement DV  : final=0.10396  max=0.10396

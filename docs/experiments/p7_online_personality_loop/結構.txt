@@ -1,0 +1,10 @@
+6 個文件已建立在 p7_online_personality_loop：
+P7-A → P7-B → P7-C → P7-D → P7-E
+實驗系列結構:
+檔案	階段	核心任務
+00_overview.md	總覽	閉環機制示意圖、Gate 摘要、分層歸屬
+P7A_baseline_snapshot.md	基線	靜態路徑 15 runs，鎖定 reward 基線，驗證人格→策略影響可觀測（G7A-03）
+P7B_mapping_spec.md	數學規格	投影矩陣 W、payoff 調制函數 Δu、人格更新規則 ΔP、5 條 invariants（純規格，不執行）
+P7C_feedback_injection.md	注入驗證	小規模 9 runs，驗證 α=0 退化保護、新 CSV schema（G7C-01/02 為阻斷 Gate）
+P7D_stability_scan.md	穩定性掃描	α × η 二維矩陣 63 runs，找出 S2 穩定振盪的 α* 區間
+P7E_longterm_drift.md	長期觀測	500 輪 24 runs，分析人格吸引子、殊途同歸 vs 保持分異、社群同質化

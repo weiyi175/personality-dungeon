@@ -1,0 +1,69 @@
+{
+  "H1_displacement": {
+    "endpoint": "total_displacement",
+    "control": {
+      "n": 30,
+      "mean": 0.10795236999879813,
+      "sd": 0.027524789424061172
+    },
+    "experiment": {
+      "n": 30,
+      "mean": 0.09152476648246453,
+      "sd": 0.023611684181873354
+    },
+    "welch_t": -2.481139676199912,
+    "p_one_sided": 0.9919563319154272,
+    "p_two_sided": 0.016087336169145657,
+    "cohens_d": -0.6406275097024481,
+    "cohens_d_95ci": [
+      -1.159515796439344,
+      -0.12173922296555217
+    ],
+    "achieved_power": 0.6988822818152003,
+    "n_per_group_for_80pct": 38.24956514033183,
+    "significant": false
+  },
+  "H2_survey": {
+    "composite": {
+      "control_mean": 16.7,
+      "experiment_mean": 23.833333333333332,
+      "ux_lift": 7.133333333333333,
+      "mann_whitney_u": 899.5,
+      "p_one_sided": 1.3122458440082846e-11,
+      "significant": true
+    },
+    "items": {
+      "q1_naturalness": {
+        "control_mean": 6.0,
+        "experiment_mean": 8.066666666666666,
+        "u": 792.0,
+        "p_raw": 1.3276753760067794e-07,
+        "p_holm": 1.3276753760067794e-07,
+        "significant_holm": true
+      },
+      "q2_fun": {
+        "control_mean": 5.233333333333333,
+        "experiment_mean": 8.1,
+        "u": 846.0,
+        "p_raw": 1.5723359136696223e-09,
+        "p_holm": 4.717007741008867e-09,
+        "significant_holm": true
+      },
+      "q3_replay": {
+        "control_mean": 5.466666666666667,
+        "experiment_mean": 7.666666666666667,
+        "u": 832.0,
+        "p_raw": 4.2934195689096264e-09,
+        "p_holm": 8.586839137819253e-09,
+        "significant_holm": true
+      }
+    }
+  },
+  "H3_correlation": {
+    "n_pairs": 60,
+    "spearman_rho": -0.15991101505144525,
+    "p_two_sided": 0.2222825869631626,
+    "significant": false,
+    "deviation_note": "x=total_displacement (pre-reg: n_critical_crossings; all zero due to structural proximity=1.0)"
+  }
+}

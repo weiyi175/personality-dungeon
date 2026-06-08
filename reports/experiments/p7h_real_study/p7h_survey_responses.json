@@ -1,0 +1,297 @@
+{
+  "responses": {
+    "974ff206-9b85-4e38-98f4-7f6a8c3db9fa": {
+      "session_id": "974ff206-9b85-4e38-98f4-7f6a8c3db9fa",
+      "group": "experiment",
+      "submitted_at": 1780671265.381562,
+      "q1_naturalness": 5,
+      "q2_fun": 5,
+      "q3_replay": 5,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": ""
+    },
+    "bd303458-5b75-4078-af74-19e5732590e8": {
+      "session_id": "bd303458-5b75-4078-af74-19e5732590e8",
+      "group": "experiment",
+      "submitted_at": 1780672901.3180735,
+      "q1_naturalness": 7,
+      "q2_fun": 5,
+      "q3_replay": 5,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": ""
+    },
+    "449566c5-17b9-4339-80b3-bdb69f3f8ad4": {
+      "session_id": "449566c5-17b9-4339-80b3-bdb69f3f8ad4",
+      "group": "control",
+      "submitted_at": 1780672977.2766578,
+      "q1_naturalness": 5,
+      "q2_fun": 5,
+      "q3_replay": 5,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": ""
+    },
+    "d0e4bfd4-b078-4804-83b0-c22b8e379f81": {
+      "session_id": "d0e4bfd4-b078-4804-83b0-c22b8e379f81",
+      "group": "control",
+      "submitted_at": 1780673176.313156,
+      "q1_naturalness": 7,
+      "q2_fun": 5,
+      "q3_replay": 5,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": ""
+    },
+    "881a5cb1-e4f0-4f8f-a473-25dca20ff07c": {
+      "session_id": "881a5cb1-e4f0-4f8f-a473-25dca20ff07c",
+      "group": "experiment",
+      "submitted_at": 1780674237.6890574,
+      "q1_naturalness": 5,
+      "q2_fun": 5,
+      "q3_replay": 7,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": ""
+    },
+    "aa7b6653-aaa4-43ed-a4b7-c148a4ebd340": {
+      "session_id": "aa7b6653-aaa4-43ed-a4b7-c148a4ebd340",
+      "group": "experiment",
+      "submitted_at": 1780674301.2626576,
+      "q1_naturalness": 6,
+      "q2_fun": 7,
+      "q3_replay": 5,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": ""
+    },
+    "b3413167-5d72-4b8a-bbdd-99889b361515": {
+      "session_id": "b3413167-5d72-4b8a-bbdd-99889b361515",
+      "group": "control",
+      "submitted_at": 1780675715.9262376,
+      "q1_naturalness": 5,
+      "q2_fun": 5,
+      "q3_replay": 5,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": ""
+    },
+    "cf80b588-46f0-4ed6-81d4-0e8d65c5860a": {
+      "session_id": "cf80b588-46f0-4ed6-81d4-0e8d65c5860a",
+      "group": "experiment",
+      "submitted_at": 1780678879.6811755,
+      "q1_naturalness": 5,
+      "q2_fun": 5,
+      "q3_replay": 7,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": ""
+    },
+    "eebfbf3e-d698-4c8d-842f-ef8f49367d84": {
+      "session_id": "eebfbf3e-d698-4c8d-842f-ef8f49367d84",
+      "group": "experiment",
+      "submitted_at": 1780679239.3612254,
+      "q1_naturalness": 5,
+      "q2_fun": 5,
+      "q3_replay": 5,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": ""
+    },
+    "3ae80720-2e13-4b30-b47a-a041a1c4f1b2": {
+      "session_id": "3ae80720-2e13-4b30-b47a-a041a1c4f1b2",
+      "group": "control",
+      "submitted_at": 1780679636.5639215,
+      "q1_naturalness": 5,
+      "q2_fun": 5,
+      "q3_replay": 5,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": ""
+    },
+    "58f902f4-a84f-4e9c-9fde-0ebdd19f5c7b": {
+      "session_id": "58f902f4-a84f-4e9c-9fde-0ebdd19f5c7b",
+      "group": "experiment",
+      "submitted_at": 1780680793.5325968,
+      "q1_naturalness": 5,
+      "q2_fun": 5,
+      "q3_replay": 6,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": ""
+    },
+    "b2d49990-8450-46a0-9c65-41ae3deaec42": {
+      "session_id": "b2d49990-8450-46a0-9c65-41ae3deaec42",
+      "group": "control",
+      "submitted_at": 1780683052.4249508,
+      "q1_naturalness": 7,
+      "q2_fun": 5,
+      "q3_replay": 5,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": ""
+    },
+    "5577deeb-6abb-4e9a-9be2-f27d68173d21": {
+      "session_id": "5577deeb-6abb-4e9a-9be2-f27d68173d21",
+      "group": "experiment",
+      "submitted_at": 1780709116.4470718,
+      "q1_naturalness": 8,
+      "q2_fun": 4,
+      "q3_replay": 7,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": ""
+    },
+    "e4f75fca-303f-4169-a983-3145e9bdb15d": {
+      "session_id": "e4f75fca-303f-4169-a983-3145e9bdb15d",
+      "group": "experiment",
+      "submitted_at": 1780711166.2363415,
+      "q1_naturalness": 5,
+      "q2_fun": 5,
+      "q3_replay": 5,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": ""
+    },
+    "c948e3c6-dcf3-4508-b662-5ffded679f00": {
+      "session_id": "c948e3c6-dcf3-4508-b662-5ffded679f00",
+      "group": "control",
+      "submitted_at": 1780711224.315902,
+      "q1_naturalness": 5,
+      "q2_fun": 7,
+      "q3_replay": 7,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": ""
+    },
+    "8c7f1e73-3432-44a0-a8a1-78287feaa446": {
+      "session_id": "8c7f1e73-3432-44a0-a8a1-78287feaa446",
+      "group": "experiment",
+      "submitted_at": 1780716687.5926218,
+      "q1_naturalness": 7,
+      "q2_fun": 3,
+      "q3_replay": 3,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": ""
+    },
+    "3f2efa18-28b8-46fb-9d9c-ba34dfb75894": {
+      "session_id": "3f2efa18-28b8-46fb-9d9c-ba34dfb75894",
+      "group": "experiment",
+      "submitted_at": 1780766259.6060796,
+      "q1_naturalness": 7,
+      "q2_fun": 6,
+      "q3_replay": 5,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": ""
+    },
+    "3d81d26a-24a5-4393-80e1-fed460170f1d": {
+      "session_id": "3d81d26a-24a5-4393-80e1-fed460170f1d",
+      "group": "experiment",
+      "submitted_at": 1780767837.8043368,
+      "q1_naturalness": 4,
+      "q2_fun": 8,
+      "q3_replay": 8,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": ""
+    },
+    "757ef0e2-3e45-4264-b287-f5e0292e3eeb": {
+      "session_id": "757ef0e2-3e45-4264-b287-f5e0292e3eeb",
+      "group": "control",
+      "submitted_at": 1780769421.6764772,
+      "q1_naturalness": 7,
+      "q2_fun": 2,
+      "q3_replay": 8,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": ""
+    },
+    "36bed500-0fd1-48bd-8974-01f140a711e3": {
+      "session_id": "36bed500-0fd1-48bd-8974-01f140a711e3",
+      "group": "experiment",
+      "submitted_at": 1780806445.438594,
+      "q1_naturalness": 7,
+      "q2_fun": 4,
+      "q3_replay": 8,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": ""
+    }
+  },
+  "summary": {
+    "total_responses": 20,
+    "control": {
+      "n": 7,
+      "q1_naturalness": {
+        "mean": 5.86,
+        "std": 0.99
+      },
+      "q2_fun": {
+        "mean": 4.86,
+        "std": 1.36
+      },
+      "q3_replay": {
+        "mean": 5.71,
+        "std": 1.16
+      },
+      "composite_ux": 5.48
+    },
+    "experiment": {
+      "n": 13,
+      "q1_naturalness": {
+        "mean": 5.85,
+        "std": 1.17
+      },
+      "q2_fun": {
+        "mean": 5.15,
+        "std": 1.23
+      },
+      "q3_replay": {
+        "mean": 5.85,
+        "std": 1.41
+      },
+      "composite_ux": 5.62
+    },
+    "ux_lift": 0.14,
+    "questions": [
+      {
+        "id": "q1_naturalness",
+        "text": "\u4eba\u683c\u8f49\u8b8a\u662f\u5426\u611f\u5230\u81ea\u7136\uff1f",
+        "scale": "1 (\u5b8c\u5168\u4e0d\u81ea\u7136) \u2014 10 (\u975e\u5e38\u81ea\u7136)"
+      },
+      {
+        "id": "q2_fun",
+        "text": "\u908a\u754c\u63a7\u5236\u662f\u5426\u589e\u52a0\u904a\u6232\u6a02\u8da3\uff1f",
+        "scale": "1 (\u5b8c\u5168\u6c92\u6709) \u2014 10 (\u975e\u5e38\u6709\u8da3)"
+      },
+      {
+        "id": "q3_replay",
+        "text": "\u662f\u5426\u9858\u610f\u7e7c\u7e8c\u904a\u73a9\uff1f",
+        "scale": "1 (\u7d55\u5c0d\u4e0d\u6703) \u2014 10 (\u975e\u5e38\u60f3\u7e7c\u7e8c)"
+      }
+    ]
+  }
+}

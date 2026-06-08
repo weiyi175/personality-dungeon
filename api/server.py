@@ -47,7 +47,7 @@ from api.personality_text_inference import (
 )
 from api.personality_sbert_inference import infer_personality_vector_sbert
 from api.rl_session_manager import get_session_manager
-from simulation.rl_session_engine import RLSessionConfig
+from simulation.rl_session_engine import RLSessionConfig, VALID_PERSONALITY_MODES
 from api.ab_test_manager import get_manager as _get_ab_manager
 from api.player_test_tracker import get_tracker as _get_tracker
 from api.survey_manager import get_survey as _get_survey
@@ -68,7 +68,12 @@ from simulation.passive_choice import (
     resolve_passive_choice,
     vector_to_personality,
 )
-from simulation.personality_space import a_to_b as space_a_to_b
+from simulation.personality_space import (
+    a_to_b as space_a_to_b,
+    b_to_a as space_b_to_a,
+    displacement_a_to_b as space_disp_a_to_b,
+)
+from simulation.personality_seed import sample_sub_critical
 from dungeon.event_loader import EventLoader
 import asyncio
 import os
@@ -191,6 +196,17 @@ class RLSessionInitRequest(BaseModel):
     # Enable Space-A bifurcation events for this session (P7-H). Off by default
     # so existing Runtime-Bridge sessions are unchanged.
     space_a_events_enabled: bool = False
+    # ── Sub-critical seeding (P7-H, the validated H1 regime) ──────────────────
+    # Place the whole population near the baseline attractor with proximity
+    # headroom, so the bifurcation DV is NOT saturated from round 1. When set
+    # (0, 1], the server samples one Space-A P₀ via sample_sub_critical() and runs
+    # personality_mode="static" with it (overriding personality_mode). 0.5 = halfway
+    # to baseline. This reproduces the engine-sim/player-test regime live.
+    sub_critical_headroom: float | None = None
+    # Explicit Space-A P₀ (9D, FEATURE_NAMES order) shared by all players
+    # (personality_mode forced to "static"). Mutually exclusive with
+    # sub_critical_headroom. For callers that compute their own seed.
+    fixed_personality_vector: list[float] | None = None
 
 
 class RLSessionInitResponse(BaseModel):
@@ -571,6 +587,16 @@ def _rl_snapshot_to_dict(s: Any) -> dict[str, Any]:
         # Space-A personality aggregate + displacement DV (P7-H)
         "mean_personality": s.mean_personality,
         "personality_displacement": s.personality_displacement,
+        # Population-mean bifurcation proximity (Space-A truth, app-calibrated) —
+        # the H1 primary DV. The frontend records THIS as the experiment proximity
+        # (not the bounded display avatar's). None until the Space-A personality
+        # aggregate is populated (e.g. pre-warm).
+        "bifurcation_proximity": (
+            compute_bifurcation_distance(
+                np.asarray(s.mean_personality, dtype=float), mode="projection"
+            )["bifurcation_proximity"]
+            if len(s.mean_personality) == 9 else None
+        ),
     }
 
 
@@ -592,14 +618,54 @@ async def rl_initialize_session(req: RLSessionInitRequest) -> RLSessionInitRespo
         HTTPException 400: If BL2 parameter validation fails
         HTTPException 500: If session creation fails
     """
+    # Reject unknown personality_mode loudly (422) at the boundary. Otherwise the
+    # engine dispatch silently falls back to an all-zero personality — far from
+    # the baseline attractor — corrupting the session (e.g. Godot's 'balanced').
+    if req.personality_mode not in VALID_PERSONALITY_MODES:
+        raise HTTPException(
+            status_code=422,
+            detail=(
+                f"personality_mode must be one of {sorted(VALID_PERSONALITY_MODES)}; "
+                f"got {req.personality_mode!r}"
+            ),
+        )
+
+    # ── Resolve sub-critical seeding (the validated H1 regime) ────────────────
+    seed = req.seed if req.seed is not None else 42
+    effective_mode = req.personality_mode
+    fixed_vec: dict[str, float] | None = None
+    if req.sub_critical_headroom is not None and req.fixed_personality_vector is not None:
+        raise HTTPException(
+            status_code=422,
+            detail="sub_critical_headroom and fixed_personality_vector are mutually exclusive",
+        )
+    if req.sub_critical_headroom is not None:
+        if not 0.0 < req.sub_critical_headroom <= 1.0:
+            raise HTTPException(
+                status_code=422,
+                detail=f"sub_critical_headroom must be in (0, 1]; got {req.sub_critical_headroom}",
+            )
+        p0 = sample_sub_critical(np.random.RandomState(seed), headroom=req.sub_critical_headroom)
+        fixed_vec = {k: float(p0[i]) for i, k in enumerate(_BF_FEATURE_NAMES)}
+        effective_mode = "static"  # all players share the sub-critical P₀
+    elif req.fixed_personality_vector is not None:
+        if len(req.fixed_personality_vector) != 9:
+            raise HTTPException(
+                status_code=422,
+                detail=f"fixed_personality_vector must have 9 elements, got {len(req.fixed_personality_vector)}",
+            )
+        fixed_vec = {k: float(v) for k, v in zip(_BF_FEATURE_NAMES, req.fixed_personality_vector)}
+        effective_mode = "static"
+
     try:
         # Build RLSessionConfig with provided parameters
         config = RLSessionConfig(
             n_players=req.n_players,
             n_rounds=req.n_rounds,
             burn_in=req.burn_in,
-            seed=req.seed if req.seed is not None else 42,
-            personality_mode=req.personality_mode,
+            seed=seed,
+            personality_mode=effective_mode,
+            fixed_personality_vector=fixed_vec,
             space_a_events_enabled=req.space_a_events_enabled,
             # All other fields use defaults (BL2-locked: alpha_lo=0.005, alpha_hi=0.40, beta=3.0, etc.)
         )
@@ -1150,6 +1216,120 @@ async def bifurcation_rollback(req: BifurcationDetectRequest) -> dict[str, Any]:
     import numpy as np
     pv = np.array(req.personality_vector)
     return rollback_distance(pv, app_calibrated=req.app_calibrated)
+
+
+# ── Space-B-input bifurcation routes ──────────────────────────────────────────
+# Godot holds personalities in Space B (display / operating coordinates). The
+# live loop must NOT compute proximity or design events on the raw Space-B scale
+# (it saturates proximity at 1.0 and applies events on the wrong scale). These
+# parallel routes accept a Space-B personality_vector, map it to Space A via
+# b_to_a() so the bifurcation geometry (ε_c_app, v1-v2 plane) is the validated
+# apparatus, then map event DISPLACEMENTS back to Space B for the frontend to
+# apply. proximity is the canonical Space-A DV and is returned unchanged ([0,1]).
+# The A↔B transform is an isotropic affine, so unit DIRECTIONS are invariant.
+# See simulation/personality_space.py.
+
+def _event_to_space_b(event: dict[str, Any]) -> dict[str, Any]:
+    """Re-express a Space-A event's displacement fields in Space B for the frontend.
+
+    Only displacement-type fields rescale (displacement, feature_deltas,
+    magnitude); the unit ``direction`` and the ``proximity`` DV are scale-free
+    and kept as designed in Space A.
+    """
+    import numpy as np
+    out = dict(event)
+    disp_b = space_disp_a_to_b(np.asarray(event["displacement"], dtype=float))
+    out["displacement"] = disp_b.tolist()
+    out["feature_deltas"] = dict(zip(_BF_FEATURE_NAMES, disp_b.tolist()))
+    out["magnitude"] = float(np.linalg.norm(disp_b))
+    out["space"] = "B"  # displacement/feature_deltas are Space-B; proximity is Space-A
+    return out
+
+
+@app.post("/bifurcation/b/detect")
+async def bifurcation_b_detect(req: BifurcationDetectRequest) -> dict[str, Any]:
+    """Space-B input variant of /bifurcation/detect (maps B→A, measures DV in A)."""
+    if len(req.personality_vector) != 9:
+        raise HTTPException(
+            status_code=422,
+            detail=f"personality_vector must have 9 elements, got {len(req.personality_vector)}",
+        )
+    pv_a = space_b_to_a(req.personality_vector)
+    mode = "projection" if req.app_calibrated else "euclidean"
+    return {
+        "feature_names": _BF_FEATURE_NAMES,
+        "bifurcation": compute_bifurcation_distance(pv_a, mode=mode),
+        "sensitive_direction": compute_sensitive_direction(pv_a),
+        "input_space": "B",
+    }
+
+
+@app.post("/bifurcation/b/event")
+async def bifurcation_b_event(req: BifurcationEventRequest) -> dict[str, Any]:
+    """Space-B input variant of /bifurcation/event (event designed in A, displacement returned in B)."""
+    if len(req.personality_vector) != 9:
+        raise HTTPException(
+            status_code=422,
+            detail=f"personality_vector must have 9 elements, got {len(req.personality_vector)}",
+        )
+    import numpy as np
+    pv_a = space_b_to_a(req.personality_vector)
+    rng = np.random.RandomState(req.seed) if req.group == "control" else None
+    event = design_bifurcation_event(
+        pv_a, target=req.target, intensity_scale=req.intensity_scale,
+        app_calibrated=req.app_calibrated,
+        direction_mode=_direction_mode_for_group(req.group), rng=rng,
+    )
+    return {**_event_to_space_b(event), "input_space": "B"}
+
+
+@app.post("/bifurcation/b/sequence")
+async def bifurcation_b_sequence(req: BifurcationSequenceRequest) -> dict[str, Any]:
+    """Space-B input variant of /bifurcation/sequence (each step's displacement returned in B)."""
+    if len(req.personality_vector) != 9:
+        raise HTTPException(
+            status_code=422,
+            detail=f"personality_vector must have 9 elements, got {len(req.personality_vector)}",
+        )
+    if not (1 <= req.n_steps <= 20):
+        raise HTTPException(status_code=422, detail="n_steps must be between 1 and 20")
+    import numpy as np
+    pv_a = space_b_to_a(req.personality_vector)
+    sequence = event_sequence_planner(
+        pv_a, n_steps=req.n_steps, target=req.target,
+        app_calibrated=req.app_calibrated,
+        direction_mode=_direction_mode_for_group(req.group), seed=req.seed,
+    )
+    sequence["events"] = [_event_to_space_b(ev) for ev in sequence["events"]]
+    sequence["total_displacement"] = space_disp_a_to_b(
+        np.asarray(sequence["total_displacement"], dtype=float)
+    ).tolist()
+    sequence["input_space"] = "B"
+    return sequence
+
+
+@app.post("/bifurcation/b/zone-check")
+async def bifurcation_b_zone_check(req: BifurcationDetectRequest) -> dict[str, Any]:
+    """Space-B input variant of /bifurcation/zone-check (proximity DV measured in A)."""
+    if len(req.personality_vector) != 9:
+        raise HTTPException(
+            status_code=422,
+            detail=f"personality_vector must have 9 elements, got {len(req.personality_vector)}",
+        )
+    pv_a = space_b_to_a(req.personality_vector)
+    return {**is_in_effective_zone(pv_a, app_calibrated=req.app_calibrated), "input_space": "B"}
+
+
+@app.post("/bifurcation/b/rollback")
+async def bifurcation_b_rollback(req: BifurcationDetectRequest) -> dict[str, Any]:
+    """Space-B input variant of /bifurcation/rollback (recovery estimated in A)."""
+    if len(req.personality_vector) != 9:
+        raise HTTPException(
+            status_code=422,
+            detail=f"personality_vector must have 9 elements, got {len(req.personality_vector)}",
+        )
+    pv_a = space_b_to_a(req.personality_vector)
+    return {**rollback_distance(pv_a, app_calibrated=req.app_calibrated), "input_space": "B"}
 
 
 # ── Passive event choice API ──────────────────────────────────────────────────

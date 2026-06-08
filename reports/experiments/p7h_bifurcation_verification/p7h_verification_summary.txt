@@ -1,0 +1,25 @@
+P7-H BIFURCATION VERIFIER — SUMMARY
+==================================================
+
+Trials run          : 50
+Success rate        : 86.0%  (43/50 reached critical)
+Mean peak proximity : 0.924
+Alignment advantage : +0.174  (aligned v1 vs random direction)
+Proximity after 100 rounds: 0.0069
+Elapsed             : 0.04s
+
+PARAMETER SWEEP (n_steps × intensity)
+--------------------------------------------------
+steps  scale  success%  mean_peak     adv
+    1    0.5     25.0%      0.567  +0.093
+    1    1.0     50.0%      0.759  +0.121
+    1    2.0    100.0%      1.000  +0.065
+    3    0.5     60.0%      0.818  +0.309
+    3    1.0    100.0%      1.000  +0.298
+    3    2.0    100.0%      1.000  +0.074
+    5    0.5    100.0%      0.951  +0.341
+    5    1.0    100.0%      1.000  +0.257
+    5    2.0    100.0%      1.000  +0.000
+    7    0.5    100.0%      0.998  +0.309
+    7    1.0    100.0%      1.000  +0.166
+    7    2.0    100.0%      1.000  +0.000

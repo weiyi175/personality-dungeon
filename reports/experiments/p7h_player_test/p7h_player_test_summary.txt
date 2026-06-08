@@ -1,0 +1,16 @@
+P7-H PHASE IV: SIMULATED PLAYER TEST SUMMARY
+==================================================
+
+Players   : 10 (5 experiment, 5 control)
+Actions   : 30 per player
+Event every: 3 actions
+
+TRAJECTORY
+  Control   mean_displacement = 0.07376
+  Experiment mean_displacement = 0.09426
+  Cohen's d = +2.627
+
+SURVEY
+  Control    UX composite = 5.3
+  Experiment UX composite = 7.5
+  UX lift = +2.200

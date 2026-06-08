@@ -1,0 +1,177 @@
+{
+  "responses": {
+    "ctrl_003": {
+      "session_id": "ctrl_003",
+      "group": "control",
+      "submitted_at": 1780682562.3050456,
+      "q1_naturalness": 6,
+      "q2_fun": 5,
+      "q3_replay": 5,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": "\u8b8a\u5316\u6709\u9ede\u7a81\u5140"
+    },
+    "exp_001": {
+      "session_id": "exp_001",
+      "group": "experiment",
+      "submitted_at": 1780682562.3050752,
+      "q1_naturalness": 7,
+      "q2_fun": 6,
+      "q3_replay": 8,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": "\u611f\u89ba\u4eba\u683c\u8b8a\u5316\u5f88\u81ea\u7136"
+    },
+    "ctrl_000": {
+      "session_id": "ctrl_000",
+      "group": "control",
+      "submitted_at": 1780682562.3050992,
+      "q1_naturalness": 5,
+      "q2_fun": 5,
+      "q3_replay": 6,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": "\u8b8a\u5316\u6709\u9ede\u7a81\u5140"
+    },
+    "exp_000": {
+      "session_id": "exp_000",
+      "group": "experiment",
+      "submitted_at": 1780682562.3051224,
+      "q1_naturalness": 5,
+      "q2_fun": 6,
+      "q3_replay": 7,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": "\u611f\u89ba\u4eba\u683c\u8b8a\u5316\u5f88\u81ea\u7136"
+    },
+    "ctrl_002": {
+      "session_id": "ctrl_002",
+      "group": "control",
+      "submitted_at": 1780682562.3051453,
+      "q1_naturalness": 6,
+      "q2_fun": 6,
+      "q3_replay": 3,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": "\u8b8a\u5316\u6709\u9ede\u7a81\u5140"
+    },
+    "exp_002": {
+      "session_id": "exp_002",
+      "group": "experiment",
+      "submitted_at": 1780682562.3051689,
+      "q1_naturalness": 9,
+      "q2_fun": 8,
+      "q3_replay": 7,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": "\u611f\u89ba\u4eba\u683c\u8b8a\u5316\u5f88\u81ea\u7136"
+    },
+    "ctrl_004": {
+      "session_id": "ctrl_004",
+      "group": "control",
+      "submitted_at": 1780682562.3051922,
+      "q1_naturalness": 5,
+      "q2_fun": 6,
+      "q3_replay": 6,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": "\u8b8a\u5316\u6709\u9ede\u7a81\u5140"
+    },
+    "exp_004": {
+      "session_id": "exp_004",
+      "group": "experiment",
+      "submitted_at": 1780682562.3052146,
+      "q1_naturalness": 8,
+      "q2_fun": 8,
+      "q3_replay": 9,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": "\u611f\u89ba\u4eba\u683c\u8b8a\u5316\u5f88\u81ea\u7136"
+    },
+    "exp_003": {
+      "session_id": "exp_003",
+      "group": "experiment",
+      "submitted_at": 1780682562.305238,
+      "q1_naturalness": 8,
+      "q2_fun": 8,
+      "q3_replay": 9,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": "\u611f\u89ba\u4eba\u683c\u8b8a\u5316\u5f88\u81ea\u7136"
+    },
+    "ctrl_001": {
+      "session_id": "ctrl_001",
+      "group": "control",
+      "submitted_at": 1780682562.305261,
+      "q1_naturalness": 5,
+      "q2_fun": 6,
+      "q3_replay": 5,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": "\u8b8a\u5316\u6709\u9ede\u7a81\u5140"
+    }
+  },
+  "summary": {
+    "total_responses": 10,
+    "control": {
+      "n": 5,
+      "q1_naturalness": {
+        "mean": 5.4,
+        "std": 0.49
+      },
+      "q2_fun": {
+        "mean": 5.6,
+        "std": 0.49
+      },
+      "q3_replay": {
+        "mean": 5.0,
+        "std": 1.1
+      },
+      "composite_ux": 5.33
+    },
+    "experiment": {
+      "n": 5,
+      "q1_naturalness": {
+        "mean": 7.4,
+        "std": 1.36
+      },
+      "q2_fun": {
+        "mean": 7.2,
+        "std": 0.98
+      },
+      "q3_replay": {
+        "mean": 8.0,
+        "std": 0.89
+      },
+      "composite_ux": 7.53
+    },
+    "ux_lift": 2.2,
+    "questions": [
+      {
+        "id": "q1_naturalness",
+        "text": "\u4eba\u683c\u8f49\u8b8a\u662f\u5426\u611f\u5230\u81ea\u7136\uff1f",
+        "scale": "1 (\u5b8c\u5168\u4e0d\u81ea\u7136) \u2014 10 (\u975e\u5e38\u81ea\u7136)"
+      },
+      {
+        "id": "q2_fun",
+        "text": "\u908a\u754c\u63a7\u5236\u662f\u5426\u589e\u52a0\u904a\u6232\u6a02\u8da3\uff1f",
+        "scale": "1 (\u5b8c\u5168\u6c92\u6709) \u2014 10 (\u975e\u5e38\u6709\u8da3)"
+      },
+      {
+        "id": "q3_replay",
+        "text": "\u662f\u5426\u9858\u610f\u7e7c\u7e8c\u904a\u73a9\uff1f",
+        "scale": "1 (\u7d55\u5c0d\u4e0d\u6703) \u2014 10 (\u975e\u5e38\u60f3\u7e7c\u7e8c)"
+      }
+    ]
+  }
+}

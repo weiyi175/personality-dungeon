@@ -94,6 +94,13 @@ _PERSONALITY_REINFORCEMENT: dict[int, dict[str, float]] = {
 # Session Configuration
 # ===================================================================
 
+# The only personality initialisation modes the engine recognises. Anything else
+# previously fell through the dispatch `else` branch to an all-zero personality
+# (NOT near the baseline attractor), silently corrupting the session. We now
+# reject unknown modes loudly instead. See validate() and the dispatch below.
+VALID_PERSONALITY_MODES: frozenset[str] = frozenset({"none", "random_9persona", "static"})
+
+
 @dataclass
 class RLSessionConfig:
     """Runtime Bridge configuration (subset of PersonalityRLConfig, BL2 locked)."""
@@ -170,6 +177,11 @@ class RLSessionConfig:
             raise ValueError(
                 "EventBridge disabled in Runtime Bridge Phase 1-2 (Dead Zone);"
                 " events_json must be ''"
+            )
+        if self.personality_mode not in VALID_PERSONALITY_MODES:
+            raise ValueError(
+                f"unknown personality_mode {self.personality_mode!r}; "
+                f"must be one of {sorted(VALID_PERSONALITY_MODES)}"
             )
 
 

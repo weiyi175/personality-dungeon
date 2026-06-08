@@ -1,0 +1,377 @@
+{
+  "seed": 0,
+  "sessions": {
+    "974ff206-9b85-4e38-98f4-7f6a8c3db9fa": {
+      "session_id": "974ff206-9b85-4e38-98f4-7f6a8c3db9fa",
+      "group": "experiment",
+      "created_at": 1780671204.7439399,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "d768f3ef-3cd7-4e56-9f3a-5af8dc49dff9": {
+      "session_id": "d768f3ef-3cd7-4e56-9f3a-5af8dc49dff9",
+      "group": "control",
+      "created_at": 1780671270.7697854,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "e32ceb7f-8158-49b2-a93e-cd3cb63e54a4": {
+      "session_id": "e32ceb7f-8158-49b2-a93e-cd3cb63e54a4",
+      "group": "experiment",
+      "created_at": 1780671498.2228162,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "70e8331d-f79f-4a47-a4e8-f96c0889130f": {
+      "session_id": "70e8331d-f79f-4a47-a4e8-f96c0889130f",
+      "group": "control",
+      "created_at": 1780671507.8335547,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "5620483c-03fd-46e7-a830-a45daa44d711": {
+      "session_id": "5620483c-03fd-46e7-a830-a45daa44d711",
+      "group": "control",
+      "created_at": 1780671588.7154436,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "50d4eea5-bb68-45c8-92a8-210161f12605": {
+      "session_id": "50d4eea5-bb68-45c8-92a8-210161f12605",
+      "group": "experiment",
+      "created_at": 1780672049.1218617,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "bd303458-5b75-4078-af74-19e5732590e8": {
+      "session_id": "bd303458-5b75-4078-af74-19e5732590e8",
+      "group": "experiment",
+      "created_at": 1780672809.084581,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "449566c5-17b9-4339-80b3-bdb69f3f8ad4": {
+      "session_id": "449566c5-17b9-4339-80b3-bdb69f3f8ad4",
+      "group": "control",
+      "created_at": 1780672906.1307275,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "d0e4bfd4-b078-4804-83b0-c22b8e379f81": {
+      "session_id": "d0e4bfd4-b078-4804-83b0-c22b8e379f81",
+      "group": "control",
+      "created_at": 1780673122.9206269,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "881a5cb1-e4f0-4f8f-a473-25dca20ff07c": {
+      "session_id": "881a5cb1-e4f0-4f8f-a473-25dca20ff07c",
+      "group": "experiment",
+      "created_at": 1780674179.9224358,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "aa7b6653-aaa4-43ed-a4b7-c148a4ebd340": {
+      "session_id": "aa7b6653-aaa4-43ed-a4b7-c148a4ebd340",
+      "group": "experiment",
+      "created_at": 1780674240.952231,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "b3413167-5d72-4b8a-bbdd-99889b361515": {
+      "session_id": "b3413167-5d72-4b8a-bbdd-99889b361515",
+      "group": "control",
+      "created_at": 1780675656.0689085,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "59cb3adb-d1fa-4e6c-8a00-cc61f519612b": {
+      "session_id": "59cb3adb-d1fa-4e6c-8a00-cc61f519612b",
+      "group": "control",
+      "created_at": 1780675961.6374695,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "cf80b588-46f0-4ed6-81d4-0e8d65c5860a": {
+      "session_id": "cf80b588-46f0-4ed6-81d4-0e8d65c5860a",
+      "group": "experiment",
+      "created_at": 1780678794.9211566,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "ad3a5ddd-b5dd-47a4-9bba-387d695a6fbc": {
+      "session_id": "ad3a5ddd-b5dd-47a4-9bba-387d695a6fbc",
+      "group": "control",
+      "created_at": 1780678886.6885595,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "eebfbf3e-d698-4c8d-842f-ef8f49367d84": {
+      "session_id": "eebfbf3e-d698-4c8d-842f-ef8f49367d84",
+      "group": "experiment",
+      "created_at": 1780679121.8057687,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "3ae80720-2e13-4b30-b47a-a041a1c4f1b2": {
+      "session_id": "3ae80720-2e13-4b30-b47a-a041a1c4f1b2",
+      "group": "control",
+      "created_at": 1780679484.7644136,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "58f902f4-a84f-4e9c-9fde-0ebdd19f5c7b": {
+      "session_id": "58f902f4-a84f-4e9c-9fde-0ebdd19f5c7b",
+      "group": "experiment",
+      "created_at": 1780680727.3545823,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "b2d49990-8450-46a0-9c65-41ae3deaec42": {
+      "session_id": "b2d49990-8450-46a0-9c65-41ae3deaec42",
+      "group": "control",
+      "created_at": 1780682989.4832985,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "5577deeb-6abb-4e9a-9be2-f27d68173d21": {
+      "session_id": "5577deeb-6abb-4e9a-9be2-f27d68173d21",
+      "group": "experiment",
+      "created_at": 1780709018.0517433,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "e4f75fca-303f-4169-a983-3145e9bdb15d": {
+      "session_id": "e4f75fca-303f-4169-a983-3145e9bdb15d",
+      "group": "experiment",
+      "created_at": 1780711112.2296278,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "c948e3c6-dcf3-4508-b662-5ffded679f00": {
+      "session_id": "c948e3c6-dcf3-4508-b662-5ffded679f00",
+      "group": "control",
+      "created_at": 1780711169.3264399,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "67b19252-9b36-4f64-8a59-ba14afd19b39": {
+      "session_id": "67b19252-9b36-4f64-8a59-ba14afd19b39",
+      "group": "control",
+      "created_at": 1780716509.132186,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "8c7f1e73-3432-44a0-a8a1-78287feaa446": {
+      "session_id": "8c7f1e73-3432-44a0-a8a1-78287feaa446",
+      "group": "experiment",
+      "created_at": 1780716613.805728,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "f1249108-200c-4848-b8e9-1e935138af05": {
+      "session_id": "f1249108-200c-4848-b8e9-1e935138af05",
+      "group": "control",
+      "created_at": 1780718655.1789896,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "3f2efa18-28b8-46fb-9d9c-ba34dfb75894": {
+      "session_id": "3f2efa18-28b8-46fb-9d9c-ba34dfb75894",
+      "group": "experiment",
+      "created_at": 1780765857.6583354,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "7c4cb4db-34c1-4e7a-9b94-b2552ee07b19": {
+      "session_id": "7c4cb4db-34c1-4e7a-9b94-b2552ee07b19",
+      "group": "control",
+      "created_at": 1780766911.0424213,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "5a631502-b330-4049-b4f7-7ea125c22ac1": {
+      "session_id": "5a631502-b330-4049-b4f7-7ea125c22ac1",
+      "group": "experiment",
+      "created_at": 1780767645.1951199,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "3d81d26a-24a5-4393-80e1-fed460170f1d": {
+      "session_id": "3d81d26a-24a5-4393-80e1-fed460170f1d",
+      "group": "experiment",
+      "created_at": 1780767678.9200485,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "757ef0e2-3e45-4264-b287-f5e0292e3eeb": {
+      "session_id": "757ef0e2-3e45-4264-b287-f5e0292e3eeb",
+      "group": "control",
+      "created_at": 1780769336.0633714,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "5d2772a2-3bfe-469f-b504-5c25eea76903": {
+      "session_id": "5d2772a2-3bfe-469f-b504-5c25eea76903",
+      "group": "control",
+      "created_at": 1780805372.0796304,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    },
+    "36bed500-0fd1-48bd-8974-01f140a711e3": {
+      "session_id": "36bed500-0fd1-48bd-8974-01f140a711e3",
+      "group": "experiment",
+      "created_at": 1780806365.329233,
+      "personality_snapshots": [],
+      "max_proximity": 0.0,
+      "initial_personality": null,
+      "final_personality": null,
+      "total_displacement": 0.0,
+      "event_count": 0
+    }
+  },
+  "summary": {
+    "total_sessions": 32,
+    "control": {
+      "n": 16,
+      "n_with_events": 0,
+      "mean_displacement": 0.0,
+      "std_displacement": 0.0,
+      "mean_max_proximity": 0.0,
+      "mean_event_count": 0.0
+    },
+    "experiment": {
+      "n": 16,
+      "n_with_events": 0,
+      "mean_displacement": 0.0,
+      "std_displacement": 0.0,
+      "mean_max_proximity": 0.0,
+      "mean_event_count": 0.0
+    },
+    "effect_size_cohens_d": 0.0
+  }
+}
