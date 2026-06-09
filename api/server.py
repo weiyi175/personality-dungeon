@@ -1453,6 +1453,13 @@ class PlayerTestStartRequest(BaseModel):
     session_id: str
     group: str
     player_alias: str = "anon"
+    # 遺言診斷（選填；由 Godot 前端在 start 時一起送來）
+    will_text: str = ""
+    will_sbert_vector: list[float] = []
+    will_personality_vector: list[float] = []
+    will_recklessness: float = -1.0
+    will_intensity: float = -1.0
+    will_cadence: int = -1
 
 class PlayerTestStepRequest(BaseModel):
     session_id: str
@@ -1466,6 +1473,7 @@ class PlayerTestStepRequest(BaseModel):
 
 class PlayerTestEndRequest(BaseModel):
     session_id: str
+    collapse_reason: str = ""  # "proximity+passive_failure"|"max_rounds"|"phase_ended"
 
 
 @app.post("/player-test/start")
@@ -1475,6 +1483,12 @@ async def player_test_start(req: PlayerTestStartRequest) -> dict[str, Any]:
         session_id=req.session_id,
         group=req.group,  # type: ignore[arg-type]
         player_alias=req.player_alias,
+        will_text=req.will_text,
+        will_sbert_vector=req.will_sbert_vector,
+        will_personality_vector=req.will_personality_vector,
+        will_recklessness=req.will_recklessness,
+        will_intensity=req.will_intensity,
+        will_cadence=req.will_cadence,
     )
 
 
@@ -1503,7 +1517,7 @@ async def player_test_step(req: PlayerTestStepRequest) -> dict[str, Any]:
 async def player_test_end(req: PlayerTestEndRequest) -> dict[str, Any]:
     """End a player test session and compute derived metrics."""
     tracker = _get_tracker()
-    result = tracker.end_session(req.session_id)
+    result = tracker.end_session(req.session_id, collapse_reason=req.collapse_reason)
     if not result.get("ok"):
         raise HTTPException(status_code=404, detail=result.get("error", "unknown"))
     await _p7h_save(tracker)  # persist completed session

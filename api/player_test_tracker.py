@@ -33,6 +33,7 @@ class TrajectoryStep:
     proximity_after: float
     event_type: str            # "personality_shift" | "explore_risk" | "none" | …
     response_time_ms: float    # milliseconds from action prompt to player choice
+    proximity_delta: float = 0.0  # 逐回合 proximity 變化（end_session 重算為 proximity_after[i]−proximity_after[i-1]，事件回合才非零）
 
 
 @dataclass
@@ -49,6 +50,16 @@ class PlayerTestSession:
     path_displacement: float = 0.0    # Σ‖p_k − p_{k-1}‖ over the ordered path
     n_bifurcation_events: int = 0
     n_critical_crossings: int = 0
+    n_steps: int = 0                  # len(trajectory)，方便快速查詢不用展開軌跡
+    # 崩壞診斷
+    collapse_reason: str = ""         # "proximity+passive_failure"|"max_rounds"|"phase_ended"|""
+    # 遺言診斷（session 開始時由 Godot 前端一起送來）
+    will_text: str = ""               # 玩家輸入的原始遺言文字
+    will_sbert_vector: list[float] = field(default_factory=list)      # SBERT 推論原始 9D 向量（未縮放）
+    will_personality_vector: list[float] = field(default_factory=list) # sub-critical 縮放後向量（傳給 RL engine）
+    will_recklessness: float = -1.0   # 魯莽度 R∈[0,1]，-1 表示未記錄
+    will_intensity: float = -1.0      # 事件強度，-1 表示未記錄
+    will_cadence: int = -1            # 事件節奏（每 N 回合），-1 表示未記錄
 
 
 class PlayerTestTracker:
@@ -64,11 +75,25 @@ class PlayerTestTracker:
         session_id: str,
         group: Group,
         player_alias: str = "anon",
+        will_text: str = "",
+        will_sbert_vector: list[float] | None = None,
+        will_personality_vector: list[float] | None = None,
+        will_recklessness: float = -1.0,
+        will_intensity: float = -1.0,
+        will_cadence: int = -1,
     ) -> dict:
         if session_id in self._sessions:
             return {"ok": False, "error": "session already exists"}
         self._sessions[session_id] = PlayerTestSession(
-            session_id=session_id, group=group, player_alias=player_alias
+            session_id=session_id,
+            group=group,
+            player_alias=player_alias,
+            will_text=will_text,
+            will_sbert_vector=will_sbert_vector or [],
+            will_personality_vector=will_personality_vector or [],
+            will_recklessness=will_recklessness,
+            will_intensity=will_intensity,
+            will_cadence=will_cadence,
         )
         return {"ok": True, "session_id": session_id, "group": group}
 
@@ -97,6 +122,7 @@ class PlayerTestTracker:
             proximity_after=proximity_after,
             event_type=event_type,
             response_time_ms=response_time_ms,
+            proximity_delta=round(proximity_after - proximity_before, 6),
         )
         sess.trajectory.append(step)
 
@@ -113,12 +139,14 @@ class PlayerTestTracker:
 
         return {"ok": True, "step_index": step.step_index}
 
-    def end_session(self, session_id: str) -> dict:
+    def end_session(self, session_id: str, collapse_reason: str = "") -> dict:
         sess = self._sessions.get(session_id)
         if sess is None:
             return {"ok": False, "error": "session not found"}
 
         sess.ended_at = time.time()
+        if collapse_reason:
+            sess.collapse_reason = collapse_reason
         if sess.trajectory:
             import numpy as np
             # Steps may arrive out of order (the client posts them fire-and-forget,
@@ -130,6 +158,23 @@ class PlayerTestTracker:
             sess.trajectory = ordered
             for i, s in enumerate(ordered):
                 s.step_index = i
+
+            # Per-event proximity change. proximity only moves on event rounds
+            # (every `cadence` rounds) and the move lands on that round's
+            # proximity_after. The intra-step (after − before) delta recorded
+            # live is always ~0 because apply-event resolves async AFTER the step
+            # is posted, so the jump shows up on the next step's proximity_after.
+            # Recompute the meaningful signal here: the step-to-step change in
+            # proximity_after over the ordered trajectory. Non-zero entries mark
+            # the actual bifurcation-event jumps and their sign (experiment:
+            # always +, control: ±). (P7-H diagnostic fix.)
+            prev_prox: float | None = None
+            for s in ordered:
+                if prev_prox is None:
+                    s.proximity_delta = round(s.proximity_after - s.proximity_before, 6)
+                else:
+                    s.proximity_delta = round(s.proximity_after - prev_prox, 6)
+                prev_prox = s.proximity_after
 
             p0 = np.array(ordered[0].personality_before)
             pf = np.array(ordered[-1].personality_after)
@@ -145,6 +190,7 @@ class PlayerTestTracker:
                 prev = cur
             sess.path_displacement = path
 
+        sess.n_steps = len(sess.trajectory)
         duration_min = (
             (sess.ended_at - sess.started_at) / 60.0
             if sess.ended_at else None
@@ -152,12 +198,13 @@ class PlayerTestTracker:
         return {
             "ok": True,
             "session_id": session_id,
-            "n_steps": len(sess.trajectory),
+            "n_steps": sess.n_steps,
             "max_proximity": sess.max_proximity,
             "total_displacement": sess.total_displacement,
             "path_displacement": sess.path_displacement,
             "n_bifurcation_events": sess.n_bifurcation_events,
             "n_critical_crossings": sess.n_critical_crossings,
+            "collapse_reason": sess.collapse_reason,
             "duration_minutes": round(duration_min, 2) if duration_min else None,
         }
 
@@ -173,6 +220,8 @@ class PlayerTestTracker:
 
         groups: dict[str, list[PlayerTestSession]] = {"control": [], "experiment": []}
         for sess in self._sessions.values():
+            if sess.group not in groups:
+                groups[sess.group] = []
             groups[sess.group].append(sess)
 
         def _stats(records: list[PlayerTestSession]) -> dict:
@@ -248,10 +297,18 @@ class PlayerTestTracker:
             return False
         with open(path) as f:
             data = json.load(f)
+        _step_fields = {f.name for f in TrajectoryStep.__dataclass_fields__.values()}
+        _sess_fields  = {f.name for f in PlayerTestSession.__dataclass_fields__.values()}
         restored: dict[str, PlayerTestSession] = {}
         for sid, s in data.get("sessions", {}).items():
-            traj = [TrajectoryStep(**step) for step in s.pop("trajectory", [])]
-            restored[sid] = PlayerTestSession(trajectory=traj, **s)
+            traj = [
+                TrajectoryStep(**{k: v for k, v in step.items() if k in _step_fields})
+                for step in s.pop("trajectory", [])
+            ]
+            restored[sid] = PlayerTestSession(
+                trajectory=traj,
+                **{k: v for k, v in s.items() if k in _sess_fields},
+            )
         self._sessions = restored
         return True
 

@@ -2,145 +2,164 @@
   "H1_primary_max_proximity": {
     "endpoint": "max_proximity",
     "control": {
-      "n": 4,
-      "mean": 1.0,
-      "sd": 0.0
+      "n": 13,
+      "mean": 0.8075674416356245,
+      "sd": 0.12526883854389165
     },
     "experiment": {
-      "n": 8,
-      "mean": 1.0,
-      "sd": 0.0
+      "n": 12,
+      "mean": 0.8859579662068725,
+      "sd": 0.06369069402697097
     },
-    "welch_t": null,
-    "p_one_sided": 1.0,
-    "p_two_sided": 1.0,
-    "cohens_d": null,
+    "welch_t": 1.9942498197040008,
+    "p_one_sided": 0.030700092084652165,
+    "p_two_sided": 0.06140018416930433,
+    "cohens_d": 0.7789611004036258,
     "cohens_d_95ci": [
-      null,
-      null
+      -0.034833208388247994,
+      1.5927554091954996
     ],
-    "achieved_power": null,
-    "n_per_group_for_80pct": null,
-    "significant": false,
-    "note": "zero within-group variance; separation is exact, t/d undefined"
+    "achieved_power": 0.4793563553494506,
+    "n_per_group_for_80pct": 25.870577846087762,
+    "significant": true
+  },
+  "H1_survival_rounds": {
+    "endpoint": "rounds_to_collapse",
+    "direction": "control > experiment (experiment collapses sooner)",
+    "control": {
+      "n": 13,
+      "mean": 151.53846153846155,
+      "sd": 62.96641351362828
+    },
+    "experiment": {
+      "n": 12,
+      "mean": 33.583333333333336,
+      "sd": 19.420974291323347
+    },
+    "welch_t": -6.431024454101173,
+    "p_one_sided": 6.795331771045703e-06,
+    "p_two_sided": 1.3590663542091405e-05,
+    "cohens_d": 2.4872857303360094,
+    "cohens_d_95ci": [
+      1.4427910525594547,
+      3.531780408112564
+    ],
+    "achieved_power": 0.9999820671874928,
+    "n_per_group_for_80pct": 2.5373846814623144,
+    "significant": true,
+    "note": "right-censored (no-collapse) sessions contribute final round; log-rank test recommended at N\u226530/group"
   },
   "H1b_total_displacement": {
     "endpoint": "total_displacement",
     "control": {
-      "n": 4,
-      "mean": 1.1428717799458197,
-      "sd": 0.30539765003524566
+      "n": 13,
+      "mean": 0.1131630599624157,
+      "sd": 0.06709358803651802
     },
     "experiment": {
-      "n": 8,
-      "mean": 0.6263098984933526,
-      "sd": 0.2336075677009157
+      "n": 12,
+      "mean": 0.04965216283885676,
+      "sd": 0.009096611550295496
     },
-    "welch_t": -2.9755111908217655,
-    "p_one_sided": 0.983861789892986,
-    "p_two_sided": 0.03227642021402793,
-    "cohens_d": -2.007961961943629,
+    "welch_t": -3.379536339972633,
+    "p_one_sided": 0.997399694756447,
+    "p_two_sided": 0.005200610487106157,
+    "cohens_d": -1.299606890456249,
     "cohens_d_95ci": [
-      -3.452252304146577,
-      -0.563671619740681
+      -2.16297737216955,
+      -0.4362364087429481
     ],
-    "achieved_power": 0.8104961163092645,
-    "n_per_group_for_80pct": 3.8933792268486176,
+    "achieved_power": 0.8894126511469634,
+    "n_per_group_for_80pct": 9.294235224314022,
     "significant": false
   },
   "H1_diagnostics": {
     "path_displacement": {
       "endpoint": "path_displacement",
       "control": {
-        "n": 4,
-        "mean": 0.0,
-        "sd": 0.0
+        "n": 13,
+        "mean": 0.43125222957640086,
+        "sd": 0.26494053393117023
       },
       "experiment": {
-        "n": 8,
-        "mean": 25.41725121574386,
-        "sd": 71.89084277509801
+        "n": 12,
+        "mean": 0.04965216283885676,
+        "sd": 0.0090966115502955
       },
-      "welch_t": 1.0000000000000002,
-      "p_one_sided": 0.1753083314101037,
-      "p_two_sided": 0.3506166628202074,
-      "cohens_d": 0.42257712736425834,
+      "welch_t": -5.189847174038483,
+      "p_one_sided": 0.9998881071519624,
+      "p_two_sided": 0.00022378569607509432,
+      "cohens_d": -1.9929610099987807,
       "cohens_d_95ci": [
-        -0.7895216034878673,
-        1.6346758582163838
+        -2.9525492309280756,
+        -1.0333727890694857
       ],
-      "achieved_power": 0.09181396951705068,
-      "n_per_group_for_80pct": 87.90745302470978,
+      "achieved_power": 0.9982597776475624,
+      "n_per_group_for_80pct": 3.9522104818199084,
       "significant": false
     },
     "n_critical_crossings": {
       "endpoint": "n_critical_crossings",
       "control": {
-        "n": 4,
-        "mean": 0.0,
-        "sd": 0.0
+        "n": 13,
+        "mean": 0.3076923076923077,
+        "sd": 0.48038446141526137
       },
       "experiment": {
-        "n": 8,
-        "mean": 0.0,
-        "sd": 0.0
+        "n": 12,
+        "mean": 0.8333333333333334,
+        "sd": 0.38924947208076144
       },
-      "welch_t": null,
-      "p_one_sided": 1.0,
-      "p_two_sided": 1.0,
-      "cohens_d": null,
+      "welch_t": 3.0158623111121665,
+      "p_one_sided": 0.0031126575941143615,
+      "p_two_sided": 0.006225315188228723,
+      "cohens_d": 1.1969125590155505,
       "cohens_d_95ci": [
-        null,
-        null
+        0.3450261089599399,
+        2.048799009071161
       ],
-      "achieved_power": null,
-      "n_per_group_for_80pct": null,
-      "significant": false,
-      "note": "zero within-group variance; separation is exact, t/d undefined"
+      "achieved_power": 0.834440660450381,
+      "n_per_group_for_80pct": 10.957533883589646,
+      "significant": true
     }
   },
   "H2_survey": {
     "composite": {
-      "control_mean": 16.333333333333332,
-      "experiment_mean": 16.666666666666668,
-      "ux_lift": 0.3333333333333357,
-      "mann_whitney_u": 41.0,
-      "p_one_sided": 0.3319863836768733,
+      "control_mean": 16.428571428571427,
+      "experiment_mean": 16.846153846153847,
+      "ux_lift": 0.41758241758241965,
+      "mann_whitney_u": 53.0,
+      "p_one_sided": 0.28398815987259585,
       "significant": false
     },
     "items": {
       "q1_naturalness": {
-        "control_mean": 5.666666666666667,
-        "experiment_mean": 5.75,
-        "u": 37.0,
-        "p_raw": 0.47923961766127765,
-        "p_holm": 0.9584792353225553,
+        "control_mean": 5.857142857142857,
+        "experiment_mean": 5.846153846153846,
+        "u": 45.0,
+        "p_raw": 0.5345768614270913,
+        "p_holm": 1.0,
         "significant_holm": false
       },
       "q2_fun": {
-        "control_mean": 5.333333333333333,
-        "experiment_mean": 5.25,
-        "u": 34.0,
-        "p_raw": 0.6099153290751218,
-        "p_holm": 0.9584792353225553,
+        "control_mean": 4.857142857142857,
+        "experiment_mean": 5.153846153846154,
+        "u": 47.0,
+        "p_raw": 0.46433169514205397,
+        "p_holm": 1.0,
         "significant_holm": false
       },
       "q3_replay": {
-        "control_mean": 5.333333333333333,
-        "experiment_mean": 5.666666666666667,
-        "u": 42.5,
-        "p_raw": 0.25995469052015235,
-        "p_holm": 0.779864071560457,
+        "control_mean": 5.714285714285714,
+        "experiment_mean": 5.846153846153846,
+        "u": 49.5,
+        "p_raw": 0.3799825998079437,
+        "p_holm": 1.0,
         "significant_holm": false
       }
     }
   },
   "H3_correlation": {
-    "n_pairs": 12,
-    "x_variable": "max_proximity",
-    "spearman_rho": NaN,
-    "p_two_sided": NaN,
-    "significant": false,
-    "deviation_note": "x=max_proximity (pre-reg: n_critical_crossings; interim: total_displacement under the broken apparatus)"
+    "error": "insufficient paired data"
   }
 }

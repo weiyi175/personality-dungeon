@@ -43,6 +43,18 @@ _RT_MEDIAN_MAX_MS = 180_000  # sessions with median RT above this → AFK exclus
 
 # ── Loading ───────────────────────────────────────────────────────────────────
 
+def _rounds_to_collapse(traj: list) -> int:
+    """Extract max rl_step_N round number from trajectory, falling back to step count."""
+    rounds = []
+    for step in traj:
+        txt = step.get("action_text", "") if isinstance(step, dict) else getattr(step, "action_text", "")
+        if txt.startswith("rl_step_"):
+            suffix = txt[len("rl_step_"):]
+            if suffix.isdigit():
+                rounds.append(int(suffix))
+    return max(rounds) if rounds else len(traj)
+
+
 def _load_sessions(path: Path) -> dict[str, list]:
     with open(path) as f:
         data = json.load(f)
@@ -58,6 +70,7 @@ def _load_sessions(path: Path) -> dict[str, list]:
             median_rt = float(np.median(rt_vals))
             if median_rt < _RT_MEDIAN_MIN_MS or median_rt > _RT_MEDIAN_MAX_MS:
                 continue
+        s["rounds_to_collapse"] = _rounds_to_collapse(traj)
         groups.setdefault(s["group"], []).append(s)
     return groups
 
@@ -203,6 +216,46 @@ def analyze_h1_proximity(groups: dict, dv_key: str = "max_proximity") -> dict:
     }
 
 
+def analyze_h1_survival(groups: dict) -> dict:
+    """Welch one-sided test: experiment collapses sooner (fewer rounds) than control.
+
+    Hypothesis direction: ctrl_rounds > exp_rounds.
+    Cohen's d computed as (ctrl − exp) / pooled_sd so positive d = control survives longer.
+    Right-censored sessions (no collapse before N_ROUNDS) contribute their final round;
+    for proper censoring handling, a log-rank test is preferred at larger N.
+    """
+    exp = np.array([s["rounds_to_collapse"] for s in groups["experiment"]], dtype=float)
+    ctrl = np.array([s["rounds_to_collapse"] for s in groups["control"]], dtype=float)
+    if len(exp) < 2 or len(ctrl) < 2:
+        return {"error": "insufficient data"}
+    t, p_two = stats.ttest_ind(exp, ctrl, equal_var=False)
+    # ctrl > exp → t = (exp - ctrl) should be negative → p_one = p_two/2 when t < 0
+    p_one = p_two / 2 if t < 0 else 1 - p_two / 2
+    # d = (ctrl − exp) / pooled_sd — positive means control survives longer
+    n1, n2 = len(ctrl), len(exp)
+    ps = np.sqrt(((n1 - 1) * ctrl.var(ddof=1) + (n2 - 1) * exp.var(ddof=1)) / (n1 + n2 - 2))
+    d = float((ctrl.mean() - exp.mean()) / ps) if ps > 0 else 0.0
+    se_d = np.sqrt((n1 + n2) / (n1 * n2) + d ** 2 / (2 * (n1 + n2)))
+    ci = (d - 1.96 * se_d, d + 1.96 * se_d)
+    n_pg = min(len(exp), len(ctrl))
+    return {
+        "endpoint": "rounds_to_collapse",
+        "direction": "control > experiment (experiment collapses sooner)",
+        "control": {"n": int(n1), "mean": float(ctrl.mean()), "sd": float(ctrl.std(ddof=1))},
+        "experiment": {"n": int(n2), "mean": float(exp.mean()), "sd": float(exp.std(ddof=1))},
+        "welch_t": float(t),
+        "p_one_sided": float(p_one),
+        "p_two_sided": float(p_two),
+        "cohens_d": float(d),
+        "cohens_d_95ci": [float(ci[0]), float(ci[1])],
+        "achieved_power": achieved_power(d, n_pg),
+        "n_per_group_for_80pct": n_per_group_for_power(d),
+        "significant": bool(p_one < 0.05),
+        "note": "right-censored (no-collapse) sessions contribute final round; "
+                "log-rank test recommended at N≥30/group",
+    }
+
+
 def analyze_h2(survey: dict) -> dict:
     if not survey["experiment"] or not survey["control"]:
         return {"error": "no survey data"}
@@ -293,6 +346,7 @@ def main() -> None:
     h1_path = analyze_h1(groups, dv_key="path_displacement")
     h1_prox = analyze_h1_proximity(groups, dv_key="max_proximity")
     h1_cross = analyze_h1_proximity(groups, dv_key="n_critical_crossings")
+    h1_surv = analyze_h1_survival(groups)
     h2 = analyze_h2(survey)
     h3 = analyze_h3(groups, survey)
 
@@ -300,6 +354,9 @@ def main() -> None:
         # Primary objective DV (2026-06-06): max_proximity — unconfounded by the
         # proximity-modulated event intensity. See REGIME_FINDING.md.
         "H1_primary_max_proximity": h1_prox,
+        # Survival DV: rounds until collapse (ctrl > exp = experiment collapses sooner).
+        # Cleanest DV when collapse is proximity-triggered and censoring is modest.
+        "H1_survival_rounds": h1_surv,
         # Secondary objective DV: net displacement (valid only sub-saturation).
         "H1b_total_displacement": h1,
         # Diagnostics: alternative DVs kept for transparency / regime auditing.
@@ -341,6 +398,9 @@ def main() -> None:
                   f"(N/group for 80%: {hp['n_per_group_for_80pct']:.0f})")
 
     _print_dv("H1 (PRIMARY, objective): max bifurcation proximity", h1_prox)
+    _print_dv("H1 (SURVIVAL, objective): rounds until collapse  [ctrl > exp]", h1_surv)
+    if "error" not in h1_surv:
+        print(f"  note: {h1_surv['note']}")
     _print_dv("H1b (secondary, objective): net displacement ‖Pf−P0‖ "
               "[valid only sub-saturation]", h1)
     print("\n── H1 diagnostics (confounded by proximity-modulated intensity) ──")
