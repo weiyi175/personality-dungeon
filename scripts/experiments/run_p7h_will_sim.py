@@ -130,11 +130,17 @@ def run_session(will_text: str, session_idx: int, run_id: str) -> dict:
     assign = _post("/bifurcation/ab-test/assign", {"session_id": pt_sid})
     group = assign.get("group", "experiment")
 
-    # 4. Player-test 開始記錄
+    # 4. Player-test 開始記錄（帶上遺言診斷，與 Godot 前端一致）
     _post("/player-test/start", {
         "session_id": pt_sid,
         "group": group,
         "player_alias": f"wsim_{run_id}_{session_idx:04d}",
+        "will_text": will_text,
+        "will_sbert_vector": raw_vector,
+        "will_personality_vector": scaled,
+        "will_recklessness": recklessness,
+        "will_intensity": intensity,
+        "will_cadence": cadence,
     })
 
     # 5. RL session 初始化（使用縮放後的遺言人格種子）

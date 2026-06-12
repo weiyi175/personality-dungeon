@@ -60,6 +60,8 @@ class PlayerTestSession:
     will_recklessness: float = -1.0   # 魯莽度 R∈[0,1]，-1 表示未記錄
     will_intensity: float = -1.0      # 事件強度，-1 表示未記錄
     will_cadence: int = -1            # 事件節奏（每 N 回合），-1 表示未記錄
+    # 資料來源識別（True=真人 Godot 前端；False=程式呼叫 API，如 wsim）
+    is_human: bool = False
 
 
 class PlayerTestTracker:
@@ -81,6 +83,7 @@ class PlayerTestTracker:
         will_recklessness: float = -1.0,
         will_intensity: float = -1.0,
         will_cadence: int = -1,
+        is_human: bool = False,
     ) -> dict:
         if session_id in self._sessions:
             return {"ok": False, "error": "session already exists"}
@@ -94,6 +97,7 @@ class PlayerTestTracker:
             will_recklessness=will_recklessness,
             will_intensity=will_intensity,
             will_cadence=will_cadence,
+            is_human=is_human,
         )
         return {"ok": True, "session_id": session_id, "group": group}
 

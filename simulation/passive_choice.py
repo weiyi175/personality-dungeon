@@ -87,6 +87,7 @@ def resolve_passive_choice(
     options = [
         {
             "name": str(action["name"]),
+            "name_zh": str(action.get("name_zh", action["name"])),
             "utility": round(float(utilities[i]), 6),
             "lean_prob": round(float(lean_probs[i]), 6),
             "chosen": i == chosen_idx,
@@ -119,12 +120,16 @@ def resolve_passive_choice(
         result_kind = str(failure.get("kind", "failure"))
         payload = dict(failure)
 
+    type_labels_zh = loader.data.get("event_type_labels_zh", {})
     return {
         "event_id": str(event["event_id"]),
         "event_type": event_type,
+        "event_type_zh": str(type_labels_zh.get(event_type, event_type)),
         "description": str(event.get("description", "")),
+        "description_zh": str(event.get("description_zh", event.get("description", ""))),
         "options": options,
         "chosen_action": str(chosen["name"]),
+        "chosen_action_zh": str(chosen.get("name_zh", chosen["name"])),
         "outcome": {
             "success": bool(success),
             "result_kind": result_kind,

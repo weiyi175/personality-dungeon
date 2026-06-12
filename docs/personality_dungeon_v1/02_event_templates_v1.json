@@ -8,6 +8,13 @@
     "Navigation",
     "Internal"
   ],
+  "event_type_labels_zh": {
+    "Threat": "威脅",
+    "Resource": "資源",
+    "Uncertainty": "未知",
+    "Navigation": "探路",
+    "Internal": "內在"
+  },
   "dimensions_order": [
     "impulsiveness",
     "assertiveness",
@@ -91,9 +98,11 @@
       "event_id": "threat_shadow_stalker",
       "type": "Threat",
       "description": "A shadow stalker is circling at the edge of torchlight.",
+      "description_zh": "一隻暗影潛獵者在火光邊緣徘徊。",
       "actions": [
         {
           "name": "attack",
+          "name_zh": "攻擊",
           "weights": [0.9, 0.7, 0.2, -0.8, -0.3, 0.1, 0.0, -0.5, 0.0],
           "base_risk": 0.72,
           "risk_model": {
@@ -150,6 +159,7 @@
         },
         {
           "name": "observe",
+          "name_zh": "觀察",
           "weights": [-0.4, -0.2, 0.0, 0.4, 0.7, 0.2, -0.1, 0.5, 0.7],
           "base_risk": 0.18,
           "risk_model": {
@@ -206,6 +216,7 @@
         },
         {
           "name": "retreat",
+          "name_zh": "撤退",
           "weights": [-0.8, -0.5, -0.2, 0.8, 0.3, 0.3, 0.0, 0.6, -0.1],
           "base_risk": 0.26,
           "risk_model": {
@@ -265,9 +276,11 @@
       "event_id": "resource_suspicious_chest",
       "type": "Resource",
       "description": "A rune-bound chest sits alone in a damp chamber.",
+      "description_zh": "一只符文封印的寶箱獨自佇立在潮濕的密室裡。",
       "actions": [
         {
           "name": "open_now",
+          "name_zh": "立刻開啟",
           "weights": [0.8, 0.6, 0.3, -0.7, -0.3, 0.1, 0.2, -0.4, 0.1],
           "base_risk": 0.81,
           "risk_model": {
@@ -302,6 +315,7 @@
         },
         {
           "name": "inspect",
+          "name_zh": "檢查",
           "weights": [-0.2, -0.1, 0.0, 0.3, 0.6, 0.2, -0.1, 0.3, 0.7],
           "base_risk": 0.22,
           "risk_model": {
@@ -356,6 +370,7 @@
         },
         {
           "name": "ignore",
+          "name_zh": "忽略",
           "weights": [-0.4, -0.2, -0.1, 0.6, 0.2, 0.1, -0.1, 0.6, -0.2],
           "base_risk": 0.04,
           "risk_model": {
@@ -388,6 +403,7 @@
         },
         {
           "name": "break_it",
+          "name_zh": "砸開",
           "weights": [0.6, 0.3, 0.1, -0.3, 0.1, 0.2, 0.1, -0.1, 0.1],
           "base_risk": 0.49,
           "risk_model": {
@@ -425,9 +441,11 @@
       "event_id": "uncertainty_altar",
       "type": "Uncertainty",
       "description": "A dormant altar hums with unreadable intent.",
+      "description_zh": "一座沉睡的祭壇低鳴著，意圖難以揣測。",
       "actions": [
         {
           "name": "touch",
+          "name_zh": "觸碰",
           "weights": [0.3, 0.1, 0.4, -0.5, -0.4, 0.0, 0.1, -0.2, 0.8],
           "base_risk": 0.67,
           "risk_model": {
@@ -462,6 +480,7 @@
         },
         {
           "name": "study",
+          "name_zh": "研究",
           "weights": [-0.2, -0.1, 0.1, 0.3, 0.6, 0.3, -0.1, 0.3, 0.7],
           "base_risk": 0.24,
           "risk_model": {
@@ -515,6 +534,7 @@
         },
         {
           "name": "leave",
+          "name_zh": "離開",
           "weights": [-0.4, -0.2, -0.1, 0.5, 0.3, 0.1, 0.0, 0.4, -0.2],
           "base_risk": 0.05,
           "risk_model": {
@@ -552,9 +572,11 @@
       "event_id": "navigation_fork",
       "type": "Navigation",
       "description": "The corridor splits into a narrow safe path and a deep echoing descent.",
+      "description_zh": "走廊分岔成一條狹窄的安全小徑，與一道回音深沉的下行通道。",
       "actions": [
         {
           "name": "safe_route",
+          "name_zh": "走安全路線",
           "weights": [-0.4, -0.2, -0.1, 0.5, 0.2, 0.3, -0.1, 0.7, -0.2],
           "base_risk": 0.09,
           "risk_model": {
@@ -588,6 +610,7 @@
         },
         {
           "name": "deep_route",
+          "name_zh": "走深處路線",
           "weights": [0.3, 0.4, 0.2, -0.4, -0.2, 0.1, 0.1, -0.3, 0.5],
           "base_risk": 0.46,
           "risk_model": {
@@ -622,6 +645,7 @@
         },
         {
           "name": "rest_here",
+          "name_zh": "在此休息",
           "weights": [-0.3, -0.1, 0.0, 0.4, 0.2, 0.5, -0.2, 0.7, -0.2],
           "base_risk": 0.13,
           "risk_model": {
@@ -659,9 +683,11 @@
       "event_id": "internal_panic_wave",
       "type": "Internal",
       "description": "A wave of panic rises with no visible source.",
+      "description_zh": "一陣莫名的恐慌毫無來由地湧上心頭。",
       "actions": [
         {
           "name": "push_forward",
+          "name_zh": "強行前進",
           "weights": [0.5, 0.4, 0.3, -0.5, -0.2, 0.2, 0.0, -0.4, 0.0],
           "base_risk": 0.42,
           "risk_model": {
@@ -696,6 +722,7 @@
         },
         {
           "name": "steady_breathing",
+          "name_zh": "穩定呼吸",
           "weights": [-0.2, -0.1, 0.1, 0.3, 0.1, 0.6, -0.2, 0.8, -0.1],
           "base_risk": 0.08,
           "risk_model": {
@@ -749,6 +776,7 @@
         },
         {
           "name": "flee_randomly",
+          "name_zh": "慌亂逃竄",
           "weights": [0.2, 0.0, -0.1, 0.2, -0.1, -0.1, 0.9, -0.4, 0.0],
           "base_risk": 0.36,
           "risk_model": {
@@ -786,9 +814,11 @@
       "event_id": "threat_ambush",
       "type": "Threat",
       "description": "Multiple figures burst from concealed alcoves — no time to plan.",
+      "description_zh": "數道身影自暗處猛然撲出——沒有時間思考。",
       "actions": [
         {
           "name": "fight",
+          "name_zh": "迎戰",
           "weights": [0.8, 0.7, 0.1, -0.6, -0.2, 0.2, 0.1, -0.4, 0.0],
           "base_risk": 0.65,
           "risk_model": {
@@ -845,6 +875,7 @@
         },
         {
           "name": "hide",
+          "name_zh": "躲藏",
           "weights": [-0.5, -0.3, -0.1, 0.7, 0.5, 0.4, -0.1, 0.5, -0.1],
           "base_risk": 0.28,
           "risk_model": {
@@ -897,6 +928,7 @@
         },
         {
           "name": "run",
+          "name_zh": "逃跑",
           "weights": [0.3, 0.0, -0.1, 0.3, -0.1, 0.2, 0.6, -0.2, 0.1],
           "base_risk": 0.38,
           "risk_model": {
@@ -934,9 +966,11 @@
       "event_id": "resource_hidden_treasure",
       "type": "Resource",
       "description": "A gleaming cache of valuables lies barely visible under rubble.",
+      "description_zh": "一批閃爍的財寶半埋在碎石堆下，若隱若現。",
       "actions": [
         {
           "name": "dig_it_out",
+          "name_zh": "挖掘出來",
           "weights": [0.7, 0.6, 0.4, -0.5, 0.0, 0.2, 0.1, -0.3, 0.2],
           "base_risk": 0.54,
           "risk_model": {
@@ -993,6 +1027,7 @@
         },
         {
           "name": "careful_extract",
+          "name_zh": "小心取出",
           "weights": [-0.2, 0.2, 0.1, 0.4, 0.5, 0.3, -0.1, 0.4, 0.6],
           "base_risk": 0.18,
           "risk_model": {
@@ -1045,6 +1080,7 @@
         },
         {
           "name": "mark_and_leave",
+          "name_zh": "做記號後離開",
           "weights": [-0.1, 0.0, 0.2, 0.2, 0.1, 0.1, 0.3, 0.7, 0.5],
           "base_risk": 0.05,
           "risk_model": {
@@ -1082,9 +1118,11 @@
       "event_id": "uncertainty_ancient_shrine",
       "type": "Uncertainty",
       "description": "An ancient shrine pulses with an energy that defies interpretation.",
+      "description_zh": "一座古老神龕脈動著難以解讀的能量。",
       "actions": [
         {
           "name": "activate",
+          "name_zh": "啟動",
           "weights": [0.4, 0.3, 0.5, -0.4, -0.3, 0.0, 0.3, -0.2, 0.7],
           "base_risk": 0.70,
           "risk_model": {
@@ -1141,6 +1179,7 @@
         },
         {
           "name": "meditate",
+          "name_zh": "冥想",
           "weights": [-0.2, -0.1, 0.2, 0.3, 0.2, 0.4, -0.1, 0.5, 0.6],
           "base_risk": 0.22,
           "risk_model": {
@@ -1192,6 +1231,7 @@
         },
         {
           "name": "destroy",
+          "name_zh": "摧毀",
           "weights": [0.7, 0.5, 0.1, -0.6, -0.2, 0.2, 0.1, -0.4, -0.1],
           "base_risk": 0.48,
           "risk_model": {
@@ -1230,9 +1270,11 @@
       "event_id": "navigation_collapsing_bridge",
       "type": "Navigation",
       "description": "A stone bridge over a chasm is cracking underfoot with each step.",
+      "description_zh": "橫跨深淵的石橋，每踏一步都在腳下龜裂。",
       "actions": [
         {
           "name": "sprint_across",
+          "name_zh": "全力衝過",
           "weights": [0.9, 0.6, 0.3, -0.7, -0.1, 0.2, 0.1, -0.5, 0.1],
           "base_risk": 0.72,
           "risk_model": {
@@ -1289,6 +1331,7 @@
         },
         {
           "name": "test_and_cross",
+          "name_zh": "試探著通過",
           "weights": [-0.2, 0.1, 0.1, 0.4, 0.5, 0.4, 0.0, 0.4, 0.6],
           "base_risk": 0.32,
           "risk_model": {
@@ -1341,6 +1384,7 @@
         },
         {
           "name": "find_detour",
+          "name_zh": "尋找繞道",
           "weights": [-0.5, -0.2, -0.1, 0.6, 0.3, 0.3, 0.1, 0.5, 0.2],
           "base_risk": 0.10,
           "risk_model": {
@@ -1378,9 +1422,11 @@
       "event_id": "internal_resolve_surge",
       "type": "Internal",
       "description": "A sudden surge of clarity and determination rises from within.",
+      "description_zh": "一股清明與決心驟然自內心升起。",
       "actions": [
         {
           "name": "channel_resolve",
+          "name_zh": "凝聚決心",
           "weights": [0.3, 0.6, 0.5, 0.2, -0.1, 0.7, -0.1, 0.3, 0.1],
           "base_risk": 0.14,
           "risk_model": {
@@ -1433,6 +1479,7 @@
         },
         {
           "name": "focus_outward",
+          "name_zh": "向外專注",
           "weights": [0.4, 0.5, 0.4, -0.2, 0.0, 0.2, 0.2, 0.1, 0.5],
           "base_risk": 0.26,
           "risk_model": {
@@ -1489,6 +1536,7 @@
         },
         {
           "name": "suppress_surge",
+          "name_zh": "壓抑這股衝動",
           "weights": [-0.1, -0.2, 0.0, 0.4, 0.2, 0.6, -0.2, 0.5, 0.0],
           "base_risk": 0.08,
           "risk_model": {

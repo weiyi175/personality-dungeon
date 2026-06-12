@@ -51,6 +51,7 @@ from simulation.rl_session_engine import RLSessionConfig, VALID_PERSONALITY_MODE
 from api.ab_test_manager import get_manager as _get_ab_manager
 from api.player_test_tracker import get_tracker as _get_tracker
 from api.survey_manager import get_survey as _get_survey
+from api.ecology_tracker import get_tracker as _get_ecology
 from simulation.bifurcation_detector import (
     compute_bifurcation_distance,
     compute_sensitive_direction,
@@ -124,6 +125,10 @@ P7H_OUT_DIR = os.environ.get(
     "P7H_OUT_DIR", "reports/experiments/p7h_real_study"
 )
 
+# Personality-ecology meta-layer store — kept fully separate from P7-H study data
+# (見 人格生態評分_規劃_v1.md §0/§4：不污染 P7-H).
+ECOLOGY_OUT_DIR = os.environ.get("ECOLOGY_OUT_DIR", "reports/ecology")
+
 
 async def _p7h_save(manager) -> None:
     """Persist a P7-H manager to disk off the event loop (best-effort)."""
@@ -131,6 +136,14 @@ async def _p7h_save(manager) -> None:
         await asyncio.to_thread(manager.save, P7H_OUT_DIR)
     except Exception as exc:  # never fail a request because a save hiccupped
         log_metric("p7h_save_error", error=str(exc))
+
+
+async def _ecology_save() -> None:
+    """Persist the ecology tracker off the event loop (best-effort)."""
+    try:
+        await asyncio.to_thread(_get_ecology().save, ECOLOGY_OUT_DIR)
+    except Exception as exc:
+        log_metric("ecology_save_error", error=str(exc))
 
 
 @asynccontextmanager
@@ -146,6 +159,10 @@ async def _lifespan(app: FastAPI):
             mgr.load(P7H_OUT_DIR)
         except Exception as exc:
             log_metric("p7h_load_error", error=str(exc))
+    try:
+        _get_ecology().load(ECOLOGY_OUT_DIR)
+    except Exception as exc:
+        log_metric("ecology_load_error", error=str(exc))
     yield
 
 
@@ -1460,6 +1477,7 @@ class PlayerTestStartRequest(BaseModel):
     will_recklessness: float = -1.0
     will_intensity: float = -1.0
     will_cadence: int = -1
+    is_human: bool = False  # True=真人 Godot 前端；False=程式 API 呼叫（wsim 等）
 
 class PlayerTestStepRequest(BaseModel):
     session_id: str
@@ -1489,6 +1507,7 @@ async def player_test_start(req: PlayerTestStartRequest) -> dict[str, Any]:
         will_recklessness=req.will_recklessness,
         will_intensity=req.will_intensity,
         will_cadence=req.will_cadence,
+        is_human=req.is_human,
     )
 
 
@@ -1587,6 +1606,45 @@ async def survey_submit(req: SurveySubmitRequest) -> dict[str, Any]:
 async def survey_summary() -> dict[str, Any]:
     """Return group-level survey statistics."""
     return _get_survey().summary()
+
+
+# ── Personality Ecology API (meta-layer, Path B rotation) ─────────────────────
+# 跨玩家人格生態：上傳冒險→投影原型→循環克制評分→更新生態→L0–L3 旋轉判定。
+# 設計見 人格生態評分_規劃_v1.md。
+
+class EcologySubmitRequest(BaseModel):
+    personality_9d: list[float]
+    run_id: str = ""
+    session_id: str = ""
+    outcome: dict[str, Any] = {}
+
+
+@app.post("/ecology/submit")
+async def ecology_submit(req: EcologySubmitRequest) -> dict[str, Any]:
+    """Ingest one adventure: project archetype, score via cyclic dominance,
+    update ecology, return the player's score + current ecology snapshot."""
+    if len(req.personality_9d) != 9:
+        raise HTTPException(status_code=422, detail="personality_9d must be length 9")
+    result = _get_ecology().submit(
+        personality_9d=req.personality_9d,
+        run_id=req.run_id,
+        session_id=req.session_id,
+        outcome=req.outcome,
+    )
+    await _ecology_save()
+    return result
+
+
+@app.get("/ecology/snapshot")
+async def ecology_snapshot() -> dict[str, Any]:
+    """Current archetype proportions + dynamic weights (no state change)."""
+    return _get_ecology().snapshot()
+
+
+@app.get("/ecology/assess")
+async def ecology_assess() -> dict[str, Any]:
+    """Grade the ecology's rotation L0–L3 via cycle_metrics over snapshot bins."""
+    return _get_ecology().assess()
 
 
 # NOTE: /metrics/events is defined once above (post_metrics_events). A second

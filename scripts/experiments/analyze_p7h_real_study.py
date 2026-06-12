@@ -55,11 +55,13 @@ def _rounds_to_collapse(traj: list) -> int:
     return max(rounds) if rounds else len(traj)
 
 
-def _load_sessions(path: Path) -> dict[str, list]:
+def _load_sessions(path: Path, human_only: bool = True) -> dict[str, list]:
     with open(path) as f:
         data = json.load(f)
     groups = {"control": [], "experiment": []}
     for _sid, s in data.get("sessions", {}).items():
+        if human_only and not s.get("is_human", False):
+            continue
         if s.get("ended_at") is None:
             continue
         traj = s.get("trajectory", [])
@@ -337,9 +339,11 @@ def main() -> None:
     ap.add_argument("--sessions", required=True)
     ap.add_argument("--survey", required=True)
     ap.add_argument("--out", default="reports/experiments/p7h_real_study")
+    ap.add_argument("--include-sim", action="store_true",
+                    help="包含非真人 (is_human=False) 的模擬資料（wsim 等）")
     args = ap.parse_args()
 
-    groups = _load_sessions(Path(args.sessions))
+    groups = _load_sessions(Path(args.sessions), human_only=not args.include_sim)
     survey = _load_survey(Path(args.survey))
 
     h1 = analyze_h1(groups, dv_key="total_displacement")
