@@ -84,6 +84,58 @@ def test_ab_load_missing_file_returns_false(tmp_path):
     assert ABTestManager().load(tmp_path) is False
 
 
+def _pilot_tally(mgr):
+    from api.ab_test_manager import _pid_is_pilot_eligible
+    c = {"iterated": 0, "reset": 0}
+    for rid, a in mgr._iteration_runs.items():
+        if _pid_is_pilot_eligible(mgr._iteration_pid.get(rid, "dev")):
+            c[a] += 1
+    return c
+
+
+def test_iteration_arm_balance_counts_only_pilot_eligible():
+    """count-balance tally must count only naive (P\\d{2,}) runs, not dev/EXP_PREPILOT.
+
+    Guards the contamination fix: interleaved experimenter (dev) playtests and the
+    quarantined pre-pilot runs must NOT skew the naive cohort's arm assignment.
+    """
+    mgr = ABTestManager()
+    # Simulate quarantined pre-pilot pool (skewed 2 iterated / 1 reset) with no pid
+    # recorded — exactly how the live EXP_PREPILOT runs load (default "dev" → ineligible).
+    mgr._iteration_runs = {"pp1": "iterated", "pp2": "iterated", "pp3": "reset"}
+    assert _pilot_tally(mgr) == {"iterated": 0, "reset": 0}  # pre-pilot excluded
+
+    # (a) a dev playtest receives an arm but never enters the pilot tally
+    mgr.assign_session("s_dev", "run_dev", "dev")
+    assert mgr._iteration_runs["run_dev"] in ("iterated", "reset")
+    assert _pilot_tally(mgr) == {"iterated": 0, "reset": 0}
+
+    # (b) P01 cold-start: empty pilot pool → arm assigned, sticky across its cycles
+    arm = mgr.assign_session("s_p01c0", "run_P01", "P01")["iteration_arm"]
+    assert arm in ("iterated", "reset")
+    assert mgr.assign_session("s_p01c1", "run_P01", "P01")["iteration_arm"] == arm  # sticky
+
+    # interleave more dev + naive; naive cohort self-balances regardless of dev noise
+    for pid, rid in [("P02", "run_P02"), ("dev", "run_dev2"), ("P03", "run_P03"),
+                     ("P04", "run_P04"), ("dev", "run_dev3"), ("P05", "run_P05"),
+                     ("P06", "run_P06")]:
+        mgr.assign_session("s_" + rid, rid, pid)
+    t = _pilot_tally(mgr)
+    assert t["iterated"] + t["reset"] == 6           # 6 naive runs counted, dev ignored
+    assert abs(t["iterated"] - t["reset"]) <= 1      # balanced among naive only
+
+
+def test_iteration_pid_save_load_roundtrip(tmp_path):
+    mgr = ABTestManager()
+    mgr.assign_session("s_p01", "run_P01", "P01")
+    mgr.assign_session("s_dev", "run_dev", "dev")
+    mgr.save(tmp_path)
+    restored = ABTestManager()
+    assert restored.load(tmp_path) is True
+    assert restored._iteration_pid == mgr._iteration_pid
+    assert restored._iteration_runs == mgr._iteration_runs
+
+
 def test_ab_summary_reports_effect_size():
     mgr = ABTestManager()
     # Force one session into each group, give experiment a larger displacement.
@@ -174,10 +226,26 @@ def test_player_save_load_roundtrip(tmp_path):
 
 def test_survey_submit_validates_range():
     survey = SurveyManager()
-    bad = survey.submit("s1", "control", q1=11, q2=5, q3=5)
+    bad = survey.submit("s1", "control", q1=11, q2=5, q3=5)   # 11 > 10 still rejected
     assert bad["ok"] is False
     good = survey.submit("s1", "control", q1=8, q2=7, q3=9)
     assert good["ok"] is True
+
+
+def test_survey_submit_accepts_zero_for_removed_q1_q2():
+    """q1_naturalness/q2_fun removed from the UI (2026-06-13) → frontend sends 0.
+
+    Regression: the trimmed survey sends q1=0/q2=0; submit() must accept it (q3 is
+    the only mandatory scale question now). Previously 0 failed the 1–10 check → 422
+    → surveys silently never persisted while the UI still printed "問卷完成".
+    """
+    survey = SurveyManager()
+    r = survey.submit("s1", "experiment", q1=0, q2=0, q3=5, q4=6, manipulation_awareness="")
+    assert r["ok"] is True
+    resp = survey.get_response("s1")
+    assert resp["q3_replay"] == 5 and resp["q4_continuity"] == 6
+    # q3 still mandatory; 0 (unanswered) must be rejected
+    assert survey.submit("s2", "experiment", q1=0, q2=0, q3=0)["ok"] is False
 
 
 def test_survey_truncates_long_comments():

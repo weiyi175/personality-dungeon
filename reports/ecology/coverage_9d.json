@@ -1,0 +1,36 @@
+{
+  "diagnostics": [
+    {
+      "name": "ecology_104",
+      "n": 104,
+      "argmax_fraction": {
+        "aggressive": 0.471,
+        "defensive": 0.471,
+        "balanced": 0.058
+      },
+      "mean_raw_score": {
+        "aggressive": 0.142,
+        "defensive": 0.372,
+        "balanced": -0.124
+      },
+      "mean_extremity_penalty_on_balanced": 0.349,
+      "balanced_argmax_count": 6
+    },
+    {
+      "name": "p7h_human_150",
+      "n": 150,
+      "argmax_fraction": {
+        "aggressive": 0.473,
+        "defensive": 0.453,
+        "balanced": 0.073
+      },
+      "mean_raw_score": {
+        "aggressive": 0.193,
+        "defensive": 0.369,
+        "balanced": -0.141
+      },
+      "mean_extremity_penalty_on_balanced": 0.339,
+      "balanced_argmax_count": 11
+    }
+  ]
+}

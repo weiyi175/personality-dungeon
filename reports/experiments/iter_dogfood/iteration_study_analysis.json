@@ -1,0 +1,79 @@
+{
+  "selection": {
+    "n_iteration_runs": {
+      "iterated": 1,
+      "reset": 1
+    },
+    "n_complete_3cycle_runs": {
+      "iterated": 1,
+      "reset": 1
+    },
+    "n_legacy_sessions_ignored": 0
+  },
+  "M_construction_check": {
+    "metric": "cos(first,last) of will_personality_vector (scaled RL seed). Anchored BY DESIGN for iterated (cumulative) — verifies the accumulation pipeline ran in production, NOT a behavioral finding.",
+    "n_a": 1,
+    "n_b": 1,
+    "median_a": 0.9783937858507594,
+    "median_b": 0.8930931336246992,
+    "note": "insufficient N for test (need >=2 per arm)"
+  },
+  "E1_will_writing_behavior": {
+    "metric": "cos(first,last) of will_sbert_vector (raw freely-written wills; identical computation both arms). Behavioral: does the iteration framing change how coherently players rewrite successive wills?",
+    "n_a": 1,
+    "n_b": 1,
+    "median_a": 0.8930931336246996,
+    "median_b": 0.8930931336246996,
+    "note": "insufficient N for test (need >=2 per arm)"
+  },
+  "H_PI_confirmatory": {
+    "metric": "q4_continuity (1-10); predict iterated > reset",
+    "n_a": 1,
+    "n_b": 1,
+    "median_a": 9.0,
+    "median_b": 9.0,
+    "note": "insufficient N for test (need >=2 per arm)"
+  },
+  "E2_dynamics_exploratory": {
+    "iterated": {
+      "cycle_0": {
+        "n": 1,
+        "max_proximity_mean": 0.7684,
+        "total_displacement_mean": 0.0,
+        "rounds_survived_mean": 11.0
+      },
+      "cycle_1": {
+        "n": 1,
+        "max_proximity_mean": 0.462,
+        "total_displacement_mean": 0.0,
+        "rounds_survived_mean": 11.0
+      },
+      "cycle_2": {
+        "n": 1,
+        "max_proximity_mean": 0.4746,
+        "total_displacement_mean": 0.0,
+        "rounds_survived_mean": 11.0
+      }
+    },
+    "reset": {
+      "cycle_0": {
+        "n": 1,
+        "max_proximity_mean": 0.7684,
+        "total_displacement_mean": 0.0336,
+        "rounds_survived_mean": 12.0
+      },
+      "cycle_1": {
+        "n": 1,
+        "max_proximity_mean": 0.7366,
+        "total_displacement_mean": 0.0,
+        "rounds_survived_mean": 11.0
+      },
+      "cycle_2": {
+        "n": 1,
+        "max_proximity_mean": 0.8034,
+        "total_displacement_mean": 0.0375,
+        "rounds_survived_mean": 12.0
+      }
+    }
+  }
+}

@@ -40,18 +40,29 @@ OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
 
 ## 環境設定：RL Session API（Godot → WSL2）
 
-> Godot 在 Windows 端執行，RL Session API server 在 WSL2 內執行，兩者以 WSL2 Host IP 橋接。
+> Godot 在 Windows 端執行，RL Session API server 在 WSL2 內執行。
+> **2026-06-14 起改用 WSL2 mirrored 網路模式**：Windows 與 WSL 共用 localhost，
+> 不再依賴會變動的虛擬網卡 Host IP。
 
 ### 目前可用的連線位址
 
-- Godot / Windows 端：`http://172.31.143.82:8000`
-- WSL 內連線檢查腳本：`http://127.0.0.1:8000`
+- Godot / Windows 端：`http://127.0.0.1:8001`
+- WSL 內連線檢查：`http://127.0.0.1:8001`
+
+> ⚠️ **Port 8000 → 8001 變更（2026-06-14）**：Godot AI MCP server（編輯器 AI 控制）
+> 固定佔用 `127.0.0.1:8000`。啟用 mirrored 網路後 Windows/WSL 共用 localhost，
+> 後端 FastAPI 若仍綁 8000 會與 MCP server 互撞，故後端整體搬到 **8001**。
+> 改動點：`api/server.py`（`uvicorn.run(port=8001)`）、`src/core/AppConfig.gd`
+> （`API_BASE_URL = http://127.0.0.1:8001`）。
+> 注意：研究腳本 `scripts/collect_personality_pairs.py` 預設端點仍寫 8000，
+> 跑該腳本時需以環境變數 `PERSONALITY_INFER_ENDPOINT` 覆寫為 8001。
 
 ### 連線原則
 
-- Godot 的 `PlayableLoopController.api_base_url` 與 `DungeonSim.api_base_url` 需指向 WSL2 Host IP。
-- WSL 內執行的 `docs/RL_Session/check_rl_session_api.py` 可維持預設 `127.0.0.1:8000`。
-- 若 WSL 重開後 IP 改變，需同步更新 Godot 的 `api_base_url`。
+- Godot 所有 HTTP client 統一吃 `AppConfig.API_BASE_URL`（autoload），切換環境只改這一個檔。
+- mirrored 模式下 Windows Godot 與 WSL 後端皆用 `127.0.0.1`；舊的「需用 Host IP」原則已作廢。
+- WSL 啟動前提：`%USERPROFILE%\.wslconfig` 須含 `[wsl2] networkingMode=mirrored`，
+  改後需 `wsl --shutdown` 重啟才生效。
 
 ---
 

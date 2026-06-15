@@ -1,0 +1,18 @@
+{
+  "seed": 0,
+  "sessions": {},
+  "iteration_runs": {
+    "run_1781332991463_b9e3f57dbec018ab": "iterated",
+    "run_1781333015139_b749957e15edcd8a": "reset"
+  },
+  "summary": {
+    "total_sessions": 0,
+    "control": {
+      "n": 0
+    },
+    "experiment": {
+      "n": 0
+    },
+    "effect_size_cohens_d": 0.0
+  }
+}

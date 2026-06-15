@@ -8,6 +8,13 @@
     "Navigation",
     "Internal"
   ],
+  "event_type_labels_zh": {
+    "Threat": "威脅",
+    "Resource": "資源",
+    "Uncertainty": "未知",
+    "Navigation": "探路",
+    "Internal": "內在"
+  },
   "dimensions_order": [
     "impulsiveness",
     "assertiveness",
@@ -105,9 +112,11 @@
       "event_id": "threat_shadow_stalker",
       "type": "Threat",
       "description": "A shadow stalker is circling at the edge of torchlight.",
+      "description_zh": "一隻暗影潛獵者在火光邊緣徘徊。",
       "actions": [
         {
           "name": "attack",
+          "name_zh": "攻擊",
           "weights": [
             0.9,
             0.7,
@@ -197,6 +206,7 @@
         },
         {
           "name": "observe",
+          "name_zh": "觀察",
           "weights": [
             -0.4,
             -0.2,
@@ -285,6 +295,7 @@
         },
         {
           "name": "retreat",
+          "name_zh": "撤退",
           "weights": [
             -0.8,
             -0.5,
@@ -376,9 +387,11 @@
       "event_id": "resource_suspicious_chest",
       "type": "Resource",
       "description": "A rune-bound chest sits alone in a damp chamber.",
+      "description_zh": "一只符文封印的寶箱獨自佇立在潮濕的密室裡。",
       "actions": [
         {
           "name": "open_now",
+          "name_zh": "立刻開啟",
           "weights": [
             0.8,
             0.6,
@@ -445,6 +458,7 @@
         },
         {
           "name": "inspect",
+          "name_zh": "檢查",
           "weights": [
             -0.2,
             -0.1,
@@ -531,6 +545,7 @@
         },
         {
           "name": "ignore",
+          "name_zh": "忽略",
           "weights": [
             -0.4,
             -0.2,
@@ -592,6 +607,7 @@
         },
         {
           "name": "break_it",
+          "name_zh": "砸開",
           "weights": [
             0.6,
             0.3,
@@ -659,9 +675,11 @@
       "event_id": "uncertainty_altar",
       "type": "Uncertainty",
       "description": "A dormant altar hums with unreadable intent.",
+      "description_zh": "一座沉睡的祭壇低鳴著，意圖難以揣測。",
       "actions": [
         {
           "name": "touch",
+          "name_zh": "觸碰",
           "weights": [
             0.3,
             0.1,
@@ -729,6 +747,7 @@
         },
         {
           "name": "study",
+          "name_zh": "研究",
           "weights": [
             -0.2,
             -0.1,
@@ -814,6 +833,7 @@
         },
         {
           "name": "leave",
+          "name_zh": "離開",
           "weights": [
             -0.4,
             -0.2,

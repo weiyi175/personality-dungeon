@@ -8,7 +8,7 @@ API Version lock: "1.0.0" (immutable).
 
 Usage:
     python -m api.server
-    # Server runs on localhost:8000
+    # Server runs on localhost:8001 (8000 is reserved for the Godot AI MCP server)
     # POST /sessions/initialize → session_id
     # POST /sessions/{session_id}/step → action → ResponseEnvelope
     # GET /sessions/{session_id}/snapshot → ResponseEnvelope
@@ -1412,6 +1412,9 @@ async def event_choose(req: EventChooseRequest) -> dict[str, Any]:
 
 class ABAssignRequest(BaseModel):
     session_id: str
+    run_id: str = ""  # 非空 → 人格迭代研究模式：回傳 sticky iteration_arm + group 固定 experiment
+    # naive vs 實驗者判別子：配臂平衡計數只數 pilot-eligible（P\d{2,}）；dev/EXP_PREPILOT 仍配臂不計入。
+    participant_id: str = "dev"
 
 class ABRecordStepRequest(BaseModel):
     session_id: str
@@ -1428,8 +1431,8 @@ async def ab_test_assign(req: ABAssignRequest) -> dict[str, Any]:
     Returns {"session_id", "group": "control"|"experiment", "existing": bool}.
     """
     mgr = _get_ab_manager()
-    result = mgr.assign_session(req.session_id)
-    await _p7h_save(mgr)  # persist count-balance state across restarts
+    result = mgr.assign_session(req.session_id, req.run_id, req.participant_id)
+    await _p7h_save(mgr)  # persist count-balance + iteration-arm state across restarts
     return result
 
 
@@ -1478,6 +1481,13 @@ class PlayerTestStartRequest(BaseModel):
     will_intensity: float = -1.0
     will_cadence: int = -1
     is_human: bool = False  # True=真人 Godot 前端；False=程式 API 呼叫（wsim 等）
+    # 人格迭代研究：連結同一受試者的 3 週期 + 自描述組別
+    run_id: str = ""
+    cycle_index: int = -1
+    iteration_arm: str = ""
+    # naive vs 實驗者權威判別子：naive 用分配代碼（P01…），實驗者試玩用 "dev"。預設 "dev"
+    # 確保未帶此欄的舊客戶端/試玩不會被誤計為 naive pilot。
+    participant_id: str = "dev"
 
 class PlayerTestStepRequest(BaseModel):
     session_id: str
@@ -1508,6 +1518,10 @@ async def player_test_start(req: PlayerTestStartRequest) -> dict[str, Any]:
         will_intensity=req.will_intensity,
         will_cadence=req.will_cadence,
         is_human=req.is_human,
+        run_id=req.run_id,
+        cycle_index=req.cycle_index,
+        iteration_arm=req.iteration_arm,
+        participant_id=req.participant_id,
     )
 
 
@@ -1568,6 +1582,8 @@ class SurveySubmitRequest(BaseModel):
     q1_naturalness: int
     q2_fun: int
     q3_replay: int
+    q4_continuity: int = 0  # 角色延續感（迭代研究 secondary DV）；0=未作答（舊客戶端相容）
+    manipulation_awareness: str = ""  # 開放 debrief（demand-characteristics 稽核）
     q1_comment: str = ""
     q2_comment: str = ""
     q3_comment: str = ""
@@ -1591,6 +1607,8 @@ async def survey_submit(req: SurveySubmitRequest) -> dict[str, Any]:
         q1=req.q1_naturalness,
         q2=req.q2_fun,
         q3=req.q3_replay,
+        q4=req.q4_continuity,
+        manipulation_awareness=req.manipulation_awareness,
         q1_comment=req.q1_comment,
         q2_comment=req.q2_comment,
         q3_comment=req.q3_comment,
@@ -1662,7 +1680,7 @@ if __name__ == "__main__":
     uvicorn.run(
         app,
         host="0.0.0.0",
-        port=8000,
+        port=8001,  # 8000 collides with the Godot AI MCP server under WSL mirrored networking
         log_level="info",
     )
 

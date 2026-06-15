@@ -1,0 +1,75 @@
+{
+  "responses": {
+    "12046a03-db96-4900-b329-683d38809425": {
+      "session_id": "12046a03-db96-4900-b329-683d38809425",
+      "group": "experiment",
+      "submitted_at": 1781333007.3307068,
+      "q1_naturalness": 8,
+      "q2_fun": 7,
+      "q3_replay": 6,
+      "q4_continuity": 9,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": ""
+    },
+    "c2d84d7f-0983-4680-8fd3-3e81a1f4813a": {
+      "session_id": "c2d84d7f-0983-4680-8fd3-3e81a1f4813a",
+      "group": "experiment",
+      "submitted_at": 1781333018.2671933,
+      "q1_naturalness": 8,
+      "q2_fun": 7,
+      "q3_replay": 6,
+      "q4_continuity": 9,
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": ""
+    }
+  },
+  "summary": {
+    "total_responses": 2,
+    "control": {
+      "n": 0
+    },
+    "experiment": {
+      "n": 2,
+      "q1_naturalness": {
+        "mean": 8.0,
+        "std": 0.0
+      },
+      "q2_fun": {
+        "mean": 7.0,
+        "std": 0.0
+      },
+      "q3_replay": {
+        "mean": 6.0,
+        "std": 0.0
+      },
+      "composite_ux": 7.0
+    },
+    "ux_lift": 0.0,
+    "questions": [
+      {
+        "id": "q1_naturalness",
+        "text": "\u4eba\u683c\u8f49\u8b8a\u662f\u5426\u611f\u5230\u81ea\u7136\uff1f",
+        "scale": "1 (\u5b8c\u5168\u4e0d\u81ea\u7136) \u2014 10 (\u975e\u5e38\u81ea\u7136)"
+      },
+      {
+        "id": "q2_fun",
+        "text": "\u908a\u754c\u63a7\u5236\u662f\u5426\u589e\u52a0\u904a\u6232\u6a02\u8da3\uff1f",
+        "scale": "1 (\u5b8c\u5168\u6c92\u6709) \u2014 10 (\u975e\u5e38\u6709\u8da3)"
+      },
+      {
+        "id": "q3_replay",
+        "text": "\u662f\u5426\u9858\u610f\u7e7c\u7e8c\u904a\u73a9\uff1f",
+        "scale": "1 (\u7d55\u5c0d\u4e0d\u6703) \u2014 10 (\u975e\u5e38\u60f3\u7e7c\u7e8c)"
+      },
+      {
+        "id": "q4_continuity",
+        "text": "\u9019\u4e09\u6bb5\u4eba\u751f\u662f\u5426\u611f\u89ba\u50cf\u540c\u4e00\u500b\u9010\u6b65\u6f14\u5316\u7684\u89d2\u8272\uff1f",
+        "scale": "1 (\u5b8c\u5168\u662f\u4e0d\u540c\u89d2\u8272) \u2014 10 (\u660e\u986f\u662f\u540c\u4e00\u500b\u9010\u6b65\u6f14\u5316\u7684\u89d2\u8272)"
+      }
+    ]
+  }
+}

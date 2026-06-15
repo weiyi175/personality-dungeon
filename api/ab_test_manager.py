@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import time
 from dataclasses import dataclass, field, asdict
 from pathlib import Path
@@ -34,6 +35,16 @@ from typing import Literal
 import numpy as np
 
 Group = Literal["control", "experiment"]
+
+# naive 受試者代碼樣式（P01, P02, …）。實驗者試玩 "dev" / pre-pilot "EXP_PREPILOT" 都不符。
+# 必須與 analyzer (analyze_iteration_study.py PILOT_PID_PATTERN) 同一套判別子：
+# count-balance 配臂計數與分析納入用同源規則，naive cohort 才會在自己內部平衡，
+# 且交錯的 dev 試玩不污染配臂計數（dev run 仍配到臂、但不計入平衡 tally）。
+PILOT_PID_PATTERN = re.compile(r"^P\d{2,}$")
+
+
+def _pid_is_pilot_eligible(participant_id: str) -> bool:
+    return bool(PILOT_PID_PATTERN.match(participant_id or ""))
 
 
 @dataclass
@@ -56,6 +67,13 @@ class ABTestManager:
         self._seed = seed
         self._target_per_group = target_per_group
         self._sessions: dict[str, SessionRecord] = {}
+        # 人格迭代研究：run_id → "iterated"|"reset"（sticky，跨同一受試者的 3 週期）。
+        # 與上面的 control/experiment 事件方向分組正交、獨立計數平衡。
+        self._iteration_runs: dict[str, str] = {}
+        # run_id → participant_id（配臂時帶入）。count-balance 平衡 tally 只數 pilot-eligible
+        # 的 run（participant_id 配 ^P\d{2,}$）；dev/EXP_PREPILOT 仍記錄、仍配到臂，但不計入
+        # 平衡，故交錯 dev 試玩不污染 naive cohort 的配臂平衡。
+        self._iteration_pid: dict[str, str] = {}
 
     # ── Session management ────────────────────────────────────────────────────
 
@@ -65,7 +83,8 @@ class ABTestManager:
             counts[rec.group] += 1
         return counts
 
-    def assign_session(self, session_id: str) -> dict:
+    def assign_session(self, session_id: str, run_id: str = "",
+                       participant_id: str = "dev") -> dict:
         """Assign or retrieve the A/B group for a session.
 
         Count-balanced: each new session goes to the currently smaller group so
@@ -73,7 +92,24 @@ class ABTestManager:
         with a deterministic sha256(session_id + seed) hash so the assignment is
         reproducible given the same arrival order. Re-looking up an existing
         session always returns its original group (idempotent).
+
+        Personality-iteration study: when ``run_id`` is supplied the caller is in
+        the iteration study. Event direction is fixed to "experiment" (decision B)
+        and a sticky, count-balanced ``iteration_arm`` ("iterated"|"reset") is
+        returned for that run_id (stable across the run's 3 cycles). Legacy
+        callers (no run_id) are completely unaffected.
         """
+        if run_id:
+            existing = run_id in self._iteration_runs
+            arm = self._assign_iteration_arm(run_id, participant_id)
+            return {
+                "session_id": session_id,
+                "group": "experiment",
+                "iteration_arm": arm,
+                "run_id": run_id,
+                "existing": existing,
+            }
+
         if session_id in self._sessions:
             rec = self._sessions[session_id]
             return {"session_id": session_id, "group": rec.group, "existing": True}
@@ -92,6 +128,36 @@ class ABTestManager:
             session_id=session_id, group=group
         )
         return {"session_id": session_id, "group": group, "existing": False}
+
+    def _assign_iteration_arm(self, run_id: str, participant_id: str = "dev") -> str:
+        """Sticky, count-balanced iteration arm for a participant run.
+
+        Balanced across *pilot-eligible runs* (naive participants P\\d{2,}), not
+        cycles and not experimenter/pre-pilot runs: the smaller arm gets the next
+        new run; ties broken by deterministic hash. Re-looking up a known run_id
+        returns its original arm (idempotent across the 3 cycles).
+
+        The balance tally counts ONLY pilot-eligible runs (same discriminator as
+        the analyzer). dev / EXP_PREPILOT runs still receive a (hash-broken) arm so
+        playtests work, but they do NOT count toward the naive cohort's balance —
+        so interleaved dev playtests never skew P-code assignment.
+        """
+        if run_id in self._iteration_runs:
+            return self._iteration_runs[run_id]
+        self._iteration_pid[run_id] = participant_id
+        counts = {"iterated": 0, "reset": 0}
+        for rid, a in self._iteration_runs.items():
+            if _pid_is_pilot_eligible(self._iteration_pid.get(rid, "dev")):
+                counts[a] = counts.get(a, 0) + 1
+        if counts["iterated"] < counts["reset"]:
+            arm = "iterated"
+        elif counts["reset"] < counts["iterated"]:
+            arm = "reset"
+        else:
+            digest = hashlib.sha256(f"{run_id}:{self._seed}:iter".encode()).hexdigest()
+            arm = "iterated" if int(digest[0], 16) % 2 == 0 else "reset"
+        self._iteration_runs[run_id] = arm
+        return arm
 
     def get_session(self, session_id: str) -> dict | None:
         rec = self._sessions.get(session_id)
@@ -181,6 +247,8 @@ class ABTestManager:
         payload = {
             "seed": self._seed,
             "sessions": {sid: asdict(rec) for sid, rec in self._sessions.items()},
+            "iteration_runs": self._iteration_runs,
+            "iteration_pid": self._iteration_pid,
             "summary": self.summary(),
         }
         with open(path, "w") as f:
@@ -202,6 +270,9 @@ class ABTestManager:
             sid: SessionRecord(**rec)
             for sid, rec in payload.get("sessions", {}).items()
         }
+        self._iteration_runs = dict(payload.get("iteration_runs", {}))
+        # 既有存檔無 iteration_pid（如目前 15 個 EXP_PREPILOT）→ get 預設 "dev" → 不計入平衡。
+        self._iteration_pid = dict(payload.get("iteration_pid", {}))
         return True
 
 

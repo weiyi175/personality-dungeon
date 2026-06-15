@@ -1,0 +1,8 @@
+participant_id,assigned_date,completed_3cycle,dropout_or_notes
+# 一碼一人，序號永不重用（棄坑也不重用）。實驗者試玩不入此表（一律用 participant_id=dev）。
+# arm 不寫在此表（封存）：collection 期間保持 arm-blind，事後由 run_id→iteration_arm 還原。
+# completed_3cycle: y=三週期都完成且送出問卷；n=中途棄坑（dropout，仍佔 count-balance started 配額）。
+# 停止規則：持續招募到「兩臂都 ≥10 completed(=y)」；預期每臂 started ~12–13。
+# 範例（招到第一人時填實際日期，刪除此註解列）：
+# P01,2026-06-14,y,
+# P02,2026-06-14,n,中途關閉視窗 cycle2

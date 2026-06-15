@@ -1,0 +1,260 @@
+{
+  "selection": {
+    "n_naive_pilot_runs": 0,
+    "n_iteration_runs": {
+      "iterated": 0,
+      "reset": 0
+    },
+    "n_complete_3cycle_runs": {
+      "iterated": 0,
+      "reset": 0
+    },
+    "n_partial_runs_excluded": {
+      "iterated": 0,
+      "reset": 0
+    },
+    "n_legacy_sessions_ignored": 74,
+    "participant_gate": {
+      "allowlist": "pattern ^P\\d{2,}$",
+      "pilot_start": null,
+      "n_runs_excluded_by_reason": {
+        "not_in_pilot_allowlist": 34,
+        "mixed_participant_id": 0,
+        "not_human": 0,
+        "before_pilot_start": 0
+      },
+      "excluded_runs": {
+        "not_in_pilot_allowlist": [
+          {
+            "run_id": "run_1781343034550_67a3ea5e9da1abb7",
+            "participant_id": "EXP_PREPILOT"
+          },
+          {
+            "run_id": "run_1781345070214_7e39c1fd958dce94",
+            "participant_id": "EXP_PREPILOT"
+          },
+          {
+            "run_id": "run_1781353144114_09f7b6f6106c67c4",
+            "participant_id": "EXP_PREPILOT"
+          },
+          {
+            "run_id": "run_1781353624293_65325e8cfb5a944a",
+            "participant_id": "EXP_PREPILOT"
+          },
+          {
+            "run_id": "run_1781354066296_b000a38df3838e0b",
+            "participant_id": "EXP_PREPILOT"
+          },
+          {
+            "run_id": "run_1781354435930_bce6ce9d4e494d4a",
+            "participant_id": "EXP_PREPILOT"
+          },
+          {
+            "run_id": "run_1781354884382_12408d11a685010b",
+            "participant_id": "EXP_PREPILOT"
+          },
+          {
+            "run_id": "run_1781358037886_fb97702908ef2e7b",
+            "participant_id": "EXP_PREPILOT"
+          },
+          {
+            "run_id": "run_1781358270717_176ea86a4cd6429f",
+            "participant_id": "EXP_PREPILOT"
+          },
+          {
+            "run_id": "run_1781358652703_34d9c5c24130bed9",
+            "participant_id": "EXP_PREPILOT"
+          },
+          {
+            "run_id": "run_1781359683417_1a1e678bba486290",
+            "participant_id": "EXP_PREPILOT"
+          },
+          {
+            "run_id": "run_1781364980152_1c46158b078e0643",
+            "participant_id": "EXP_PREPILOT"
+          },
+          {
+            "run_id": "run_1781365344929_8329533b02ed4082",
+            "participant_id": "EXP_PREPILOT"
+          },
+          {
+            "run_id": "run_1781365739718_4fc0ec042dfc53a1",
+            "participant_id": "EXP_PREPILOT"
+          },
+          {
+            "run_id": "run_1781407571015_e0a144877f61a9ee",
+            "participant_id": "EXP_PREPILOT"
+          },
+          {
+            "run_id": "run_1781418454670_306de6af863ffcf9",
+            "participant_id": "dev"
+          },
+          {
+            "run_id": "run_1781418582018_2e8a02a916251a55",
+            "participant_id": "dev"
+          },
+          {
+            "run_id": "run_1781419141548_2619e099d4bb9262",
+            "participant_id": "dev"
+          },
+          {
+            "run_id": "run_1781423031618_da3b8b227d6f2788",
+            "participant_id": "dev"
+          },
+          {
+            "run_id": "run_1781425392415_2cad7eae4ed03e44",
+            "participant_id": "dev"
+          },
+          {
+            "run_id": "run_1781429234340_de6f62c631fdc6b2",
+            "participant_id": "dev"
+          },
+          {
+            "run_id": "run_1781429348078_1d04608d1615ee50",
+            "participant_id": "dev"
+          },
+          {
+            "run_id": "run_1781429476042_9b7e51e511402e58",
+            "participant_id": "dev"
+          },
+          {
+            "run_id": "run_1781429606003_507e73da1e17d016",
+            "participant_id": "dev"
+          },
+          {
+            "run_id": "run_1781429863972_920f8028b62f351d",
+            "participant_id": "dev"
+          },
+          {
+            "run_id": "run_1781429988243_4740f0b68a1b6764",
+            "participant_id": "dev"
+          },
+          {
+            "run_id": "run_1781430144351_c663cd99b5b8a78f",
+            "participant_id": "dev"
+          },
+          {
+            "run_id": "run_1781430285841_ab38d259c47f3823",
+            "participant_id": "dev"
+          },
+          {
+            "run_id": "run_1781430531540_5a8dd52db3b57f0e",
+            "participant_id": "dev"
+          },
+          {
+            "run_id": "run_1781430646579_98017b893660cf38",
+            "participant_id": "dev"
+          },
+          {
+            "run_id": "run_1781430777409_1d7fa9a346a7c320",
+            "participant_id": "dev"
+          },
+          {
+            "run_id": "run_1781431049362_b8c6da7c6e7976c1",
+            "participant_id": "dev"
+          },
+          {
+            "run_id": "run_1781444723571_f364407e29e87b18",
+            "participant_id": "dev"
+          },
+          {
+            "run_id": "run_1781486577517_e693a44e34319623",
+            "participant_id": "dev"
+          }
+        ],
+        "mixed_participant_id": [],
+        "not_human": [],
+        "before_pilot_start": []
+      }
+    },
+    "note": "participant_id allowlist is AUTHORITATIVE (alias/is_human hardcoded). Only naive-allowlisted, complete 3-cycle runs enter M/E1/q4/E2/saturation (lock 2). 'dev'/'EXP_PREPILOT' never match the allowlist."
+  },
+  "M_construction_check_QA": {
+    "tier": "QA assertion (NOT a hypothesis)",
+    "metric": "cos(first,last) of will_personality_vector (scaled RL seed). Anchored BY DESIGN for iterated (cumulative) — tautological; only verifies the accumulation pipeline ran. Excluded from power/claims.",
+    "n_a": 0,
+    "n_b": 0,
+    "median_a": null,
+    "median_b": null,
+    "dist_a": {
+      "n": 0,
+      "mean": null,
+      "sd": null,
+      "sd_upper95": null
+    },
+    "dist_b": {
+      "n": 0,
+      "mean": null,
+      "sd": null,
+      "sd_upper95": null
+    },
+    "note": "insufficient N for test (need >=2 per arm)"
+  },
+  "E1_will_writing_behavior_PRIMARY": {
+    "tier": "PRIMARY confirmatory (two-sided; DIRECTION OPEN)",
+    "metric": "cos(first,last) of will_sbert_vector (raw freely-written wills; identical computation both arms). Joint mechanism+narrative effect on writing coherence; no directional prediction (see §8d).",
+    "n_a": 0,
+    "n_b": 0,
+    "median_a": null,
+    "median_b": null,
+    "dist_a": {
+      "n": 0,
+      "mean": null,
+      "sd": null,
+      "sd_upper95": null
+    },
+    "dist_b": {
+      "n": 0,
+      "mean": null,
+      "sd": null,
+      "sd_upper95": null
+    },
+    "note": "insufficient N for test (need >=2 per arm)"
+  },
+  "q4_continuity_floor_check_exploratory": {
+    "tier": "EXPLORATORY floor-check / manipulation-sufficiency (NOT confirmatory; demoted 2026-06-13)",
+    "metric": "q4_continuity (1-10). Role: does pure-narrative priming move felt continuity at all? Mechanism is visually invisible, so the ONLY cue is one priming sentence.",
+    "expected": "BOTH arms floor (low). This null is INFORMATIVE — it upgrades n=1 self-report into n~20 citable evidence that narrative-only priming is insufficient, mandating a decoupled continuity v2. Do NOT read a null as a failed hypothesis.",
+    "n_a": 0,
+    "n_b": 0,
+    "median_a": null,
+    "median_b": null,
+    "dist_a": {
+      "n": 0,
+      "mean": null,
+      "sd": null,
+      "sd_upper95": null
+    },
+    "dist_b": {
+      "n": 0,
+      "mean": null,
+      "sd": null,
+      "sd_upper95": null
+    },
+    "note": "insufficient N for test (need >=2 per arm)"
+  },
+  "E2_dynamics_exploratory": {
+    "discriminator": "climb_rate_per_step_mean (max_proximity reported but ceiling-bound ~1.0)",
+    "iterated": {},
+    "reset": {}
+  },
+  "saturation_covariate_exploratory": {
+    "definition": "per run: 1-2*min(r,1-r), r=recklessness of FINAL (most-accumulated) cycle. Higher = cumulative will pinned personality to a sigmoid extreme = larger mechanism dose. Reset shown for contrast (its r is the single final will, not cumulative). Mechanism frozen pre-pilot (cap/renorm = v2 design question — see plan §8e).",
+    "mean_by_arm": {
+      "iterated": null,
+      "reset": null
+    },
+    "dose_response_within_iterated": {
+      "rationale": "Within iterated, narrative priming is CONSTANT but saturation (mechanism dose) VARIES across players. A positive slope = the mechanism contributes above the constant narrative → first probe at the claim ceiling; informs whether the v2 follow-up is worth it.",
+      "caveat": "OBSERVATIONAL, non-random, confounded with trait-consistency (players whose wills stay on-theme both saturate AND write coherently). EXPLORATORY ONLY — does NOT replace the mechanism×narrative 2×2.",
+      "sat_vs_E1_primary": {
+        "n_pairs": 0,
+        "note": "insufficient N (need >=3 paired iterated runs)"
+      },
+      "sat_vs_q4_floor": {
+        "n_pairs": 0,
+        "note": "insufficient N (need >=3 paired iterated runs)"
+      }
+    }
+  }
+}

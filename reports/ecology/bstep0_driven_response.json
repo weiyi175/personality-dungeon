@@ -1,0 +1,301 @@
+{
+  "params": {
+    "beta": 4.0,
+    "alpha": 0.25,
+    "N": 30,
+    "T": 3000,
+    "burn": 1000,
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  "payoff": [
+    [
+      0.0,
+      -1.0,
+      1.0
+    ],
+    [
+      1.0,
+      0.0,
+      -1.0
+    ],
+    [
+      -1.0,
+      1.0,
+      0.0
+    ]
+  ],
+  "sweep": {
+    "uniform": [
+      {
+        "churn": 0.0610664446235167,
+        "rot_rate_rev_per_gen": -0.0005970646481367465,
+        "coherence": 0.023590200690284755,
+        "sustain_ratio": 0.9978792129929023,
+        "min_q": 0.2192423138723833,
+        "mono_frac": 0.0,
+        "mean_diversity": 0.9956977162103231,
+        "verdict": "\u6301\u7e8c\u4f46\u4e0d\u76f8\u5e72 churn (noisy, \u7121\u660e\u78ba\u65cb\u8f49)",
+        "rho": 0.0
+      },
+      {
+        "churn": 0.061609787894221515,
+        "rot_rate_rev_per_gen": 0.009962613036492405,
+        "coherence": 0.08669283982436067,
+        "sustain_ratio": 1.0015485228619865,
+        "min_q": 0.22190804319375368,
+        "mono_frac": 0.0,
+        "mean_diversity": 0.9956126653399566,
+        "verdict": "\u6301\u7e8c\u4f46\u4e0d\u76f8\u5e72 churn (noisy, \u7121\u660e\u78ba\u65cb\u8f49)",
+        "rho": 0.1
+      },
+      {
+        "churn": 0.062223269789168145,
+        "rot_rate_rev_per_gen": 0.020263378974457798,
+        "coherence": 0.1741364089424992,
+        "sustain_ratio": 1.015973386607895,
+        "min_q": 0.21875785487764396,
+        "mono_frac": 0.0,
+        "mean_diversity": 0.995508667102514,
+        "verdict": "\u6301\u7e8c\u4f46\u4e0d\u76f8\u5e72 churn (noisy, \u7121\u660e\u78ba\u65cb\u8f49)",
+        "rho": 0.2
+      },
+      {
+        "churn": 0.06333759628632805,
+        "rot_rate_rev_per_gen": 0.02958656803755196,
+        "coherence": 0.2568743890767582,
+        "sustain_ratio": 0.9879987180357169,
+        "min_q": 0.22273477160837468,
+        "mono_frac": 0.0,
+        "mean_diversity": 0.995358322999721,
+        "verdict": "\u6301\u7e8c\u4f46\u4e0d\u76f8\u5e72 churn (noisy, \u7121\u660e\u78ba\u65cb\u8f49)",
+        "rho": 0.3
+      },
+      {
+        "churn": 0.06476673756194071,
+        "rot_rate_rev_per_gen": 0.03621081921750978,
+        "coherence": 0.314805641060418,
+        "sustain_ratio": 0.9951955244588667,
+        "min_q": 0.21717756746900294,
+        "mono_frac": 0.0,
+        "mean_diversity": 0.9951312655543216,
+        "verdict": "\u6301\u7e8c\u4f46\u4e0d\u76f8\u5e72 churn (noisy, \u7121\u660e\u78ba\u65cb\u8f49)",
+        "rho": 0.4
+      },
+      {
+        "churn": 0.06702579283180929,
+        "rot_rate_rev_per_gen": 0.049924401904464226,
+        "coherence": 0.42971351108070915,
+        "sustain_ratio": 0.991905540689382,
+        "min_q": 0.20835270886318394,
+        "mono_frac": 0.0,
+        "mean_diversity": 0.9947948146966112,
+        "verdict": "\u6301\u7e8c\u4f46\u4e0d\u76f8\u5e72 churn (noisy, \u7121\u660e\u78ba\u65cb\u8f49)",
+        "rho": 0.5
+      },
+      {
+        "churn": 0.07048956004189665,
+        "rot_rate_rev_per_gen": 0.06050393413309135,
+        "coherence": 0.5246457593281286,
+        "sustain_ratio": 1.0027534890133698,
+        "min_q": 0.2048290138498336,
+        "mono_frac": 0.0,
+        "mean_diversity": 0.9942857014773689,
+        "verdict": "\u2605 \u6301\u7e8c\u76f8\u5e72\u65cb\u8f49 (sustained coherent churn = L3-like)",
+        "rho": 0.6
+      },
+      {
+        "churn": 0.07527866787058672,
+        "rot_rate_rev_per_gen": 0.06883183368107085,
+        "coherence": 0.6030430636363768,
+        "sustain_ratio": 1.0212378760280503,
+        "min_q": 0.20117921318043294,
+        "mono_frac": 0.0,
+        "mean_diversity": 0.9935441764396824,
+        "verdict": "\u2605 \u6301\u7e8c\u76f8\u5e72\u65cb\u8f49 (sustained coherent churn = L3-like)",
+        "rho": 0.7
+      },
+      {
+        "churn": 0.08117809397542199,
+        "rot_rate_rev_per_gen": 0.07644331821914897,
+        "coherence": 0.6735949546680755,
+        "sustain_ratio": 1.0247769250875258,
+        "min_q": 0.19220850831660005,
+        "mono_frac": 0.0,
+        "mean_diversity": 0.9925217037708727,
+        "verdict": "\u2605 \u6301\u7e8c\u76f8\u5e72\u65cb\u8f49 (sustained coherent churn = L3-like)",
+        "rho": 0.8
+      },
+      {
+        "churn": 0.08994916989453972,
+        "rot_rate_rev_per_gen": 0.08898879796910283,
+        "coherence": 0.7670248443327948,
+        "sustain_ratio": 1.0181333070022247,
+        "min_q": 0.18151055931873938,
+        "mono_frac": 0.0,
+        "mean_diversity": 0.9907705464702653,
+        "verdict": "\u2605 \u6301\u7e8c\u76f8\u5e72\u65cb\u8f49 (sustained coherent churn = L3-like)",
+        "rho": 0.9
+      },
+      {
+        "churn": 0.10312963842565445,
+        "rot_rate_rev_per_gen": 0.09830020259826026,
+        "coherence": 0.860395217607322,
+        "sustain_ratio": 0.9880911305768908,
+        "min_q": 0.16591660681171877,
+        "mono_frac": 0.0,
+        "mean_diversity": 0.9881296054188017,
+        "verdict": "\u2605 \u6301\u7e8c\u76f8\u5e72\u65cb\u8f49 (sustained coherent churn = L3-like)",
+        "rho": 1.0
+      }
+    ],
+    "skewed_real(.45/.45/.10)": [
+      {
+        "churn": 0.35533378756243045,
+        "rot_rate_rev_per_gen": -1.966057242544842e-05,
+        "coherence": 0.0013554274589541368,
+        "sustain_ratio": 0.9952377102893873,
+        "min_q": 0.03922010620666807,
+        "mono_frac": 0.0,
+        "mean_diversity": 0.8587284015396432,
+        "verdict": "\u6301\u7e8c\u4f46\u4e0d\u76f8\u5e72 churn (noisy, \u7121\u660e\u78ba\u65cb\u8f49)",
+        "rho": 0.0
+      },
+      {
+        "churn": 0.33302517614216887,
+        "rot_rate_rev_per_gen": -2.0039364219107076e-05,
+        "coherence": 0.001314431250261829,
+        "sustain_ratio": 0.9921438705524007,
+        "min_q": 0.050349172488216756,
+        "mono_frac": 0.0,
+        "mean_diversity": 0.8794740854373574,
+        "verdict": "\u6301\u7e8c\u4f46\u4e0d\u76f8\u5e72 churn (noisy, \u7121\u660e\u78ba\u65cb\u8f49)",
+        "rho": 0.1
+      },
+      {
+        "churn": 0.29113072537737644,
+        "rot_rate_rev_per_gen": -2.1539373306044505e-05,
+        "coherence": 0.0013241946220134333,
+        "sustain_ratio": 0.9917495984890952,
+        "min_q": 0.06949384451022822,
+        "mono_frac": 0.0,
+        "mean_diversity": 0.9121703321178748,
+        "verdict": "\u6301\u7e8c\u4f46\u4e0d\u76f8\u5e72 churn (noisy, \u7121\u660e\u78ba\u65cb\u8f49)",
+        "rho": 0.2
+      },
+      {
+        "churn": 0.233192363630825,
+        "rot_rate_rev_per_gen": -2.4484185630753564e-05,
+        "coherence": 0.0011914606760814227,
+        "sustain_ratio": 0.9876319017105697,
+        "min_q": 0.09802817865672532,
+        "mono_frac": 0.0,
+        "mean_diversity": 0.9456582684834716,
+        "verdict": "\u6301\u7e8c\u4f46\u4e0d\u76f8\u5e72 churn (noisy, \u7121\u660e\u78ba\u65cb\u8f49)",
+        "rho": 0.3
+      },
+      {
+        "churn": 0.17694808604956183,
+        "rot_rate_rev_per_gen": 7.485368817094972e-05,
+        "coherence": 0.004558065908341978,
+        "sustain_ratio": 0.9873954240234871,
+        "min_q": 0.1285840670345007,
+        "mono_frac": 0.0,
+        "mean_diversity": 0.9687092624908491,
+        "verdict": "\u6301\u7e8c\u4f46\u4e0d\u76f8\u5e72 churn (noisy, \u7121\u660e\u78ba\u65cb\u8f49)",
+        "rho": 0.4
+      },
+      {
+        "churn": 0.1330522605089765,
+        "rot_rate_rev_per_gen": 0.0019800477319308176,
+        "coherence": 0.04393444079675189,
+        "sustain_ratio": 0.9927267900535115,
+        "min_q": 0.16059760710717919,
+        "mono_frac": 0.0,
+        "mean_diversity": 0.9815402337288199,
+        "verdict": "\u6301\u7e8c\u4f46\u4e0d\u76f8\u5e72 churn (noisy, \u7121\u660e\u78ba\u65cb\u8f49)",
+        "rho": 0.5
+      },
+      {
+        "churn": 0.10501825309377037,
+        "rot_rate_rev_per_gen": 0.0162296976056883,
+        "coherence": 0.2333462150506588,
+        "sustain_ratio": 0.9975914956935847,
+        "min_q": 0.17193013304629762,
+        "mono_frac": 0.0,
+        "mean_diversity": 0.9878695863950101,
+        "verdict": "\u6301\u7e8c\u4f46\u4e0d\u76f8\u5e72 churn (noisy, \u7121\u660e\u78ba\u65cb\u8f49)",
+        "rho": 0.6
+      },
+      {
+        "churn": 0.0905862507804778,
+        "rot_rate_rev_per_gen": 0.04261194820199527,
+        "coherence": 0.459463915826428,
+        "sustain_ratio": 1.0162121209948274,
+        "min_q": 0.1764214395742893,
+        "mono_frac": 0.0,
+        "mean_diversity": 0.9906902557246842,
+        "verdict": "\u6301\u7e8c\u4f46\u4e0d\u76f8\u5e72 churn (noisy, \u7121\u660e\u78ba\u65cb\u8f49)",
+        "rho": 0.7
+      },
+      {
+        "churn": 0.08671728167334627,
+        "rot_rate_rev_per_gen": 0.06634029473842411,
+        "coherence": 0.6269944968253471,
+        "sustain_ratio": 1.0117975258918468,
+        "min_q": 0.18638318638577325,
+        "mono_frac": 0.0,
+        "mean_diversity": 0.9914265391871939,
+        "verdict": "\u2605 \u6301\u7e8c\u76f8\u5e72\u65cb\u8f49 (sustained coherent churn = L3-like)",
+        "rho": 0.8
+      },
+      {
+        "churn": 0.09037328875604878,
+        "rot_rate_rev_per_gen": 0.08474742977397073,
+        "coherence": 0.7439460225009643,
+        "sustain_ratio": 0.9913665957705131,
+        "min_q": 0.1792393047577741,
+        "mono_frac": 0.0,
+        "mean_diversity": 0.9906795562542884,
+        "verdict": "\u2605 \u6301\u7e8c\u76f8\u5e72\u65cb\u8f49 (sustained coherent churn = L3-like)",
+        "rho": 0.9
+      },
+      {
+        "churn": 0.10312963842565445,
+        "rot_rate_rev_per_gen": 0.09830020259826026,
+        "coherence": 0.860395217607322,
+        "sustain_ratio": 0.9880911305768908,
+        "min_q": 0.16591660681171877,
+        "mono_frac": 0.0,
+        "mean_diversity": 0.9881296054188017,
+        "verdict": "\u2605 \u6301\u7e8c\u76f8\u5e72\u65cb\u8f49 (sustained coherent churn = L3-like)",
+        "rho": 1.0
+      }
+    ]
+  },
+  "closed_baseline": {
+    "deterministic": {
+      "churn": 0.1090748991113786,
+      "rot_rate_rev_per_gen": 0.004522288895787178,
+      "coherence": 1.0,
+      "sustain_ratio": 1.4949547174014974,
+      "min_q": 0.24074545816231302,
+      "mono_frac": 0.0,
+      "mean_diversity": 0.9803098132609822
+    },
+    "finite_N30": {
+      "churn": 0.999999997,
+      "rot_rate_rev_per_gen": 0.0,
+      "coherence": 0.0,
+      "sustain_ratio": 1.0,
+      "min_q": 9.99999998e-10,
+      "mono_frac": 1.0,
+      "mean_diversity": 3.9544007598701177e-08
+    }
+  }
+}

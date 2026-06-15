@@ -62,6 +62,14 @@ class PlayerTestSession:
     will_cadence: int = -1            # 事件節奏（每 N 回合），-1 表示未記錄
     # 資料來源識別（True=真人 Godot 前端；False=程式呼叫 API，如 wsim）
     is_human: bool = False
+    # 人格迭代研究（受試者間 A/B：iterated vs reset）
+    run_id: str = ""            # 連結同一受試者的 3 週期（每週期是獨立 session_id）
+    cycle_index: int = -1       # 本週期序 0/1/2，-1 表示未記錄
+    iteration_arm: str = ""     # "iterated"|"reset"|""（後端 assign 派發，sticky per run_id）
+    # naive vs 實驗者的權威判別子（alias/is_human 都 hardcoded，分不開）。
+    # naive 受試者用分配代碼（P01…）；實驗者試玩永遠用保留值 "dev"；pre-pilot 既有資料回填 "EXP_PREPILOT"。
+    # analyzer 只納入 participant_id ∈ pilot allowlist 的 run。
+    participant_id: str = "dev"
 
 
 class PlayerTestTracker:
@@ -84,6 +92,10 @@ class PlayerTestTracker:
         will_intensity: float = -1.0,
         will_cadence: int = -1,
         is_human: bool = False,
+        run_id: str = "",
+        cycle_index: int = -1,
+        iteration_arm: str = "",
+        participant_id: str = "dev",
     ) -> dict:
         if session_id in self._sessions:
             return {"ok": False, "error": "session already exists"}
@@ -98,6 +110,10 @@ class PlayerTestTracker:
             will_intensity=will_intensity,
             will_cadence=will_cadence,
             is_human=is_human,
+            run_id=run_id,
+            cycle_index=cycle_index,
+            iteration_arm=iteration_arm,
+            participant_id=participant_id or "dev",
         )
         return {"ok": True, "session_id": session_id, "group": group}
 
