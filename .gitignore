@@ -27,3 +27,6 @@ outputs/
 
 # Mac / Linux
 .DS_Store
+
+# Local data-edit backups (git history is the real backup; keep milestone commits lean)
+reports/experiments/p7h_real_study/_relabel_bak/

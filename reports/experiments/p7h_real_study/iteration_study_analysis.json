@@ -1,13 +1,13 @@
 {
   "selection": {
-    "n_naive_pilot_runs": 0,
+    "n_naive_pilot_runs": 20,
     "n_iteration_runs": {
-      "iterated": 0,
-      "reset": 0
+      "iterated": 10,
+      "reset": 10
     },
     "n_complete_3cycle_runs": {
-      "iterated": 0,
-      "reset": 0
+      "iterated": 10,
+      "reset": 10
     },
     "n_partial_runs_excluded": {
       "iterated": 0,
@@ -18,7 +18,7 @@
       "allowlist": "pattern ^P\\d{2,}$",
       "pilot_start": null,
       "n_runs_excluded_by_reason": {
-        "not_in_pilot_allowlist": 34,
+        "not_in_pilot_allowlist": 37,
         "mixed_participant_id": 0,
         "not_human": 0,
         "before_pilot_start": 0
@@ -160,6 +160,18 @@
           {
             "run_id": "run_1781486577517_e693a44e34319623",
             "participant_id": "dev"
+          },
+          {
+            "run_id": "run_1781489027194_5b0a666d285818d7",
+            "participant_id": "EXCL_dev04_run2_reset"
+          },
+          {
+            "run_id": "run_1781498981931_6238a509870a9db3",
+            "participant_id": "dev"
+          },
+          {
+            "run_id": "run_1781504976036_f3f5ed7a61b8660d",
+            "participant_id": "EXCL_P19_dup_reset"
           }
         ],
         "mixed_participant_id": [],
@@ -172,88 +184,134 @@
   "M_construction_check_QA": {
     "tier": "QA assertion (NOT a hypothesis)",
     "metric": "cos(first,last) of will_personality_vector (scaled RL seed). Anchored BY DESIGN for iterated (cumulative) — tautological; only verifies the accumulation pipeline ran. Excluded from power/claims.",
-    "n_a": 0,
-    "n_b": 0,
-    "median_a": null,
-    "median_b": null,
+    "n_a": 10,
+    "n_b": 10,
+    "median_a": 0.9602797246530097,
+    "median_b": 0.8359985247840019,
     "dist_a": {
-      "n": 0,
-      "mean": null,
-      "sd": null,
-      "sd_upper95": null
+      "n": 10,
+      "mean": 0.9493,
+      "sd": 0.0377,
+      "sd_upper95": 0.0688
     },
     "dist_b": {
-      "n": 0,
-      "mean": null,
-      "sd": null,
-      "sd_upper95": null
+      "n": 10,
+      "mean": 0.789,
+      "sd": 0.175,
+      "sd_upper95": 0.3196
     },
-    "note": "insufficient N for test (need >=2 per arm)"
+    "U": 87.0,
+    "p_two_sided": 0.00579535854433471,
+    "rank_biserial": -0.74
   },
   "E1_will_writing_behavior_PRIMARY": {
     "tier": "PRIMARY confirmatory (two-sided; DIRECTION OPEN)",
     "metric": "cos(first,last) of will_sbert_vector (raw freely-written wills; identical computation both arms). Joint mechanism+narrative effect on writing coherence; no directional prediction (see §8d).",
-    "n_a": 0,
-    "n_b": 0,
-    "median_a": null,
-    "median_b": null,
+    "n_a": 10,
+    "n_b": 10,
+    "median_a": 0.8150068372228498,
+    "median_b": 0.8359985247839972,
     "dist_a": {
-      "n": 0,
-      "mean": null,
-      "sd": null,
-      "sd_upper95": null
+      "n": 10,
+      "mean": 0.8275,
+      "sd": 0.071,
+      "sd_upper95": 0.1296
     },
     "dist_b": {
-      "n": 0,
-      "mean": null,
-      "sd": null,
-      "sd_upper95": null
+      "n": 10,
+      "mean": 0.789,
+      "sd": 0.175,
+      "sd_upper95": 0.3196
     },
-    "note": "insufficient N for test (need >=2 per arm)"
+    "U": 51.0,
+    "p_two_sided": 0.9698499769931556,
+    "rank_biserial": -0.020000000000000018
   },
   "q4_continuity_floor_check_exploratory": {
     "tier": "EXPLORATORY floor-check / manipulation-sufficiency (NOT confirmatory; demoted 2026-06-13)",
     "metric": "q4_continuity (1-10). Role: does pure-narrative priming move felt continuity at all? Mechanism is visually invisible, so the ONLY cue is one priming sentence.",
     "expected": "BOTH arms floor (low). This null is INFORMATIVE — it upgrades n=1 self-report into n~20 citable evidence that narrative-only priming is insufficient, mandating a decoupled continuity v2. Do NOT read a null as a failed hypothesis.",
-    "n_a": 0,
-    "n_b": 0,
-    "median_a": null,
-    "median_b": null,
+    "n_a": 10,
+    "n_b": 10,
+    "median_a": 3.0,
+    "median_b": 4.0,
     "dist_a": {
-      "n": 0,
-      "mean": null,
-      "sd": null,
-      "sd_upper95": null
+      "n": 10,
+      "mean": 3.2,
+      "sd": 1.0328,
+      "sd_upper95": 1.8855
     },
     "dist_b": {
-      "n": 0,
-      "mean": null,
-      "sd": null,
-      "sd_upper95": null
+      "n": 10,
+      "mean": 4.0,
+      "sd": 1.4142,
+      "sd_upper95": 2.5818
     },
-    "note": "insufficient N for test (need >=2 per arm)"
+    "U": 30.0,
+    "p_two_sided": 0.13006298678631345,
+    "rank_biserial": 0.4
   },
   "E2_dynamics_exploratory": {
     "discriminator": "climb_rate_per_step_mean (max_proximity reported but ceiling-bound ~1.0)",
-    "iterated": {},
-    "reset": {}
+    "iterated": {
+      "cycle_0": {
+        "n": 10,
+        "climb_rate_per_step_mean": 0.007627,
+        "max_proximity_mean": 0.9923,
+        "rounds_survived_mean": 76.5
+      },
+      "cycle_1": {
+        "n": 10,
+        "climb_rate_per_step_mean": 0.007198,
+        "max_proximity_mean": 0.9494,
+        "rounds_survived_mean": 76.4
+      },
+      "cycle_2": {
+        "n": 10,
+        "climb_rate_per_step_mean": 0.006554,
+        "max_proximity_mean": 0.9207,
+        "rounds_survived_mean": 78.3
+      }
+    },
+    "reset": {
+      "cycle_0": {
+        "n": 10,
+        "climb_rate_per_step_mean": 0.007712,
+        "max_proximity_mean": 0.9962,
+        "rounds_survived_mean": 70.4
+      },
+      "cycle_1": {
+        "n": 10,
+        "climb_rate_per_step_mean": 0.008192,
+        "max_proximity_mean": 0.9945,
+        "rounds_survived_mean": 68.4
+      },
+      "cycle_2": {
+        "n": 10,
+        "climb_rate_per_step_mean": 0.007224,
+        "max_proximity_mean": 0.9954,
+        "rounds_survived_mean": 78.3
+      }
+    }
   },
   "saturation_covariate_exploratory": {
     "definition": "per run: 1-2*min(r,1-r), r=recklessness of FINAL (most-accumulated) cycle. Higher = cumulative will pinned personality to a sigmoid extreme = larger mechanism dose. Reset shown for contrast (its r is the single final will, not cumulative). Mechanism frozen pre-pilot (cap/renorm = v2 design question — see plan §8e).",
     "mean_by_arm": {
-      "iterated": null,
-      "reset": null
+      "iterated": 0.9748,
+      "reset": 0.271
     },
     "dose_response_within_iterated": {
       "rationale": "Within iterated, narrative priming is CONSTANT but saturation (mechanism dose) VARIES across players. A positive slope = the mechanism contributes above the constant narrative → first probe at the claim ceiling; informs whether the v2 follow-up is worth it.",
       "caveat": "OBSERVATIONAL, non-random, confounded with trait-consistency (players whose wills stay on-theme both saturate AND write coherently). EXPLORATORY ONLY — does NOT replace the mechanism×narrative 2×2.",
       "sat_vs_E1_primary": {
-        "n_pairs": 0,
-        "note": "insufficient N (need >=3 paired iterated runs)"
+        "n_pairs": 10,
+        "spearman_rho": -0.1885,
+        "p_two_sided": 0.6021
       },
       "sat_vs_q4_floor": {
-        "n_pairs": 0,
-        "note": "insufficient N (need >=3 paired iterated runs)"
+        "n_pairs": 10,
+        "spearman_rho": 0.1704,
+        "p_two_sided": 0.6378
       }
     }
   }
