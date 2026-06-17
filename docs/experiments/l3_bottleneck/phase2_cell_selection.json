@@ -1,0 +1,84 @@
+{
+  "_doc": "L3-BN Phase-2 confirmatory cell selection. Locked before running confirmatory seeds (pre-reg §3.3). Selection computed from frozen Phase-1 exploratory data (3 seeds/cell).",
+  "locked_date": "2026-06-18",
+  "selection_rule": "Keystone = mean-field vs sampled paired contrast within the B5 generator. Breadth = highest-mean-stage3 (=consistency) sampled cell from each mechanistically-distinct informative family (B4 state-dep-k, T local-minibatch, C1 pairwise). C2-uniform excluded as degenerate (x_local==x_global). g1 cells in other families excluded unless verified mean-field.",
+  "classifier_lock": {
+    "L3_iff": "cycle_level==3 == stage1 & stage2 & stage3 all pass",
+    "stage3_pass": "consistency >= eta AND turn_strength >= min_turn_strength (analysis/cycle_metrics.py:1082)",
+    "stage3_score_is": "consistency = fraction of consecutive phase-space turning crosses agreeing with net rotation sign; 0.50 = chance (no directional bias)",
+    "eta": 0.55,
+    "min_turn_strength": 0.0,
+    "amplitude_threshold": 0.02,
+    "corr_threshold": 0.09,
+    "corr_threshold_note": "Gates Stage 2 (L1->L2) only. ALL confirmatory cells already clear Stage 2 (every run is L2 or L3), so corr_threshold is NON-BINDING for the L2->L3 question this paper concerns; locked at the personality-dungeon L2-lineage convention 0.09.",
+    "eta_anchor": "eta=0.55 confirmed by paper_draft_v1 seed45 consistency=0.5611 being classified L3 (would fail at eta=0.6).",
+    "stage3_method": "turning",
+    "phase_smoothing": 1,
+    "burn_in": 1000,
+    "tail": 1000,
+    "rounds": 3000,
+    "phase_input": "strategy weight series w_* (not proportions p_*)"
+  },
+  "arm_A_positive_control_meanfield": {
+    "cell": "g1_mean_field_delta0p000",
+    "source": "outputs/b5_tangential_drift_short_scout_summary.tsv",
+    "system": "deterministic mean-field replicator (no sampling)",
+    "phase1_cycle_level": 3,
+    "phase1_consistency": 1.0000,
+    "deterministic": true,
+    "seed_expansion": "NOT NEEDED (deterministic: seeds 45/47/49 are byte-identical). Reproducibility instead shown across delta in {0.000,0.003,0.006,0.010,0.015}, all consistency=1.0000, all L3.",
+    "role": "Confirms rotational L3 structure EXISTS in the continuous limit -> the negative result is a discretization effect, not a missing-structure effect."
+  },
+  "arm_B_sampled_treatments_expand_to_10_seeds": [
+    {
+      "cell": "g2_sampled_delta0p000",
+      "family": "B5_tangential_drift (sampled twin of arm A)",
+      "source": "outputs/b5_tangential_drift_short_scout_summary.tsv",
+      "phase1_n": 3,
+      "phase1_mean_consistency": 0.5150,
+      "phase1_max_consistency": 0.5410,
+      "phase1_L3_seeds": 0,
+      "role": "KEYSTONE paired contrast: identical generator to arm A, only mean-field -> sampled differs."
+    },
+    {
+      "cell": "beta0p60_k0p08",
+      "family": "B4_state_dependent_k",
+      "source": "outputs/b4_state_k_short_scout_summary.tsv",
+      "phase1_n": 3,
+      "phase1_mean_consistency": 0.5306,
+      "phase1_max_consistency": 0.5488,
+      "phase1_L3_seeds": 0,
+      "role": "Closest sampled approach to the eta=0.55 bar anywhere in Phase 1 (best-hope structural patch)."
+    },
+    {
+      "cell": "t_lattice4_minibatch",
+      "family": "T_local_minibatch_random_init",
+      "source": "outputs/t_series_short_scout_summary.tsv",
+      "phase1_n": 3,
+      "phase1_mean_consistency": 0.5061,
+      "phase1_max_consistency": 0.5255,
+      "phase1_L3_seeds": 0,
+      "role": "The ONLY valid test of local replicator dynamics (random init breaks C2 degeneracy); forms phase domains (batch_phase_spread~1.55 rad) yet consistency stays at chance."
+    },
+    {
+      "cell": "g2_c1_small_world_b10p0_m0p5",
+      "family": "C1_local_pairwise_fermi",
+      "source": "outputs/c1_local_pairwise_short_scout_summary.tsv",
+      "phase1_n": 3,
+      "phase1_mean_consistency": 0.5109,
+      "phase1_max_consistency": 0.5219,
+      "phase1_L3_seeds": 0,
+      "role": "Over-homogenization branch (imitation -> consensus faster than well-mixed); highest-mean C1 cell."
+    }
+  ],
+  "excluded": {
+    "c2_uniform_init_all_cells": "Degenerate: uniform w_i(0) => x_local==x_global => g_local==g_global identically (cosine_vs_global=1.000, batch_phase_spread=0.000). Not a valid local-replicator test; reported only as a methodological cautionary note.",
+    "g1_mean_field_other_families": "Only the B5 g1_mean_field is used as positive control; verified deterministic (seed-identical) and L3 (consistency=1.0)."
+  },
+  "seeds": {
+    "existing": [45, 47, 49],
+    "new": [50, 51, 52, 53, 54, 55, 56],
+    "final_per_sampled_cell": 10,
+    "note": "Consecutive integers to avoid cherry-picking; same seed set used for each sampled cell and its paired control."
+  }
+}
