@@ -2,129 +2,163 @@
   "H1_primary_max_proximity": {
     "endpoint": "max_proximity",
     "control": {
-      "n": 25,
-      "mean": 0.7387779910501493,
-      "sd": 0.09453048073045728
+      "n": 26,
+      "mean": 0.7468251299475402,
+      "sd": 0.10454692212406122
     },
     "experiment": {
-      "n": 25,
-      "mean": 0.9418130804099535,
-      "sd": 0.0730791491594392
+      "n": 26,
+      "mean": 0.992247682809523,
+      "sd": 0.02175002656789059
     },
-    "welch_t": 8.496285695084001,
-    "p_one_sided": 3.2245815229214197e-11,
-    "p_two_sided": 6.449163045842839e-11,
-    "cohens_d": 2.4031124919568625,
+    "welch_t": 11.718964719797812,
+    "p_one_sided": 1.9664225603072378e-12,
+    "p_two_sided": 3.9328451206144756e-12,
+    "cohens_d": 3.250256014814192,
     "cohens_d_95ci": [
-      1.6756659539102854,
-      3.1305590300034396
+      2.422166850601992,
+      4.078345179026392
     ],
-    "achieved_power": 0.9999999999684749,
-    "n_per_group_for_80pct": 2.7182504476759926,
+    "achieved_power": 1.0,
+    "n_per_group_for_80pct": 1.485944295092271,
     "significant": true
   },
   "H1_survival_rounds": {
     "endpoint": "rounds_to_collapse",
     "direction": "control > experiment (experiment collapses sooner)",
     "control": {
-      "n": 25,
-      "mean": 168.64,
-      "sd": 46.06958504986415
+      "n": 26,
+      "mean": 163.5,
+      "sd": 44.37769710113403
     },
     "experiment": {
-      "n": 25,
-      "mean": 52.8,
-      "sd": 28.785123472608788
+      "n": 26,
+      "mean": 72.53846153846153,
+      "sd": 12.866175093572352
     },
-    "welch_t": -10.662147451609615,
-    "p_one_sided": 1.3569953224248287e-13,
-    "p_two_sided": 2.7139906448496574e-13,
-    "cohens_d": 3.0157107060176096,
+    "welch_t": -10.038153320320932,
+    "p_one_sided": 2.8370538863391072e-11,
+    "p_two_sided": 5.6741077726782145e-11,
+    "cohens_d": 2.784082808260478,
     "cohens_d_95ci": [
-      2.205338731568379,
-      3.82608268046684
+      2.0213102126807128,
+      3.546855403840243
     ],
-    "achieved_power": 1.0,
-    "n_per_group_for_80pct": 1.7260696436575889,
+    "achieved_power": 0.9999999999999997,
+    "n_per_group_for_80pct": 2.0252254352624304,
     "significant": true,
     "note": "right-censored (no-collapse) sessions contribute final round; log-rank test recommended at N\u226530/group"
   },
   "H1b_total_displacement": {
     "endpoint": "total_displacement",
     "control": {
-      "n": 25,
-      "mean": 0.11987414499629022,
-      "sd": 0.04814759734887025
+      "n": 26,
+      "mean": 0.12542958150742314,
+      "sd": 0.04269066428900547
     },
     "experiment": {
-      "n": 25,
-      "mean": 0.05603912916559493,
-      "sd": 0.00894428877605845
+      "n": 26,
+      "mean": 0.061629373176299566,
+      "sd": 0.00521360400169835
     },
-    "welch_t": -6.5175902139556525,
-    "p_one_sided": 0.9999996497635182,
-    "p_two_sided": 7.004729635763716e-07,
-    "cohens_d": -1.8434528949132492,
+    "welch_t": -7.564167165542248,
+    "p_one_sided": 0.9999999734806557,
+    "p_two_sided": 5.303868851604976e-08,
+    "cohens_d": -2.0979225055033597,
     "cohens_d_95ci": [
-      -2.505176255847825,
-      -1.181729533978673
+      -2.774741655221909,
+      -1.4211033557848105
     ],
-    "achieved_power": 0.9999974132500913,
-    "n_per_group_for_80pct": 4.619272478057439,
+    "achieved_power": 0.9999999895392412,
+    "n_per_group_for_80pct": 3.566635980718069,
     "significant": false
   },
   "H1_diagnostics": {
     "path_displacement": {
       "endpoint": "path_displacement",
       "control": {
-        "n": 25,
-        "mean": 0.4668481942131162,
-        "sd": 0.23418456117344005
+        "n": 26,
+        "mean": 0.47150693816273803,
+        "sd": 0.22088446020821786
       },
       "experiment": {
-        "n": 25,
-        "mean": 0.05759048772050979,
-        "sd": 0.01064169394062944
+        "n": 26,
+        "mean": 0.06898521987015539,
+        "sd": 0.02198629755044782
       },
-      "welch_t": -8.728923328072476,
-      "p_one_sided": 0.9999999968520986,
-      "p_two_sided": 6.2958027989045976e-09,
-      "cohens_d": -2.468912351094998,
+      "welch_t": -9.246342618150956,
+      "p_one_sided": 0.9999999993661567,
+      "p_two_sided": 1.267686727301883e-09,
+      "cohens_d": -2.564474032327017,
       "cohens_d_95ci": [
-        -3.204774981774741,
-        -1.7330497204152546
+        -3.298254983470985,
+        -1.8306930811830493
       ],
-      "achieved_power": 0.9999999999935144,
-      "n_per_group_for_80pct": 2.575291092151973,
+      "achieved_power": 0.9999999999998408,
+      "n_per_group_for_80pct": 2.386937561354693,
       "significant": false
     },
     "n_critical_crossings": {
       "endpoint": "n_critical_crossings",
       "control": {
-        "n": 25,
-        "mean": 0.12,
-        "sd": 0.33166247903553997
+        "n": 26,
+        "mean": 0.0,
+        "sd": 0.0
       },
       "experiment": {
-        "n": 25,
-        "mean": 0.4,
-        "sd": 0.5
+        "n": 26,
+        "mean": 0.0,
+        "sd": 0.0
       },
-      "welch_t": 2.3333333333333335,
-      "p_one_sided": 0.012264667442704593,
-      "p_two_sided": 0.024529334885409187,
-      "cohens_d": 0.6599663291074443,
+      "welch_t": null,
+      "p_one_sided": 1.0,
+      "p_two_sided": 1.0,
+      "cohens_d": null,
       "cohens_d_95ci": [
-        0.09070338263874766,
-        1.2292292755761411
+        null,
+        null
       ],
-      "achieved_power": 0.6455720175024304,
-      "n_per_group_for_80pct": 36.04077429037847,
-      "significant": true
+      "achieved_power": null,
+      "n_per_group_for_80pct": null,
+      "significant": false,
+      "note": "zero within-group variance; separation is exact, t/d undefined"
     }
   },
   "H2_survey": {
-    "error": "no survey data"
+    "composite": {
+      "control_mean": 16.428571428571427,
+      "experiment_mean": 8.418181818181818,
+      "ux_lift": -8.010389610389609,
+      "mann_whitney_u": 53.0,
+      "p_one_sided": 0.9992618855639674,
+      "significant": false
+    },
+    "items": {
+      "q1_naturalness": {
+        "control_mean": 5.857142857142857,
+        "experiment_mean": 1.4181818181818182,
+        "u": 45.0,
+        "p_raw": 0.9999556665967589,
+        "p_holm": 1.0,
+        "significant_holm": false
+      },
+      "q2_fun": {
+        "control_mean": 4.857142857142857,
+        "experiment_mean": 1.2727272727272727,
+        "u": 48.0,
+        "p_raw": 0.9999396983338912,
+        "p_holm": 1.0,
+        "significant_holm": false
+      },
+      "q3_replay": {
+        "control_mean": 5.714285714285714,
+        "experiment_mean": 5.7272727272727275,
+        "u": 215.5,
+        "p_raw": 0.29920529240983473,
+        "p_holm": 0.8976158772295042,
+        "significant_holm": false
+      }
+    }
   },
   "H3_correlation": {
     "error": "insufficient paired data"

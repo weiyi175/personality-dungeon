@@ -62,6 +62,11 @@ def _load_sessions(path: Path, human_only: bool = True) -> dict[str, list]:
     for _sid, s in data.get("sessions", {}).items():
         if human_only and not s.get("is_human", False):
             continue
+        # 排除人格迭代研究 session：run_id 非空者由 run_id→experiment 邏輯強制配臂，
+        # 會把迭代研究(naive P-碼 + 實驗者 dev/EXP_PREPILOT)灌進 P7-H 的 experiment 臂、
+        # 污染 confirmatory A/B 平衡。P7-H confirmatory session 不帶 run_id。
+        if s.get("run_id", ""):
+            continue
         if s.get("ended_at") is None:
             continue
         traj = s.get("trajectory", [])
