@@ -839,10 +839,38 @@
       "q2_comment": "",
       "q3_comment": "",
       "overall_comments": ""
+    },
+    "607d2bca-4dda-4f26-8bc8-84e94f065d4a": {
+      "session_id": "607d2bca-4dda-4f26-8bc8-84e94f065d4a",
+      "group": "experiment",
+      "submitted_at": 1781672519.680865,
+      "q1_naturalness": 0,
+      "q2_fun": 0,
+      "q3_replay": 6,
+      "q4_continuity": 3,
+      "manipulation_awareness": "",
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": ""
+    },
+    "6b477b61-9782-436a-b481-95d25a57a646": {
+      "session_id": "6b477b61-9782-436a-b481-95d25a57a646",
+      "group": "experiment",
+      "submitted_at": 1781756048.53017,
+      "q1_naturalness": 0,
+      "q2_fun": 0,
+      "q3_replay": 5,
+      "q4_continuity": 1,
+      "manipulation_awareness": "",
+      "q1_comment": "",
+      "q2_comment": "",
+      "q3_comment": "",
+      "overall_comments": ""
     }
   },
   "summary": {
-    "total_responses": 60,
+    "total_responses": 62,
     "control": {
       "n": 7,
       "q1_naturalness": {
@@ -860,22 +888,22 @@
       "composite_ux": 5.48
     },
     "experiment": {
-      "n": 53,
+      "n": 55,
       "q1_naturalness": {
-        "mean": 1.47,
-        "std": 2.57
+        "mean": 1.42,
+        "std": 2.54
       },
       "q2_fun": {
-        "mean": 1.32,
-        "std": 2.3
+        "mean": 1.27,
+        "std": 2.28
       },
       "q3_replay": {
-        "mean": 5.74,
-        "std": 1.05
+        "mean": 5.73,
+        "std": 1.03
       },
-      "composite_ux": 2.84
+      "composite_ux": 2.81
     },
-    "ux_lift": -2.64,
+    "ux_lift": -2.67,
     "questions": [
       {
         "id": "q3_replay",
