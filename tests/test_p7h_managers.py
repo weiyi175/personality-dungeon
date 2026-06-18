@@ -84,56 +84,22 @@ def test_ab_load_missing_file_returns_false(tmp_path):
     assert ABTestManager().load(tmp_path) is False
 
 
-def _pilot_tally(mgr):
-    from api.ab_test_manager import _pid_is_pilot_eligible
-    c = {"iterated": 0, "reset": 0}
-    for rid, a in mgr._iteration_runs.items():
-        if _pid_is_pilot_eligible(mgr._iteration_pid.get(rid, "dev")):
-            c[a] += 1
-    return c
+def test_assign_session_takes_no_run_id_and_balances():
+    """Post-decoupling (2026-06-18): assign_session is session_id-only, count-balanced.
 
-
-def test_iteration_arm_balance_counts_only_pilot_eligible():
-    """count-balance tally must count only naive (P\\d{2,}) runs, not dev/EXP_PREPILOT.
-
-    Guards the contamination fix: interleaved experimenter (dev) playtests and the
-    quarantined pre-pilot runs must NOT skew the naive cohort's arm assignment.
+    The former run_id special case (force "experiment" + iteration arm) is gone —
+    no caller may pass run_id/participant_id, and every session is balanced alike.
     """
+    import inspect
+    params = list(inspect.signature(ABTestManager.assign_session).parameters)
+    assert params == ["self", "session_id"]  # no run_id / participant_id
     mgr = ABTestManager()
-    # Simulate quarantined pre-pilot pool (skewed 2 iterated / 1 reset) with no pid
-    # recorded — exactly how the live EXP_PREPILOT runs load (default "dev" → ineligible).
-    mgr._iteration_runs = {"pp1": "iterated", "pp2": "iterated", "pp3": "reset"}
-    assert _pilot_tally(mgr) == {"iterated": 0, "reset": 0}  # pre-pilot excluded
-
-    # (a) a dev playtest receives an arm but never enters the pilot tally
-    mgr.assign_session("s_dev", "run_dev", "dev")
-    assert mgr._iteration_runs["run_dev"] in ("iterated", "reset")
-    assert _pilot_tally(mgr) == {"iterated": 0, "reset": 0}
-
-    # (b) P01 cold-start: empty pilot pool → arm assigned, sticky across its cycles
-    arm = mgr.assign_session("s_p01c0", "run_P01", "P01")["iteration_arm"]
-    assert arm in ("iterated", "reset")
-    assert mgr.assign_session("s_p01c1", "run_P01", "P01")["iteration_arm"] == arm  # sticky
-
-    # interleave more dev + naive; naive cohort self-balances regardless of dev noise
-    for pid, rid in [("P02", "run_P02"), ("dev", "run_dev2"), ("P03", "run_P03"),
-                     ("P04", "run_P04"), ("dev", "run_dev3"), ("P05", "run_P05"),
-                     ("P06", "run_P06")]:
-        mgr.assign_session("s_" + rid, rid, pid)
-    t = _pilot_tally(mgr)
-    assert t["iterated"] + t["reset"] == 6           # 6 naive runs counted, dev ignored
-    assert abs(t["iterated"] - t["reset"]) <= 1      # balanced among naive only
-
-
-def test_iteration_pid_save_load_roundtrip(tmp_path):
-    mgr = ABTestManager()
-    mgr.assign_session("s_p01", "run_P01", "P01")
-    mgr.assign_session("s_dev", "run_dev", "dev")
-    mgr.save(tmp_path)
-    restored = ABTestManager()
-    assert restored.load(tmp_path) is True
-    assert restored._iteration_pid == mgr._iteration_pid
-    assert restored._iteration_runs == mgr._iteration_runs
+    for i in range(20):
+        res = mgr.assign_session(f"s{i}")
+        assert res["group"] in ("control", "experiment")
+        assert "iteration_arm" not in res
+    counts = mgr._group_counts()
+    assert counts["control"] == counts["experiment"] == 10
 
 
 def test_ab_summary_reports_effect_size():

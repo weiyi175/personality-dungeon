@@ -1,3 +1,17 @@
+"""W2 testament episode protocol — SEALED / DEPRECATED (2026-06-18).
+
+This is the offline batch study of cross-life ("testament") personality carryover:
+each life mutates the next life's personality by ``testament_alpha`` (see
+``apply_testament`` / ``_next_personality_from_player``). It is a self-contained
+research artifact and was NEVER on the live game path.
+
+On 2026-06-18 the project abandoned cross-round personality evolution and fully
+decoupled consecutive lives (the live game's iterated/reset A/B and accumulator
+were removed). This module is kept FROZEN for provenance — alongside the
+continuity-v2 and L3-bottleneck sealed findings — not deleted. Its reports live in
+``outputs/w2_episode_*_decision.md``. Do not extend; do not wire into the game.
+"""
+
 from __future__ import annotations
 
 import argparse

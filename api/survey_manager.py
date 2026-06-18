@@ -21,33 +21,13 @@ import numpy as np
 
 
 QUESTIONS: list[dict] = [
-    # q1_naturalness / q2_fun 已移除（2026-06-13）：兩題為 P7-H 舊建構（特質漂移自然度 /
-    # 接近度邊界張力），與「人格迭代」研究無關，受試者普遍看不懂。資料模型欄位保留以相容
-    # 既有 20 筆回應 + legacy，僅從題庫移除不再呈現。
+    # 唯一呈現的題目（2026-06-18 精簡）：q4_continuity / manipulation_awareness 均與
+    # 已棄用的人格迭代研究綁定，隨迭代研究一起移除。資料模型欄位保留向後相容已存資料。
     {
         "id": "q3_replay",
         "text": "是否願意繼續遊玩？",
         "scale": "1 (絕對不會) — 10 (非常想繼續)",
         "type": "scale",
-    },
-    {
-        # q4 = exploratory FLOOR-CHECK（非 confirmatory，2026-06-13 重新定位）。
-        # 角色：manipulation-sufficiency。預期兩臂都落地板（floor），且此 null 為 INFORMATIVE
-        # ——它把「純敘事 priming 產生不了延續感」從 n=1 自述升級成 n≈20 可引用證據，作為建構
-        # 解耦式 continuity v2 的實證 mandate。pre-reg 須標此預期 null 為 informative，非 failed
-        # hypothesis。reset 組也問。題目文字保留。
-        "id": "q4_continuity",
-        "text": "這三段人生是否感覺像同一個逐步演化的角色？",
-        "scale": "1 (完全是不同角色) — 10 (明顯是同一個逐步演化的角色)",
-        "type": "scale",
-    },
-    {
-        # Manipulation-awareness debrief（開放題，放最後，避免污染前面評分）。
-        # 迭代研究有 narrative priming，特別需要這道保險：若多數人答中操弄，
-        # E1/q4 須打折解讀。funnel-style，不提示具體操弄內容。
-        "id": "manipulation_awareness",
-        "text": "你覺得這個研究在測什麼？過程中有沒有感覺到什麼是被刻意設計來影響你的？（沒有也可留空）",
-        "type": "text",
     },
 ]
 

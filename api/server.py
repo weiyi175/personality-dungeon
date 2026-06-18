@@ -1412,8 +1412,10 @@ async def event_choose(req: EventChooseRequest) -> dict[str, Any]:
 
 class ABAssignRequest(BaseModel):
     session_id: str
-    run_id: str = ""  # 非空 → 人格迭代研究模式：回傳 sticky iteration_arm + group 固定 experiment
-    # naive vs 實驗者判別子：配臂平衡計數只數 pilot-eligible（P\d{2,}）；dev/EXP_PREPILOT 仍配臂不計入。
+    # run_id / participant_id 仍可由前端送來（向後相容），但 assign 不再依它們分組——
+    # 人格迭代研究已於 2026-06-18 棄用、生命解耦，分組純走 session 的 count-balance。
+    # 連結用的 run_id/participant_id 走 /player-test/start 記錄。
+    run_id: str = ""
     participant_id: str = "dev"
 
 class ABRecordStepRequest(BaseModel):
@@ -1431,8 +1433,8 @@ async def ab_test_assign(req: ABAssignRequest) -> dict[str, Any]:
     Returns {"session_id", "group": "control"|"experiment", "existing": bool}.
     """
     mgr = _get_ab_manager()
-    result = mgr.assign_session(req.session_id, req.run_id, req.participant_id)
-    await _p7h_save(mgr)  # persist count-balance + iteration-arm state across restarts
+    result = mgr.assign_session(req.session_id)
+    await _p7h_save(mgr)  # persist count-balance across restarts
     return result
 
 
@@ -1481,10 +1483,9 @@ class PlayerTestStartRequest(BaseModel):
     will_intensity: float = -1.0
     will_cadence: int = -1
     is_human: bool = False  # True=真人 Godot 前端；False=程式 API 呼叫（wsim 等）
-    # 人格迭代研究：連結同一受試者的 3 週期 + 自描述組別
+    # 連結同一受試者的 3 週期（人格迭代 A/B 已於 2026-06-18 棄用——生命已解耦）
     run_id: str = ""
     cycle_index: int = -1
-    iteration_arm: str = ""
     # naive vs 實驗者權威判別子：naive 用分配代碼（P01…），實驗者試玩用 "dev"。預設 "dev"
     # 確保未帶此欄的舊客戶端/試玩不會被誤計為 naive pilot。
     participant_id: str = "dev"
@@ -1520,7 +1521,6 @@ async def player_test_start(req: PlayerTestStartRequest) -> dict[str, Any]:
         is_human=req.is_human,
         run_id=req.run_id,
         cycle_index=req.cycle_index,
-        iteration_arm=req.iteration_arm,
         participant_id=req.participant_id,
     )
 

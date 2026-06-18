@@ -296,13 +296,12 @@ def test_player_test_get_unknown_404(client):
 
 
 def test_survey_questions_returns_expected(client):
-    # q1_naturalness/q2_fun removed 2026-06-13 (P7-H legacy, irrelevant to iteration study).
-    # Now: q3_replay (UX) + q4_continuity (exploratory floor-check) + manipulation_awareness debrief.
+    # 2026-06-18: q4_continuity + manipulation_awareness removed with the iteration study.
+    # Only q3_replay ("想繼續玩？") remains.
     body = client.get("/survey/questions").json()
     ids = [q["id"] for q in body["questions"]]
-    assert ids == ["q3_replay", "q4_continuity", "manipulation_awareness"]
-    # debrief is an open-text question, not a 1-10 scale
-    assert body["questions"][-1].get("type") == "text"
+    assert ids == ["q3_replay"]
+    assert body["questions"][0].get("type") == "scale"
 
 
 def test_survey_submit_and_summary(client):
