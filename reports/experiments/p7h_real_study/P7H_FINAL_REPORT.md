@@ -135,6 +135,16 @@ P7-H 的 d 之所以可信，建立在收案前完成的裝置工程鏈（見裝
 
 ---
 
+## 7b. 補充：真人遺言 SIM 穩健性複製（非 confirmatory）
+
+被迭代研究 `run_id` 污染的 188 筆 session 內含 **148 個不重複真人遺言**（naive P04-P31 + 實驗者）。這些遺言文字是真資料，被救出做 **H1 的 sim 穩健性複製**：用每個遺言儲存的原始 SBERT 向量重跑 P7-H apparatus，**每個遺言 paired 跑兩臂**（control + experiment，同 RL seed），量 `max_proximity`。
+
+- **腳本**：[scripts/experiments/run_p7h_will_replay.py](../../../scripts/experiments/run_p7h_will_replay.py)——**只打無狀態端點** `/rl_sessions/{initialize,step,apply-event}`、**完全不碰 `/player-test/*`**，結果寫獨立檔 [p7h_will_replay_sim.json](p7h_will_replay_sim.json)。**confirmatory 主檔零變更**。
+- **結果（n=148 paired）**：control max_proximity 0.734 vs experiment 0.864；**paired Δ = +0.130 ± 0.108，paired t = 14.71、p = 1.1×10⁻³⁰、Cohen's dz = 1.21**；131/148（89%）遺言 exp>ctrl；崩壞 experiment 148/148 vs control 56/148。
+- **定位（誠實）**：`is_human=false` 的 **sim 複製**，**不可併入 confirmatory 26/26**（pre-reg 把 sim 排除於 H1）。它證明 H1 方向在真實玩家遺言文字分佈上穩健，且 recklessness→intensity/cadence 映射在生態上合理（謹慎遺言 R 低、衝動遺言 R 高，分離可見）。sim 的 max_proximity 比 live（exp 0.992）壓縮，因 N=4 player + COLLAPSE_PROXIMITY=0.8 較早封頂；**方向與分離一致**。
+
+---
+
 ## 8. 關鍵數字速查
 
 | 指標 | control | experiment | 統計 |
