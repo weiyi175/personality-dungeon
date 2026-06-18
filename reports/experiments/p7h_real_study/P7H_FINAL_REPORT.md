@@ -141,6 +141,8 @@ P7-H 的 d 之所以可信，建立在收案前完成的裝置工程鏈（見裝
 
 - **腳本**：[scripts/experiments/run_p7h_will_replay.py](../../../scripts/experiments/run_p7h_will_replay.py)——**只打無狀態端點** `/rl_sessions/{initialize,step,apply-event}`、**完全不碰 `/player-test/*`**，結果寫獨立檔 [p7h_will_replay_sim.json](p7h_will_replay_sim.json)。**confirmatory 主檔零變更**。
 - **結果（n=148 paired）**：control max_proximity 0.734 vs experiment 0.864；**paired Δ = +0.130 ± 0.108，paired t = 14.71、p = 1.1×10⁻³⁰、Cohen's dz = 1.21**；131/148（89%）遺言 exp>ctrl；崩壞 experiment 148/148 vs control 56/148。
+- **provenance（誠實分層）**：每筆 run 同時帶 `is_human=false`（**session 層＝sim replay，非真人玩**）與 `will_author_is_human=true` + `will_source="iteration_study"` + 原 `src_participant_id`（**遺言文字＝真人寫**）。兩者刻意分開：保留「真人遺言」的真價值，又杜絕把 sim run 誤當人類 session。
+- **為何仍不可併入 confirmatory 26/26**（綁定理由，與 is_human 標籤無關）：① 非在 P7-H pre-reg 協定下收集（遺言寫於 iteration 研究脈絡）；② 非獨立（148 遺言來自 ~27 作者，其中 dev+EXP_PREPILOT=110 為實驗者，naive 僅 P04-P31 ~48）；③ paired 重用（每遺言跑兩臂，無真人被分配）。
 - **定位（誠實）**：`is_human=false` 的 **sim 複製**，**不可併入 confirmatory 26/26**（pre-reg 把 sim 排除於 H1）。它證明 H1 方向在真實玩家遺言文字分佈上穩健，且 recklessness→intensity/cadence 映射在生態上合理（謹慎遺言 R 低、衝動遺言 R 高，分離可見）。sim 的 max_proximity 比 live（exp 0.992）壓縮，因 N=4 player + COLLAPSE_PROXIMITY=0.8 較早封頂；**方向與分離一致**。
 
 ---

@@ -11,7 +11,8 @@
     "paired_delta_mean": 0.13006,
     "paired_delta_sd": 0.10719,
     "experiment_collapse_rate": "148/148",
-    "control_collapse_rate": "56/148"
+    "control_collapse_rate": "56/148",
+    "provenance_note": "will_author_is_human=true (real human-authored wills, source=iteration_study) but is_human=false at session level (auto-replayed sim, not human-played). Cannot enter confirmatory 26/26: not collected under P7-H pre-reg, non-independent (148 wills from ~27 authors, dev+EXP_PREPILOT=110), paired re-use of each will."
   },
   "runs": [
     {
@@ -38,7 +39,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "學習判斷寶箱怪",
@@ -64,7 +67,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "學基本的劍術與購買適合的裝備",
@@ -90,7 +95,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "學基本的劍術與購買適合的裝備",
@@ -116,7 +123,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "嘗試帶著狗進地下城警戒周圍生物是否靠近",
@@ -142,7 +151,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "嘗試帶著狗進地下城警戒周圍生物是否靠近",
@@ -168,7 +179,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "去地下城找多個高品質礦石用來打造裝備",
@@ -194,7 +207,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "去地下城找多個高品質礦石用來打造裝備",
@@ -220,7 +235,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "打造鋒利的匕首",
@@ -246,7 +263,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "打造鋒利的匕首",
@@ -272,7 +291,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "戴上皮甲以及打造好的高品質匕首",
@@ -298,7 +319,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "戴上皮甲以及打造好的高品質匕首",
@@ -324,7 +347,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "嘗試和仙子成為友好關係並學習種植",
@@ -350,7 +375,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "嘗試和仙子成為友好關係並學習種植",
@@ -376,7 +403,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "種植高魔力植物並請求仙子族幫忙催熟",
@@ -402,7 +431,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "種植高魔力植物並請求仙子族幫忙催熟",
@@ -428,7 +459,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "綁架仙子族過上種田人生",
@@ -454,7 +487,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "綁架仙子族過上種田人生",
@@ -480,7 +515,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "邀請哈比人跟仙子族聯合打造穩定的植物產出",
@@ -506,7 +543,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "邀請哈比人跟仙子族聯合打造穩定的植物產出",
@@ -532,7 +571,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "複習以前的錯誤並嘗試改善",
@@ -558,7 +599,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "複習以前的錯誤並嘗試改善",
@@ -584,7 +627,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "把壞掉的裝備花重金修復並組隊去探索地下城",
@@ -610,7 +655,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "把壞掉的裝備花重金修復並組隊去探索地下城",
@@ -636,7 +683,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "提高基本身體能力",
@@ -662,7 +711,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "提高基本身體能力",
@@ -688,7 +739,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "找火球法師去專門殺樹妖",
@@ -714,7 +767,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "找火球法師去專門殺樹妖",
@@ -740,7 +795,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶水系法師打火焰蜥蜴",
@@ -766,7 +823,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶水系法師打火焰蜥蜴",
@@ -792,7 +851,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶著五名同伴一起探索",
@@ -818,7 +879,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶著五名同伴一起探索",
@@ -844,7 +907,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "當射手並找拿盾牌的坦克擋傷害",
@@ -870,7 +935,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "當射手並找拿盾牌的坦克擋傷害",
@@ -896,7 +963,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶盾牌抵擋傷害",
@@ -922,7 +991,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶盾牌抵擋傷害",
@@ -948,7 +1019,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "保證自己每次探索不超過5小時",
@@ -974,7 +1047,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "保證自己每次探索不超過5小時",
@@ -1000,7 +1075,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "苟且偷生",
@@ -1026,7 +1103,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "苟且偷生",
@@ -1052,7 +1131,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "遇到怪物盡量迴避和逃跑減少受傷的機會",
@@ -1078,7 +1159,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "遇到怪物盡量迴避和逃跑減少受傷的機會",
@@ -1104,7 +1187,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "每次戰鬥後修整後再次出發",
@@ -1130,7 +1215,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "每次戰鬥後修整後再次出發",
@@ -1156,7 +1243,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "放棄開啟寶箱避免遇到寶箱怪",
@@ -1182,7 +1271,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "放棄開啟寶箱避免遇到寶箱怪",
@@ -1208,7 +1299,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "嘗試跟盜賊組隊探索地下城並且學習當盜賊",
@@ -1234,7 +1327,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "嘗試跟盜賊組隊探索地下城並且學習當盜賊",
@@ -1260,7 +1355,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶著大鐵鎚嘗試破壞牆壁抄捷徑",
@@ -1286,7 +1383,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶著大鐵鎚嘗試破壞牆壁抄捷徑",
@@ -1312,7 +1411,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "嘗試繪製地下城地圖並且賣給哥布林商人",
@@ -1338,7 +1439,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "嘗試繪製地下城地圖並且賣給哥布林商人",
@@ -1364,7 +1467,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "放棄探索地下城",
@@ -1390,7 +1495,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "放棄探索地下城",
@@ -1416,7 +1523,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶上火把照明並且帶上許多燃油瓶去攻擊樹妖",
@@ -1442,7 +1551,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶上火把照明並且帶上許多燃油瓶去攻擊樹妖",
@@ -1468,7 +1579,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "深入了解人體結構並且拿來獵殺哥布林",
@@ -1494,7 +1607,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "深入了解人體結構並且拿來獵殺哥布林",
@@ -1520,7 +1635,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶上短劍以及匕首獵殺哥布林",
@@ -1546,7 +1663,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶上短劍以及匕首獵殺哥布林",
@@ -1572,7 +1691,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶著腐蝕性毒藥攻擊怪物",
@@ -1598,7 +1719,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶著腐蝕性毒藥攻擊怪物",
@@ -1624,7 +1747,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "尋找導師教導匕首和短劍的使用",
@@ -1650,7 +1775,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "尋找導師教導匕首和短劍的使用",
@@ -1676,7 +1803,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "號召大量冒險者獵殺龍族",
@@ -1702,7 +1831,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "號召大量冒險者獵殺龍族",
@@ -1728,7 +1859,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "快速探索地下城並規劃合理路線",
@@ -1754,7 +1887,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "快速探索地下城並規劃合理路線",
@@ -1780,7 +1915,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "購買高品質的裝備來提高生存能力",
@@ -1806,7 +1943,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "購買高品質的裝備來提高生存能力",
@@ -1832,7 +1971,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "結伴而行",
@@ -1858,7 +1999,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "結伴而行",
@@ -1884,7 +2027,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "掠奪商人金幣和裝備道具",
@@ -1910,7 +2055,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "掠奪商人金幣和裝備道具",
@@ -1936,7 +2083,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "和商人友好交流嘗試壓低售價",
@@ -1962,7 +2111,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "和商人友好交流嘗試壓低售價",
@@ -1988,7 +2139,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "跟擅長弓箭的精靈一起去地下城",
@@ -2014,7 +2167,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "跟擅長弓箭的精靈一起去地下城",
@@ -2040,7 +2195,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "找工匠幫忙打造強力的手弩以及皮甲",
@@ -2066,7 +2223,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "找工匠幫忙打造強力的手弩以及皮甲",
@@ -2092,7 +2251,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "跟矮人工匠一起下地下城尋找高品質礦石",
@@ -2118,7 +2279,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "跟矮人工匠一起下地下城尋找高品質礦石",
@@ -2144,7 +2307,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "找經驗豐富的嚮導探索",
@@ -2170,7 +2335,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "找經驗豐富的嚮導探索",
@@ -2196,7 +2363,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "搶奪精靈的弓箭",
@@ -2222,7 +2391,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "搶奪精靈的弓箭",
@@ -2248,7 +2419,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "讓鐵匠幫我做盔甲和盾牌再找精靈當輸出探索",
@@ -2274,7 +2447,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "讓鐵匠幫我做盔甲和盾牌再找精靈當輸出探索",
@@ -2300,7 +2475,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "專挑弱的小怪打",
@@ -2326,7 +2503,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "專挑弱的小怪打",
@@ -2352,7 +2531,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "挑戰哥布林之王",
@@ -2378,7 +2559,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "挑戰哥布林之王",
@@ -2404,7 +2587,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "尋找隱密房間中的隱藏寶箱",
@@ -2430,7 +2615,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "尋找隱密房間中的隱藏寶箱",
@@ -2456,7 +2643,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "找三個精靈射手一起探索",
@@ -2482,7 +2671,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "找三個精靈射手一起探索",
@@ -2508,7 +2699,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "我當坦克並找一個牧師幫忙回血",
@@ -2534,7 +2727,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "我當坦克並找一個牧師幫忙回血",
@@ -2560,7 +2755,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "花所有的錢買足夠的回覆藥水以及高品質的劍",
@@ -2586,7 +2783,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "花所有的錢買足夠的回覆藥水以及高品質的劍",
@@ -2612,7 +2811,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "我想當個有錢人",
@@ -2638,7 +2839,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "我想當個有錢人",
@@ -2664,7 +2867,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "買一把很好的大劍以及盔甲",
@@ -2690,7 +2895,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "買一把很好的大劍以及盔甲",
@@ -2716,7 +2923,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "我要當個睿智的人",
@@ -2742,7 +2951,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "我要當個睿智的人",
@@ -2768,7 +2979,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "破釜沉舟",
@@ -2794,7 +3007,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "破釜沉舟",
@@ -2820,7 +3035,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "破繭成蝶",
@@ -2846,7 +3063,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "破繭成蝶",
@@ -2872,7 +3091,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "跟有經驗的隊伍一起探險",
@@ -2898,7 +3119,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "跟有經驗的隊伍一起探險",
@@ -2924,7 +3147,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "我要健康的活下去",
@@ -2950,7 +3175,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "我要健康的活下去",
@@ -2976,7 +3203,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "買最好的裝備屠殺低等小怪賺金幣",
@@ -3002,7 +3231,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "買最好的裝備屠殺低等小怪賺金幣",
@@ -3028,7 +3259,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "跟精靈族學習射箭",
@@ -3054,7 +3287,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "跟精靈族學習射箭",
@@ -3080,7 +3315,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "像矮人學習鍛造",
@@ -3106,7 +3343,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "像矮人學習鍛造",
@@ -3132,7 +3371,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "我想留下美好的回憶給所有人",
@@ -3158,7 +3399,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "我想留下美好的回憶給所有人",
@@ -3184,7 +3427,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "衝吧讓生命盡情燃燒",
@@ -3210,7 +3455,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "衝吧讓生命盡情燃燒",
@@ -3236,7 +3483,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "謹慎走好每一步不要犯錯",
@@ -3262,7 +3511,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "謹慎走好每一步不要犯錯",
@@ -3288,7 +3539,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "探索每個未知的角落",
@@ -3314,7 +3567,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "探索每個未知的角落",
@@ -3340,7 +3595,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "保持平靜接受一切結果",
@@ -3366,7 +3623,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "保持平靜接受一切結果",
@@ -3392,7 +3651,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "我會永遠保護我愛的人",
@@ -3418,7 +3679,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "我會永遠保護我愛的人",
@@ -3444,7 +3707,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "隨心所欲才是人生的意義",
@@ -3470,7 +3735,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "隨心所欲才是人生的意義",
@@ -3496,7 +3763,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "相信未來一切都會更好",
@@ -3522,7 +3791,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "相信未來一切都會更好",
@@ -3548,7 +3819,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "懷疑一切只相信自己",
@@ -3574,7 +3847,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "懷疑一切只相信自己",
@@ -3600,7 +3875,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "耐心等待才能得到最好的",
@@ -3626,7 +3903,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "耐心等待才能得到最好的",
@@ -3652,7 +3931,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "勇敢面對所有的挑戰",
@@ -3678,7 +3959,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "勇敢面對所有的挑戰",
@@ -3704,7 +3987,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "愛是唯一值得追求的事",
@@ -3730,7 +4015,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "愛是唯一值得追求的事",
@@ -3756,7 +4043,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "不要回頭只管往前走",
@@ -3782,7 +4071,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "不要回頭只管往前走",
@@ -3808,7 +4099,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "深思熟慮再做每個決定",
@@ -3834,7 +4127,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "深思熟慮再做每個決定",
@@ -3860,7 +4155,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "笑著離開這個世界",
@@ -3886,7 +4183,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "笑著離開這個世界",
@@ -3912,7 +4211,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "想要創造讓各種族有一片安心交流的地方",
@@ -3938,7 +4239,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "想要創造讓各種族有一片安心交流的地方",
@@ -3964,7 +4267,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "結交精靈族和矮人族",
@@ -3990,7 +4295,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "結交精靈族和矮人族",
@@ -4016,7 +4323,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "結交仙子和哈比人一起研究農田開發",
@@ -4042,7 +4351,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "結交仙子和哈比人一起研究農田開發",
@@ -4068,7 +4379,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "我的遺憾是沒有更瘋狂",
@@ -4094,7 +4407,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "我的遺憾是沒有更瘋狂",
@@ -4120,7 +4435,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "願世界充滿好奇與探索",
@@ -4146,7 +4463,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "願世界充滿好奇與探索",
@@ -4172,7 +4491,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "穩定才是最大的幸福",
@@ -4198,7 +4519,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "穩定才是最大的幸福",
@@ -4224,7 +4547,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "讓隨機決定我的命運",
@@ -4250,7 +4575,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "讓隨機決定我的命運",
@@ -4276,7 +4603,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶著傷疤繼續前行",
@@ -4302,7 +4631,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶著傷疤繼續前行",
@@ -4328,7 +4659,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "貼著右邊的牆壁走",
@@ -4354,7 +4687,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "貼著右邊的牆壁走",
@@ -4380,7 +4715,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "找聖光牧師克制黑暗生物",
@@ -4406,7 +4743,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "找聖光牧師克制黑暗生物",
@@ -4432,7 +4771,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "漫無目的探索地下城",
@@ -4458,7 +4799,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "漫無目的探索地下城",
@@ -4484,7 +4827,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶上弓箭",
@@ -4510,7 +4855,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶上弓箭",
@@ -4536,7 +4883,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "穿上盔甲以及帶上寶劍",
@@ -4562,7 +4911,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "穿上盔甲以及帶上寶劍",
@@ -4588,7 +4939,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "穿全套皮甲加上弓箭更好的保護自己增加靈活",
@@ -4614,7 +4967,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "穿全套皮甲加上弓箭更好的保護自己增加靈活",
@@ -4640,7 +4995,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "跟精靈購買更高品質的弓箭和殺傷力強的箭矢",
@@ -4666,7 +5023,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "跟精靈購買更高品質的弓箭和殺傷力強的箭矢",
@@ -4692,7 +5051,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "強迫工匠幫我偷竊強力的劍",
@@ -4718,7 +5079,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "強迫工匠幫我偷竊強力的劍",
@@ -4744,7 +5107,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "向盜賊學習偷竊和腳步輕盈技能",
@@ -4770,7 +5135,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "向盜賊學習偷竊和腳步輕盈技能",
@@ -4796,7 +5163,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "打抱不平",
@@ -4822,7 +5191,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "打抱不平",
@@ -4848,7 +5219,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "戴上幸運小豬吊飾",
@@ -4874,7 +5247,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "戴上幸運小豬吊飾",
@@ -4900,7 +5275,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "探索中尋找其他冒險者的遺落物",
@@ -4926,7 +5303,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "探索中尋找其他冒險者的遺落物",
@@ -4952,7 +5331,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "躲在隊伍後面放冷箭",
@@ -4978,7 +5359,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "躲在隊伍後面放冷箭",
@@ -5004,7 +5387,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "情況不對隨時落跑",
@@ -5030,7 +5415,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "情況不對隨時落跑",
@@ -5056,7 +5443,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "嘗試幫箭矢上毒藥提高殺怪效率",
@@ -5082,7 +5471,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "嘗試幫箭矢上毒藥提高殺怪效率",
@@ -5108,7 +5499,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "依靠訓練提高奔跑速度",
@@ -5134,7 +5527,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "依靠訓練提高奔跑速度",
@@ -5160,7 +5555,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "和家人珍重再見再前往地下城",
@@ -5186,7 +5583,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "和家人珍重再見再前往地下城",
@@ -5212,7 +5611,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶上足夠的高品質糧食",
@@ -5238,7 +5639,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶上足夠的高品質糧食",
@@ -5264,7 +5667,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "當個商人帶高品質糧食進地下城和冒險者交易",
@@ -5290,7 +5695,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "當個商人帶高品質糧食進地下城和冒險者交易",
@@ -5316,7 +5723,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶著大量回復藥水探索地下城並少量出售",
@@ -5342,7 +5751,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶著大量回復藥水探索地下城並少量出售",
@@ -5368,7 +5779,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶著招募來的新夥伴探索地下城磨合默契",
@@ -5394,7 +5807,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶著招募來的新夥伴探索地下城磨合默契",
@@ -5420,7 +5835,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "瘋狂殺戮",
@@ -5446,7 +5863,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "瘋狂殺戮",
@@ -5472,7 +5891,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "今天換一條沒走過的路線嘗試",
@@ -5498,7 +5919,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "今天換一條沒走過的路線嘗試",
@@ -5524,7 +5947,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "嘗試跟著人群走安全的路線",
@@ -5550,7 +5975,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "嘗試跟著人群走安全的路線",
@@ -5576,7 +6003,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶著簡易醫療包尤其是繃帶治療小傷口和止血",
@@ -5602,7 +6031,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶著簡易醫療包尤其是繃帶治療小傷口和止血",
@@ -5628,7 +6059,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "提高好奇心要小心陷阱就好",
@@ -5654,7 +6087,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "提高好奇心要小心陷阱就好",
@@ -5680,7 +6115,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "嘗試淺淺的多走幾條線不要往深處探索",
@@ -5706,7 +6143,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "嘗試淺淺的多走幾條線不要往深處探索",
@@ -5732,7 +6171,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "跟隨大隊伍去探索沒去過的路線",
@@ -5758,7 +6199,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "跟隨大隊伍去探索沒去過的路線",
@@ -5784,7 +6227,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶著隊友闖地下城",
@@ -5810,7 +6255,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶著隊友闖地下城",
@@ -5836,7 +6283,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "注意隊伍的平衡搭配",
@@ -5862,7 +6311,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "注意隊伍的平衡搭配",
@@ -5888,7 +6339,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "買高品質的法杖和強力的高磅數的弓",
@@ -5914,7 +6367,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "買高品質的法杖和強力的高磅數的弓",
@@ -5940,7 +6395,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "學習各種族的特長找找自己的天賦",
@@ -5966,7 +6423,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "學習各種族的特長找找自己的天賦",
@@ -5992,7 +6451,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶著新手一起闖蕩地下城介紹怪物並避開陷阱",
@@ -6018,7 +6479,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶著新手一起闖蕩地下城介紹怪物並避開陷阱",
@@ -6044,7 +6507,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "鍛鍊新人並且教他們辨識陷阱的技巧",
@@ -6070,7 +6535,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "鍛鍊新人並且教他們辨識陷阱的技巧",
@@ -6096,7 +6563,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶上大刀和匕首去勇闖地下城",
@@ -6122,7 +6591,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶上大刀和匕首去勇闖地下城",
@@ -6148,7 +6619,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "去攻打Boss帶戰士和精靈弓箭手",
@@ -6174,7 +6647,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "去攻打Boss帶戰士和精靈弓箭手",
@@ -6200,7 +6675,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "打強力怪物",
@@ -6226,7 +6703,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "打強力怪物",
@@ -6252,7 +6731,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "破壞和精靈的友好關係",
@@ -6278,7 +6759,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "破壞和精靈的友好關係",
@@ -6304,7 +6787,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "破壞矮人的信賴關係搶奪高品質裝備",
@@ -6330,7 +6815,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "破壞矮人的信賴關係搶奪高品質裝備",
@@ -6356,7 +6843,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "把仙子抓來奴隸幫我種田提高作物生長速度",
@@ -6382,7 +6871,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "把仙子抓來奴隸幫我種田提高作物生長速度",
@@ -6408,7 +6899,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "攻打其他冒險者的團隊搶奪資源",
@@ -6434,7 +6927,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "攻打其他冒險者的團隊搶奪資源",
@@ -6460,7 +6955,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "設置擂台邀請所有冒險者切磋",
@@ -6486,7 +6983,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "設置擂台邀請所有冒險者切磋",
@@ -6512,7 +7011,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶著手榴彈遠程攻擊哥布林群體",
@@ -6538,7 +7039,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶著手榴彈遠程攻擊哥布林群體",
@@ -6564,7 +7067,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "與商人交流用談判技巧壓低售價",
@@ -6590,7 +7095,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "與商人交流用談判技巧壓低售價",
@@ -6616,7 +7123,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "跟擅長弓箭的精靈一起去地下城遠程幫忙攻擊",
@@ -6642,7 +7151,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "跟擅長弓箭的精靈一起去地下城遠程幫忙攻擊",
@@ -6668,7 +7179,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "召集高手組隊攻略高難度的地下城",
@@ -6694,7 +7207,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "召集高手組隊攻略高難度的地下城",
@@ -6720,7 +7235,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "突破重重困難達到新的樓層",
@@ -6746,7 +7263,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "突破重重困難達到新的樓層",
@@ -6772,7 +7291,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "嘗試攻略最難的地下城",
@@ -6798,7 +7319,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "嘗試攻略最難的地下城",
@@ -6824,7 +7347,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "和精靈族一起攻打醜陋的地精",
@@ -6850,7 +7375,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "和精靈族一起攻打醜陋的地精",
@@ -6876,7 +7403,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "搶奪商人的財寶",
@@ -6902,7 +7431,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "搶奪商人的財寶",
@@ -6928,7 +7459,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "躺在家裡睡一整天",
@@ -6954,7 +7487,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "躺在家裡睡一整天",
@@ -6980,7 +7515,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "毆打精靈",
@@ -7006,7 +7543,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "毆打精靈",
@@ -7032,7 +7571,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶著精靈弓箭手屠殺哥布林",
@@ -7058,7 +7599,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶著精靈弓箭手屠殺哥布林",
@@ -7084,7 +7627,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "屠殺地下城怪物",
@@ -7110,7 +7655,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "屠殺地下城怪物",
@@ -7136,7 +7683,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "搶奪其他冒險者裝備和金錢",
@@ -7162,7 +7711,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "搶奪其他冒險者裝備和金錢",
@@ -7188,7 +7739,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "攻擊冒險者並且奪資源",
@@ -7214,7 +7767,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "攻擊冒險者並且奪資源",
@@ -7240,7 +7795,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "重新開始新人生",
@@ -7266,7 +7823,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "重新開始新人生",
@@ -7292,7 +7851,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "想當狂戰士",
@@ -7318,7 +7879,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "想當狂戰士",
@@ -7344,7 +7907,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "受重傷後自殺減緩痛苦過程",
@@ -7370,7 +7935,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "受重傷後自殺減緩痛苦過程",
@@ -7396,7 +7963,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "謹慎地面對每一次戰鬥",
@@ -7422,7 +7991,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "謹慎地面對每一次戰鬥",
@@ -7448,7 +8019,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "左手拿盾右手拿劍再找牧師和弓箭手輔助",
@@ -7474,7 +8047,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "左手拿盾右手拿劍再找牧師和弓箭手輔助",
@@ -7500,7 +8075,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "嘗試了解常見怪物的弱點",
@@ -7526,7 +8103,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "嘗試了解常見怪物的弱點",
@@ -7552,7 +8131,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "狂戰士大殺四方",
@@ -7578,7 +8159,9 @@
       "collapsed": false,
       "collapse_reason": "max_rounds",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "狂戰士大殺四方",
@@ -7604,7 +8187,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "跟商人交流",
@@ -7630,7 +8215,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "跟商人交流",
@@ -7656,7 +8243,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶著回復藥水提高生存機率",
@@ -7682,7 +8271,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     },
     {
       "will_text": "帶著回復藥水提高生存機率",
@@ -7708,7 +8299,9 @@
       "collapsed": true,
       "collapse_reason": "proximity+passive_failure",
       "survey": null,
-      "is_human": false
+      "is_human": false,
+      "will_author_is_human": true,
+      "will_source": "iteration_study"
     }
   ]
 }

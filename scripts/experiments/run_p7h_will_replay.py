@@ -190,7 +190,12 @@ def main() -> int:
     t0 = time.time()
     for i, w in enumerate(wills):
         seed = i * 7 + 42                              # paired：同遺言兩臂同 seed
-        rec = {"will_text": w["will_text"], "src_participant_id": w["src_participant_id"],
+        # provenance：遺言是真人寫的（will_author_is_human），但 session 是 sim replay
+        # （is_human=False，見 simulate_arm）。兩者刻意分開，杜絕把 sim run 誤當人類 session。
+        rec = {"will_text": w["will_text"],
+               "will_author_is_human": True,
+               "will_source": "iteration_study",
+               "src_participant_id": w["src_participant_id"],
                "will_sbert_vector": w["will_sbert_vector"]}
         for group in ("control", "experiment"):
             res = simulate_arm(w["will_sbert_vector"], group, seed)
