@@ -179,4 +179,10 @@ passed = (consistency >= float(eta)) and (turn_strength >= float(min_turn_streng
 
 ## 10. 偏離記錄（Deviations）
 
-> confirmatory 執行/分析過程中任何與本文件不符之處，於此逐條記錄（事件、原因、影響）。預設為空。
+> confirmatory 執行/分析過程中任何與本文件不符之處，於此逐條記錄（事件、原因、影響）。完整結果見 [reports/experiments/l3_bottleneck/phase2_confirmatory_report.md](../../../reports/experiments/l3_bottleneck/phase2_confirmatory_report.md)。
+
+- **D1（C1 窗標準化）**：`c1_pairwise_scout` 原生窗為 5000/1500/1500，≠ §5 鎖定的 3000/1000/1000。主分析以鎖定窗執行（守單一協定承諾），另補原生窗作 robustness。影響：無損結論——鎖定窗 1/10（容忍內 blip），原生窗 0/10 且更乾淨。
+- **D2（B4 強制 0.0 control）**：`b4_state_k` 要求 `--beta-state-ks` 含 0.0 配對 control，故 confirmatory 跑 {0.0, 0.6}×k0.08。影響：無；beta0.0 control 亦 0/10。
+- **D3（C2-uniform 排除）**：依 §3.2 鎖定，C2-uniform 數學退化（x_local≡x_global）未納入 confirmatory，僅作方法學警示。
+- **D4（H1-chance 措辭修正）**：實測 sampled cell 之 consistency 為 ~0.51 的弱偏置帶（B5/B4/T 之 95% CI 未完全涵蓋 0.50，d≈0.74–1.27），非「精確等於 0.50」。修正陳述為「consistency 卡在遠離旋轉門檻的弱偏置帶」。影響：強化誠信；L3 不可達主結論不變（eta∈{.55–.70} 全閾值 0–1/10）。
+- **過程備註**：首次 B5 啟動誤用 `nohup &` 疊加背景化致 harness 完成通知失真（python 實際正常完成），已改用乾淨背景啟動；不影響資料。

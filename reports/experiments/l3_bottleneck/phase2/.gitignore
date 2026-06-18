@@ -1,0 +1,5 @@
+# Raw per-seed trajectories are bulky (~6GB) — keep only summary/analysis artifacts in git.
+*_scout/
+*.csv
+*.png
+*.log

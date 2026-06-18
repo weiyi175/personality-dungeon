@@ -1,0 +1,197 @@
+{
+  "mu0": 0.5,
+  "etas": [
+    0.55,
+    0.6,
+    0.65,
+    0.7
+  ],
+  "cells": [
+    {
+      "label": "B5_keystone_sampled",
+      "condition": "g2_sampled_delta0p000",
+      "role": "Arm B keystone (sampled twin of mean-field control)",
+      "source": "b5_summary.tsv",
+      "n": 10,
+      "L3_seed_count": 0,
+      "tolerance_rule": "<=1 blip / >=2 refutes",
+      "verdict": "negative_holds",
+      "levels_observed": [
+        2
+      ],
+      "consistency": {
+        "min": 0.501574,
+        "max": 0.533898,
+        "n": 10,
+        "mean": 0.5144873999999999,
+        "sd_sample": 0.011436691520423781,
+        "se": 0.0036165994101273256,
+        "t_vs_0.50": 4.005807211999154,
+        "ci95": [
+          0.5063066521342919,
+          0.5226681478657079
+        ],
+        "cohens_d_vs_0.50": 1.2667474657446303,
+        "ci_covers_0.50": false
+      },
+      "L3_rate_by_eta": {
+        "eta_0.55": 0,
+        "eta_0.6": 0,
+        "eta_0.65": 0,
+        "eta_0.7": 0
+      }
+    },
+    {
+      "label": "B4_state_k",
+      "condition": "beta0p60_k0p08",
+      "role": "Arm B (closest Phase-1 approach to bar)",
+      "source": "b4_summary.tsv",
+      "n": 10,
+      "L3_seed_count": 0,
+      "tolerance_rule": "<=1 blip / >=2 refutes",
+      "verdict": "negative_holds",
+      "levels_observed": [
+        2
+      ],
+      "consistency": {
+        "min": 0.480084,
+        "max": 0.533679,
+        "n": 10,
+        "mean": 0.5108888,
+        "sd_sample": 0.01471462847192094,
+        "se": 0.004653174089443316,
+        "t_vs_0.50": 2.3400800809717217,
+        "ci95": [
+          0.5003633202096792,
+          0.5214142797903208
+        ],
+        "cohens_d_vs_0.50": 0.7399982963061886,
+        "ci_covers_0.50": false
+      },
+      "L3_rate_by_eta": {
+        "eta_0.55": 0,
+        "eta_0.6": 0,
+        "eta_0.65": 0,
+        "eta_0.7": 0
+      }
+    },
+    {
+      "label": "T_local_minibatch",
+      "condition": "t_lattice4_minibatch",
+      "role": "Arm B (only valid local-replicator test)",
+      "source": "t_summary.tsv",
+      "n": 10,
+      "L3_seed_count": 0,
+      "tolerance_rule": "<=1 blip / >=2 refutes",
+      "verdict": "negative_holds",
+      "levels_observed": [
+        2
+      ],
+      "consistency": {
+        "min": 0.494929,
+        "max": 0.534149,
+        "n": 10,
+        "mean": 0.5148286,
+        "sd_sample": 0.011698837114099078,
+        "se": 0.0036994971255864223,
+        "t_vs_0.50": 4.008274502348594,
+        "ci95": [
+          0.5064603375019234,
+          0.5231968624980765
+        ],
+        "cohens_d_vs_0.50": 1.2675276914599485,
+        "ci_covers_0.50": false
+      },
+      "L3_rate_by_eta": {
+        "eta_0.55": 0,
+        "eta_0.6": 0,
+        "eta_0.65": 0,
+        "eta_0.7": 0
+      }
+    },
+    {
+      "label": "C1_pairwise_std",
+      "condition": "g2_c1_small_world_b10p0_m0p5",
+      "role": "Arm B (locked 3000/1000/1000 window)",
+      "source": "c1_summary.tsv",
+      "n": 10,
+      "L3_seed_count": 1,
+      "tolerance_rule": "<=1 blip / >=2 refutes",
+      "verdict": "negative_holds",
+      "levels_observed": [
+        1,
+        2,
+        3
+      ],
+      "consistency": {
+        "min": 0.0,
+        "max": 0.550959,
+        "n": 10,
+        "mean": 0.4722415,
+        "sd_sample": 0.16673971005615643,
+        "se": 0.05272772601735363,
+        "t_vs_0.50": -0.5264497845187598,
+        "ci95": [
+          0.3529713837487461,
+          0.5915116162512539
+        ],
+        "cohens_d_vs_0.50": -0.1664780392784131,
+        "ci_covers_0.50": true
+      },
+      "L3_rate_by_eta": {
+        "eta_0.55": 1,
+        "eta_0.6": 0,
+        "eta_0.65": 0,
+        "eta_0.7": 0
+      }
+    },
+    {
+      "label": "C1_pairwise_native",
+      "condition": "g2_c1_small_world_b10p0_m0p5",
+      "role": "C1 supplementary, native 5000/1500/1500 window",
+      "source": "c1_native_summary.tsv",
+      "n": 10,
+      "L3_seed_count": 0,
+      "tolerance_rule": "<=1 blip / >=2 refutes",
+      "verdict": "negative_holds",
+      "levels_observed": [
+        1,
+        2
+      ],
+      "consistency": {
+        "min": 0.0,
+        "max": 0.521856,
+        "n": 10,
+        "mean": 0.3067864,
+        "sd_sample": 0.26408519610122455,
+        "se": 0.0835110716012088,
+        "t_vs_0.50": -2.313628556015359,
+        "ci95": [
+          0.11788435603806571,
+          0.49568844396193434
+        ],
+        "cohens_d_vs_0.50": -0.7316335896614996,
+        "ci_covers_0.50": false
+      },
+      "L3_rate_by_eta": {
+        "eta_0.55": 0,
+        "eta_0.6": 0,
+        "eta_0.65": 0,
+        "eta_0.7": 0
+      }
+    }
+  ],
+  "positive_control": {
+    "label": "B5_meanfield_control",
+    "condition": "g1_mean_field_delta0p000",
+    "n": 10,
+    "all_L3": true,
+    "all_consistency_1.0": true,
+    "consistency_min": 1.0,
+    "consistency_max": 1.0,
+    "levels": [
+      3
+    ],
+    "verdict": "positive_control_holds"
+  }
+}
