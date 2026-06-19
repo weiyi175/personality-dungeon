@@ -33,29 +33,31 @@ def test_soft_proportions_sum_to_one():
     assert all(p >= 0 for p in soft)
 
 
-def test_cyclic_dominance_is_nontransitive():
-    """路 B 核心：當某原型壟斷時，favored 的是它的『剋星』，且三者循環。
+def test_negative_frequency_dependence():
+    """Path B（RPS）退役 2026-06-19：fitness = 1/N − q_i ＝負頻率依賴。
 
-    agg 壟斷 → balanced 吃香；bal 壟斷 → defensive 吃香；def 壟斷 → aggressive 吃香。
-    這就是 RPS 旋轉力（非遞移），與靜態稀有度（路 A）本質不同。
+    當某原型壟斷時，其餘兩個『稀有』原型被**等量** favored（非 RPS 循環剋制）；
+    fitness 對 q **單調遞減**。直接獎勵稀缺＝實作 2026-06-18 鎖定的「逐利→多樣性」。
     """
     t = EcologyTracker()
     fit_when_agg = t._fitness([1.0, 0.0, 0.0])
-    fit_when_def = t._fitness([0.0, 1.0, 0.0])
-    fit_when_bal = t._fitness([0.0, 0.0, 1.0])
-    assert _argmax(fit_when_agg) == 2  # aggressive 壟斷 → balanced 最高
-    assert _argmax(fit_when_bal) == 1  # balanced 壟斷 → defensive 最高
-    assert _argmax(fit_when_def) == 0  # defensive 壟斷 → aggressive 最高
+    assert fit_when_agg[0] < fit_when_agg[1]                              # 壟斷者 fitness 最低
+    assert math.isclose(fit_when_agg[1], fit_when_agg[2], abs_tol=1e-9)   # 兩稀有者等量（非循環）
+    fit = t._fitness([0.6, 0.3, 0.1])
+    assert fit[0] < fit[1] < fit[2]                                       # 單調遞減：q 越大 fitness 越低
+    assert _argmax(fit) == 2                                              # 最稀有（balanced）fitness 最高
 
 
 def test_score_to_coins_brackets():
-    # v2 區間（方案 S）：200=≥100；100=≥82；50=≥76；25=≥64；else 10。
+    # neg-freq 重校 2026-06-19：200=≥100；100=≥67.7；50=≥60.5；25=≥55；else 10。
     assert score_to_coins(150) == 200
     assert score_to_coins(100) == 200
-    assert score_to_coins(90) == 100
-    assert score_to_coins(80) == 50
-    assert score_to_coins(70) == 25
-    assert score_to_coins(50) == 10
+    assert score_to_coins(99) == 100
+    assert score_to_coins(68) == 100
+    assert score_to_coins(65) == 50
+    assert score_to_coins(60) == 25
+    assert score_to_coins(55) == 25
+    assert score_to_coins(54) == 10
     assert score_to_coins(0) == 10
 
 
@@ -84,14 +86,14 @@ def test_submit_returns_score_and_updates_ecology():
     assert set(out["advantage"]) == set(ARCHETYPES)
 
 
-def test_rare_counter_scores_higher_than_common_type():
-    """壟斷型再上傳一筆，分數應低於『剋制壟斷型的稀有原型』上傳的分數。"""
+def test_rare_type_scores_higher_than_common_type():
+    """負頻率依賴：壟斷型再上傳一筆，分數應低於『當前稀有原型』上傳的分數。"""
     t = EcologyTracker(EcologyParams(window=50, eta=1.0))  # eta=1 讓權重立刻反映
     for _ in range(20):                # 生態被 aggressive 壟斷
         t.submit(personality_9d=_AGG)
     score_more_agg = t.submit(personality_9d=_AGG)["score"]
-    score_counter = t.submit(personality_9d=_BAL)["score"]  # balanced 剋 aggressive
-    assert score_counter > score_more_agg
+    score_rare = t.submit(personality_9d=_BAL)["score"]  # balanced 在此生態稀有
+    assert score_rare > score_more_agg
 
 
 def test_assess_detects_rotation_in_synthetic_series():

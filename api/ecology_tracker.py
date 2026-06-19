@@ -69,16 +69,16 @@ def _softplus(x: float) -> float:
     return x + math.log1p(math.exp(-x)) if x > 0 else math.log1p(math.exp(x))
 
 
-# 評分區間 → 金幣獎勵（v2，經 ecology_will_replay.py「方案 S」優化）。
-# 200 檔語意保留＝分數破百（搭上稀有剋星，旋轉行為，稀有）；其餘 4 檔對 <100 分數
-# 做分位數均衡，讓 10/25/50/100 各檔人數約略平均（邊界依 46 真人+90 合成遺言實測）。
-# (score 下界 inclusive, coins)；由高到低比對。要重新優化跑 ecology_will_replay.py。
+# 評分區間 → 金幣獎勵（neg-freq 重校 2026-06-19，跑 scripts/.../ecology_will_replay.py +
+# piece2_calibrate）。λ=2.0（EcologyParams.lam）下分數域 ~[46,103]。200 檔＝你選的派系當下
+# 跌到 ~6% 窗佔比（瀕危）→ 分數破百＝「救活瀕危派系」jackpot（replay ~3%，稀有）；下 4 檔在
+# [55,100) 對均衡。(score 下界 inclusive, coins)；由高到低比對。換 fitness/λ 須重跑校準。
 COIN_BRACKETS: list[tuple[float, int]] = [
-    (100.0, 200),   # 搭上熱潮：選了當前最吃香的稀有剋星，分數破百
-    (82.0, 100),    # 高分
-    (76.0, 50),     # 中位帶
-    (64.0, 25),     # 中下
-    (0.0, 10),      # 墊底：人格類型過度普及
+    (100.0, 200),   # 救活瀕危派系：選的派系跌到 ~6% 窗佔比，分數破百
+    (67.7, 100),    # 稀缺
+    (60.5, 50),     # 偏稀缺
+    (55.0, 25),     # 偏普及
+    (0.0, 10),      # 墊底：派系過度普及
 ]
 
 
@@ -95,7 +95,7 @@ class EcologyParams:
     a: float = 1.0
     b: float = 0.9
     cross: float = 0.20      # 循環 payoff 的額外非對稱耦合（旋轉本來就來自 a,b 的 RPS 結構，非 cross）
-    lam: float = 1.0         # fitness → advantage 的銳度
+    lam: float = 2.0         # fitness → advantage 銳度（neg-freq 校準 2026-06-19：λ=2，見 COIN_BRACKETS）
     base: float = 100.0      # 名目分數量級
     eta: float = 0.2         # 動態權重 EMA 學習率
     window: int = 50         # 計算生態佔比的滑動窗（最近幾筆上傳）
@@ -134,8 +134,9 @@ class EcologyTracker:
         self._submissions: list[EcologySubmission] = []
         self._snapshots: list[EcologySnapshot] = []
         self._recent: deque[int] = deque(maxlen=self.params.window)  # 最近原型 index
-        # 動態權重初始均勻（中性）。
-        self._weights: list[float] = [1.0] * _NARCH
+        # 動態權重初始＝中性 advantage softplus(λ·0)=ln2≈0.693（λ-independent）：
+        # 擋空生態 cold-start 200-flood（init=1.0 會讓早期每筆 ~100 分→秒觸 200 檔）。
+        self._weights: list[float] = [math.log(2.0)] * _NARCH
 
     # ── 生態狀態 ────────────────────────────────────────────────────────────────
 
@@ -150,12 +151,16 @@ class EcologyTracker:
         return [c / n for c in counts]
 
     def _fitness(self, q: list[float]) -> list[float]:
-        """每原型在生態 q 下的循環適應度 fitness_i = Σ_j A[i][j]·q_j。
+        """每原型的負頻率依賴適應度 fitness_i = 1/N − q_i（稀有→正、普及→負）。
 
-        A 是非遞移循環 payoff：被剋星普及壓分、剋制對象普及加分 → 旋轉力。
+        取代 Path-B 的 RPS 循環 payoff（2026-06-19）：實作 2026-06-18 鎖定的
+        「逐利→多樣性」意圖＝直接獎勵稀缺。線性、有界（q_i∈[0,1] → fitness∈[−⅔,⅓]），
+        是抗 whiplash 的溫和形式（避開 1/q、−log q 那種 q→0 爆衝、可被「搶當第一個選死派系」
+        exploit 的形式）。強度旋鈕＝params.lam（advantage=softplus(lam·fitness)）；
+        a/b/cross/RPS payoff matrix 自此為死參數（Path B 有意識退役）。
         """
-        A = strategy_payoff_matrix(a=self.params.a, b=self.params.b, cross=self.params.cross)
-        return [sum(A[i][j] * q[j] for j in range(_NARCH)) for i in range(_NARCH)]
+        uniform = 1.0 / _NARCH
+        return [uniform - q[i] for i in range(_NARCH)]
 
     def _advantage(self, fitness: list[float]) -> list[float]:
         return [_softplus(self.params.lam * fit) for fit in fitness]
@@ -284,7 +289,7 @@ class EcologyTracker:
             EcologySnapshot(**{k: v for k, v in s.items() if k in nf})
             for s in data.get("snapshots", [])
         ]
-        self._weights = data.get("weights", [1.0] * _NARCH)
+        self._weights = data.get("weights", [math.log(2.0)] * _NARCH)  # 中性 fallback（與 init 一致）
         self._recent = deque(data.get("recent", []), maxlen=self.params.window)
         return True
 
