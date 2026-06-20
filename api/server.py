@@ -52,6 +52,7 @@ from api.ab_test_manager import get_manager as _get_ab_manager
 from api.player_test_tracker import get_tracker as _get_tracker
 from api.survey_manager import get_survey as _get_survey
 from api.ecology_tracker import get_tracker as _get_ecology
+from api.pvp_manager import get_manager as _get_pvp
 from simulation.bifurcation_detector import (
     compute_bifurcation_distance,
     compute_sensitive_direction,
@@ -129,6 +130,9 @@ P7H_OUT_DIR = os.environ.get(
 # (見 人格生態評分_規劃_v1.md §0/§4：不污染 P7-H).
 ECOLOGY_OUT_DIR = os.environ.get("ECOLOGY_OUT_DIR", "reports/ecology")
 
+# PVP / 地牢挑戰 store（最小 combat loop，獨立 store；不污染 P7-H / ecology）。
+PVP_OUT_DIR = os.environ.get("PVP_OUT_DIR", "reports/pvp")
+
 
 async def _p7h_save(manager) -> None:
     """Persist a P7-H manager to disk off the event loop (best-effort)."""
@@ -144,6 +148,14 @@ async def _ecology_save() -> None:
         await asyncio.to_thread(_get_ecology().save, ECOLOGY_OUT_DIR)
     except Exception as exc:
         log_metric("ecology_save_error", error=str(exc))
+
+
+async def _pvp_save() -> None:
+    """Persist the PVP manager off the event loop (best-effort)."""
+    try:
+        await asyncio.to_thread(_get_pvp().save, PVP_OUT_DIR)
+    except Exception as exc:
+        log_metric("pvp_save_error", error=str(exc))
 
 
 @asynccontextmanager
@@ -163,6 +175,10 @@ async def _lifespan(app: FastAPI):
         _get_ecology().load(ECOLOGY_OUT_DIR)
     except Exception as exc:
         log_metric("ecology_load_error", error=str(exc))
+    try:
+        _get_pvp().load(PVP_OUT_DIR)
+    except Exception as exc:
+        log_metric("pvp_load_error", error=str(exc))
     yield
 
 
@@ -1663,6 +1679,34 @@ async def ecology_snapshot() -> dict[str, Any]:
 async def ecology_assess() -> dict[str, Any]:
     """Grade the ecology's rotation L0–L3 via cycle_metrics over snapshot bins."""
     return _get_ecology().assess()
+
+
+# ── PVP / 地牢挑戰 API（最小 combat loop，Increment 1）─────────────────────────
+# 3 派系 type-chart：地牢「剋制主人」（部署 counter(owner)），挑戰者帶剋制派系鑽破。
+# H_counter 已證偽 → M 為 authored 剋制表。設計見 地牢counter-policy_L0L1介面_規劃_v1.md。
+
+class PvpChallengeRequest(BaseModel):
+    challenger_faction: str
+    dungeon_id: str
+
+
+@app.get("/pvp/dungeons")
+async def pvp_dungeons() -> dict[str, Any]:
+    """可挑戰地牢清單（顯示各地牢 deployed 派系 + 你的 Rank）。"""
+    return _get_pvp().list_dungeons()
+
+
+@app.post("/pvp/challenge")
+async def pvp_challenge(req: PvpChallengeRequest) -> dict[str, Any]:
+    """挑戰一座地牢：challenger 派系 vs deployed → authored M 判勝負 + Rank delta。"""
+    try:
+        result = _get_pvp().challenge(req.challenger_faction, req.dungeon_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc))
+    except KeyError:
+        raise HTTPException(status_code=404, detail="dungeon not found: %s" % req.dungeon_id)
+    await _pvp_save()
+    return result
 
 
 # NOTE: /metrics/events is defined once above (post_metrics_events). A second
