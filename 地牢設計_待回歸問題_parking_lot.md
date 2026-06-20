@@ -22,7 +22,7 @@
 ## C. 經濟（Rank / 金幣）
 - 🔴 **零和守恆 vs 通膨**：金幣抵銷採守恆版（A 拿 B 實掉的）——我推守恆，**待你最終拍板**。
 - 🔴 **參數**：`rank_stake`、`offset_ratio`(暫 0.5)、`coin_per_rank` 兌換率——全待定不寫死。
-- 🟡 **存活加成金幣權重太低**（200 輪只拿 10 金幣）：建議給「存活獨立保底」而非加大係數搶總分；用真人+sim 資料定保底值。**待調**。
+- 🟢 **存活金幣修正（已做 2026-06-20）**：真相比「權重太低」更糟——**存活對金幣零貢獻**（CollapseScreen 的 `存活加成 rounds×0.25` 只加進**顯示分數**，coins=後端 `score_to_coins(生態 score)`、存活不在裡面）。修＝存活變**獨立 coin 來源**（`SURVIVAL_COIN_RATE=0.3`，200 回合 +60），加進 `_total_coins`、不折進生態 score（不打架 brackets），CollapseScreen 誠實拆解「💰本場＝生態X+存活Y」。k=0.3 刻意次要於生態多樣性誘因（太高→求生壓追稀缺＝反多樣性；且稀缺=balanced 經 opt+cur=高 recklessness 短命，survive-vs-追稀缺是真選擇）。前端 commit `7bf2f7e`。**待真人 Godot 驗證顯示**。
 - 🟡 **生態 neg-freq 均衡支付水位**（2026-06-19）：uniform 生態下人人 ~100 coins（無稀缺＝無差別誘因，intended 且自限）；但絕對水位是 coin 通膨事——建 coin 經濟時把「均衡支付≈100/人」算進 sink 設計。現無持久錢包，無需處理，記著別丟。
 - 🔴 **欄位券＝金幣 source**：要進 source/sink 表（非多樣性問題，已澄清）。
 - 🟡 **加速券→「雙生券」**：改成局內雙人格平行跑（雙倍機會＋雙倍 Trace），rename + 用玩家價值正當化。**待定案**。
