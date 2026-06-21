@@ -1,0 +1,396 @@
+{
+  "g_grid": [
+    1.0,
+    1.5,
+    2.0,
+    2.5,
+    3.0,
+    3.5
+  ],
+  "ablation": {
+    "baseline (softplus,β2,W50,instant)": {
+      "g_star_entropy_mid": 1.5161336572913242,
+      "g_star_fixation": 2.0633501582684555,
+      "rows": [
+        {
+          "g": 1.0,
+          "mean_entropy": 0.8578389999268312,
+          "mean_top_q": 0.66438,
+          "fixation_rate": 0.0,
+          "n_fix": 0
+        },
+        {
+          "g": 1.5,
+          "mean_entropy": 0.5599937172432843,
+          "mean_top_q": 0.829922,
+          "fixation_rate": 0.0,
+          "n_fix": 0
+        },
+        {
+          "g": 2.0,
+          "mean_entropy": 0.2363697881497855,
+          "mean_top_q": 0.9440760000000001,
+          "fixation_rate": 0.0,
+          "n_fix": 0
+        },
+        {
+          "g": 2.5,
+          "mean_entropy": 0.043267008427200326,
+          "mean_top_q": 0.9908320000000002,
+          "fixation_rate": 1.0,
+          "n_fix": 10
+        },
+        {
+          "g": 3.0,
+          "mean_entropy": 0.008594700630534743,
+          "mean_top_q": 0.9982219999999999,
+          "fixation_rate": 1.0,
+          "n_fix": 10
+        },
+        {
+          "g": 3.5,
+          "mean_entropy": 0.0004901955653935717,
+          "mean_top_q": 0.9999,
+          "fixation_rate": 1.0,
+          "n_fix": 10
+        }
+      ]
+    },
+    "linear advantage (no softplus)": {
+      "g_star_entropy_mid": 1.329797364491939,
+      "g_star_fixation": 1.8904988498489006,
+      "rows": [
+        {
+          "g": 1.0,
+          "mean_entropy": 0.7756101027584851,
+          "mean_top_q": 0.720064,
+          "fixation_rate": 0.0,
+          "n_fix": 0
+        },
+        {
+          "g": 1.5,
+          "mean_entropy": 0.4328862289792288,
+          "mean_top_q": 0.8807380000000002,
+          "fixation_rate": 0.0,
+          "n_fix": 0
+        },
+        {
+          "g": 2.0,
+          "mean_entropy": 0.1366883670528045,
+          "mean_top_q": 0.9694220000000001,
+          "fixation_rate": 1.0,
+          "n_fix": 10
+        },
+        {
+          "g": 2.5,
+          "mean_entropy": 0.021495417178726897,
+          "mean_top_q": 0.995516,
+          "fixation_rate": 1.0,
+          "n_fix": 10
+        },
+        {
+          "g": 3.0,
+          "mean_entropy": 0.002882349929394635,
+          "mean_top_q": 0.9994120000000001,
+          "fixation_rate": 1.0,
+          "n_fix": 10
+        },
+        {
+          "g": 3.5,
+          "mean_entropy": 0.0004901955653935717,
+          "mean_top_q": 0.9999,
+          "fixation_rate": 1.0,
+          "n_fix": 10
+        }
+      ]
+    },
+    "β=1": {
+      "g_star_entropy_mid": 2.0462370498884583,
+      "g_star_fixation": 2.984080274893989,
+      "rows": [
+        {
+          "g": 1.0,
+          "mean_entropy": 0.9785081620299053,
+          "mean_top_q": 0.557918,
+          "fixation_rate": 0.0,
+          "n_fix": 0
+        },
+        {
+          "g": 1.5,
+          "mean_entropy": 0.8207325419477822,
+          "mean_top_q": 0.6884979999999999,
+          "fixation_rate": 0.0,
+          "n_fix": 0
+        },
+        {
+          "g": 2.0,
+          "mean_entropy": 0.6145184217195164,
+          "mean_top_q": 0.804322,
+          "fixation_rate": 0.0,
+          "n_fix": 0
+        },
+        {
+          "g": 2.5,
+          "mean_entropy": 0.38451884475928766,
+          "mean_top_q": 0.89703,
+          "fixation_rate": 0.0,
+          "n_fix": 0
+        },
+        {
+          "g": 3.0,
+          "mean_entropy": 0.2070229203143607,
+          "mean_top_q": 0.9517420000000001,
+          "fixation_rate": 0.7,
+          "n_fix": 7
+        },
+        {
+          "g": 3.5,
+          "mean_entropy": 0.08788654711398533,
+          "mean_top_q": 0.9809400000000001,
+          "fixation_rate": 1.0,
+          "n_fix": 10
+        }
+      ]
+    },
+    "β=4": {
+      "g_star_entropy_mid": 1.16505904108631,
+      "g_star_fixation": 1.5763019057531484,
+      "rows": [
+        {
+          "g": 1.0,
+          "mean_entropy": 0.6981208103138232,
+          "mean_top_q": 0.764676,
+          "fixation_rate": 0.0,
+          "n_fix": 0
+        },
+        {
+          "g": 1.5,
+          "mean_entropy": 0.2473285816637955,
+          "mean_top_q": 0.9414960000000001,
+          "fixation_rate": 0.0,
+          "n_fix": 0
+        },
+        {
+          "g": 2.0,
+          "mean_entropy": 0.013315881995868792,
+          "mean_top_q": 0.9972219999999998,
+          "fixation_rate": 1.0,
+          "n_fix": 10
+        },
+        {
+          "g": 2.5,
+          "mean_entropy": 0.0004901955653935717,
+          "mean_top_q": 0.9999,
+          "fixation_rate": 1.0,
+          "n_fix": 10
+        },
+        {
+          "g": 3.0,
+          "mean_entropy": -1.0000889005818406e-12,
+          "mean_top_q": 1.0,
+          "fixation_rate": 1.0,
+          "n_fix": 10
+        },
+        {
+          "g": 3.5,
+          "mean_entropy": -1.0000889005818406e-12,
+          "mean_top_q": 1.0,
+          "fixation_rate": 1.0,
+          "n_fix": 10
+        }
+      ]
+    },
+    "window=25": {
+      "g_star_entropy_mid": 1.4939123977899558,
+      "g_star_fixation": 2.0738389575676557,
+      "rows": [
+        {
+          "g": 1.0,
+          "mean_entropy": 0.8486416723630323,
+          "mean_top_q": 0.661612,
+          "fixation_rate": 0.0,
+          "n_fix": 0
+        },
+        {
+          "g": 1.5,
+          "mean_entropy": 0.5458292716384618,
+          "mean_top_q": 0.8283280000000002,
+          "fixation_rate": 0.0,
+          "n_fix": 0
+        },
+        {
+          "g": 2.0,
+          "mean_entropy": 0.21880061622884436,
+          "mean_top_q": 0.9429280000000002,
+          "fixation_rate": 0.0,
+          "n_fix": 0
+        },
+        {
+          "g": 2.5,
+          "mean_entropy": 0.03783074618455705,
+          "mean_top_q": 0.990816,
+          "fixation_rate": 1.0,
+          "n_fix": 10
+        },
+        {
+          "g": 3.0,
+          "mean_entropy": 0.007355953669712892,
+          "mean_top_q": 0.9982479999999999,
+          "fixation_rate": 1.0,
+          "n_fix": 10
+        },
+        {
+          "g": 3.5,
+          "mean_entropy": 0.00041986036833284375,
+          "mean_top_q": 0.9999,
+          "fixation_rate": 1.0,
+          "n_fix": 10
+        }
+      ]
+    },
+    "window=100": {
+      "g_star_entropy_mid": 1.5249457522811958,
+      "g_star_fixation": 2.0600411637330374,
+      "rows": [
+        {
+          "g": 1.0,
+          "mean_entropy": 0.8644035657045249,
+          "mean_top_q": 0.6649419999999999,
+          "fixation_rate": 0.0,
+          "n_fix": 0
+        },
+        {
+          "g": 1.5,
+          "mean_entropy": 0.5655880470578178,
+          "mean_top_q": 0.830654,
+          "fixation_rate": 0.0,
+          "n_fix": 0
+        },
+        {
+          "g": 2.0,
+          "mean_entropy": 0.24485418278874893,
+          "mean_top_q": 0.9443989999999998,
+          "fixation_rate": 0.0,
+          "n_fix": 0
+        },
+        {
+          "g": 2.5,
+          "mean_entropy": 0.04703899480013396,
+          "mean_top_q": 0.9910420000000002,
+          "fixation_rate": 1.0,
+          "n_fix": 10
+        },
+        {
+          "g": 3.0,
+          "mean_entropy": 0.009328794365875394,
+          "mean_top_q": 0.998311,
+          "fixation_rate": 1.0,
+          "n_fix": 10
+        },
+        {
+          "g": 3.5,
+          "mean_entropy": 0.0005600153425383856,
+          "mean_top_q": 0.9999,
+          "fixation_rate": 1.0,
+          "n_fix": 10
+        }
+      ]
+    },
+    "lagged_weights eta=0.2 (F2 faithful)": {
+      "g_star_entropy_mid": 1.5158067604429646,
+      "g_star_fixation": 2.0662630125345216,
+      "rows": [
+        {
+          "g": 1.0,
+          "mean_entropy": 0.8581564451704701,
+          "mean_top_q": 0.6635899999999999,
+          "fixation_rate": 0.0,
+          "n_fix": 0
+        },
+        {
+          "g": 1.5,
+          "mean_entropy": 0.5597592435824963,
+          "mean_top_q": 0.829748,
+          "fixation_rate": 0.0,
+          "n_fix": 0
+        },
+        {
+          "g": 2.0,
+          "mean_entropy": 0.23685938365933068,
+          "mean_top_q": 0.9437620000000001,
+          "fixation_rate": 0.0,
+          "n_fix": 0
+        },
+        {
+          "g": 2.5,
+          "mean_entropy": 0.043267008427200326,
+          "mean_top_q": 0.9908320000000002,
+          "fixation_rate": 1.0,
+          "n_fix": 10
+        },
+        {
+          "g": 3.0,
+          "mean_entropy": 0.008594700630534743,
+          "mean_top_q": 0.9982219999999999,
+          "fixation_rate": 1.0,
+          "n_fix": 10
+        },
+        {
+          "g": 3.5,
+          "mean_entropy": 0.0004901955653935717,
+          "mean_top_q": 0.9999,
+          "fixation_rate": 1.0,
+          "n_fix": 10
+        }
+      ]
+    },
+    "lagged_weights eta=1.0 (no EMA lag)": {
+      "g_star_entropy_mid": 1.5161336572913242,
+      "g_star_fixation": 2.0633501582684555,
+      "rows": [
+        {
+          "g": 1.0,
+          "mean_entropy": 0.8578389999268312,
+          "mean_top_q": 0.66438,
+          "fixation_rate": 0.0,
+          "n_fix": 0
+        },
+        {
+          "g": 1.5,
+          "mean_entropy": 0.5599937172432843,
+          "mean_top_q": 0.829922,
+          "fixation_rate": 0.0,
+          "n_fix": 0
+        },
+        {
+          "g": 2.0,
+          "mean_entropy": 0.2363697881497855,
+          "mean_top_q": 0.9440760000000001,
+          "fixation_rate": 0.0,
+          "n_fix": 0
+        },
+        {
+          "g": 2.5,
+          "mean_entropy": 0.043267008427200326,
+          "mean_top_q": 0.9908320000000002,
+          "fixation_rate": 1.0,
+          "n_fix": 10
+        },
+        {
+          "g": 3.0,
+          "mean_entropy": 0.008594700630534743,
+          "mean_top_q": 0.9982219999999999,
+          "fixation_rate": 1.0,
+          "n_fix": 10
+        },
+        {
+          "g": 3.5,
+          "mean_entropy": 0.0004901955653935717,
+          "mean_top_q": 0.9999,
+          "fixation_rate": 1.0,
+          "n_fix": 10
+        }
+      ]
+    }
+  }
+}

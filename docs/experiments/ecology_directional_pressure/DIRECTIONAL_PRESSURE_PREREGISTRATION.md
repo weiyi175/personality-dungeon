@@ -62,6 +62,7 @@ fitness_i = (1/N − q_i)  +  g · d_i        # 第一項=neg-freq centripetal�
   - `fitness_dom|vertex = (1/N − 1) + g·1 = −2/3 + g`
   - `fitness_rare|vertex = (1/N − 0) + g·0 = 1/3`
   - ⟹ 穩定 ⟺ `−2/3 + g > 1/3` ⟺ **g\* = 1.0（raw-fitness 單位）**。（重心鄰域 neg-freq restoring 斜率 = −1，給 coexistence 端的 centripetal 對照。）
+  - **⚠ g\*=1 的身分（2026-06-22 修，Finding 1）**：此閾值是 **β→∞（argmax/hard selection）極限**的 vertex invasion-fitness **參考**，**不是** finite-β 的 transition 位置。§5 鎖的 driver 是 **softmax(β=2)（軟地板）**：`resp=softmax(β·adv)`、`adv_i=softplus(lam·f_i)>0` 處處 → resp 每分量 >0 → **動力學嚴格在 interior、不動點永不落 vertex → 沒有 g=1 的 transcritical 分岔**。可觀測 `max_q≥0.95` 是 interior FP `q_dom(g)` 升穿門檻的**平滑 crossover**（β-依賴；β→∞ 時 crossover→g=1）。故下文 g\* 一律指**可觀測門檻穿越點**，`g\*=1` 為解析參考。
 - **核心待測**：apparatus（EMA eta=0.2 + softplus lam=2 + 窗=50 + 離散 binning）把 g\* 從 ~1.0 推到哪、往哪個方向、推多少。
 
 ---
@@ -78,8 +79,8 @@ fitness_i = (1/N − q_i)  +  g · d_i        # 第一項=neg-freq centripetal�
 - **陳述**：g=5 下 fixation 率 = **10/10**，且收斂頂點 = argmax(d)=Defensive。
 - **角色**：證明 directional 項真的有牽引力、driver 對它敏感。任一不塌 = 接線未生效，sweep 不可解讀。
 
-### H1-bif — 主假設（存在有限 g\*，coexistence→monoculture 分岔）
-- **陳述**：存在有限 `g* ∈ (0, 5)`，stationary entropy 隨 g 單調穿過鎖定門檻（§5）由「高熵 coexistence」轉「低熵 fixation」。
+### H1-bif — 主假設（存在有限 g\*，coexistence→monoculture **單調 crossover**）
+- **陳述**：存在有限 `g* ∈ (0, 5)`，stationary entropy 隨 g **單調 crossover** 穿過鎖定門檻（§5）由「高熵 coexistence」轉「低熵 fixation」。**非** transcritical 分岔——§5 softmax driver 軟地板使動力學嚴格 interior（見 §3「g\*=1 的身分」）；g\* ＝可觀測門檻穿越點、`g\*=1` ＝ β→∞ 解析參考。證偽兩款仍為 observable 陳述、不受此澄清影響。
 - **證偽**：(a) entropy 全 grid 維持高（無 transition）⇒ 此 directional 形式**打不破** neg-freq 引擎（更強的反同質化主張）；(b) transition 出現在 g→0⁺ ⇒ 引擎**平凡脆弱**。兩者都翻轉「存在非平凡 g\*」並須改寫主張。
 
 ### H2-faithful — 主假設（apparatus 對 g\* 的扭曲＝本論文機制貢獻）
@@ -99,6 +100,7 @@ fitness_i = (1/N − q_i)  +  g · d_i        # 第一項=neg-freq centripetal�
 
 - **算子（不重寫）**：直接 import 現役 `EcologyTracker`，唯一改動＝`_fitness` 回傳加 `g·d_i`（以 param 注入，g=0 為預設＝現役行為）。其餘 `lam=2`、`eta=0.2`、`base=100`、`window=50`、`tau=0.6` 全鎖現役預設（[api/ecology_tracker.py](../../../api/ecology_tracker.py) L92–103）。
 - **response driver（鎖定）**：每步玩家以 `P(i) ∝ softmax(β · advantage_i)` 抽 archetype，`advantage_i` ＝現役 `_advantage(_fitness(q)+g·d)`。**`β = 2`（central）**＝錨定到算子的 `lam=2`（[ecology_tracker.py:98](../../../api/ecology_tracker.py#L98)），令 driver 判別銳度＝算子 fitness→advantage 銳度、兩層互不壓制；落在 weak-selection 帶（中等 gap 偏好比 ~1.5×，響應但不 argmax）。β 同列 §6 ablation `{1,2,4}`（見 §4 H2 β 雙面性）。
+  - **⚠ faithfulness 旗標（2026-06-22，Finding 2）**：driver 用**瞬時** `_advantage(_fitness(q))`，**繞過** production 玩家實際響應的**權重 EMA `eta=0.2`**（稀缺顯示/coin = lagged `_weights`）→ 回饋環少一層阻尼、sim 可能**比忠實系統略不穩（g\* 偏低）**；q 已含窗 W=50 的 lag。**列為 faithfulness ablation**：另跑「driver 響應 lagged `_weights`」對照，量這層阻尼對 g\* 的位移。
 - **observable**：`q = _proportions()`（滑動窗，現役 L143–151）。`H(q) = −Σ q_i ln q_i`，最大 `ln 3 ≈ 1.0986`。
 - **fixation 判準（鎖定）**：stationary 窗內 `max_i q_i ≥ 0.95`。
 - **stationary 窗（鎖定）**：`rounds=3000`、`burn_in=1000`、`tail=1000`（與 L3 同窗，利於跨研究比較）。
@@ -110,6 +112,7 @@ fitness_i = (1/N − q_i)  +  g · d_i        # 第一項=neg-freq centripetal�
 ## 6. 樣本
 
 - NC(g=0) + PC(g=5) + 7 個 treatment g × 各 10 seeds（50–59）= **90 runs** × 3000 rounds。
+  - **⚠ grid 旗標（2026-06-22，Finding 3）**：軟地板 finite-W **保護** → 可觀測 g\* 可能被推到接近/超過 grid 頂 2.0。若 fixation 率在 g=2.0 仍 <0.5（transition 未 bracket）→ **補 exploratory g∈{2.5,3.0} 再 logistic 擬合**（明標 exploratory、不改 confirmatory grid），不得在未 bracket 下硬報 g\*。
 - ablation（H2-faithful）：在 g\* 鄰近 3 個 g 上，分別關 softplus（線性 advantage）/ 設 eta=1（無 EMA 遲滯）/ 窗∈{25,100} / **β∈{1,4}**（central 2 已在主 sweep），各 10 seeds。算力與 L3 Phase-2 同量級，預估 < 2 機時。
 
 ## 7. 停止規則與容忍

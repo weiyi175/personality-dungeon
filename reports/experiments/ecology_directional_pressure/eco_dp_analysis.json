@@ -1,0 +1,137 @@
+{
+  "pre_reg": "DIRECTIONAL_PRESSURE_PREREGISTRATION.md",
+  "driver": "softmax(beta=2 * advantage), live EcologyTracker + g·d (Defensive)",
+  "controls": {
+    "H_NC_pass": true,
+    "H_PC_pass": true,
+    "nc_n_fix": 0,
+    "pc_n_fix": 10
+  },
+  "gstar": {
+    "mid_entropy": 0.5493061443335548,
+    "g_star_apparatus": 1.516512334146097,
+    "g_star_analytic": 1.0,
+    "ratio": 1.516512334146097,
+    "g_star_fixation": 2.0633501582684555
+  },
+  "bracketed": false,
+  "summary": [
+    {
+      "g": 0.0,
+      "beta": 2.0,
+      "mean_entropy": 1.0863050234955218,
+      "sd_entropy": 0.0009198478662970512,
+      "mean_top_q": 0.38696600000000003,
+      "fixation_rate": 0.0,
+      "n_fix": 0
+    },
+    {
+      "g": 0.25,
+      "beta": 2.0,
+      "mean_entropy": 1.0756512629496748,
+      "sd_entropy": 0.003107300399202567,
+      "mean_top_q": 0.412334,
+      "fixation_rate": 0.0,
+      "n_fix": 0
+    },
+    {
+      "g": 0.5,
+      "beta": 2.0,
+      "mean_entropy": 1.0368919620353618,
+      "sd_entropy": 0.0061126788722385165,
+      "mean_top_q": 0.4868760000000001,
+      "fixation_rate": 0.0,
+      "n_fix": 0
+    },
+    {
+      "g": 0.75,
+      "beta": 2.0,
+      "mean_entropy": 0.965971668018266,
+      "sd_entropy": 0.007246818626479323,
+      "mean_top_q": 0.573806,
+      "fixation_rate": 0.0,
+      "n_fix": 0
+    },
+    {
+      "g": 1.0,
+      "beta": 2.0,
+      "mean_entropy": 0.8578389999268312,
+      "sd_entropy": 0.01110715079784274,
+      "mean_top_q": 0.66438,
+      "fixation_rate": 0.0,
+      "n_fix": 0
+    },
+    {
+      "g": 1.25,
+      "beta": 2.0,
+      "mean_entropy": 0.7199905605275786,
+      "sd_entropy": 0.01291581588968302,
+      "mean_top_q": 0.751368,
+      "fixation_rate": 0.0,
+      "n_fix": 0
+    },
+    {
+      "g": 1.5,
+      "beta": 2.0,
+      "mean_entropy": 0.5599937172432843,
+      "sd_entropy": 0.012057913240338657,
+      "mean_top_q": 0.829922,
+      "fixation_rate": 0.0,
+      "n_fix": 0
+    },
+    {
+      "g": 2.0,
+      "beta": 2.0,
+      "mean_entropy": 0.2363697881497855,
+      "sd_entropy": 0.012396764169766702,
+      "mean_top_q": 0.9440760000000001,
+      "fixation_rate": 0.0,
+      "n_fix": 0
+    },
+    {
+      "g": 2.5,
+      "beta": 2.0,
+      "mean_entropy": 0.043267008427200326,
+      "sd_entropy": 0.011645993085588656,
+      "mean_top_q": 0.9908320000000002,
+      "fixation_rate": 1.0,
+      "n_fix": 10
+    },
+    {
+      "g": 3.0,
+      "beta": 2.0,
+      "mean_entropy": 0.008594700630534743,
+      "sd_entropy": 0.0042916097540187746,
+      "mean_top_q": 0.9982219999999999,
+      "fixation_rate": 1.0,
+      "n_fix": 10
+    },
+    {
+      "g": 3.5,
+      "beta": 2.0,
+      "mean_entropy": 0.0004901955653935717,
+      "sd_entropy": 0.0014705866991809816,
+      "mean_top_q": 0.9999,
+      "fixation_rate": 1.0,
+      "n_fix": 10
+    },
+    {
+      "g": 4.0,
+      "beta": 2.0,
+      "mean_entropy": 0.0004901955653935717,
+      "sd_entropy": 0.0014705866991809816,
+      "mean_top_q": 0.9999,
+      "fixation_rate": 1.0,
+      "n_fix": 10
+    },
+    {
+      "g": 5.0,
+      "beta": 2.0,
+      "mean_entropy": -1.0000889005818406e-12,
+      "sd_entropy": 0.0,
+      "mean_top_q": 1.0,
+      "fixation_rate": 1.0,
+      "n_fix": 10
+    }
+  ]
+}
