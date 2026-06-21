@@ -1,0 +1,6 @@
+# Raw per-seed trajectories / factorial sweeps are bulky (~1.6GB) — keep only
+# FINDINGS.md, metric_sensitivity_data.json, scripts, and txt summaries in git.
+b4_bxcc_factorial/
+*_scout/
+*.csv
+*.png

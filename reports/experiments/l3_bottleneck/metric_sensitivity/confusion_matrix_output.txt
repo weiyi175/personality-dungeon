@@ -1,0 +1,24 @@
+scanned 64 cells, 192 seeds (Phase-1, p_ series)
+
+=== CONFUSION MATRIX (seed-level, p_) ===
+                Winding+    Winding-
+  Turning+          15          0
+  Turning-           7        170
+
+  CRITICAL Turning-/Winding+ = 7 seeds
+    - B4 beta0p30_k0p08/seed45.csv q=[-1.03, -0.94, -0.86, -0.94]
+    - B4 beta0p30_k0p08/seed47.csv q=[-0.87, -0.92, -1.84, -0.89]
+    - B4 beta0p30_k0p08/seed49.csv q=[-0.94, -0.93, -0.87, -0.99]
+    - B4 beta0p60_k0p08/seed47.csv q=[-1.98, -4.96, -2.92, -1.73]
+    - C2 c2_lattice4_k0p08/seed45.csv q=[-1.56, -0.79, -3.24, -1.51]
+    - C2 c2_ring4_k0p08/seed45.csv q=[-1.56, -0.79, -3.24, -1.51]
+    - T t_lattice4_pairwise/seed45.csv q=[-3.34, -4.43, -5.41, -0.3]
+
+=== by family (T+/W+ , T+/W- , T-/W+ , T-/W-) ===
+  B2    0   0   0  21
+  B3    0   0   0  36
+  B4    0   0   4  20
+  B5   15   0   0  15
+  C1    0   0   0  42
+  C2    0   0   2  19
+  T     0   0   1  17
