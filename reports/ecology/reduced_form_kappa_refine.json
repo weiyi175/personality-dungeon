@@ -1,0 +1,623 @@
+{
+  "fine_alpha_grid": {
+    "sigma": 0.5,
+    "n_pop": 30,
+    "kappas": [
+      0.0,
+      1.0,
+      2.0,
+      4.0,
+      8.0
+    ],
+    "alphas": [
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "grid": [
+      [
+        {
+          "kappa": 0.0,
+          "alpha": 0.4,
+          "churn": 0.06733580688090897,
+          "coherence": 0.02336828123690944,
+          "sustain_ratio": 0.9809039510062746,
+          "min_q": 0.2103311199636912,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.994766148289463
+        },
+        {
+          "kappa": 0.0,
+          "alpha": 0.5,
+          "churn": 0.08149382783333889,
+          "coherence": 0.012712016175101145,
+          "sustain_ratio": 0.9888642055768411,
+          "min_q": 0.1941447806848022,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9923393513280485
+        },
+        {
+          "kappa": 0.0,
+          "alpha": 0.6,
+          "churn": 0.09743855810494653,
+          "coherence": 0.020891115121967833,
+          "sustain_ratio": 0.9840611881304755,
+          "min_q": 0.1696661673763927,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.989011308463047
+        },
+        {
+          "kappa": 0.0,
+          "alpha": 0.7,
+          "churn": 0.11774782377181965,
+          "coherence": 0.012791001190494958,
+          "sustain_ratio": 0.9859167176401019,
+          "min_q": 0.1376351928436979,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9838979284087321
+        },
+        {
+          "kappa": 0.0,
+          "alpha": 0.8,
+          "churn": 0.14519993811663473,
+          "coherence": 0.01902007010575574,
+          "sustain_ratio": 0.9854620519567069,
+          "min_q": 0.0942833846551491,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.975517247014392
+        },
+        {
+          "kappa": 0.0,
+          "alpha": 0.9,
+          "churn": 0.18599960681071348,
+          "coherence": 0.015490647620525655,
+          "sustain_ratio": 0.9759399502736079,
+          "min_q": 0.05712891998673205,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9597036712873829
+        },
+        {
+          "kappa": 0.0,
+          "alpha": 1.0,
+          "churn": 0.2629610596341119,
+          "coherence": 0.04825329227179047,
+          "sustain_ratio": 0.9754908882020115,
+          "min_q": 9.99999999e-10,
+          "mono_frac": 0.0004,
+          "mean_diversity": 0.9186290982496746
+        }
+      ],
+      [
+        {
+          "kappa": 1.0,
+          "alpha": 0.4,
+          "churn": 0.064959712995964,
+          "coherence": 0.017010546069103148,
+          "sustain_ratio": 0.9864474945221007,
+          "min_q": 0.22156290760459987,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.995146632415748
+        },
+        {
+          "kappa": 1.0,
+          "alpha": 0.5,
+          "churn": 0.08477858408939944,
+          "coherence": 0.02441203326465243,
+          "sustain_ratio": 0.9931059624007295,
+          "min_q": 0.1898621372019406,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9917543776200392
+        },
+        {
+          "kappa": 1.0,
+          "alpha": 0.6,
+          "churn": 0.11554503406602909,
+          "coherence": 0.01909951453946205,
+          "sustain_ratio": 0.988015461493428,
+          "min_q": 0.16187523266716403,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9848021617869899
+        },
+        {
+          "kappa": 1.0,
+          "alpha": 0.7,
+          "churn": 0.17178724665429954,
+          "coherence": 0.02266645331776296,
+          "sustain_ratio": 0.9753063207612037,
+          "min_q": 0.12476579232957721,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9673442011412273
+        },
+        {
+          "kappa": 1.0,
+          "alpha": 0.8,
+          "churn": 0.2906308334347324,
+          "coherence": 0.006151283144309979,
+          "sustain_ratio": 0.9804120425820126,
+          "min_q": 0.07711405148402034,
+          "mono_frac": 0.00030000000000000003,
+          "mean_diversity": 0.9133832726156308
+        },
+        {
+          "kappa": 1.0,
+          "alpha": 0.9,
+          "churn": 0.470544220405707,
+          "coherence": 0.011636392710061809,
+          "sustain_ratio": 0.997088656017549,
+          "min_q": 0.03802907934584401,
+          "mono_frac": 0.0195,
+          "mean_diversity": 0.7805201062359728
+        },
+        {
+          "kappa": 1.0,
+          "alpha": 1.0,
+          "churn": 0.6572996052775929,
+          "coherence": 0.013601375604364141,
+          "sustain_ratio": 1.0012872347348185,
+          "min_q": 9.99999998e-10,
+          "mono_frac": 0.28959999999999997,
+          "mean_diversity": 0.522325273824922
+        }
+      ],
+      [
+        {
+          "kappa": 2.0,
+          "alpha": 0.4,
+          "churn": 0.06878566203080398,
+          "coherence": 0.025553992167619343,
+          "sustain_ratio": 0.983077288958692,
+          "min_q": 0.21962136950459982,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9945794589998883
+        },
+        {
+          "kappa": 2.0,
+          "alpha": 0.5,
+          "churn": 0.103503432008753,
+          "coherence": 0.022070169815313834,
+          "sustain_ratio": 0.9806992531446946,
+          "min_q": 0.1895952318375745,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.988025002890112
+        },
+        {
+          "kappa": 2.0,
+          "alpha": 0.6,
+          "churn": 0.17734496595073543,
+          "coherence": 0.008052298991307206,
+          "sustain_ratio": 0.9844492171684627,
+          "min_q": 0.15521542537400107,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9672840285813047
+        },
+        {
+          "kappa": 2.0,
+          "alpha": 0.7,
+          "churn": 0.29675770664432943,
+          "coherence": 0.017527621177314014,
+          "sustain_ratio": 1.001961112498972,
+          "min_q": 0.11157537692505119,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9153077350370218
+        },
+        {
+          "kappa": 2.0,
+          "alpha": 0.8,
+          "churn": 0.4228485395588276,
+          "coherence": 0.011371872576654073,
+          "sustain_ratio": 1.0017952522803917,
+          "min_q": 0.07121586073121325,
+          "mono_frac": 0.0026999999999999997,
+          "mean_diversity": 0.8299352671959002
+        },
+        {
+          "kappa": 2.0,
+          "alpha": 0.9,
+          "churn": 0.5631967936283773,
+          "coherence": 0.011419328940506162,
+          "sustain_ratio": 0.9996346535990407,
+          "min_q": 0.03284693735342899,
+          "mono_frac": 0.1948,
+          "mean_diversity": 0.6896611624105674
+        },
+        {
+          "kappa": 2.0,
+          "alpha": 1.0,
+          "churn": 0.7315911304676858,
+          "coherence": 0.03966838833287329,
+          "sustain_ratio": 1.0009095468941083,
+          "min_q": 9.99999998e-10,
+          "mono_frac": 0.488,
+          "mean_diversity": 0.3942050913216549
+        }
+      ],
+      [
+        {
+          "kappa": 4.0,
+          "alpha": 0.4,
+          "churn": 0.10127385053988999,
+          "coherence": 0.00871789694277889,
+          "sustain_ratio": 1.0010190541545043,
+          "min_q": 0.2157153111725875,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9890509751107832
+        },
+        {
+          "kappa": 4.0,
+          "alpha": 0.5,
+          "churn": 0.1821732500435393,
+          "coherence": 0.01550674419212197,
+          "sustain_ratio": 0.9863361371312038,
+          "min_q": 0.1754226881157384,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9673645598331062
+        },
+        {
+          "kappa": 4.0,
+          "alpha": 0.6,
+          "churn": 0.2690636050318311,
+          "coherence": 0.019859564523397717,
+          "sustain_ratio": 1.000282956252784,
+          "min_q": 0.13480646584196107,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9301902298090589
+        },
+        {
+          "kappa": 4.0,
+          "alpha": 0.7,
+          "churn": 0.36373779156510555,
+          "coherence": 0.013696485274031547,
+          "sustain_ratio": 0.9994450825410042,
+          "min_q": 0.08960077829331056,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.8727670648195891
+        },
+        {
+          "kappa": 4.0,
+          "alpha": 0.8,
+          "churn": 0.47740685237628533,
+          "coherence": 0.00649525616253942,
+          "sustain_ratio": 1.0012662754164097,
+          "min_q": 0.054687038232771046,
+          "mono_frac": 0.1083,
+          "mean_diversity": 0.7782539661605213
+        },
+        {
+          "kappa": 4.0,
+          "alpha": 0.9,
+          "churn": 0.6142130977412958,
+          "coherence": 0.003721120395612484,
+          "sustain_ratio": 1.0000529804731833,
+          "min_q": 0.02631356556955382,
+          "mono_frac": 0.46319999999999995,
+          "mean_diversity": 0.6133415606742072
+        },
+        {
+          "kappa": 4.0,
+          "alpha": 1.0,
+          "churn": 0.7608340256364472,
+          "coherence": 0.14651191497180077,
+          "sustain_ratio": 0.9994626026724246,
+          "min_q": 9.99999998e-10,
+          "mono_frac": 0.5014999999999998,
+          "mean_diversity": 0.313369206013157
+        }
+      ],
+      [
+        {
+          "kappa": 8.0,
+          "alpha": 0.4,
+          "churn": 0.15674608739579587,
+          "coherence": 0.0076692951000796455,
+          "sustain_ratio": 1.0001942695062767,
+          "min_q": 0.19015463591878992,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9747534263731741
+        },
+        {
+          "kappa": 8.0,
+          "alpha": 0.5,
+          "churn": 0.23271386497545588,
+          "coherence": 0.010443760224494648,
+          "sustain_ratio": 0.9974682221324139,
+          "min_q": 0.13379922101838332,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9448558791612012
+        },
+        {
+          "kappa": 8.0,
+          "alpha": 0.6,
+          "churn": 0.3193072144605284,
+          "coherence": 0.023571959024735203,
+          "sustain_ratio": 0.9937100929718412,
+          "min_q": 0.0927329185890947,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.8982301431663677
+        },
+        {
+          "kappa": 8.0,
+          "alpha": 0.7,
+          "churn": 0.40502639622346204,
+          "coherence": 0.011302928623234782,
+          "sustain_ratio": 0.9998511364524315,
+          "min_q": 0.06538953241520025,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.8367474019128851
+        },
+        {
+          "kappa": 8.0,
+          "alpha": 0.8,
+          "churn": 0.5119669328043803,
+          "coherence": 0.0063519197956600475,
+          "sustain_ratio": 1.0003535905766687,
+          "min_q": 0.042376956271778114,
+          "mono_frac": 0.3493,
+          "mean_diversity": 0.7367159227639437
+        },
+        {
+          "kappa": 8.0,
+          "alpha": 0.9,
+          "churn": 0.6350182855052299,
+          "coherence": 0.0013308406840071736,
+          "sustain_ratio": 0.9985876410394041,
+          "min_q": 0.019041799981485814,
+          "mono_frac": 0.49240000000000006,
+          "mean_diversity": 0.5837217320466256
+        },
+        {
+          "kappa": 8.0,
+          "alpha": 1.0,
+          "churn": 0.7614691834773661,
+          "coherence": 0.1606594104561181,
+          "sustain_ratio": 0.9987061209111967,
+          "min_q": 9.99999998e-10,
+          "mono_frac": 0.5001,
+          "mean_diversity": 0.3079576032018384
+        }
+      ]
+    ]
+  },
+  "alpha_star_curve": [
+    {
+      "kappa": 0.0,
+      "alpha_star_div90": 1.0,
+      "note90": "safe even at α=1.0 (range 內無 onset)",
+      "alpha_star_div80": 1.0,
+      "note80": "safe even at α=1.0 (range 內無 onset)"
+    },
+    {
+      "kappa": 0.5,
+      "alpha_star_div90": 0.899,
+      "note90": "onset",
+      "alpha_star_div80": 0.96,
+      "note80": "onset"
+    },
+    {
+      "kappa": 1.0,
+      "alpha_star_div90": 0.815,
+      "note90": "onset",
+      "alpha_star_div80": 0.888,
+      "note80": "onset"
+    },
+    {
+      "kappa": 2.0,
+      "alpha_star_div90": 0.721,
+      "note90": "onset",
+      "alpha_star_div80": 0.826,
+      "note80": "onset"
+    },
+    {
+      "kappa": 4.0,
+      "alpha_star_div90": 0.658,
+      "note90": "onset",
+      "alpha_star_div80": 0.781,
+      "note80": "onset"
+    },
+    {
+      "kappa": 8.0,
+      "alpha_star_div90": 0.595,
+      "note90": "onset",
+      "alpha_star_div80": 0.743,
+      "note80": "onset"
+    }
+  ],
+  "low_sigma_stress": [
+    {
+      "kappa": 2.0,
+      "alpha": 0.8,
+      "sigma": 0.1,
+      "churn": 0.695516920799461,
+      "coherence": 0.22325569208615365,
+      "sustain_ratio": 0.9943734989452903,
+      "min_q": 0.02415024681753607,
+      "mono_frac": 0.7985,
+      "mean_diversity": 0.5549397916588459,
+      "verdict": "★WHIPLASH-collapse (暫態近單一文化)"
+    },
+    {
+      "kappa": 2.0,
+      "alpha": 0.8,
+      "sigma": 0.2,
+      "churn": 0.5029389461839047,
+      "coherence": 0.006812693063218743,
+      "sustain_ratio": 1.000471542883889,
+      "min_q": 0.05019951944731047,
+      "mono_frac": 0.3155,
+      "mean_diversity": 0.7451795542683655,
+      "verdict": "★WHIPLASH-collapse (暫態近單一文化)"
+    },
+    {
+      "kappa": 2.0,
+      "alpha": 0.8,
+      "sigma": 0.3,
+      "churn": 0.47740685237628533,
+      "coherence": 0.00649525616253942,
+      "sustain_ratio": 1.0012662754164097,
+      "min_q": 0.054687038232771046,
+      "mono_frac": 0.1083,
+      "mean_diversity": 0.7782539661605213,
+      "verdict": "noisy-coexist (抖動但不塌;OK)"
+    },
+    {
+      "kappa": 2.0,
+      "alpha": 0.8,
+      "sigma": 0.5,
+      "churn": 0.4228485395588276,
+      "coherence": 0.011371872576654073,
+      "sustain_ratio": 1.0017952522803917,
+      "min_q": 0.07121586073121325,
+      "mono_frac": 0.0026999999999999997,
+      "mean_diversity": 0.8299352671959002,
+      "verdict": "noisy-coexist (抖動但不塌;OK)"
+    },
+    {
+      "kappa": 8.0,
+      "alpha": 0.8,
+      "sigma": 0.1,
+      "churn": 0.7184212081070998,
+      "coherence": 1.0,
+      "sustain_ratio": 1.0,
+      "min_q": 0.03225806451612902,
+      "mono_frac": 1.0,
+      "mean_diversity": 0.5266032882386068,
+      "verdict": "★WHIPLASH-collapse (暫態近單一文化)"
+    },
+    {
+      "kappa": 8.0,
+      "alpha": 0.8,
+      "sigma": 0.2,
+      "churn": 0.7184033622486354,
+      "coherence": 1.0,
+      "sustain_ratio": 1.0000099371407987,
+      "min_q": 0.03140473118279569,
+      "mono_frac": 0.9994999999999999,
+      "mean_diversity": 0.5266336609659977,
+      "verdict": "★WHIPLASH-collapse (暫態近單一文化)"
+    },
+    {
+      "kappa": 8.0,
+      "alpha": 0.8,
+      "sigma": 0.3,
+      "churn": 0.695516920799461,
+      "coherence": 0.22325569208615365,
+      "sustain_ratio": 0.9943734989452903,
+      "min_q": 0.02415024681753607,
+      "mono_frac": 0.7985,
+      "mean_diversity": 0.5549397916588459,
+      "verdict": "★WHIPLASH-collapse (暫態近單一文化)"
+    },
+    {
+      "kappa": 8.0,
+      "alpha": 0.8,
+      "sigma": 0.5,
+      "churn": 0.5119669328043803,
+      "coherence": 0.0063519197956600475,
+      "sustain_ratio": 1.0003535905766687,
+      "min_q": 0.042376956271778114,
+      "mono_frac": 0.3493,
+      "mean_diversity": 0.7367159227639437,
+      "verdict": "★WHIPLASH-collapse (暫態近單一文化)"
+    },
+    {
+      "kappa": 2.0,
+      "alpha": 1.0,
+      "sigma": 0.1,
+      "churn": 0.7613321397338835,
+      "coherence": 0.16098054742941983,
+      "sustain_ratio": 0.9990601874608224,
+      "min_q": 9.99999998e-10,
+      "mono_frac": 0.5001,
+      "mean_diversity": 0.30801651255743073,
+      "verdict": "★WHIPLASH-collapse (暫態近單一文化)"
+    },
+    {
+      "kappa": 2.0,
+      "alpha": 1.0,
+      "sigma": 0.2,
+      "churn": 0.7612811385304437,
+      "coherence": 0.16275110516053065,
+      "sustain_ratio": 0.9990761413963547,
+      "min_q": 9.99999998e-10,
+      "mono_frac": 0.5001999999999999,
+      "mean_diversity": 0.30820591579984036,
+      "verdict": "★WHIPLASH-collapse (暫態近單一文化)"
+    },
+    {
+      "kappa": 2.0,
+      "alpha": 1.0,
+      "sigma": 0.3,
+      "churn": 0.7608340256364472,
+      "coherence": 0.14651191497180077,
+      "sustain_ratio": 0.9994626026724246,
+      "min_q": 9.99999998e-10,
+      "mono_frac": 0.5014999999999998,
+      "mean_diversity": 0.313369206013157,
+      "verdict": "★WHIPLASH-collapse (暫態近單一文化)"
+    },
+    {
+      "kappa": 2.0,
+      "alpha": 1.0,
+      "sigma": 0.5,
+      "churn": 0.7315911304676858,
+      "coherence": 0.03966838833287329,
+      "sustain_ratio": 1.0009095468941083,
+      "min_q": 9.99999998e-10,
+      "mono_frac": 0.488,
+      "mean_diversity": 0.3942050913216549,
+      "verdict": "★WHIPLASH-collapse (暫態近單一文化)"
+    },
+    {
+      "kappa": 8.0,
+      "alpha": 1.0,
+      "sigma": 0.1,
+      "churn": 0.7613321397338835,
+      "coherence": 0.16098054742941983,
+      "sustain_ratio": 0.9990601874608224,
+      "min_q": 9.99999998e-10,
+      "mono_frac": 0.5001,
+      "mean_diversity": 0.30801651255743073,
+      "verdict": "★WHIPLASH-collapse (暫態近單一文化)"
+    },
+    {
+      "kappa": 8.0,
+      "alpha": 1.0,
+      "sigma": 0.2,
+      "churn": 0.7613321397338835,
+      "coherence": 0.16098054742941983,
+      "sustain_ratio": 0.9990601874608224,
+      "min_q": 9.99999998e-10,
+      "mono_frac": 0.5001,
+      "mean_diversity": 0.30801651255743073,
+      "verdict": "★WHIPLASH-collapse (暫態近單一文化)"
+    },
+    {
+      "kappa": 8.0,
+      "alpha": 1.0,
+      "sigma": 0.3,
+      "churn": 0.7613321397338835,
+      "coherence": 0.16098054742941983,
+      "sustain_ratio": 0.9990601874608224,
+      "min_q": 9.99999998e-10,
+      "mono_frac": 0.5001,
+      "mean_diversity": 0.30801651255743073,
+      "verdict": "★WHIPLASH-collapse (暫態近單一文化)"
+    },
+    {
+      "kappa": 8.0,
+      "alpha": 1.0,
+      "sigma": 0.5,
+      "churn": 0.7614691834773661,
+      "coherence": 0.1606594104561181,
+      "sustain_ratio": 0.9987061209111967,
+      "min_q": 9.99999998e-10,
+      "mono_frac": 0.5001,
+      "mean_diversity": 0.3079576032018384,
+      "verdict": "★WHIPLASH-collapse (暫態近單一文化)"
+    }
+  ],
+  "method": "bisection on mean_diversity threshold (8-seed avg), 14 iters"
+}

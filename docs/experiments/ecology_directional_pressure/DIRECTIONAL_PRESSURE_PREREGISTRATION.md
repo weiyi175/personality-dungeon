@@ -87,6 +87,7 @@ fitness_i = (1/N − q_i)  +  g · d_i        # 第一項=neg-freq centripetal�
 - **判準**：偏離歸因到 softplus(lam) 的增益重映射、EMA(eta) 的遲滯、有限窗(50) 的取樣噪聲、離散 binning、**response driver β**——逐項以關掉/改值的 ablation 佐證。
 - **β 的雙面性（鎖定認知）**：vertex 穩定閾值 g\*=1 **對 β 不變**（vertex 處 fitness 符號條件，與 driver 無關）；但**可觀測 fixation g\*（max_q≥0.95）對 β 不是**——β↑ → interior 固定點 q_dom↑ → 更低 g 跨 0.95 → `g*_apparatus` 被往下壓。故 β 是 apparatus 旋鈕、入 §6 ablation，不是自由 nuisance。
 - **理由**：分岔的**存在**是教科書；但**在帶這些非理想性的現役儀器裡 g\* 落在哪、被扭曲多少**，正是本專案「metric-defined vs real mechanism」主命題下的真貢獻；同時校驗生態這台儀器對 directional 擾動是否忠實。
+- **★ finite-size 扭曲的*符號*依 response driver 邊界行為（2026-06-22 addendum；併入自重複草稿 reduced_form_bifurcation，已撤）**：上述 β 效應是**確定/mean-field**的（β↑→q_dom↑→可觀測 g\* 往下）。另有一層**有限尺寸**效應，其**符號取決於 driver 邊界**：(a) **吸收邊界**（replicator 式 `q_i×`）→ demographic 噪聲在 g→1 把縮小的 minority 推進吸收 → g\* **往下**（finite-N 侵蝕）；(b) **軟地板**（softmax/softplus 式：minority 缺席→最大稀缺獎勵→再播種）→ finite-W 滅絕被**推遲** → g\* **往上**（finite-W 保護）。**現役算子 driver 是 softmax/softplus（軟地板）→ 預測 finite-W 把 g\* 往上推、部分抵消 β 的往下效應** → §6 ablation 應分離這兩個反向效應。獨立 g=0 κ-sweep（遊戲軌，harness `scripts/experiments/ecology_reduced_form_bifurcation.py`）已證軟地板下 whiplash 由 α（重選率/慣性）主導、neg-freq 引擎在 production per-submission 序列化下穩健，佐證軟地板再播種的保護性。
 
 ### 機制診斷（探索性，報告不作 confirmatory 判定）
 - **遲滯（hysteresis）**：g 上掃 vs 下掃的 g\* 是否不同 → 分岔型態（乾淨 transcritical vs 有遲滯的 saddle-node）= phase portrait 診斷。

@@ -1,0 +1,359 @@
+{
+  "self_checks_pass": true,
+  "model": "probit U_i=(1+κ)f_i+N(0,σ²), q'=(1-α)q+α·cohort, g=0",
+  "kappa_alpha_sweep": {
+    "sigma": 0.5,
+    "n_pop": 30,
+    "kappas": [
+      0.0,
+      0.5,
+      1.0,
+      2.0,
+      4.0,
+      8.0
+    ],
+    "alphas": [
+      0.1,
+      0.25,
+      0.5,
+      1.0
+    ],
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "grid": [
+      [
+        {
+          "kappa": 0.0,
+          "alpha": 0.1,
+          "churn": 0.0283455615464837,
+          "coherence": 0.043668805217154175,
+          "sustain_ratio": 0.9588753548864688,
+          "min_q": 0.2769881489600272,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.999067182553939,
+          "verdict": "static-coexist (穩態共存/不動;高多樣)"
+        },
+        {
+          "kappa": 0.0,
+          "alpha": 0.25,
+          "churn": 0.04814133184236269,
+          "coherence": 0.011636507049651065,
+          "sustain_ratio": 0.9693322898870816,
+          "min_q": 0.24523622575965037,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9973202422053653,
+          "verdict": "noisy-coexist (抖動但不塌;OK)"
+        },
+        {
+          "kappa": 0.0,
+          "alpha": 0.5,
+          "churn": 0.08149382783333889,
+          "coherence": 0.012712016175101145,
+          "sustain_ratio": 0.9888642055768411,
+          "min_q": 0.1941447806848022,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9923393513280485,
+          "verdict": "noisy-coexist (抖動但不塌;OK)"
+        },
+        {
+          "kappa": 0.0,
+          "alpha": 1.0,
+          "churn": 0.2629610596341119,
+          "coherence": 0.04825329227179047,
+          "sustain_ratio": 0.9754908882020115,
+          "min_q": 9.99999999e-10,
+          "mono_frac": 0.0004,
+          "mean_diversity": 0.9186290982496746,
+          "verdict": "★WHIPLASH-collapse (暫態近單一文化)"
+        }
+      ],
+      [
+        {
+          "kappa": 0.5,
+          "alpha": 0.1,
+          "churn": 0.025748932067827024,
+          "coherence": 0.020925161038301162,
+          "sustain_ratio": 0.9587433971132651,
+          "min_q": 0.2844394820940032,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9992333683993172,
+          "verdict": "static-coexist (穩態共存/不動;高多樣)"
+        },
+        {
+          "kappa": 0.5,
+          "alpha": 0.25,
+          "churn": 0.045003098691383484,
+          "coherence": 0.008623619305744871,
+          "sustain_ratio": 0.9752595465430268,
+          "min_q": 0.24919449496133922,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9976581329997382,
+          "verdict": "noisy-coexist (抖動但不塌;OK)"
+        },
+        {
+          "kappa": 0.5,
+          "alpha": 0.5,
+          "churn": 0.08146858159270165,
+          "coherence": 0.009824243483058466,
+          "sustain_ratio": 0.9878561964596362,
+          "min_q": 0.19529236653465043,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9923381343565394,
+          "verdict": "noisy-coexist (抖動但不塌;OK)"
+        },
+        {
+          "kappa": 0.5,
+          "alpha": 1.0,
+          "churn": 0.5350782649186585,
+          "coherence": 0.025557144536940708,
+          "sustain_ratio": 0.989083985628581,
+          "min_q": 9.999999984e-10,
+          "mono_frac": 0.0618,
+          "mean_diversity": 0.6867304855140128,
+          "verdict": "★WHIPLASH-collapse (暫態近單一文化)"
+        }
+      ],
+      [
+        {
+          "kappa": 1.0,
+          "alpha": 0.1,
+          "churn": 0.023840331522843195,
+          "coherence": 0.020286429605209048,
+          "sustain_ratio": 0.9634952296802373,
+          "min_q": 0.2890472248005844,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9993420229764229,
+          "verdict": "static-coexist (穩態共存/不動;高多樣)"
+        },
+        {
+          "kappa": 1.0,
+          "alpha": 0.25,
+          "churn": 0.04302387498647514,
+          "coherence": 0.02391266682941265,
+          "sustain_ratio": 0.9792966847370541,
+          "min_q": 0.25445636453663384,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9978653690617856,
+          "verdict": "noisy-coexist (抖動但不塌;OK)"
+        },
+        {
+          "kappa": 1.0,
+          "alpha": 0.5,
+          "churn": 0.08477858408939944,
+          "coherence": 0.02441203326465243,
+          "sustain_ratio": 0.9931059624007295,
+          "min_q": 0.1898621372019406,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9917543776200392,
+          "verdict": "noisy-coexist (抖動但不塌;OK)"
+        },
+        {
+          "kappa": 1.0,
+          "alpha": 1.0,
+          "churn": 0.6572996052775929,
+          "coherence": 0.013601375604364141,
+          "sustain_ratio": 1.0012872347348185,
+          "min_q": 9.99999998e-10,
+          "mono_frac": 0.28959999999999997,
+          "mean_diversity": 0.522325273824922,
+          "verdict": "★WHIPLASH-collapse (暫態近單一文化)"
+        }
+      ],
+      [
+        {
+          "kappa": 2.0,
+          "alpha": 0.1,
+          "churn": 0.0212937058489188,
+          "coherence": 0.011414195031126147,
+          "sustain_ratio": 0.9667407816522191,
+          "min_q": 0.2933522142845359,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9994752730003359,
+          "verdict": "static-coexist (穩態共存/不動;高多樣)"
+        },
+        {
+          "kappa": 2.0,
+          "alpha": 0.25,
+          "churn": 0.040886461387333206,
+          "coherence": 0.01603049007887728,
+          "sustain_ratio": 0.9824267570628014,
+          "min_q": 0.25851727011587716,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9980742875934535,
+          "verdict": "noisy-coexist (抖動但不塌;OK)"
+        },
+        {
+          "kappa": 2.0,
+          "alpha": 0.5,
+          "churn": 0.103503432008753,
+          "coherence": 0.022070169815313834,
+          "sustain_ratio": 0.9806992531446946,
+          "min_q": 0.1895952318375745,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.988025002890112,
+          "verdict": "noisy-coexist (抖動但不塌;OK)"
+        },
+        {
+          "kappa": 2.0,
+          "alpha": 1.0,
+          "churn": 0.7315911304676858,
+          "coherence": 0.03966838833287329,
+          "sustain_ratio": 1.0009095468941083,
+          "min_q": 9.99999998e-10,
+          "mono_frac": 0.488,
+          "mean_diversity": 0.3942050913216549,
+          "verdict": "★WHIPLASH-collapse (暫態近單一文化)"
+        }
+      ],
+      [
+        {
+          "kappa": 4.0,
+          "alpha": 0.1,
+          "churn": 0.018483435358670662,
+          "coherence": 0.016993403784695094,
+          "sustain_ratio": 0.9767987462296462,
+          "min_q": 0.29940202961289647,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9996058208151052,
+          "verdict": "static-coexist (穩態共存/不動;高多樣)"
+        },
+        {
+          "kappa": 4.0,
+          "alpha": 0.25,
+          "churn": 0.04133370447392013,
+          "coherence": 0.01330517503737661,
+          "sustain_ratio": 0.9821938943955641,
+          "min_q": 0.26008602309607254,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9980340593460421,
+          "verdict": "noisy-coexist (抖動但不塌;OK)"
+        },
+        {
+          "kappa": 4.0,
+          "alpha": 0.5,
+          "churn": 0.1821732500435393,
+          "coherence": 0.01550674419212197,
+          "sustain_ratio": 0.9863361371312038,
+          "min_q": 0.1754226881157384,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9673645598331062,
+          "verdict": "noisy-coexist (抖動但不塌;OK)"
+        },
+        {
+          "kappa": 4.0,
+          "alpha": 1.0,
+          "churn": 0.7608340256364472,
+          "coherence": 0.14651191497180077,
+          "sustain_ratio": 0.9994626026724246,
+          "min_q": 9.99999998e-10,
+          "mono_frac": 0.5014999999999998,
+          "mean_diversity": 0.313369206013157,
+          "verdict": "★WHIPLASH-collapse (暫態近單一文化)"
+        }
+      ],
+      [
+        {
+          "kappa": 8.0,
+          "alpha": 0.1,
+          "churn": 0.016337548160429087,
+          "coherence": 0.011112877060134444,
+          "sustain_ratio": 0.9880331981688949,
+          "min_q": 0.3018011023487031,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9996935618533579,
+          "verdict": "static-coexist (穩態共存/不動;高多樣)"
+        },
+        {
+          "kappa": 8.0,
+          "alpha": 0.25,
+          "churn": 0.060736021576789846,
+          "coherence": 0.012176061784481659,
+          "sustain_ratio": 1.0059380167152385,
+          "min_q": 0.25920997350959996,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9960042740954623,
+          "verdict": "noisy-coexist (抖動但不塌;OK)"
+        },
+        {
+          "kappa": 8.0,
+          "alpha": 0.5,
+          "churn": 0.23271386497545588,
+          "coherence": 0.010443760224494648,
+          "sustain_ratio": 0.9974682221324139,
+          "min_q": 0.13379922101838332,
+          "mono_frac": 0.0,
+          "mean_diversity": 0.9448558791612012,
+          "verdict": "noisy-coexist (抖動但不塌;OK)"
+        },
+        {
+          "kappa": 8.0,
+          "alpha": 1.0,
+          "churn": 0.7614691834773661,
+          "coherence": 0.1606594104561181,
+          "sustain_ratio": 0.9987061209111967,
+          "min_q": 9.99999998e-10,
+          "mono_frac": 0.5001,
+          "mean_diversity": 0.3079576032018384,
+          "verdict": "★WHIPLASH-collapse (暫態近單一文化)"
+        }
+      ]
+    ]
+  },
+  "sigma_sensitivity": [
+    {
+      "sigma": 0.2,
+      "churn": 0.21661180668016417,
+      "coherence": 0.012892341533586264,
+      "sustain_ratio": 0.9958092422959322,
+      "min_q": 0.14937127836375463,
+      "mono_frac": 0.0,
+      "mean_diversity": 0.9526088319407517,
+      "verdict": "noisy-coexist (抖動但不塌;OK)"
+    },
+    {
+      "sigma": 0.35,
+      "churn": 0.15796105568511506,
+      "coherence": 0.009115144021550734,
+      "sustain_ratio": 0.9962234689168152,
+      "min_q": 0.18508350339554575,
+      "mono_frac": 0.0,
+      "mean_diversity": 0.9748284744313812,
+      "verdict": "noisy-coexist (抖動但不塌;OK)"
+    },
+    {
+      "sigma": 0.5,
+      "churn": 0.103503432008753,
+      "coherence": 0.022070169815313834,
+      "sustain_ratio": 0.9806992531446946,
+      "min_q": 0.1895952318375745,
+      "mono_frac": 0.0,
+      "mean_diversity": 0.988025002890112,
+      "verdict": "noisy-coexist (抖動但不塌;OK)"
+    },
+    {
+      "sigma": 0.8,
+      "churn": 0.08365386794567224,
+      "coherence": 0.021444230550042756,
+      "sustain_ratio": 0.9860810609145112,
+      "min_q": 0.1917741441981134,
+      "mono_frac": 0.0,
+      "mean_diversity": 0.9919523874146883,
+      "verdict": "noisy-coexist (抖動但不塌;OK)"
+    },
+    {
+      "sigma": 1.2,
+      "churn": 0.08092372021363406,
+      "coherence": 0.012589406623498126,
+      "sustain_ratio": 0.9841723542221732,
+      "min_q": 0.19372802316985024,
+      "mono_frac": 0.0,
+      "mean_diversity": 0.9924405322386454,
+      "verdict": "noisy-coexist (抖動但不塌;OK)"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 # 地牢經濟 — R3/C 隔離軌 規劃 v1（PvP 當隔離 game feature）
 
-> **狀態**: DRAFT v1.1（規劃，未實作、未 commit）
-> **日期**: 2026-06-21（v1.1：firewall review — F1 收緊「零讀取」、新增 F6 量級耦合、F5 微補、firewall 主張誠實化）
+> **狀態**: DRAFT v1.2（規劃，未實作、未 commit）
+> **日期**: 2026-06-22（v1.2：κ-sweep 模擬定案——採 **(ii)** 多樣性 coin 可買戰力；F6 在 per-submission 序列化下 sim 證**不致 whiplash**；新增穩定不變式 **S1** + α\*(κ) 安全表 + 權重 EMA=內建阻尼。v1.1：firewall review F1/F6/F5）
 > **作者**: Claude Opus 4.8 + User
 > **關係**: 與 reduced-form bifurcation pre-reg（研究軌）**並行**；本份是**遊戲軌**。
 > 兩軌共識＝把 directional 壓力搬出 PvP（研究用抽象 `g`），PvP 在此**降為隔離 game feature**。
@@ -47,7 +47,7 @@ Rank 留作**PvP-內部位階**（vs house，非零和），coin 留作**消耗�
 | **F3** | **sink 皆 archetype-agnostic**：門票成本/防禦升級**與派系無關**（同價同效，不論 archetype） | 否則花 coin 會偏置某 archetype＝經 sink 的耦合漏洞 | 新設計，§3 鎖 |
 | **F4** | **PvP 不餵生態 `submit()`**：PvP session 不進 ecology `_recent` 窗 / 不呼叫 `submit()` | 生態分佈只能由 will-authoring 提交構成 | 現況 PvP 不呼 `submit()`（[ecology submit 只在冒險上傳](api/ecology_tracker.py#L170)）→ invariant＝**維持**；若 PvP 產 session，沿用 P7-H 清洗律（`run_id` 非空排除） |
 | **F5** | **observable 分離 + 無第二資訊通道**：多樣性 observable（archetype entropy）只由 authoring 提交算，永不混入 Rank/coin flow；**且 PvP UI 不得把 live archetype 分佈當第二資訊通道餵 authoring**（地牢清單顯示 deployed 派系時別洩露族群分佈，超過既有稀缺提示的部分） | 研究讀數獨立性 + authoring 只該收一條稀缺訊號 | 設計約束，§6 驗 |
-| **F6** | **量級耦合受控（非方向）**：coin **source** 是 archetype-coupled（neg-freq 給稀缺型更多 coin，intended、F-exempt）；把 coin 變得能買 PvP（門票/防禦）會**放大「當稀缺型」的 authoring 誘因 → 抬高 effective lam**。這**不是**第二*方向*算子（方向仍是 neg-freq）但是**量級耦合** | 改變既有合法 operator 的**強度** → 平移生態穩態 + 研究軌 production 操作點（pre-reg C3：lam↑ ⇒ g\*↓） | 緩解＝PvP coin-價值刻意 **modest**（門票/防禦 ≪ coin 內在/存活價值），**或**接受 production lam 是 PvP-相關、需**估**不假設 2.0；§3 鎖、§6 驗 |
+| **F6** | **量級耦合受控（非方向）**：coin **source** 是 archetype-coupled（neg-freq 給稀缺型更多 coin，intended、F-exempt）；把 coin 變得能買 PvP（門票/防禦）會**放大「當稀缺型」的 authoring 誘因 → 抬高 effective lam**。這**不是**第二*方向*算子（方向仍是 neg-freq）但是**量級耦合** | 改變既有合法 operator 的**強度** → 平移生態穩態 + 研究軌 production 操作點（pre-reg C3：lam↑ ⇒ g\*↓） | **sim 已解（2026-06-22 κ-sweep）**：per-submission 序列化下有效 α 極低 → F6 量級耦合**不致 whiplash**（即便 κ=8）；binding 旋鈕是 α（慣性）非 κ → **採 (ii)**（coin 可買戰力）。守穩定不變式 **S1**（§3）；α\*(κ) 安全表見 §3 |
 
 **一句話 firewall（v1.1 誠實化）**：*coin 與 Rank 是玩家面消耗/位階；archetype 分佈是研究面 state；兩者間只有一條合法耦合——
 neg-freq 稀缺顯示 → authoring（生態本來、intended 的那條）。firewall 封死**任何第二*方向*算子**（F1–F5）；
@@ -78,7 +78,18 @@ neg-freq 稀缺顯示 → authoring（生態本來、intended 的那條）。fir
 
 **Rank（既有，不改、不耦合）**：Increment 1 vs-house ±`stake`、floor 0、地牢 Rank 靜態（[challenge():114-147](api/pvp_manager.py#L114)）。**非零和、不碰 coin**。
 
-**F6 緩解（量級耦合，build 前須擇一定）**：sink 數值定了 coin 的*用途價值*——`TICKET_COST`/`DEFENSE_TIERS` 越高 → coin 越值錢 → 「當稀缺型」誘因越強 → effective lam 越高（→ 研究軌 g\* 越小）。二擇一：(i) coin-價值刻意 **modest**（讓 coin 內在/存活價值主導、PvP 用途次要），或 (ii) 研究軌讀 g\* 時把 production lam 當 **PvP-相關待估量**、不假設 2.0。詳論見本 session 後續 F6 探討。
+**★ (ii)/(iii) 裁定（2026-06-22 κ-sweep 模擬，採 (ii)）**：多樣性 coin **可**買 PvP 戰力（**單一幣**、不拆聲望幣）。理由＝模擬證 F6 的量級耦合在現行裝置下**不致 whiplash**：
+
+- **whiplash 由 α（族群每代重選率/慣性）主導、非 κ**。α≤0.5 時所有 κ（0→8）穩態共存；whiplash 只在 α→1（整代翻）出現。
+- **α\*(κ) 安全表**（保多樣性 ≥0.9，bisection，σ=0.5/N=30）：`κ=1→α*0.82`、`κ=2→0.72`、`κ=4→0.66`、`κ=8→0.60`。**α < α\*(κ) 即安全。**
+- **production 天然落在低 α 安全區**：`submit()` **每筆**就更新 window（[:211](api/ecology_tracker.py#L211)）＋權重 EMA（`eta=0.2`，[:189](api/ecology_tracker.py#L189)）→ per-submission 序列化、無大批次對凍結訊號同響應 → 有效 α≈O(1/W)，遠在 α\* 下（κ=8 仍 ~3–30× 邊際）。
+- **權重 EMA `eta=0.2` ＝內建阻尼**（≈ parking D「稀缺加成遲滯/緩斜坡」，原以為未實作——其實這條 EMA 已半實作）。
+- 危險角＝三重疊加 `α≥0.8 + 高 κ + 低 σ`；production 序列化使 α→1 幾不可達。
+- artifacts：harness `scripts/experiments/ecology_reduced_form_bifurcation.py`、`reports/ecology/reduced_form_kappa_{sweep,refine}.{json,png}`。
+
+**穩定不變式 S1（非 firewall、屬遊戲動力）**：**不可讓大批玩家對「凍結的稀缺快照」同時下注**（例：長週期顯示同一稀缺型 + 累積大量同響應提交 → 抬有效 α → 逼近 whiplash）。守法＝稀缺顯示細粒度刷新 / submit() 維持 per-submission 序列化 → α 低 → 任何合理 κ 安全。
+
+> 誠實邊界：sim 是假設模型；`α↔真人重寫頻率`、`σ↔真人理性` 是建模假設，真值待行為版 B。結構結論（α 主導、序列化壓低 α、κ 在低 α 免費）穩健。
 
 ---
 
@@ -104,6 +115,7 @@ neg-freq 稀缺顯示 → authoring（生態本來、intended 的那條）。fir
 - 🟡 **均衡支付 ~100/人** → 門票成本校準的輸入（sink 要壓得住 source 水位）。
 - 🟡 **雙生券** → 延後（§7）。
 - 🟢 **存活金幣修正** → 已做，升級成持久錢包的一個 source。
+- 🟢 **多樣性 coin 是否買戰力（(ii) vs (iii)）** → **採 (ii)**（單一幣、coin 可買 PvP 戰力）；κ-sweep 證 F6 量級耦合在 per-submission 序列化下不致 whiplash（§3）。穩定靠不變式 S1（α 低），非靠拆幣。
 
 ---
 
@@ -114,7 +126,7 @@ neg-freq 稀缺顯示 → authoring（生態本來、intended 的那條）。fir
 - **F3**：`TICKET_COST`/`DEFENSE_*` 對所有派系相同。測：三派門票/升級成本與效果張量逐元相等。
 - **F4**：grep 證 PvP 路徑不呼 `ecology.submit()`；若 PvP 產 session 則 `run_id` 非空（被生態/分析清洗律排除）。
 - **F5**：多樣性 observable 計算只吃 authoring 提交流；單元測喂入 PvP 事件應對 entropy **零影響**；PvP UI 不顯露超過稀缺提示的族群分佈。
-- **F6**：coin-價值→effective lam 的緩解已「擇一」落定（modest coin-價值 *或* 估 production lam）。查：sink 數值文件化其對 coin-價值/lam 的影響；研究軌讀 g\* 的 lam 註明來源（假設 2.0 vs 估計值）。
+- **F6 / S1（穩定）**：κ-sweep 已證 per-submission 序列化下 F6 不致 whiplash（採 (ii)）。守：稀缺顯示細粒度刷新、`submit()` 維持每筆更新 window+權重（**無 batch-against-frozen-snapshot**）。可選 regression＝跑 `ecology_reduced_form_bifurcation.py` 確認 production 有效 α < α\*(κ)（§3 表）。
 - 經濟健全：wallet ledger 累加 = balance（對帳）；sink 不可使 balance < 0。
 
 ---
