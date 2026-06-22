@@ -53,6 +53,8 @@ from api.player_test_tracker import get_tracker as _get_tracker
 from api.survey_manager import get_survey as _get_survey
 from api.ecology_tracker import get_tracker as _get_ecology
 from api.pvp_manager import get_manager as _get_pvp
+from api.wallet_manager import InsufficientFunds
+from api.wallet_manager import get_manager as _get_wallet
 from simulation.bifurcation_detector import (
     compute_bifurcation_distance,
     compute_sensitive_direction,
@@ -133,6 +135,11 @@ ECOLOGY_OUT_DIR = os.environ.get("ECOLOGY_OUT_DIR", "reports/ecology")
 # PVP / 地牢挑戰 store（最小 combat loop，獨立 store；不污染 P7-H / ecology）。
 PVP_OUT_DIR = os.environ.get("PVP_OUT_DIR", "reports/pvp")
 
+# 玩家錢包 store（Increment 2 經濟；獨立 store）。
+WALLET_OUT_DIR = os.environ.get("WALLET_OUT_DIR", "reports/wallet")
+# 前端可自行 credit 的 source 白名單（agnostic）：存活。生態 coins 為後端權威 credit。
+_CLIENT_CREDIT_SOURCES = {"survival"}
+
 
 async def _p7h_save(manager) -> None:
     """Persist a P7-H manager to disk off the event loop (best-effort)."""
@@ -158,6 +165,14 @@ async def _pvp_save() -> None:
         log_metric("pvp_save_error", error=str(exc))
 
 
+async def _wallet_save() -> None:
+    """Persist the wallet off the event loop (best-effort)."""
+    try:
+        await asyncio.to_thread(_get_wallet().save, WALLET_OUT_DIR)
+    except Exception as exc:
+        log_metric("wallet_save_error", error=str(exc))
+
+
 @asynccontextmanager
 async def _lifespan(app: FastAPI):
     """Backfill managers from disk so a restart mid-study keeps assignments,
@@ -179,6 +194,10 @@ async def _lifespan(app: FastAPI):
         _get_pvp().load(PVP_OUT_DIR)
     except Exception as exc:
         log_metric("pvp_load_error", error=str(exc))
+    try:
+        _get_wallet().load(WALLET_OUT_DIR)
+    except Exception as exc:
+        log_metric("wallet_load_error", error=str(exc))
     yield
 
 
@@ -1666,6 +1685,13 @@ async def ecology_submit(req: EcologySubmitRequest) -> dict[str, Any]:
         outcome=req.outcome,
     )
     await _ecology_save()
+    # (ii) 單一幣：真實玩家（run_id 空）的生態 coins 累加進錢包；sim/replay(帶 run_id) 不入錢包。
+    if not req.run_id:
+        coins = int(result.get("coins", 0))
+        if coins:
+            _get_wallet().credit("ecology", coins, note="session %s" % req.session_id[:8])
+            await _wallet_save()
+        result["balance"] = _get_wallet().balance()
     return result
 
 
@@ -1698,15 +1724,55 @@ async def pvp_dungeons() -> dict[str, Any]:
 
 @app.post("/pvp/challenge")
 async def pvp_challenge(req: PvpChallengeRequest) -> dict[str, Any]:
-    """挑戰一座地牢：challenger 派系 vs deployed → authored M 判勝負 + Rank delta。"""
+    """挑戰一座地牢：先扣門票（coin sink，F2 與 Rank 分離）→ authored M 判勝負 + Rank delta。"""
+    wallet = _get_wallet()
+    try:
+        wallet.debit("pvp_ticket", wallet.params.ticket_cost,
+                     note="challenge %s" % req.dungeon_id)
+    except InsufficientFunds as exc:
+        raise HTTPException(status_code=402, detail=str(exc))
     try:
         result = _get_pvp().challenge(req.challenger_faction, req.dungeon_id)
-    except ValueError as exc:
+    except (ValueError, KeyError) as exc:
+        # 請求無效（壞派系 / 地牢不存在）→ 退門票，不罰 malformed request。
+        wallet.credit("pvp_ticket_refund", wallet.params.ticket_cost, note="challenge rejected")
+        await _wallet_save()
+        if isinstance(exc, KeyError):
+            raise HTTPException(status_code=404, detail="dungeon not found: %s" % req.dungeon_id)
         raise HTTPException(status_code=422, detail=str(exc))
-    except KeyError:
-        raise HTTPException(status_code=404, detail="dungeon not found: %s" % req.dungeon_id)
     await _pvp_save()
+    await _wallet_save()
+    result["ticket_charged"] = wallet.params.ticket_cost   # F2：固定 coin 扣款，不碰 Rank
+    result["balance"] = wallet.balance()
     return result
+
+
+# ── 玩家錢包 API（Increment 2 經濟；(ii) 單一幣）──────────────────────────────────
+# source: 生態(後端 credit) + 存活(前端 credit)；sink: PvP 門票。防禦升級待玩家地牢(§7)。
+
+class WalletCreditRequest(BaseModel):
+    source: str
+    amount: int
+    note: str = ""
+
+
+@app.get("/wallet")
+async def wallet_get() -> dict[str, Any]:
+    """錢包餘額 + 門票成本 + 近期帳目。"""
+    return _get_wallet().state()
+
+
+@app.post("/wallet/credit")
+async def wallet_credit(req: WalletCreditRequest) -> dict[str, Any]:
+    """前端 credit agnostic source（存活）；生態 coins 為後端權威 credit、不收此路。"""
+    if req.amount < 0:
+        raise HTTPException(status_code=422, detail="amount must be ≥0")
+    if req.source not in _CLIENT_CREDIT_SOURCES:
+        raise HTTPException(status_code=422,
+                            detail="source must be one of %s" % sorted(_CLIENT_CREDIT_SOURCES))
+    entry = _get_wallet().credit(req.source, req.amount, note=req.note)
+    await _wallet_save()
+    return {"entry": entry, "balance": _get_wallet().balance()}
 
 
 # NOTE: /metrics/events is defined once above (post_metrics_events). A second

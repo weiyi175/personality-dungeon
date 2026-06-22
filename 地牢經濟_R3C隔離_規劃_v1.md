@@ -1,6 +1,6 @@
 # 地牢經濟 — R3/C 隔離軌 規劃 v1（PvP 當隔離 game feature）
 
-> **狀態**: DRAFT v1.2（規劃，未實作、未 commit）
+> **狀態**: DRAFT v1.3（**錢包 + 門票 sink 後端已 BUILT + 測試 29/29**；前端 client 已寫、待 Godot smoke；防禦升級 gate 在玩家地牢延後）
 > **日期**: 2026-06-22（v1.2：κ-sweep 模擬定案——採 **(ii)** 多樣性 coin 可買戰力；F6 在 per-submission 序列化下 sim 證**不致 whiplash**；新增穩定不變式 **S1** + α\*(κ) 安全表 + 權重 EMA=內建阻尼。v1.1：firewall review F1/F6/F5）
 > **作者**: Claude Opus 4.8 + User
 > **關係**: 與 reduced-form bifurcation pre-reg（研究軌）**並行**；本份是**遊戲軌**。
@@ -68,13 +68,15 @@ neg-freq 稀缺顯示 → authoring（生態本來、intended 的那條）。fir
 **金幣 SINK（新建，全 archetype-agnostic — F3）**
 | sink | 機制 | 校準鉤 | archetype 耦合？ |
 |---|---|---|---|
-| **挑戰門票** | 每次 challenge 扣固定 coin（gate farming、給 coin 用途） | `TICKET_COST`（待定；參考均衡支付 ~100/人 parking C 🟡，門票應顯著低於單場所得才不勸退、又高到有意義） | 無（同價不論派系） |
-| **防禦升級** | 花 coin 提升**自己地牢**的守備層級（升 hold；archetype 無關的平層加成） | `DEFENSE_TIERS`（待定數值；效果＝降挑戰者勝率或抬 stake 不對稱，**不分派系**） | 無 |
+| **挑戰門票** ✅BUILT | 每次 challenge 扣固定 coin（gate farming、給 coin 用途） | `WalletParams.ticket_cost` ＝ **provisional 10**（modest ≪ 單場所得；待 g* + 均衡支付 ~100/人 校準） | 無（同價不論派系） |
+| **防禦升級** ⏳延後 | 花 coin 提升**自己地牢**的守備層級 | **gate 在真玩家地牢**（§7）——v1 vs-house 無「被挑戰」對象、防禦無施力點 → 隨玩家地牢一起做 | 無 |
 
-**持久錢包（新建）**
-- 後端 singleton（仿 [pvp_manager save/load](api/pvp_manager.py#L150) + ecology singleton）：per-player `balance` + **append-only ledger**（每筆 source/sink 事件落帳）。
-- **記帳語意＝累加**（使用者反覆強調）：每筆 coin 來自不同體系各自計算後**累加**進 balance；sink 各自扣。ledger 誠實拆解來源，不混為單一數。
-- 現況：`_total_coins` 只活在前端 CollapseScreen（非持久）→ 本步把它升級成後端持久錢包。
+**持久錢包 ✅BUILT**（`api/wallet_manager.py`，2026-06-22）
+- 後端 singleton（仿 [pvp_manager](api/pvp_manager.py#L150)）：`balance` + **append-only ledger** + `credit/debit` + `save/load` + `InsufficientFunds`。`tests/test_wallet_manager.py` **10/10**。
+- 接線：`GET /wallet`、`POST /wallet/credit`(survival 白名單)、`/ecology/submit` 後端 credit 生態 coins（**run_id 空才入**＝只真實玩家）、`/pvp/challenge` **先扣門票（F2 與 Rank 分離）+ 不足 402 + 無效退款**。endpoint tests **6/6**、pvp **13/13 無回歸**。
+- 前端 `src/core/WalletClient.gd` + `PvpScene` 餘額/門票/402 顯示（**待 Godot smoke，使用者**）。
+- **記帳語意＝累加**：每筆 coin 各體系算後累加進 balance；sink 各自扣。`starting_balance` ＝ **provisional 100**（dogfood 種子）。
+- 取代：原 `_total_coins`（前端 CollapseScreen，非持久）→ 後端持久錢包。
 
 **Rank（既有，不改、不耦合）**：Increment 1 vs-house ±`stake`、floor 0、地牢 Rank 靜態（[challenge():114-147](api/pvp_manager.py#L114)）。**非零和、不碰 coin**。
 
