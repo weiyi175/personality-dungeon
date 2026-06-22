@@ -65,3 +65,34 @@ def test_wallet_credit_rejects_non_whitelisted_source():
     r = c.post("/wallet/credit", json={"source": "ecology", "amount": 9999})
     assert r.status_code == 422        # 生態是後端權威 credit，不收前端此路
     assert c.get("/wallet").json()["balance"] == 0
+
+
+def _reset_ecology():
+    import api.ecology_tracker as et
+    et._tracker = et.EcologyTracker()
+
+
+def test_ecology_submit_credits_real_player():
+    """真人 live 提交（有 session_id + 冒險 outcome）→ 生態 coins 進錢包（2026-06-23 修正後）。"""
+    _reset_ecology()
+    c = fresh(start=0)
+    nine = [0.5, 0.5, 0.0, -0.3, 0.0, 0.0, 0.0, 0.0, 0.0]
+    r = c.post("/ecology/submit", json={
+        "personality_9d": nine, "run_id": "sess-x", "session_id": "sess-x",
+        "outcome": {"rounds_survived": 120},
+    }).json()
+    assert r["coins"] > 0
+    assert r["balance"] == r["coins"]                  # 從 0 起、credit 了 coins
+    assert c.get("/wallet").json()["balance"] == r["coins"]
+
+
+def test_ecology_submit_artifact_not_credited():
+    """無 session/outcome 的 smoke 提交 → 不 credit（不是真玩家）。"""
+    _reset_ecology()
+    c = fresh(start=0)
+    nine = [0.5, 0.5, 0.0, -0.3, 0.0, 0.0, 0.0, 0.0, 0.0]
+    r = c.post("/ecology/submit", json={
+        "personality_9d": nine, "run_id": "", "session_id": "", "outcome": {},
+    }).json()
+    assert "balance" not in r                           # credit 分支未觸發
+    assert c.get("/wallet").json()["balance"] == 0

@@ -1685,8 +1685,11 @@ async def ecology_submit(req: EcologySubmitRequest) -> dict[str, Any]:
         outcome=req.outcome,
     )
     await _ecology_save()
-    # (ii) 單一幣：真實玩家（run_id 空）的生態 coins 累加進錢包；sim/replay(帶 run_id) 不入錢包。
-    if not req.run_id:
+    # (ii) 單一幣：真實玩家的生態 coins 累加進錢包。真人判準＝有 session_id + 真實冒險 outcome
+    # （V2 submit(will, get_session_id(), get_session_id(), outcome) 的簽名）。
+    # 2026-06-23 更正：舊條件 `if not req.run_id` 反掉——真人 run_id 非空(=session_id)，那條 credit
+    # 對真玩家從不觸發；in-process replay/smoke 才 run_id 空、無 outcome → 不該 credit。
+    if req.session_id and req.outcome:
         coins = int(result.get("coins", 0))
         if coins:
             _get_wallet().credit("ecology", coins, note="session %s" % req.session_id[:8])

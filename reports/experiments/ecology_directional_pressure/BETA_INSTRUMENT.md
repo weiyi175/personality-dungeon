@@ -44,19 +44,30 @@ CI 在所有 true β 都覆蓋真值；點估計隨 n 收緊：
 β=2 和 β=1 / β=4 分開（也就足以把 g\*(β) 的 robustness 預算釘在一個有用的區間）。
 n=200 仍偏寬（半寬 ~±0.8）。
 
-## 4. 真實資料的誠實裁定（2026-06-23）
+## 4. 真實資料的裁定（2026-06-23，**經一次重大更正**）
 
 ```
-verdict      : INSUFFICIENT_N
-n_real       : 0  (total subs 210, artifacts dropped 2)
-scarcity_std : 0.0000
+verdict      : OK
+n_real       : 208  (total subs 210, artifacts dropped 2)
+scarcity_std : 0.0743
+β (response) : 0.220  ±0.911  95%CI [-1.565, 2.006]
+α_aggressive : 1.890   α_defensive : 2.019   (α_balanced≡0)
 ```
 
-210 筆中 208 為 sim/replay（run_id 非空）。**剩下 2 筆 run_id 空的並非真人**：
-驗證發現兩筆 `session_id` 皆空、`ts` 僅差 ~21ms（程式/smoke 成對提交，非真人 author-under-scarcity）
-→ 篩選加嚴為「run_id 空 **且** session_id 非空」後，**真正可用真人 β-觀測 = 0**。
-（初版只看 run_id 把這 2 筆 artifact 當真人計入 n_real=2，2026-06-23 驗證踩到並修正。）
-**β 現在不可估**——比「n=2」更乾淨地對齊甲：真人從沒走過 live ecology，收集根本還沒發生。
+**更正始末**：初版用「run_id 空＝真人」（沿用 P7-H 另一 store 的清洗律）→ 誤判 n=0/INSUFFICIENT。
+驗證（讀 V2 前端 + replay 腳本 + ts 散佈）發現：V2 `submit(will, get_session_id(), get_session_id(), outcome)`
+讓**真人 run_id==session_id==uuid 且帶真實冒險 outcome**；in-process replay 不設這些欄位且只存 tempdir、
+從不寫 production state。那 208 筆 UUID 記錄跨 **10 天**、median 間隔 90s、全帶 `{cycle,max_proximity,
+rounds_survived}` → **是真人 V2-live，不是 sim**。真人判準改為 `session_id+outcome` 雙非空（不再靠 run_id 號）。
+
+**實質結論**：真人 live 資料**存在（n=208）、β 可估**，但 **β̂=0.22, CI [−1.6, 2.0] 不具資訊量**——
+CI 橫跨 0（連「人是否理稀缺」都答不了）到 g\* 錨點 2.06。主因＝稀缺變異太小（std 0.074，生態大多坐在
+intrinsic 附近），正是 §6B power 分析預測的 low-variation 失能區。**問題不是沒資料，是稀缺沒被驅動 +
+可能 pseudo-replication（208 session 未必 208 個獨立真人，疑開發期重複跑）**。乙的價值因此更精確：
+**逼生態漂移 + 確保獨立受試**，而非「從零收集」。
+
+> ⚠ 連帶 bug（Increment 2，已於同批修）：`/ecology/submit` 的 `if not req.run_id:` credit 條件同樣
+> 反掉——真人 run_id 非空 → 真玩家生態 coins 從沒進錢包。修為「有 session_id + outcome 的真實 live 提交才 credit」。
 
 ## 5. 與專案的接合
 

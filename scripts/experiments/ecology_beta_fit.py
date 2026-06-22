@@ -60,15 +60,18 @@ class BetaData:
     chosen: np.ndarray     # (T,) 所選 archetype index
     n_real: int
     n_total: int
-    n_artifact: int = 0    # run_id 空但 session_id 也空（程式/smoke 成對提交，非真人 session）
+    n_artifact: int = 0    # 排除的非真實-live 筆數（無 session_id 或無 adventure outcome）
 
 
 def load_real_submissions(state_path: str | Path, lam: float = DEFAULT_LAM) -> BetaData:
-    """讀 ecology_state.json，只取**真正的真人 session**。
+    """讀 ecology_state.json，只取**真人 V2-live 提交**。
 
-    篩選＝run_id 空（P7-H 清洗律排 sim/replay）**且 session_id 非空**。後者是 2026-06-23
-    驗證踩到的坑：曾有 2 筆 run_id 空但 session_id 空、ts 僅差 ~21ms 的成對提交——那是
-    程式/smoke 觸發、不是真人 author-under-scarcity。只看 run_id 會把這種 artifact 當真人。
+    判準（2026-06-23 大更正）＝`session_id` 非空 **且** `outcome` 非空。理由（不再靠 run_id 正負號）：
+      • V2 前端 submit(will, get_session_id(), get_session_id(), outcome) → 真人 run_id==session_id==uuid、
+        且帶真實冒險 outcome {cycle,max_proximity,rounds_survived}。
+      • in-process replay（ecology_will_replay）submit 不設這些欄位、且只存 tempdir，從不寫 production state。
+      • 早先我誤用「run_id 空＝真人」（沿用 P7-H 清洗律，但那是另一個 store 的慣例）→ 把 208 筆真人
+        當 sim 排掉、把 2 筆無 outcome 的 smoke 當真人。outcome 是最穩的真人-live 判別子。
     """
     data = json.loads(Path(state_path).read_text())
     subs = data.get("submissions", [])
@@ -76,9 +79,7 @@ def load_real_submissions(state_path: str | Path, lam: float = DEFAULT_LAM) -> B
     lam = float(data.get("params", {}).get("lam", lam))
     adv_rows, chosen, n_artifact = [], [], 0
     for s in subs:
-        if s.get("run_id"):          # 非空 = sim/replay，排除
-            continue
-        if not s.get("session_id"):  # run_id 空但無 session = 程式/smoke artifact
+        if not s.get("session_id") or not s.get("outcome"):   # 非真實-live（無 session / 無冒險 outcome）
             n_artifact += 1
             continue
         q_before = s.get("score_components", {}).get("q_before")
@@ -174,9 +175,8 @@ def fit_beta(data: BetaData, *, min_n: int = MIN_N,
 
     if data.n_real < min_n:
         base.verdict = "INSUFFICIENT_N"
-        base.note = (f"真人 session 筆數 {data.n_real} < {min_n}：β 不可估。"
-                     f" 需收集（乙）；現有 {data.n_total} 筆中其餘為 sim/replay（run_id 非空）"
-                     f"，另剔除 {data.n_artifact} 筆無 session 的程式/smoke artifact。")
+        base.note = (f"真人 live 筆數 {data.n_real} < {min_n}：β 不可估。需收集（乙）；"
+                     f"{data.n_total} 筆中剔除 {data.n_artifact} 筆非真實-live（無 session / 無冒險 outcome）。")
         return base
     if scar < min_scarcity_std:
         base.verdict = "UNIDENTIFIED"

@@ -67,6 +67,36 @@ def test_advantage_reconstruction_matches_tracker():
     assert adv[2] > adv[0]
 
 
+def test_load_real_submissions_filter(tmp_path):
+    """真人判準 = session_id+outcome 雙非空（2026-06-23 更正後）：
+    V2-live（有 session+outcome）計入、smoke/replay（缺其一）剔除。"""
+    import json
+    state = {
+        "params": {"lam": 2.0},
+        "submissions": [
+            # 真人 V2-live：run_id==session_id==uuid、帶冒險 outcome → 計入
+            {"run_id": "u1", "session_id": "u1", "archetype": "defensive",
+             "outcome": {"rounds_survived": 81},
+             "score_components": {"q_before": [0.4, 0.35, 0.25]}},
+            {"run_id": "u2", "session_id": "u2", "archetype": "aggressive",
+             "outcome": {"rounds_survived": 200},
+             "score_components": {"q_before": [0.5, 0.3, 0.2]}},
+            # smoke artifact：無 session、無 outcome → 剔除
+            {"run_id": "", "session_id": "", "archetype": "balanced",
+             "outcome": {}, "score_components": {"q_before": [0.48, 0.42, 0.1]}},
+            # 有 session 但無 outcome（半殘）→ 剔除
+            {"run_id": "u3", "session_id": "u3", "archetype": "defensive",
+             "outcome": {}, "score_components": {"q_before": [0.4, 0.4, 0.2]}},
+        ],
+    }
+    p = tmp_path / "ecology_state.json"
+    p.write_text(json.dumps(state))
+    data = bf.load_real_submissions(p)
+    assert data.n_real == 2          # 只有兩筆真人 live
+    assert data.n_artifact == 2      # 兩筆非真實-live 被剔除
+    assert data.n_total == 4
+
+
 def test_power_dgps_detector_wiring():
     """power 模組的 DGP 接線守護：真響應 → β̂>0 顯著；null → CI 含 0。"""
     from scripts.experiments import ecology_beta_power as bp
