@@ -42,6 +42,23 @@ baseline g\*_fix=2.06 vs 解析 1.0：
 
 **Finding-2 解決**：driver 用瞬時 advantage（繞過權重 EMA）的擔憂，經 lagged_weights 對照**實測對 g\* 無影響**——概念上的 faithfulness gap 存在但**結果不敏感**。
 
+## 4b. g\*(β) 主曲線 + 機制診斷（完成 pre-reg §4 探索清單）
+
+**★ g\*(β)——robustness vs 響應銳度（headline）**
+| β | 0.5 | 1.0 | 2.0（錨） | 4.0 | 8.0 |
+|---|---|---|---|---|---|
+| g\*_fix | >4（極 robust） | 2.98 | **2.06** | 1.58 | 1.35 |
+
+→ **單調遞減**：β→0（軟響應）g\*→∞（不可破）、β→∞（argmax/銳）g\*→解析 1.0。**整個 ECO-DP 收斂成一句：反同質化預算 = 遞減函數 of 玩家響應銳度 β；production-anchored β=2 → ~2×。真實 β 是唯一開放經驗量（② 行為版）。**
+
+**hysteresis**（center-init vs mono-init 穩態）：所有 g 的 gap = **0.000** → **無 bistability、無遲滯** → 乾淨單吸引子 crossover（**確認 Finding 1**：crossover 非 saddle-node 分岔）。
+
+**time-to-fixation**（center-init）：g=2.0→14 rounds、g≥2.5→即時；單調（越過 g\* 越快）。
+
+**per-vertex d 對稱性**：Aggressive 2.075 / Defensive 2.063 / Balanced 2.026 → 解析對稱性**成立**（差 <0.05；Balanced 略低＝§2 投影不對稱 caveat 的有限痕跡）。
+
+artifacts：`eco_dp_diagnostics.json`。
+
 ## 5. 主張映射（§9）
 NC 守共存 + PC 全塌 + 存在有限可觀測 g\*（1.5–2×）+ ablation 歸因 → **因果主張成立**：neg-freq 引擎被 directional 壓力在可觀測 g\* 處 crossover；apparatus 把它從解析 ~1 上推 1.5–2×、主因 soft selection；儀器忠實性受檢。直命「metric-defined vs real mechanism」——**「real」反同質化預算 ≈ 解析值 2 倍**。
 

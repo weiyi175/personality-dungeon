@@ -93,6 +93,7 @@ fitness_i = (1/N − q_i)  +  g · d_i        # 第一項=neg-freq centripetal�
 ### 機制診斷（探索性，報告不作 confirmatory 判定）
 - **遲滯（hysteresis）**：g 上掃 vs 下掃的 g\* 是否不同 → 分岔型態（乾淨 transcritical vs 有遲滯的 saddle-node）= phase portrait 診斷。
 - time-to-fixation vs g；窗大小 ∈ {25,50,100} 對 g\* 的敏感度。
+- **✅ 已跑（2026-06-22，見 `reports/.../ECO_DP_RESULTS.md` §4b）**：hysteresis（center vs mono init）**gap=0 全 g → 無 bistability、乾淨 crossover**（確認 Finding 1，非 saddle-node）；time-to-fixation 單調（g=2→14 rounds、g≥2.5 即時）；窗∈{25,100} 對 g\* 可忽略；**★ g\*(β) 主曲線**：β=0.5→>4 / 1→2.98 / 2→2.06 / 4→1.58 / 8→1.35（β→∞→解析 1）＝「robustness = 遞減 f(β)」；per-vertex d 對稱（差 <0.05）。
 
 ---
 

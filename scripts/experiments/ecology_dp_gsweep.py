@@ -25,6 +25,8 @@ from api.ecology_tracker import EcologyTracker, EcologyParams, ARCHETYPES  # noq
 
 K = len(ARCHETYPES)                       # 3
 D_DEFENSIVE = np.array([0.0, 1.0, 0.0])   # one-hot Defensive（ARCHETYPES[1]，§2 鎖定）
+D_AGG = np.array([1.0, 0.0, 0.0])         # per-vertex 對稱性診斷用
+D_BAL = np.array([0.0, 0.0, 1.0])
 LOG_K = float(np.log(K))                  # entropy 上界 ≈1.0986
 SEEDS = list(range(50, 60))               # §3 鎖定 50–59
 TREATMENT = [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 2.0]
@@ -52,14 +54,18 @@ def _softmax(z):
 def run_dp(g: float, *, d=D_DEFENSIVE, beta: float = 2.0,
            rounds: int = 3000, burn: int = 1000, tail: int = 1000, seed: int = 0,
            advantage_mode: str = "softplus", window: int | None = None,
-           driver_signal: str = "instant", eta: float = 0.2) -> dict:
+           driver_signal: str = "instant", eta: float = 0.2, init: str = "center") -> dict:
     rng = np.random.default_rng(seed)
     params = EcologyParams(window=window) if window else None
     tr = GTracker(g, d, params)
     lam = tr.params.lam
     weights = np.full(K, float(np.log(2.0)))               # lagged-weights 中性初值（mirror :139）
+    if init == "mono":                                     # hysteresis：從 monoculture(argmax d) 起
+        for _ in range(tr.params.window):
+            tr._recent.append(int(np.argmax(d)))
     top_q = np.empty(rounds)
     ent = np.empty(rounds)
+    ttf = None
     for t in range(rounds):
         q = np.asarray(tr._proportions(), float)           # 現役滑動窗狀態
         f = tr._fitness(q)                                 # 含 +g·d
@@ -76,13 +82,16 @@ def run_dp(g: float, *, d=D_DEFENSIVE, beta: float = 2.0,
         tr._recent.append(int(i))                          # 餵滑動窗
         top_q[t] = q.max()
         ent[t] = -float(np.sum(q * np.log(q + 1e-12)))
+        if ttf is None and t >= burn and top_q[t] >= 0.95:
+            ttf = t - burn
     sl = slice(rounds - tail, rounds)
     mean_top = float(top_q[sl].mean())
     return {"g": g, "seed": seed,
             "stationary_entropy": float(ent[sl].mean()),
             "top_q": mean_top,
             "fix_frac": float(np.mean(top_q[sl] >= 0.95)),   # tail 內 max_q≥0.95 的時間比
-            "fixation": bool(mean_top >= 0.95)}
+            "fixation": bool(mean_top >= 0.95),
+            "time_to_fix": ttf}
 
 
 def _agg(g: float, beta: float = 2.0) -> dict:
@@ -178,6 +187,67 @@ def ablation(g_grid=(1.0, 1.5, 2.0, 2.5, 3.0, 3.5)) -> dict:
     return results
 
 
+def diag_gstar_vs_beta(betas=(0.5, 1.0, 2.0, 4.0, 8.0),
+                       g_grid=(0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0)) -> list[dict]:
+    print("\n=== g*(β)：robustness vs 響應銳度（g*_fix = top_q 穿 0.95）===")
+    print(f"{'β':>5} {'g*_fix':>8}  top_q@grid")
+    rows = []
+    for b in betas:
+        cells = [_agg_kw(g, beta=b) for g in g_grid]
+        gf = _interp_cross([c["g"] for c in cells], [c["mean_top_q"] for c in cells], 0.95)
+        rows.append({"beta": b, "g_star_fix": gf, "top_q": [c["mean_top_q"] for c in cells]})
+        print(f"{b:>5.1f} {(f'{gf:.3f}' if gf else ' >grid'):>8}  " +
+              " ".join(f"{v:.2f}" for v in rows[-1]["top_q"]))
+    return rows
+
+
+def diag_hysteresis(g_grid=(0.5, 1.0, 1.5, 2.0, 2.5, 3.0), beta=2.0) -> list[dict]:
+    print("\n=== hysteresis：center-init vs mono-init 穩態 top_q（gap→bistable/saddle-node）===")
+    print(f"{'g':>5} {'center':>8} {'mono':>8} {'gap':>7}")
+    rows = []
+    for g in g_grid:
+        tc = float(np.mean([run_dp(g, beta=beta, init="center", seed=s)["top_q"] for s in SEEDS]))
+        tm = float(np.mean([run_dp(g, beta=beta, init="mono", seed=s)["top_q"] for s in SEEDS]))
+        rows.append({"g": g, "center": tc, "mono": tm, "gap": abs(tc - tm)})
+        print(f"{g:>5.2f} {tc:>8.3f} {tm:>8.3f} {abs(tc - tm):>7.3f}")
+    return rows
+
+
+def diag_ttf(g_grid=(2.0, 2.5, 3.0, 3.5, 4.0, 5.0), beta=2.0) -> list[dict]:
+    print("\n=== time-to-fixation vs g（center-init；rounds→max_q≥0.95）===")
+    print(f"{'g':>5} {'mean_ttf':>9} {'n_fix':>7}")
+    rows = []
+    for g in g_grid:
+        ttfs = [run_dp(g, beta=beta, init="center", seed=s)["time_to_fix"] for s in SEEDS]
+        fixed = [t for t in ttfs if t is not None]
+        mt = float(np.mean(fixed)) if fixed else None
+        rows.append({"g": g, "mean_ttf": mt, "n_fix": len(fixed)})
+        print(f"{g:>5.2f} {(f'{mt:.0f}' if mt is not None else 'n/a'):>9} {len(fixed):>4}/10")
+    return rows
+
+
+def diag_per_vertex(g_grid=(1.0, 1.5, 2.0, 2.5, 3.0, 3.5), beta=2.0) -> dict:
+    print("\n=== per-vertex d 對稱性（g*_fix；解析應同，量 finite 破缺）===")
+    out = {}
+    for nm, d in {"Aggressive": D_AGG, "Defensive": D_DEFENSIVE, "Balanced": D_BAL}.items():
+        cells = [_agg_kw(g, beta=beta, d=d) for g in g_grid]
+        gf = _interp_cross([c["g"] for c in cells], [c["mean_top_q"] for c in cells], 0.95)
+        out[nm] = gf
+        print(f"  {nm:<12} g*_fix = {f'{gf:.3f}' if gf else '>grid'}")
+    return out
+
+
+def diagnostics() -> None:
+    out_dir = Path("reports/experiments/ecology_directional_pressure")
+    out_dir.mkdir(parents=True, exist_ok=True)
+    res = {"gstar_vs_beta": diag_gstar_vs_beta(),
+           "hysteresis": diag_hysteresis(),
+           "time_to_fixation": diag_ttf(),
+           "per_vertex": diag_per_vertex()}
+    json.dump(res, open(out_dir / "eco_dp_diagnostics.json", "w"), ensure_ascii=False, indent=2)
+    print(f"\nsaved {out_dir / 'eco_dp_diagnostics.json'}")
+
+
 def main() -> None:
     out_dir = Path("reports/experiments/ecology_directional_pressure")
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -241,7 +311,5 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1 and sys.argv[1] == "ablation":
-        ablation()
-    else:
-        main()
+    mode = sys.argv[1] if len(sys.argv) > 1 else "main"
+    {"ablation": ablation, "diagnostics": diagnostics}.get(mode, main)()
