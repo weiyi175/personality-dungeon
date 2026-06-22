@@ -48,12 +48,15 @@ n=200 仍偏寬（半寬 ~±0.8）。
 
 ```
 verdict      : INSUFFICIENT_N
-n_real       : 2  (total subs 210)
-scarcity_std : 0.0092
+n_real       : 0  (total subs 210, artifacts dropped 2)
+scarcity_std : 0.0000
 ```
 
-210 筆中只有 **2 筆真人**（其餘 208 為 sim/replay，run_id 非空）。雙重旗標：n=2 遠低於 30，
-且那 2 筆面對的稀缺近乎恆定（std 0.0092 < 0.02 門檻）。**β 現在不可估**——與甲完全一致。
+210 筆中 208 為 sim/replay（run_id 非空）。**剩下 2 筆 run_id 空的並非真人**：
+驗證發現兩筆 `session_id` 皆空、`ts` 僅差 ~21ms（程式/smoke 成對提交，非真人 author-under-scarcity）
+→ 篩選加嚴為「run_id 空 **且** session_id 非空」後，**真正可用真人 β-觀測 = 0**。
+（初版只看 run_id 把這 2 筆 artifact 當真人計入 n_real=2，2026-06-23 驗證踩到並修正。）
+**β 現在不可估**——比「n=2」更乾淨地對齊甲：真人從沒走過 live ecology，收集根本還沒發生。
 
 ## 5. 與專案的接合
 

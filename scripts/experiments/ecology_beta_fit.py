@@ -60,17 +60,26 @@ class BetaData:
     chosen: np.ndarray     # (T,) 所選 archetype index
     n_real: int
     n_total: int
+    n_artifact: int = 0    # run_id 空但 session_id 也空（程式/smoke 成對提交，非真人 session）
 
 
 def load_real_submissions(state_path: str | Path, lam: float = DEFAULT_LAM) -> BetaData:
-    """讀 ecology_state.json，只取真人（run_id==""，沿用 P7-H 清洗律）。"""
+    """讀 ecology_state.json，只取**真正的真人 session**。
+
+    篩選＝run_id 空（P7-H 清洗律排 sim/replay）**且 session_id 非空**。後者是 2026-06-23
+    驗證踩到的坑：曾有 2 筆 run_id 空但 session_id 空、ts 僅差 ~21ms 的成對提交——那是
+    程式/smoke 觸發、不是真人 author-under-scarcity。只看 run_id 會把這種 artifact 當真人。
+    """
     data = json.loads(Path(state_path).read_text())
     subs = data.get("submissions", [])
     # params.lam 若存在則用它（換 lam 校準後 advantage 重建須一致）。
     lam = float(data.get("params", {}).get("lam", lam))
-    adv_rows, chosen = [], []
+    adv_rows, chosen, n_artifact = [], [], 0
     for s in subs:
         if s.get("run_id"):          # 非空 = sim/replay，排除
+            continue
+        if not s.get("session_id"):  # run_id 空但無 session = 程式/smoke artifact
+            n_artifact += 1
             continue
         q_before = s.get("score_components", {}).get("q_before")
         arch = s.get("archetype")
@@ -80,7 +89,7 @@ def load_real_submissions(state_path: str | Path, lam: float = DEFAULT_LAM) -> B
         chosen.append(ARCHETYPES.index(arch))
     adv = np.asarray(adv_rows, dtype=float) if adv_rows else np.zeros((0, _NARCH))
     return BetaData(adv=adv, chosen=np.asarray(chosen, dtype=int),
-                    n_real=len(adv_rows), n_total=len(subs))
+                    n_real=len(adv_rows), n_total=len(subs), n_artifact=n_artifact)
 
 
 # ── 估計器（conditional logit MLE）────────────────────────────────────────────
@@ -145,6 +154,7 @@ class FitResult:
     verdict: str           # "OK" | "INSUFFICIENT_N" | "UNIDENTIFIED" | "NONCONVERGED"
     n_real: int
     n_total: int
+    n_artifact: int = 0
     beta: float | None = None
     beta_se: float | None = None
     beta_ci: tuple[float, float] | None = None
@@ -160,12 +170,13 @@ def fit_beta(data: BetaData, *, min_n: int = MIN_N,
     adv, chosen = data.adv, data.chosen
     scar = scarcity_variation(adv)
     base = FitResult(verdict="", n_real=data.n_real, n_total=data.n_total,
-                     scarcity_std=scar)
+                     n_artifact=data.n_artifact, scarcity_std=scar)
 
     if data.n_real < min_n:
         base.verdict = "INSUFFICIENT_N"
-        base.note = (f"真人筆數 {data.n_real} < {min_n}：β 不可估。"
-                     f" 需收集（乙）；現有 {data.n_total} 筆中其餘為 sim/replay（run_id 非空）。")
+        base.note = (f"真人 session 筆數 {data.n_real} < {min_n}：β 不可估。"
+                     f" 需收集（乙）；現有 {data.n_total} 筆中其餘為 sim/replay（run_id 非空）"
+                     f"，另剔除 {data.n_artifact} 筆無 session 的程式/smoke artifact。")
         return base
     if scar < min_scarcity_std:
         base.verdict = "UNIDENTIFIED"
@@ -229,7 +240,7 @@ def _self_recovery(true_beta: float, n: int, seed: int = 0,
 def _fmt(r: FitResult) -> str:
     lines = [
         f"verdict      : {r.verdict}",
-        f"n_real       : {r.n_real}  (total subs {r.n_total})",
+        f"n_real       : {r.n_real}  (total subs {r.n_total}, artifacts dropped {r.n_artifact})",
         f"scarcity_std : {r.scarcity_std:.4f}" if r.scarcity_std is not None else "scarcity_std : —",
     ]
     if r.verdict == "OK":
