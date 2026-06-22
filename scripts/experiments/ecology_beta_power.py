@@ -21,8 +21,11 @@ from scripts.experiments import ecology_beta_fit as bf
 
 _NARCH = bf._NARCH
 
-# 真實 intrinsic 偏好（甲：[.48/.43/.09]）→ β=0、balanced 基準下的 logit 截距。
-P_INTRINSIC = np.array([0.48, 0.43, 0.09])
+# 真實 intrinsic 偏好 → β=0、balanced 基準下的 logit 截距。
+# 2026-06-23 更正：原用 [.48/.43/.09]（甲），驗證發現那是 54-pilot 子集 artifact；
+# 29 個有歸屬真受試（一人一筆）≈ [.38/.52/.10]（defensive 主導），ecology α 佐證。
+# 見 scripts/experiments/p7h_intrinsic_archetype.py。power 結論對此截距不敏感（由稀缺變異+n 主導）。
+P_INTRINSIC = np.array([0.38, 0.52, 0.10])
 ALPHA_REAL = np.log(P_INTRINSIC / P_INTRINSIC[bf._REF])   # [α_agg, α_def, 0]
 
 # 稀缺變動 regime：Dirichlet concentration（高→近均勻低變動；低→高變動）。
