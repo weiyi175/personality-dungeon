@@ -1,0 +1,77 @@
+"""β-instrument 測試：估計器在合成資料上回收已知 β、且在資料不足/不可識別時誠實判錯。
+
+驗證三件事，對應 estimator 的三條 verdict：
+  1. OK            — 足夠且變動的稀缺下，β̂ 的 95%CI 覆蓋真值（自我回收）。
+  2. INSUFFICIENT_N — 真人筆數過少（現狀 n=2）→ 不偽造數字。
+  3. UNIDENTIFIED   — 稀缺零變異（所有人面對同生態）→ β 與截距共線。
+"""
+from __future__ import annotations
+
+import numpy as np
+import pytest
+
+from scripts.experiments import ecology_beta_fit as bf
+
+
+@pytest.mark.parametrize("true_beta", [0.0, 1.0, 2.0, 4.0])
+def test_self_recovery_covers_true_beta(true_beta):
+    """足量 + 變動稀缺 → CI 覆蓋真 β。"""
+    rng = np.random.default_rng(7)
+    alpha = np.array([0.3, 0.2, 0.0])
+    q = bf.random_q_states(2000, rng)
+    data = bf.simulate(alpha, true_beta, q, rng)
+    r = bf.fit_beta(data, min_n=10)
+    assert r.verdict == "OK", r.note
+    assert r.beta_ci[0] <= true_beta <= r.beta_ci[1], (
+        f"true {true_beta} not in CI {r.beta_ci}")
+
+
+def test_point_estimate_close_at_large_n():
+    rng = np.random.default_rng(3)
+    alpha = np.array([0.4, 0.1, 0.0])
+    q = bf.random_q_states(8000, rng)
+    data = bf.simulate(alpha, 2.0, q, rng)
+    r = bf.fit_beta(data, min_n=10)
+    assert r.verdict == "OK"
+    assert abs(r.beta - 2.0) < 0.4          # 大樣本點估計收斂到真值附近
+
+
+def test_insufficient_n_verdict():
+    rng = np.random.default_rng(0)
+    q = bf.random_q_states(5, rng)
+    data = bf.simulate(np.zeros(3), 2.0, q, rng)
+    r = bf.fit_beta(data, min_n=30)
+    assert r.verdict == "INSUFFICIENT_N"
+    assert r.beta is None                    # 不偽造數字
+
+
+def test_unidentified_when_scarcity_constant():
+    """所有真人面對同一生態狀態 → adv 跨筆零變異 → β 不可識別。"""
+    rng = np.random.default_rng(1)
+    q_fixed = np.array([0.5, 0.3, 0.2])
+    q = np.tile(q_fixed, (200, 1))           # 每筆都同一稀缺
+    data = bf.simulate(np.array([0.3, 0.2, 0.0]), 2.0, q, rng)
+    r = bf.fit_beta(data, min_n=30)
+    assert r.verdict == "UNIDENTIFIED"
+
+
+def test_advantage_reconstruction_matches_tracker():
+    """advantage 重建須複刻 ecology_tracker 的 fitness=1/N−q、softplus(lam··)。"""
+    q = [0.6, 0.3, 0.1]
+    adv = bf.reconstruct_advantage(q, lam=2.0)
+    # 手算：fitness = 1/3 − q；softplus(2·fitness)
+    fit = np.array([1/3 - x for x in q])
+    expect = np.where(2*fit > 0, 2*fit + np.log1p(np.exp(-2*fit)), np.log1p(np.exp(2*fit)))
+    assert np.allclose(adv, expect)
+    # 稀有(q=.1)的 advantage > 普及(q=.6)的 advantage
+    assert adv[2] > adv[0]
+
+
+def test_beta_zero_means_ignores_scarcity():
+    """β=0 模擬 → 估出的 β̂ 應 ~0（CI 含 0）：不理稀缺、純 intrinsic。"""
+    rng = np.random.default_rng(5)
+    q = bf.random_q_states(3000, rng)
+    data = bf.simulate(np.array([0.5, 0.3, 0.0]), 0.0, q, rng)
+    r = bf.fit_beta(data, min_n=10)
+    assert r.verdict == "OK"
+    assert r.beta_ci[0] <= 0.0 <= r.beta_ci[1]
