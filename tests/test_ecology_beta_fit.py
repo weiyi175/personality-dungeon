@@ -67,6 +67,25 @@ def test_advantage_reconstruction_matches_tracker():
     assert adv[2] > adv[0]
 
 
+def test_power_dgps_detector_wiring():
+    """power 模組的 DGP 接線守護：真響應 → β̂>0 顯著；null → CI 含 0。"""
+    from scripts.experiments import ecology_beta_power as bp
+
+    rng = np.random.default_rng(2)
+    q = bf.random_q_states(800, rng, concentration=bp.SCARCITY_REGIMES["high"])
+    # 真響應（softmax β=3）→ 顯著偵測到
+    chosen = bp.dgp_softmax(q, bp.ALPHA_REAL, 3.0, np.random.default_rng(2))
+    adv = np.stack([bf.reconstruct_advantage(qt) for qt in q])
+    data = bf.BetaData(adv=adv, chosen=np.asarray(chosen), n_real=len(adv), n_total=len(adv))
+    res = bf.fit_beta(data, min_n=10)
+    assert res.verdict == "OK" and res.beta > 0 and res.beta_ci[0] > 0
+    # null（不理稀缺）→ CI 含 0
+    chosen0 = bp.dgp_noresponse(q, bp.ALPHA_REAL, 0.0, np.random.default_rng(2))
+    data0 = bf.BetaData(adv=adv, chosen=np.asarray(chosen0), n_real=len(adv), n_total=len(adv))
+    res0 = bf.fit_beta(data0, min_n=10)
+    assert res0.verdict == "OK" and res0.beta_ci[0] <= 0 <= res0.beta_ci[1]
+
+
 def test_beta_zero_means_ignores_scarcity():
     """β=0 模擬 → 估出的 β̂ 應 ~0（CI 含 0）：不理稀缺、純 intrinsic。"""
     rng = np.random.default_rng(5)
