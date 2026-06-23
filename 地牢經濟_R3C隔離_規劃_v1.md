@@ -1,7 +1,7 @@
 # 地牢經濟 — R3/C 隔離軌 規劃 v1（PvP 當隔離 game feature）
 
-> **狀態**: DRAFT v1.3（**錢包 + 門票 sink 後端已 BUILT + 測試 29/29**；前端 client 已寫、待 Godot smoke；防禦升級 gate 在玩家地牢延後）
-> **日期**: 2026-06-22（v1.2：κ-sweep 模擬定案——採 **(ii)** 多樣性 coin 可買戰力；F6 在 per-submission 序列化下 sim 證**不致 whiplash**；新增穩定不變式 **S1** + α\*(κ) 安全表 + 權重 EMA=內建阻尼。v1.1：firewall review F1/F6/F5）
+> **狀態**: DRAFT v1.4（**§10 firewall 重審完成 → option 1〔真玩家地牢+零和 Rank+防禦 sink〕裁定 firewall-SAFE、附條件**；錢包+門票 sink 後端 BUILT；防禦升級待 Increment 3）
+> **日期**: 2026-06-23（v1.4：§10 firewall 重審 — 解 F2/防禦衝突 + 零和 Rank 非第二算子裁定，閉 §7 gate。v1.2：κ-sweep 定案採 **(ii)** + S1 + α\*(κ)。v1.1：firewall review F1/F6/F5）
 > **作者**: Claude Opus 4.8 + User
 > **關係**: 與 reduced-form bifurcation pre-reg（研究軌）**並行**；本份是**遊戲軌**。
 > 兩軌共識＝把 directional 壓力搬出 PvP（研究用抽象 `g`），PvP 在此**降為隔離 game feature**。
@@ -135,7 +135,7 @@ neg-freq 稀缺顯示 → authoring（生態本來、intended 的那條）。fir
 
 ## §7 不在範圍 / 明確延後
 
-- **真玩家地牢 + 零和 Rank 轉移 + 防禦收入**：重新引入「PvP 是否第二算子」疑慮 → **gate 在 firewall 重審 + 研究軌 g\***（先知道定向壓力預算，再決定零和 Rank 的 effective g 是否落在 g\* 下）。
+- **真玩家地牢 + 零和 Rank 轉移**：~~gate 在 firewall 重審 + g\*~~ → **✅ gate 已閉（§10，2026-06-23）**：g\* 已知（ECO-DP）、firewall 重審裁定 firewall-SAFE 附條件 → **解鎖為 Increment 3**。**防禦收入**仍延後（§10 Q3：matchup-coupled coin source，留 flat-或-延後）。
 - **行為宣稱（人在競技階梯下會不會同質化）**＝研究軌 B，需以 reduced-form g\* 為 null，另份 pre-reg。
 - **雙生券（局內雙人格平行跑）**：parking C 🟡，rename + 玩家價值正當化，待定。
 - **欄位券 source、配對分段/重複遞減**：記著，本版未納。
@@ -157,3 +157,33 @@ neg-freq 稀缺顯示 → authoring（生態本來、intended 的那條）。fir
 - 並行：reduced-form bifurcation pre-reg v2（研究軌，`docs/experiments/ecology_reduced_form_bifurcation/`）——本份的 sink 數值校準與「零和延後」皆 gate 在其 g\*。
 - 對齊記憶：`eco-dp-directional-pressure-reframe`（PvP 降隔離 feature、A/B/C moot）、`personality-ecology-layer`、`game-vision-original`（diversity 才是真目標）。
 - 主張：R3/C ＝**用隔離換研究乾淨**——PvP 好玩照舊，但**結構上不可能**污染多樣性結論。
+
+---
+
+## §10 Firewall 重審 — Increment 3 gate（真玩家地牢 + 零和 Rank + 防禦 sink）
+
+> §7 把這三項 gate 在「firewall 重審 + g\*」。g\* 已知（ECO-DP `g*(β)`，β=2→~2.06）。本節即那場重審。
+> **研究皇冠＝生態 archetype 分佈**；唯一合法耦合＝neg-freq 稀缺顯示 → will-authoring。重審逐項問：
+> 新機制會不會開出「第二條碰到該分佈的路」。**結論：firewall-SAFE，附 5 條 build 不變式。**
+
+### Q1 — 零和 Rank 轉移是不是對 archetype 分佈的「第二 directional 算子」？**否。**
+archetype 分佈**只**由 will-authoring 提交構成（**F4**：PvP 路徑不呼 `ecology.submit()`，已驗 [ecology submit 只在冒險上傳](api/ecology_tracker.py)）。PvP 出戰派系＝自由 loadout、**零讀 will**（**F1**）。零和 Rank 只在玩家間搬 Rank 點；**Rank ≠ archetype 分佈**。要讓它變成第二算子，須有路徑「Rank 結果 → 誘導 author 某 archetype → 移動生態分佈」——該路徑被 **F1（不讀 will）+ F4（不寫生態）兩端切斷**。故零和 Rank 對生態的 effective directional g **= 0 < g\***。§7 的 g\* gate 是「萬一 PvP 漏出 g」的預防；g\* 已知 + F1/F4 封死洩漏 → trivially 安全。
+
+### Q2 — 防禦 sink vs F2（coin↛Rank）的衝突 → **refine F2，不是違反。**
+**衝突**：§3/§8 說防禦升級讀 challenge stake/勝率（coin→防禦→影響 Rank），字面踩 F2「coin→Rank 抵銷」。
+**裁決**：F2 的 *why* 是污染迴路 `coin→Rank→archetype-authoring 誘因`。該迴路**最後一段（Rank→authoring）同樣被 F1/F4 切斷**（與 Q1 同理）→ coin→防禦→Rank **到不了生態分佈**。故 F2 **refine** 為：
+- **禁**：coin↔Rank 的**直接帳目換算**（parking-C 的 `offset_ratio`/買 N Rank 花 M coin——純洗、無 gameplay）。
+- **准**：**archetype-agnostic（F3）的防禦，以 gameplay 影響 match 結果**。理由＝污染迴路已被 F1/F4 閉；且殘留耦合「author 稀缺→多 coin→多防禦→易升 Rank」**方向與 neg-freq 同向**（獎勵當稀缺＝正是要的共存），是 **F6 量級耦合的延伸、非新方向**，仍在 S1/α\*(κ) 安全帶內。
+**條件**：防禦成本/效果張量**逐元跨派系相等**（F3 滴水不漏）；F6 量級維持 α < α\*(κ)（S1）。
+
+### Q3 — 防禦**收入**（防守成功給 coin）→ **Increment 3 不納（或只准 flat archetype-agnostic）。**
+防守勝負依 RPS matchup（你部署 vs 攻方）→ 收入若隨 matchup 變，coin **source 變 matchup-coupled**。雖仍被 F1/F4 擋在生態分佈外（PvP loadout≠will-authoring），但這是個與 neg-freq **無關**的耦合 coin 源，分析較複雜、收益小。**裁決：Increment 3 防禦只當 coin SINK，不發收入**；要發須 flat（同額不論 matchup/派系，F3）或另開重審。
+
+### 裁定：option 1 **firewall-SAFE 可建**，鎖 5 條 build 不變式（皆附測）
+1. **F1**：PvP loadout 自由選、**零讀 will**（無 will-衍生 default/hint/推薦）。測：picker 預設與 will 無關。
+2. **F4**：PvP 路徑**不呼 `ecology.submit()`**。測：grep + 單元（PvP 事件對生態 entropy 零影響）。
+3. **F2（refined）**：無 coin↔Rank 直接帳目換算（無 offset/買 Rank）。測：challenge 結算不寫 wallet、wallet spend 不寫 Rank 點數。
+4. **F3**：門票 + **防禦**成本/效果**逐元跨派系相等**。測：三派張量相等。
+5. **S1/F6**：防禦的 coin→戰力量級維持有效 α < α\*(κ)（§3 表）；防禦**無收入**（Q3）。
+**未解殘留**：防禦收入（Q3，延後）、強 induction 顯示輪換（與乙 apparatus 前置同屬「顯示≠真 q」的 F6/誠實性抉擇，另議）。
+**下一步**：依此 5 條，Increment 3 = `pvp_manager` 加（玩家自有 dungeon + 零和 Rank 雙向結算 + archetype-agnostic 防禦 hold 欄當 sink），仿既有 singleton/save 模式；前端 PvpScene 加部署/防禦 UI。
