@@ -97,7 +97,47 @@ power 模擬（`ecology_beta_power.py`，真實 intrinsic α、高稀缺變動�
 - **與 PvP 行為版（研究軌 B）區隔**：本 ② 量的是**生態 authoring 對 neg-freq 稀缺**的響應；
   「競技階梯下是否同質化」是另一條、被 firewall 隔離在外、另需 pre-reg（game-spec §7）。**勿混。**
 
-## 8. Provenance
+## 8. 執行協定 — pilot→confirm + 雙實驗隔離（2026-06-23 鎖定）
+
+> 兩層分界：**產品迭代↔研究量測**用「時間分相 + config 版本」隔；**乙↔PvP-同質化(B')**用「firewall」隔。
+
+### 8.1 三相 + 凍結 gate
+1. **Pilot（探索；其數據不進 confirmatory 推論）**：自由調遊戲/裝置（手感、coin 數值、**稀缺 induction**、UI）。
+   出場 gate（全滿足才可凍結）：① monitor `/ecology/scarcity_variation` 報 **`meets_target`（advantage-std ≥ 0.20）**；
+   ② 裝置 config 連續穩定 ≥ 3 個收集日無改動；③ 估計器在 pilot 資料上跑出**合理形狀**（verdict OK、α 截距與 [[real-human-intrinsic-archetype-dist]] 同量級）。
+2. **凍結**：鎖第 8.3 的「凍結清單」，指派一個 **config_version 字串**（如 `confirm-2026-07-a`）。
+3. **Confirmatory（凍結；不動裝置/模型）**：照 §4 固定停止律（n≥300 拒 H0 / ~1000 釘 g\*(β) 區間或 CI 半寬≤0.35）收。
+   **禁 optional stopping**（不可「β 一顯著就停」）。要再調裝置＝**跑完本波→改→重凍結→下一波**，不同 config **不可混池**。
+
+### 8.2 產品線可動 vs 研究線凍結
+- **隨時可動（產品/裝置，pilot 或波次間）**：UI/手感、`starting_balance`/`ticket_cost`/`defense_cost`、稀缺 induction 機制、招募、session 長度。
+- **confirmatory 窗內凍結（量測）**：β 模型（conditional logit）、advantage 重建（`lam`）、真人判準（session_id ∧ outcome）、verdict 閾值（INSUFFICIENT<30 / UNIDENTIFIED<0.02）、H0/停止律/排除律、**及裝置 config**（窗內不動）。
+
+### 8.3 標記規範（zero backend change：走既有 `outcome` dict 傳遞）
+前端每筆 `/ecology/submit` 的 `outcome` 內**附帶**：
+- `study_phase`：`"pilot"` | `"confirm"`（pilot 一律排除於 confirmatory 分析）。
+- `config_version`：字串；confirmatory 分析**只取單一 config_version**，跨版本不池化。
+- （沿用既有）`participant_id`：以 participant 為 cluster，防 pseudo-replication（§6）。
+分析端：confirmatory 子集 = `study_phase=="confirm"` ∧ 指定 `config_version` ∧ 真人判準（session+outcome）。
+*（此規範只需前端在 outcome 塞欄位 + 分析端 filter；`outcome` 本就原樣落檔，後端零改動。）*
+
+### 8.4 雙實驗隔離（乙 ↔ B' PvP-同質化）— 靠 firewall，可同時在同一玩家身上跑
+- **F5 observable 分離**：乙 讀 will-authoring → archetype 分佈（ecology store）；B' 讀 PvP Rank/loadout（pvp store）。兩條 ledger 永不混流。
+- **F1（PvP 零讀 will）+ F4（PvP 不呼 ecology.submit）**：玩家同時打 PvP 也進不了乙 的生態量測。
+- **store 標記**：ecology 真人 = `session_id` ∧ `outcome`（**非** run_id 號——run_id 慣例 store-specific，見 [[real-human-intrinsic-archetype-dist]] 踩過的坑）；PvP 記錄走 pvp_state。**勿跨 store 套 run_id 判準。**
+- **優先序**：乙 先（instrument 已備、β 餵 g\*(β)；B' 的 null＝reduced-form g\* 需先有 β）；B' 另開 pre-reg、待 Increment 3 競技迴路成熟。
+
+### 8.5 執行 runbook（照表即可直接實驗）
+- [ ] **R0** 確保賺幣路徑通：玩冒險會 credit 生態 coins（已修）；若要存活幣，先接 `credit_survival`（目前是死路）。
+- [ ] **R1 pilot**：開放真人玩，自由調 induction/手感/coin；每日看 `GET /ecology/scarcity_variation`。
+- [ ] **R2 凍結 gate**：monitor `meets_target` + config 穩定≥3 日 + pilot 估計器形狀合理 → 通過。
+- [ ] **R3 凍結**：鎖 §8.2 量測 + 指派 `config_version`；前端起在 `outcome` 寫 `study_phase="confirm"` + 該 `config_version`。
+- [ ] **R4 confirmatory 收集**：收到 n≥300（拒 H0 最低）或續至 ~1000 / CI 半寬≤0.35；**窗內不動裝置/模型，不 optional-stop**。
+- [ ] **R5 分析**：`ecology_beta_fit`（confirmatory 子集）→ verdict + β̂ + CI；對照 §2 判 H0/H2，代入 g\*(β)。
+- [ ] **R6**（可選）接 `seen_scarcity` 前端 → 確認 softplus link → 解鎖 β 絕對刻度（否則 β 為單調指標）。
+- [ ] **R7**（之後）另開 B' pre-reg（PvP-同質化），firewall 已保證與乙 隔離。
+
+## 9. Provenance
 
 - 上游：① canonical pre-reg（假設 β）、g\*(β) 曲線（ECO_DP_RESULTS.md §4b）、β-instrument + power（BETA_INSTRUMENT.md）。
 - 對齊記憶：[[beta-instrument]]、[[eco-dp-directional-pressure-reframe]]、[[real-human-intrinsic-archetype-dist]]、[[economy-architecture-r3c-ii]]。
