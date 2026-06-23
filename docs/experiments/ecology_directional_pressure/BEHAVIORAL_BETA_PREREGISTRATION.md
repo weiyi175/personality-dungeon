@@ -128,7 +128,7 @@ power 模擬（`ecology_beta_power.py`，真實 intrinsic α、高稀缺變動�
 - **優先序**：乙 先（instrument 已備、β 餵 g\*(β)；B' 的 null＝reduced-form g\* 需先有 β）；B' 另開 pre-reg、待 Increment 3 競技迴路成熟。
 
 ### 8.5 執行 runbook（照表即可直接實驗）
-- [ ] **R0** 確保賺幣路徑通：玩冒險會 credit 生態 coins（已修）；若要存活幣，先接 `credit_survival`（目前是死路）。
+- [x] **R0** ✅ 賺幣路徑通（2026-06-23）：**雙源**皆後端權威 credit 在 `/ecology/submit`——① 生態多樣性幣（scarcity）+ ② 存活幣（`0.3×rounds_survived`）。前端 `credit_survival` 已 DEPRECATED（避免雙重入帳）。完整循環見 `地牢經濟_R3C隔離_規劃_v1.md §3`。
 - [ ] **R1 pilot**：開放真人玩，自由調 induction/手感/coin；每日看 `GET /ecology/scarcity_variation`。
 - [ ] **R2 凍結 gate**：monitor `meets_target` + config 穩定≥3 日 + pilot 估計器形狀合理 → 通過。
 - [ ] **R3 凍結**：鎖 §8.2 量測 + 指派 `config_version`；前端起在 `outcome` 寫 `study_phase="confirm"` + 該 `config_version`。

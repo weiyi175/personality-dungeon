@@ -59,17 +59,31 @@ neg-freq 稀缺顯示 → authoring（生態本來、intended 的那條）。fir
 
 ## §3 經濟設計：source / sink 表 + 持久錢包（補 parking C 🔴 完整表）
 
-**金幣 SOURCE（既有，不改）**
+**金幣 SOURCE（雙源，✅ 皆 BUILT 2026-06-23）**
 | source | 機制 | 出處 | archetype 耦合？ |
 |---|---|---|---|
-| 生態多樣性分 | neg-freq score → `score_to_coins`（稀缺 archetype 拿高 coin） | [ecology_tracker.py:85,193](api/ecology_tracker.py#L85) | **有**（intended：這就是逐利→多樣性那條合法耦合，F-exempt） |
-| 存活金幣 | 獨立 `SURVIVAL_COIN_RATE=0.3`、不折進生態 score | 研發日誌 §五.3、前端 CollapseScreen | 無 |
+| **生態多樣性幣** ✅ | neg-freq score → `score_to_coins`（稀缺 archetype 拿高 coin，10–200） | [ecology_tracker.py:85](api/ecology_tracker.py#L85) + `/ecology/submit` 後端 credit | **有**（intended：逐利→多樣性那條合法耦合，F6-exempt） |
+| **存活幣** ✅ | `round(SURVIVAL_COIN_RATE × outcome.rounds_survived)`，**後端權威** credit（與生態幣同在 `/ecology/submit`，真人 session+outcome 才入） | [server.py SURVIVAL_COIN_RATE=0.3](api/server.py) | **無**（實測 199 筆：跨派存活幣 23–26、差~3 ≪ 生態 10–200 → de-facto agnostic、非第二方向拉力） |
 
-**金幣 SINK（新建，全 archetype-agnostic — F3）**
+**金幣 SINK（全 archetype-agnostic — F3）**
 | sink | 機制 | 校準鉤 | archetype 耦合？ |
 |---|---|---|---|
 | **挑戰門票** ✅BUILT | 每次 challenge 扣固定 coin（gate farming、給 coin 用途） | `WalletParams.ticket_cost` ＝ **provisional 10**（modest ≪ 單場所得；待 g* + 均衡支付 ~100/人 校準） | 無（同價不論派系） |
-| **防禦升級** ⏳延後 | 花 coin 提升**自己地牢**的守備層級 | **gate 在真玩家地牢**（§7）——v1 vs-house 無「被挑戰」對象、防禦無施力點 → 隨玩家地牢一起做 | 無 |
+| **防禦升級** ✅BUILT (Inc3) | 花 coin 升**自己地牢**防禦層（防守落敗時 damp 移轉） | `PvpParams.defense_cost` ＝ **provisional 50**（§10 firewall-SAFE：F2-refined，coin 經 gameplay 才碰 Rank） | 無（單一 int level，無派系維度） |
+
+**🔄 雙經濟循環路徑（complete，(ii) 單一幣）**
+```
+[Loop α 冒險賺幣]  玩冒險 ─┬─ 寫遺言 → /ecology/submit → ① 生態多樣性幣（scarcity, archetype-COUPLED, F6, 10–200）
+                          └─ 存活 rounds ───────────────→ ② 存活幣（agnostic baseline, 0.3×rounds, ≈23/場）
+                                          兩源後端權威累加（單一幣）↓
+                                                    【錢包 wallet】
+[Loop β PvP 花幣]  錢包 ─┬─ 門票（challenge, 10）
+                        └─ 防禦升級（defense, 50） → 挑戰/迎戰 → 零和 Rank（F2：coin 不直接變 Rank，只經 gameplay）
+```
+- **雙源角色**：① 生態幣＝archetype-coupled＝**多樣性驅動訊號**（研究關心的 F6 那條）；② 存活幣＝agnostic baseline＝**收入地板**（PvP-only 不歸零、給留存）+ **稀釋 F6**（偏存活→訊號弱但更穩、偏生態→訊號強）。
+- **生態:存活 比例 ＝ 校準旋鈕**（雙重含義：遊戲 pacing + 研究有效耦合強度）；rate 0.3 provisional，**屬 pilot 可調、confirmatory 凍結 + 標 config_version**（乙 pre-reg §8）。
+- **整合點**：兩源同在 `/ecology/submit` 後端權威發放 → 無前端死路（credit_survival 已 DEPRECATED）、無雙重入帳、client 不能偽造存活量。`/wallet/credit(survival)` 降為**手動補幣/admin 路徑**。
+- **賺花平衡**：典型一場 ≈ 生態 10–50 + 存活 ~23 ＝ 33–73 幣 → 可打 3–7 場門票 或 ~1 次防禦升級；對齊均衡支付 ~100/人（待校準）。
 
 **持久錢包 ✅BUILT**（`api/wallet_manager.py`，2026-06-22）
 - 後端 singleton（仿 [pvp_manager](api/pvp_manager.py#L150)）：`balance` + **append-only ledger** + `credit/debit` + `save/load` + `InsufficientFunds`。`tests/test_wallet_manager.py` **10/10**。

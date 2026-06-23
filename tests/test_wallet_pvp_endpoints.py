@@ -77,8 +77,8 @@ def test_wallet_credit_rejects_non_whitelisted_source():
     assert c.get("/wallet").json()["balance"] == 0
 
 
-def test_ecology_submit_credits_real_player():
-    """真人 live 提交（有 session_id + 冒險 outcome）→ 生態 coins 進錢包（2026-06-23 修正後）。"""
+def test_ecology_submit_credits_both_sources():
+    """雙經濟 Loop α：真人 live 提交 → 生態幣 + 存活幣**兩源**一次入錢包（2026-06-23）。"""
     c = fresh(start=0)
     nine = [0.5, 0.5, 0.0, -0.3, 0.0, 0.0, 0.0, 0.0, 0.0]
     r = c.post("/ecology/submit", json={
@@ -86,8 +86,20 @@ def test_ecology_submit_credits_real_player():
         "outcome": {"rounds_survived": 120},
     }).json()
     assert r["coins"] > 0
-    assert r["balance"] == r["coins"]                  # 從 0 起、credit 了 coins
-    assert c.get("/wallet").json()["balance"] == r["coins"]
+    assert r["survival_coins"] == round(0.3 * 120)     # 存活幣 = rate × rounds = 36
+    assert r["balance"] == r["coins"] + r["survival_coins"]   # 兩源累加（單一幣 ii）
+    assert c.get("/wallet").json()["balance"] == r["coins"] + r["survival_coins"]
+
+
+def test_ecology_submit_survival_zero_when_no_rounds():
+    """outcome 無 rounds_survived → 存活幣 0（仍可有生態幣）。"""
+    c = fresh(start=0)
+    nine = [0.5, 0.5, 0.0, -0.3, 0.0, 0.0, 0.0, 0.0, 0.0]
+    r = c.post("/ecology/submit", json={
+        "personality_9d": nine, "session_id": "s1", "outcome": {"cycle": 0},
+    }).json()
+    assert r["survival_coins"] == 0
+    assert r["balance"] == r["coins"]
 
 
 def test_ecology_submit_artifact_not_credited():

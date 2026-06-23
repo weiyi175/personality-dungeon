@@ -137,8 +137,13 @@ PVP_OUT_DIR = os.environ.get("PVP_OUT_DIR", "reports/pvp")
 
 # 玩家錢包 store（Increment 2 經濟；獨立 store）。
 WALLET_OUT_DIR = os.environ.get("WALLET_OUT_DIR", "reports/wallet")
-# 前端可自行 credit 的 source 白名單（agnostic）：存活。生態 coins 為後端權威 credit。
+# /wallet/credit 客戶端白名單：保留 survival 作**手動補幣/admin 路徑**（測試用）。
+# ⚠ 正常存活幣現為**後端權威 credit**（/ecology/submit，見下），前端勿再自動 credit_survival 以免雙重入帳。
 _CLIENT_CREDIT_SOURCES = {"survival"}
+# 存活幣費率（archetype-agnostic baseline source）：coins = round(rate × rounds_survived)。
+# provisional 0.3（spec §3）；199 筆實測 rounds_survived 跨派 76–88 → 存活幣 23–26、差 ~3 幣 ≪ 生態 10–200
+# → de-facto agnostic、非第二方向拉力。換 rate / 派系存活差變大須重驗（reports/ecology 上跑）。
+SURVIVAL_COIN_RATE = 0.3
 
 
 async def _p7h_save(manager) -> None:
@@ -1689,16 +1694,24 @@ async def ecology_submit(req: EcologySubmitRequest) -> dict[str, Any]:
         seen_scarcity=req.seen_scarcity,
     )
     await _ecology_save()
-    # (ii) 單一幣：真實玩家的生態 coins 累加進錢包。真人判準＝有 session_id + 真實冒險 outcome
-    # （V2 submit(will, get_session_id(), get_session_id(), outcome) 的簽名）。
-    # 2026-06-23 更正：舊條件 `if not req.run_id` 反掉——真人 run_id 非空(=session_id)，那條 credit
-    # 對真玩家從不觸發；in-process replay/smoke 才 run_id 空、無 outcome → 不該 credit。
+    # 雙經濟循環 — 冒險賺幣 Loop α（(ii) 單一幣，backend-authoritative）：真實玩家一次入兩源。
+    # 真人判準＝有 session_id + 真實冒險 outcome（V2 submit(will, session, session, outcome) 簽名）。
+    #   ① 生態幣（neg-freq scarcity，archetype-COUPLED，F6-exempt）＝ result["coins"]。
+    #   ② 存活幣（archetype-agnostic baseline）＝ round(SURVIVAL_COIN_RATE × outcome.rounds_survived)。
+    # 兩源累加進單一錢包；下游 sink＝PvP 門票/防禦（Loop β）。後端權威發放→無前端死路、client 不能偽造。
     if req.session_id and req.outcome:
+        wallet = _get_wallet()
         coins = int(result.get("coins", 0))
         if coins:
-            _get_wallet().credit("ecology", coins, note="session %s" % req.session_id[:8])
+            wallet.credit("ecology", coins, note="session %s" % req.session_id[:8])
+        rounds = int(req.outcome.get("rounds_survived", 0) or 0)
+        survival = round(SURVIVAL_COIN_RATE * rounds) if rounds > 0 else 0
+        if survival:
+            wallet.credit("survival", survival, note="session %s survival" % req.session_id[:8])
+        if coins or survival:
             await _wallet_save()
-        result["balance"] = _get_wallet().balance()
+        result["survival_coins"] = survival
+        result["balance"] = wallet.balance()
     return result
 
 
