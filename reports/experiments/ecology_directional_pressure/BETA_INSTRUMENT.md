@@ -48,11 +48,15 @@ n=200 仍偏寬（半寬 ~±0.8）。
 
 ```
 verdict      : OK
-n_real       : 208  (total subs 210, artifacts dropped 2)
+n_real       : 199  (total subs 199, artifacts dropped 0)
 scarcity_std : 0.0743
-β (response) : 0.220  ±0.911  95%CI [-1.565, 2.006]
-α_aggressive : 1.890   α_defensive : 2.019   (α_balanced≡0)
+β (response) : 0.146  ±0.921  95%CI [-1.660, 1.951]
+α_aggressive : 1.896   α_defensive : 2.004   (α_balanced≡0)
 ```
+
+> 註（2026-06-23）：先前報的 n=208 是未提交的工作區版本（210 subs）。一次端點測試的 `_ecology_save`
+> 誤覆蓋了它（測試 fixture 未隔離 OUT_DIR，已修：tests 一律導向 tmp），已自 git HEAD 復原為 199 筆乾淨真人。
+> 結論不變（β 仍無資訊量）；損失 = 11 筆未提交的工作區增量（無法復原）。
 
 **更正始末**：初版用「run_id 空＝真人」（沿用 P7-H 另一 store 的清洗律）→ 誤判 n=0/INSUFFICIENT。
 驗證（讀 V2 前端 + replay 腳本 + ts 散佈）發現：V2 `submit(will, get_session_id(), get_session_id(), outcome)`

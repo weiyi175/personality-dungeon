@@ -61,6 +61,7 @@ class BetaData:
     n_real: int
     n_total: int
     n_artifact: int = 0    # 排除的非真實-live 筆數（無 session_id 或無 adventure outcome）
+    n_seen: int = 0        # 用 seen_scarcity（人實際看到）重建 adv 的筆數；其餘退回 q_before 代理
 
 
 def load_real_submissions(state_path: str | Path, lam: float = DEFAULT_LAM) -> BetaData:
@@ -77,20 +78,24 @@ def load_real_submissions(state_path: str | Path, lam: float = DEFAULT_LAM) -> B
     subs = data.get("submissions", [])
     # params.lam 若存在則用它（換 lam 校準後 advantage 重建須一致）。
     lam = float(data.get("params", {}).get("lam", lam))
-    adv_rows, chosen, n_artifact = [], [], 0
+    adv_rows, chosen, n_artifact, n_seen = [], [], 0, 0
     for s in subs:
         if not s.get("session_id") or not s.get("outcome"):   # 非真實-live（無 session / 無冒險 outcome）
             n_artifact += 1
             continue
-        q_before = s.get("score_components", {}).get("q_before")
         arch = s.get("archetype")
-        if q_before is None or arch not in ARCHETYPES:
+        # seen_scarcity（人實際看到）優先；否則退回 q_before（submit 當下伺服器重算）為代理。
+        seen = s.get("seen_scarcity")
+        q = seen if (seen and len(seen) == _NARCH) else s.get("score_components", {}).get("q_before")
+        if q is None or arch not in ARCHETYPES:
             continue
-        adv_rows.append(reconstruct_advantage(q_before, lam))
+        if seen and len(seen) == _NARCH:
+            n_seen += 1
+        adv_rows.append(reconstruct_advantage(q, lam))
         chosen.append(ARCHETYPES.index(arch))
     adv = np.asarray(adv_rows, dtype=float) if adv_rows else np.zeros((0, _NARCH))
     return BetaData(adv=adv, chosen=np.asarray(chosen, dtype=int),
-                    n_real=len(adv_rows), n_total=len(subs), n_artifact=n_artifact)
+                    n_real=len(adv_rows), n_total=len(subs), n_artifact=n_artifact, n_seen=n_seen)
 
 
 # ── 估計器（conditional logit MLE）────────────────────────────────────────────
@@ -156,6 +161,7 @@ class FitResult:
     n_real: int
     n_total: int
     n_artifact: int = 0
+    n_seen: int = 0
     beta: float | None = None
     beta_se: float | None = None
     beta_ci: tuple[float, float] | None = None
@@ -171,7 +177,7 @@ def fit_beta(data: BetaData, *, min_n: int = MIN_N,
     adv, chosen = data.adv, data.chosen
     scar = scarcity_variation(adv)
     base = FitResult(verdict="", n_real=data.n_real, n_total=data.n_total,
-                     n_artifact=data.n_artifact, scarcity_std=scar)
+                     n_artifact=data.n_artifact, n_seen=data.n_seen, scarcity_std=scar)
 
     if data.n_real < min_n:
         base.verdict = "INSUFFICIENT_N"
@@ -241,6 +247,7 @@ def _fmt(r: FitResult) -> str:
     lines = [
         f"verdict      : {r.verdict}",
         f"n_real       : {r.n_real}  (total subs {r.n_total}, artifacts dropped {r.n_artifact})",
+        f"adv source   : seen_scarcity {r.n_seen} / q_before proxy {r.n_real - r.n_seen}",
         f"scarcity_std : {r.scarcity_std:.4f}" if r.scarcity_std is not None else "scarcity_std : —",
     ]
     if r.verdict == "OK":
@@ -261,7 +268,20 @@ def main() -> None:
     ap.add_argument("--min-n", type=int, default=MIN_N)
     ap.add_argument("--self-test", action="store_true",
                     help="跑合成自我回收（驗證估計器 + 樣本量）")
+    ap.add_argument("--monitor", action="store_true",
+                    help="乙 收集監測：只報稀缺變異是否達鐵律 1（gate 0.06 / target 0.2）")
     args = ap.parse_args()
+
+    if args.monitor:
+        data = load_real_submissions(args.state, lam=args.lam)
+        scar = scarcity_variation(data.adv)
+        status = ("達設計目標(≥0.2)" if scar >= 0.20 else
+                  "過 gate 但偏低、power 不足" if scar >= 0.06 else
+                  "過低→近不可識別，需驅動稀缺漂移")
+        print(f"=== 乙 collection monitor: {args.state} ===")
+        print(f"n_real {data.n_real} (seen {data.n_seen}/proxy {data.n_real - data.n_seen})  "
+              f"scarcity_std {scar:.4f}  → {status}")
+        return
 
     if args.self_test:
         print("=== 合成自我回收（true β → β̂）===")

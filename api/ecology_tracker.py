@@ -69,6 +69,14 @@ def _softplus(x: float) -> float:
     return x + math.log1p(math.exp(-x)) if x > 0 else math.log1p(math.exp(x))
 
 
+def _std(xs: list[float]) -> float:
+    n = len(xs)
+    if n < 2:
+        return 0.0
+    mean = sum(xs) / n
+    return math.sqrt(sum((x - mean) ** 2 for x in xs) / n)   # population std（與 numpy 預設一致）
+
+
 # 評分區間 → 金幣獎勵（neg-freq 重校 2026-06-19，跑 scripts/.../ecology_will_replay.py +
 # piece2_calibrate）。λ=2.0（EcologyParams.lam）下分數域 ~[46,103]。200 檔＝你選的派系當下
 # 跌到 ~6% 窗佔比（瀕危）→ 分數破百＝「救活瀕危派系」jackpot（replay ~3%，稀有）；下 4 檔在
@@ -115,6 +123,10 @@ class EcologySubmission:
     coins: int                 # 實質獎勵：依評分區間給的金幣（落檔保存）
     score_components: dict
     outcome: dict = field(default_factory=dict)
+    # 乙 β-instrument：author 前**前端實際顯示**給人的稀缺佔比 [q_agg,q_def,q_bal]（人看了才響應）。
+    # 與 score_components.q_before（submit 當下伺服器重算的 q）分開存，消除 display-vs-submit 漂移；
+    # 空＝前端未傳，分析退回用 q_before 為代理。純記錄、不入評分、不碰算子（F-safe）。
+    seen_scarcity: list[float] = field(default_factory=list)
 
 
 @dataclass
@@ -174,8 +186,12 @@ class EcologyTracker:
         run_id: str = "",
         session_id: str = "",
         outcome: dict | None = None,
+        seen_scarcity: list[float] | None = None,
     ) -> dict:
-        """收一筆冒險經驗：評分（基於上傳『前』的生態，避免自評）→ 更新生態。"""
+        """收一筆冒險經驗：評分（基於上傳『前』的生態，避免自評）→ 更新生態。
+
+        seen_scarcity：前端 author 前顯示給人的稀缺佔比（乙 β-instrument 用；純記錄、不入評分）。
+        """
         soft = personality_to_archetype_soft(personality_9d, tau=self.params.tau)
         i = max(range(_NARCH), key=lambda k: soft[k])
 
@@ -204,6 +220,7 @@ class EcologyTracker:
             personality_9d=list(personality_9d),
             score=score, coins=coins, score_components=components,
             outcome=outcome or {},
+            seen_scarcity=list(seen_scarcity) if seen_scarcity else [],
         )
         self._submissions.append(rec)
 
@@ -241,6 +258,38 @@ class EcologyTracker:
             "weights": dict(zip(ARCHETYPES, self._weights)),
             "n_submissions": len(self._submissions),
             "n_bins": len(self._snapshots),
+        }
+
+    def collection_diagnostics(self) -> dict:
+        """乙 收集監測：真人 live 提交面對的稀缺**變異**夠不夠（鐵律 1）。
+
+        真人判準＝session_id ∧ outcome 雙非空（與 β-instrument 一致）。對每筆取人**看到**的稀缺
+        （seen_scarcity 優先，否則退 q_before），用本算子的 advantage 變換，回報跨筆 advantage std。
+        對齊 β-instrument 閾值：< 0.02 → 不可識別；gate 0.06；設計目標 ~0.2。純讀、不改狀態（F-safe）。
+        """
+        advs = []
+        for s in self._submissions:
+            if not s.session_id or not s.outcome:
+                continue
+            q = s.seen_scarcity or s.score_components.get("q_before")
+            if not q or len(q) != _NARCH:
+                continue
+            advs.append(self._advantage(self._fitness(list(q))))
+        n = len(advs)
+        if n < 2:
+            return {"n_real": n, "scarcity_std": 0.0, "meets_gate": False,
+                    "meets_target": False, "note": "真人 live 筆數 < 2，無法評變異"}
+        arr = [[a[k] for a in advs] for k in range(_NARCH)]
+        stds = [float(_std(col)) for col in arr]
+        scar = float(sorted(stds)[len(stds) // 2])   # median over archetypes
+        return {
+            "n_real": n,
+            "scarcity_std": scar,
+            "meets_gate": scar >= 0.06,          # 識別性 + low regime 下限
+            "meets_target": scar >= 0.20,        # power 設計目標（高變動）
+            "note": ("達設計目標" if scar >= 0.20 else
+                     "過識別 gate 但變異偏低、power 不足" if scar >= 0.06 else
+                     "變異過低 → 接近不可識別，需驅動稀缺漂移"),
         }
 
     def assess(self, *, burn_in: int = 0, tail: int | None = None) -> dict:

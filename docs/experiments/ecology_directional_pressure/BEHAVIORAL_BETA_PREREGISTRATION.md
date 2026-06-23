@@ -69,11 +69,17 @@ power 模擬（`ecology_beta_power.py`，真實 intrinsic α、高稀缺變動�
   → `fit_beta`（scipy BFGS + analytic gradient，CI by inv-Hessian）→ verdict guard
   `INSUFFICIENT_N(<30) / UNIDENTIFIED(scarcity_std<0.02) / OK`。**這些閾值此刻鎖定，不事後調。**
 - **apparatus 前置（收集前要 build，gate 在此）**：
-  1. **稀缺漂移 induction**：確保收集期 q 有變動（鐵律 1）。最小做法＝跨足夠長時段收集讓窗自然演化；
-     強化做法＝顯示輪換。**需驗 scarcity_std 達標**。
-  2. **（強烈建議）`seen_scarcity` passthrough**：在 `/ecology/submit` 記人**實際看到**的稀缺快照（而非
-     submit 當下伺服器重算的 q_before）。消除 display-vs-submit 漂移，**且**是確認 softplus(adv) link 的唯一入口
-     → 解鎖 β 的**絕對** g\*(β) 刻度（否則 β 只能當單調指標，§7）。
+  1. **稀缺漂移 induction**：確保收集期 q 有變動（鐵律 1）。
+     - ✅ **後端 monitor 已建**（2026-06-23）：`GET /ecology/scarcity_variation`（+ `ecology_beta_fit.py --monitor`）
+       即時報真人 live 的 advantage-std 對 gate 0.06 / target 0.2 → 收集中可隨時驗鐵律 1。現況 std=0.074「過 gate
+       但偏低、power 不足」。最小 induction＝跨足夠長時段/分波收集讓窗自然演化（由 monitor 確認達標）。
+     - ⏳ **強化 induction（顯示輪換/隨機化）延後**：會讓顯示≠真 q → 動到 coin 誠實性/F6，是**設計/firewall 抉擇**，
+       不單方面寫碼；要做需先過 firewall 重審（與 [[economy-architecture-r3c-ii]] 對齊）。
+  2. **`seen_scarcity` passthrough**：記人**實際看到**的稀缺快照（消除 display-vs-submit 漂移 + 確認 softplus(adv)
+     link → 解鎖 β 的**絕對** g\*(β) 刻度；否則 β 只當單調指標，§7）。
+     - ✅ **後端已建**（2026-06-23）：`/ecology/submit` 收 optional `seen_scarcity`（len 3）→ 落檔 `EcologySubmission`；
+       β-instrument 優先採用、退回 q_before 代理並回報 seen/proxy 筆數。純記錄、不入評分、F-safe。
+     - ⏳ **前端側待做**（需 Godot 驗）：V2 author 前把顯示的快照隨 submit 帶上。現全部走 q_before 代理（低流量足夠）。
 
 ## 6. 威脅與混淆（預先聲明處理）
 

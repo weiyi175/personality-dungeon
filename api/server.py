@@ -1670,6 +1670,7 @@ class EcologySubmitRequest(BaseModel):
     run_id: str = ""
     session_id: str = ""
     outcome: dict[str, Any] = {}
+    seen_scarcity: list[float] = []   # 乙：author 前前端顯示的稀缺佔比（純記錄，β-instrument 用）
 
 
 @app.post("/ecology/submit")
@@ -1678,11 +1679,14 @@ async def ecology_submit(req: EcologySubmitRequest) -> dict[str, Any]:
     update ecology, return the player's score + current ecology snapshot."""
     if len(req.personality_9d) != 9:
         raise HTTPException(status_code=422, detail="personality_9d must be length 9")
+    if req.seen_scarcity and len(req.seen_scarcity) != 3:
+        raise HTTPException(status_code=422, detail="seen_scarcity must be length 3 (or omitted)")
     result = _get_ecology().submit(
         personality_9d=req.personality_9d,
         run_id=req.run_id,
         session_id=req.session_id,
         outcome=req.outcome,
+        seen_scarcity=req.seen_scarcity,
     )
     await _ecology_save()
     # (ii) 單一幣：真實玩家的生態 coins 累加進錢包。真人判準＝有 session_id + 真實冒險 outcome
@@ -1708,6 +1712,12 @@ async def ecology_snapshot() -> dict[str, Any]:
 async def ecology_assess() -> dict[str, Any]:
     """Grade the ecology's rotation L0–L3 via cycle_metrics over snapshot bins."""
     return _get_ecology().assess()
+
+
+@app.get("/ecology/scarcity_variation")
+async def ecology_scarcity_variation() -> dict[str, Any]:
+    """乙 collection monitor：真人 live 提交面對的稀缺變異是否達標（鐵律 1）。read-only。"""
+    return _get_ecology().collection_diagnostics()
 
 
 # ── PVP / 地牢挑戰 API（最小 combat loop，Increment 1）─────────────────────────

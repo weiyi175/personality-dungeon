@@ -97,6 +97,26 @@ def test_load_real_submissions_filter(tmp_path):
     assert data.n_total == 4
 
 
+def test_seen_scarcity_preferred_over_q_before(tmp_path):
+    """有 seen_scarcity（人實際看到）時優先用它重建 adv；否則退 q_before 代理。"""
+    import json
+    state = {"params": {"lam": 2.0}, "submissions": [
+        # 帶 seen_scarcity → 用它（與 q_before 不同，驗證確實取 seen）
+        {"session_id": "a", "archetype": "balanced", "outcome": {"r": 1},
+         "seen_scarcity": [0.8, 0.1, 0.1],
+         "score_components": {"q_before": [0.33, 0.33, 0.34]}},
+        # 無 seen_scarcity → 退回 q_before
+        {"session_id": "b", "archetype": "aggressive", "outcome": {"r": 1},
+         "score_components": {"q_before": [0.2, 0.4, 0.4]}},
+    ]}
+    p = tmp_path / "ecology_state.json"
+    p.write_text(json.dumps(state))
+    data = bf.load_real_submissions(p)
+    assert data.n_real == 2 and data.n_seen == 1
+    # 第 0 筆的 adv 應由 seen [.8,.1,.1] 重建，而非 q_before 的近均勻
+    assert np.allclose(data.adv[0], bf.reconstruct_advantage([0.8, 0.1, 0.1], 2.0))
+
+
 def test_power_dgps_detector_wiring():
     """power 模組的 DGP 接線守護：真響應 → β̂>0 顯著；null → CI 含 0。"""
     from scripts.experiments import ecology_beta_power as bp
