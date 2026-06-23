@@ -1729,10 +1729,66 @@ class PvpChallengeRequest(BaseModel):
     dungeon_id: str
 
 
+class PvpDeployRequest(BaseModel):
+    faction: str
+
+
+class PvpRaidRequest(BaseModel):
+    raider_dungeon_id: str
+
+
 @app.get("/pvp/dungeons")
 async def pvp_dungeons() -> dict[str, Any]:
-    """可挑戰地牢清單（顯示各地牢 deployed 派系 + 你的 Rank）。"""
+    """可挑戰地牢清單（顯示各地牢 deployed 派系 + 防禦 + 你的 Rank）。"""
     return _get_pvp().list_dungeons()
+
+
+@app.post("/pvp/deploy")
+async def pvp_deploy(req: PvpDeployRequest) -> dict[str, Any]:
+    """部署你自己的地牢（Increment 3，F1：自由選派系、零讀 will）。"""
+    try:
+        result = _get_pvp().deploy(req.faction)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc))
+    await _pvp_save()
+    return result
+
+
+@app.post("/pvp/defense/upgrade")
+async def pvp_defense_upgrade() -> dict[str, Any]:
+    """升一級防禦（coin sink，archetype-agnostic F3）：先 debit coin（不足 402）→ 升 level。
+    F2：coin 只進 sink，不直接寫 Rank（防禦經 gameplay 影響後續 raid 的 transfer）。"""
+    pvp = _get_pvp()
+    wallet = _get_wallet()
+    cost = pvp.params.defense_cost
+    try:
+        wallet.debit("pvp_defense", cost, note="defense upgrade")
+    except InsufficientFunds as exc:
+        raise HTTPException(status_code=402, detail=str(exc))
+    try:
+        result = _get_pvp().upgrade_defense()
+    except ValueError as exc:
+        wallet.credit("pvp_defense_refund", cost, note="defense upgrade rejected")
+        await _wallet_save()
+        raise HTTPException(status_code=422, detail=str(exc))
+    await _pvp_save()
+    await _wallet_save()
+    result["coin_charged"] = cost
+    result["balance"] = wallet.balance()
+    return result
+
+
+@app.post("/pvp/raid")
+async def pvp_raid(req: PvpRaidRequest) -> dict[str, Any]:
+    """NPC 地牢來犯你的地牢（你當防守方）：零和 + 你的 defense_level 在落敗時減免損失。"""
+    try:
+        result = _get_pvp().raid(req.raider_dungeon_id)
+    except KeyError:
+        raise HTTPException(status_code=404, detail="dungeon not found: %s" % req.raider_dungeon_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc))
+    await _pvp_save()
+    return result
 
 
 @app.post("/pvp/challenge")

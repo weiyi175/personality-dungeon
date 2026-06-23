@@ -123,3 +123,56 @@ def test_ecology_submit_rejects_bad_seen_scarcity():
         "seen_scarcity": [0.5, 0.5],          # 長度錯
     })
     assert r.status_code == 422
+
+
+# ── Increment 3：deploy / 防禦升級 / raid 端點 ──────────────────────────────────
+
+def test_deploy_endpoint():
+    c = fresh()
+    j = c.post("/pvp/deploy", json={"faction": "aggressive"}).json()
+    assert j["deployed_faction"] == "aggressive" and j["defense_level"] == 0
+    assert c.get("/pvp/dungeons").json()["player_dungeon_id"] == j["dungeon_id"]
+
+
+def test_defense_upgrade_debits_wallet_and_no_rank_write():
+    """防禦升級＝coin sink：先扣 coin、升 level；F2：不直接寫 Rank。"""
+    c = fresh(start=100)
+    c.post("/pvp/deploy", json={"faction": "defensive"})
+    rank_before = c.get("/pvp/dungeons").json()["your_rank"]
+    j = c.post("/pvp/defense/upgrade").json()
+    assert j["defense_level"] == 1
+    assert j["coin_charged"] == 50 and j["balance"] == 50      # 扣 50
+    assert c.get("/pvp/dungeons").json()["your_rank"] == rank_before   # F2：Rank 未動
+
+
+def test_defense_upgrade_insufficient_funds_402():
+    c = fresh(start=10)
+    c.post("/pvp/deploy", json={"faction": "defensive"})
+    r = c.post("/pvp/defense/upgrade")
+    assert r.status_code == 402
+    assert c.get("/wallet").json()["balance"] == 10           # 沒被扣
+
+
+def test_defense_upgrade_without_deploy_422_refunds():
+    c = fresh(start=100)
+    r = c.post("/pvp/defense/upgrade")                        # 還沒 deploy
+    assert r.status_code == 422
+    assert c.get("/wallet").json()["balance"] == 100          # coin 已退
+
+
+def test_raid_endpoint_wired():
+    """/pvp/raid 接線：回傳 held/rank_delta/your_rank，移轉量在 stake 界內。
+    （防禦減免的 deterministic 驗證在 test_pvp_increment3，owner_faction 隱藏不從端點露。）"""
+    c = fresh(start=100)
+    c.post("/pvp/deploy", json={"faction": "defensive"})
+    raider = next(d for d in c.get("/pvp/dungeons").json()["dungeons"] if not d["is_player"])
+    r = c.post("/pvp/raid", json={"raider_dungeon_id": raider["id"]}).json()
+    assert isinstance(r["held"], bool)
+    assert abs(r["rank_delta"]) <= 25 and "your_rank" in r
+
+
+def test_raid_requires_deploy_first():
+    c = fresh()
+    raider = next(d for d in c.get("/pvp/dungeons").json()["dungeons"] if not d["is_player"])
+    r = c.post("/pvp/raid", json={"raider_dungeon_id": raider["id"]})
+    assert r.status_code == 422        # 還沒 deploy 自己的地牢

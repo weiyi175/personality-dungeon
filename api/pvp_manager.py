@@ -54,12 +54,16 @@ class Dungeon:
     owner_faction: str       # 主人 playstyle（v1 不洩漏給挑戰者；scout = v2）
     deployed_faction: str    # 地牢部署 = counter(owner_faction)（剋制主人）
     rank: int = 1000
+    defense_level: int = 0   # Increment 3：archetype-agnostic 防禦層（F3，花 coin 升；防守落敗時 damp 移轉）
+    is_player: bool = False  # 玩家自有地牢（deploy 產；不可被自己挑戰）
 
 
 @dataclass
 class PvpParams:
-    stake: int = 25          # 每場 Rank 賭注（v1 vs house）
+    stake: int = 25            # 每場 Rank 賭注（零和移轉基底）
     seed_rank: int = 1000
+    defense_cost: int = 50     # Increment 3：每升一級防禦的 coin 成本（archetype-agnostic，F3）
+    defense_reduction: int = 5 # 每級防禦在「防守落敗」時減少的移轉量（F3，與派系無關）
 
 
 # 種子合成地牢（solo 可測；三派齊全 + 兩個重複「熱門」派，讓挑戰有選擇）。
@@ -78,8 +82,30 @@ class PvpManager:
     def __init__(self, params: PvpParams | None = None) -> None:
         self.params = params or PvpParams()
         self._dungeons: dict[str, Dungeon] = {}
-        self._player_rank: int = self.params.seed_rank   # v1 單一本地玩家
+        self._player_rank: int = self.params.seed_rank   # 單一本地玩家
+        self._player_dungeon_id: str | None = None       # 玩家自有地牢（deploy 後設）
         self._history: list[dict] = []
+
+    # ── 戰鬥核心（零和 + 防禦）─────────────────────────────────────────────────
+    def _resolve(self, attacker_faction: str, defender_faction: str,
+                 defender_defense: int) -> tuple[bool, int]:
+        """3-RPS 判勝負 → (attacker_wins, transfer)。transfer＝零和移轉量（loser→winner）。
+        防禦只在**防守方落敗**時 damp 移轉（攻擊方的防禦不生效；F3：只依 level、與派系無關）。"""
+        if beats(attacker_faction, defender_faction):
+            attacker_wins = True
+        else:                       # 被剋 或 同型鏡像 → 守方勝
+            attacker_wins = False
+        base = self.params.stake
+        if attacker_wins:           # 守方落敗 → 防禦減免移轉
+            transfer = max(0, base - defender_defense * self.params.defense_reduction)
+        else:                       # 攻方落敗 → 全額（防禦不護攻擊）
+            transfer = base
+        return attacker_wins, transfer
+
+    def _sync_player_dungeon(self) -> None:
+        """玩家地牢 Rank 鏡像玩家 Rank（顯示一致）。"""
+        if self._player_dungeon_id and self._player_dungeon_id in self._dungeons:
+            self._dungeons[self._player_dungeon_id].rank = self._player_rank
 
     def _seed(self) -> None:
         if self._dungeons:
@@ -105,25 +131,59 @@ class PvpManager:
                 "counter_faction": counter(d.deployed_faction),     # 帶這個來剋它
                 "counter_zh": FACTION_ZH[counter(d.deployed_faction)],
                 "rank": d.rank,
+                "defense_level": d.defense_level,
+                "is_player": d.is_player,
             }
             for d in self._dungeons.values()
         ]
-        return {"dungeons": dungeons, "your_rank": self._player_rank}
+        return {"dungeons": dungeons, "your_rank": self._player_rank,
+                "player_dungeon_id": self._player_dungeon_id}
 
     # ── 寫 ────────────────────────────────────────────────────────────────────
+    def deploy(self, faction: str) -> dict:
+        """玩家部署自有地牢（F1：自由選派系、零讀 will）。再次呼叫＝改部署。"""
+        self._seed()
+        if faction not in FACTIONS:
+            raise ValueError(f"unknown faction: {faction!r}")
+        if self._player_dungeon_id and self._player_dungeon_id in self._dungeons:
+            self._dungeons[self._player_dungeon_id].deployed_faction = faction
+        else:
+            did = uuid.uuid4().hex[:8]
+            self._dungeons[did] = Dungeon(
+                id=did, owner="你的地牢", owner_faction=faction,
+                deployed_faction=faction, rank=self._player_rank, is_player=True,
+            )
+            self._player_dungeon_id = did
+        d = self._dungeons[self._player_dungeon_id]
+        return {"dungeon_id": d.id, "deployed_faction": faction,
+                "deployed_zh": FACTION_ZH[faction], "defense_level": d.defense_level}
+
+    def upgrade_defense(self) -> dict:
+        """升一級防禦（archetype-agnostic，F3）。coin 由 server 層先 debit；此處只升 level。"""
+        if not self._player_dungeon_id or self._player_dungeon_id not in self._dungeons:
+            raise ValueError("deploy a dungeon first")
+        d = self._dungeons[self._player_dungeon_id]
+        d.defense_level += 1
+        return {"dungeon_id": d.id, "defense_level": d.defense_level,
+                "cost": self.params.defense_cost}
+
     def challenge(self, challenger_faction: str, dungeon_id: str) -> dict:
-        """挑戰：challenger 派系 vs 地牢 deployed 派系 → beats(a, d) 判勝負。
-        v1 vs house：勝 +stake / 敗 −stake（只動玩家 Rank；地牢 Rank 靜態 = 顯示用）。"""
+        """玩家挑戰 NPC 地牢：零和——贏家 +transfer / 輸家 −transfer（雙方 Rank 雙向移轉）。
+        守方（地牢）落敗時其 defense_level 減免 transfer（F3）。不可挑戰自己的地牢。"""
         self._seed()
         if challenger_faction not in FACTIONS:
             raise ValueError(f"unknown challenger_faction: {challenger_faction!r}")
         d = self._dungeons.get(dungeon_id)
         if d is None:
             raise KeyError(dungeon_id)
+        if d.is_player:
+            raise ValueError("cannot challenge your own dungeon")
 
-        win = beats(challenger_faction, d.deployed_faction)
-        delta = self.params.stake if win else -self.params.stake
+        win, transfer = self._resolve(challenger_faction, d.deployed_faction, d.defense_level)
+        delta = transfer if win else -transfer
         self._player_rank = max(0, self._player_rank + delta)
+        d.rank = max(0, d.rank - delta)          # 零和：對手反向移轉
+        self._sync_player_dungeon()
 
         cf, df = FACTION_ZH[challenger_faction], FACTION_ZH[d.deployed_faction]
         if win:
@@ -139,11 +199,56 @@ class PvpManager:
             "dungeon_owner": d.owner,
             "dungeon_deployed": d.deployed_faction,
             "rank_delta": delta,
+            "dungeon_rank_delta": -delta,        # 零和對手側
             "your_rank": self._player_rank,
             "dungeon_rank": d.rank,
             "explain": explain,
         }
-        self._history.append({**result, "dungeon_id": dungeon_id, "ts": time.time()})
+        self._history.append({**result, "kind": "challenge", "dungeon_id": dungeon_id,
+                              "ts": time.time()})
+        return result
+
+    def raid(self, raider_dungeon_id: str) -> dict:
+        """NPC 地牢來犯你的地牢（你當防守方）：零和 + 你的 defense_level 在落敗時減免損失。
+        防禦 sink 的價值在此兌現。需先 deploy。"""
+        self._seed()
+        if not self._player_dungeon_id or self._player_dungeon_id not in self._dungeons:
+            raise ValueError("deploy a dungeon first")
+        pd = self._dungeons[self._player_dungeon_id]
+        r = self._dungeons.get(raider_dungeon_id)
+        if r is None:
+            raise KeyError(raider_dungeon_id)
+        if r.is_player:
+            raise ValueError("raider must be an NPC dungeon")
+
+        # 來犯方用其 owner_faction 攻；你以 deployed + defense 守。
+        attacker_wins, transfer = self._resolve(r.owner_faction, pd.deployed_faction,
+                                                pd.defense_level)
+        held = not attacker_wins
+        delta = -transfer if attacker_wins else transfer    # 你的 Rank 變化
+        self._player_rank = max(0, self._player_rank + delta)
+        r.rank = max(0, r.rank - delta)                      # 零和
+        self._sync_player_dungeon()
+
+        rf, df = FACTION_ZH[r.owner_faction], FACTION_ZH[pd.deployed_faction]
+        if held:
+            explain = "你的「%s」守下了「%s」的來犯 → 守住！" % (df, rf)
+        else:
+            explain = "「%s」攻破了你的「%s」（防禦減免 %d）→ 失守。" % (
+                rf, df, pd.defense_level * self.params.defense_reduction)
+
+        result = {
+            "held": held,
+            "raider": r.owner,
+            "raider_faction": r.owner_faction,
+            "your_deployed": pd.deployed_faction,
+            "defense_level": pd.defense_level,
+            "rank_delta": delta,
+            "your_rank": self._player_rank,
+            "explain": explain,
+        }
+        self._history.append({**result, "kind": "raid", "raider_id": raider_dungeon_id,
+                              "ts": time.time()})
         return result
 
     # ── 持久化（仿 ecology_tracker：記憶體 singleton + JSON，停-改-重啟）─────────
@@ -156,6 +261,7 @@ class PvpManager:
                 "params": asdict(self.params),
                 "dungeons": [asdict(d) for d in self._dungeons.values()],
                 "player_rank": self._player_rank,
+                "player_dungeon_id": self._player_dungeon_id,
                 "history": self._history[-200:],
             }, f, ensure_ascii=False, indent=2)
         return path
@@ -175,6 +281,7 @@ class PvpManager:
             for d in data.get("dungeons", [])
         }
         self._player_rank = int(data.get("player_rank", self.params.seed_rank))
+        self._player_dungeon_id = data.get("player_dungeon_id")
         self._history = data.get("history", [])
         return True
 

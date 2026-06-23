@@ -1,6 +1,6 @@
 # 地牢經濟 — R3/C 隔離軌 規劃 v1（PvP 當隔離 game feature）
 
-> **狀態**: DRAFT v1.4（**§10 firewall 重審完成 → option 1〔真玩家地牢+零和 Rank+防禦 sink〕裁定 firewall-SAFE、附條件**；錢包+門票 sink 後端 BUILT；防禦升級待 Increment 3）
+> **狀態**: DRAFT v1.4（§10 firewall 重審完成 → option 1 firewall-SAFE；**Increment 3 後端 BUILT**：deploy+零和 Rank+archetype-agnostic 防禦 sink+raid，守 5 不變式、測 34/34；前端 PvpScene 部署/防禦 UI 待 Godot。錢包+門票 sink 已 BUILT）
 > **日期**: 2026-06-23（v1.4：§10 firewall 重審 — 解 F2/防禦衝突 + 零和 Rank 非第二算子裁定，閉 §7 gate。v1.2：κ-sweep 定案採 **(ii)** + S1 + α\*(κ)。v1.1：firewall review F1/F6/F5）
 > **作者**: Claude Opus 4.8 + User
 > **關係**: 與 reduced-form bifurcation pre-reg（研究軌）**並行**；本份是**遊戲軌**。
