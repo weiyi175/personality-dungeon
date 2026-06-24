@@ -1,0 +1,25 @@
+{
+ "_doc": "Direction B — reliability of each SBERT-9D trait vs Opus reference on the 35 held-out wills (Pearson r). Source: scripts/experiments/sbert_quality_eval_claude_ref.py + composite-axis analysis. CAVEAT: N=35 -> wide CIs; the extremes (top/bottom) are trustworthy, the middle ranking is noisy. Use this as the single source of truth for which dimensions the radar/gameplay should trust.",
+ "per_trait_r": {
+  "endurance": 0.63,
+  "suspicion": 0.59,
+  "optimism": 0.54,
+  "curiosity": 0.47,
+  "assertiveness": 0.46,
+  "stability_seeking": 0.43,
+  "impulsiveness": 0.41,
+  "randomness": 0.37,
+  "risk_aversion": 0.19
+ },
+ "composite_axes": {
+  "optimism_vs_suspicion": {"def": "mean(optimism) - mean(suspicion)", "r": 0.665, "note": "BEST signal — beats either trait alone (noise-averaging)"},
+  "bold_vs_cautious": {"def": "mean(assertiveness,impulsiveness) - mean(risk_aversion,stability_seeking)", "r": 0.378, "note": "POISONED by risk_aversion(0.19); do NOT use as-is"}
+ },
+ "recommendation": {
+  "primary_view_2axis": ["optimism_vs_suspicion (r=0.67)", "endurance (r=0.63)"],
+  "tier1_trust_r>=0.54": ["endurance", "suspicion", "optimism"],
+  "tier2_moderate_0.40-0.53": ["curiosity", "assertiveness", "stability_seeking", "impulsiveness"],
+  "tier3_drop_r<0.40": ["randomness", "risk_aversion"],
+  "radar_action": "Show tier1 prominently (or the 2-axis summary); de-emphasize tier2; HIDE tier3. Never combine risk_aversion into a composite axis."
+ }
+}
