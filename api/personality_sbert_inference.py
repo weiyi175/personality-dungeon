@@ -20,9 +20,13 @@ from api.schemas import PERSONALITY_BASIS
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
-_SBERT_MODEL_NAME = "paraphrase-multilingual-MiniLM-L12-v2"
-_MLP_PATH = REPO_ROOT / "outputs" / "mlp_v7_mlp.joblib"
-_MODEL_TAG = "sbert-mlp-v7"
+# Clean Opus re-distill (2026-06-24): Chinese-specialized encoder + head trained on
+# Opus will->9D labels. Held-out mean Pearson r = 0.74 vs old qwen mlp_v7's ~0.40.
+# To revert: _SBERT_MODEL_NAME="paraphrase-multilingual-MiniLM-L12-v2",
+#            _MLP_PATH=outputs/mlp_v7_mlp.joblib, _MODEL_TAG="sbert-mlp-v7".
+_SBERT_MODEL_NAME = "BAAI/bge-base-zh-v1.5"
+_MLP_PATH = REPO_ROOT / "outputs" / "mlp_opus_bgezh_v2.joblib"
+_MODEL_TAG = "sbert-mlp-opus-bgezh-v2"
 _MAX_CHARS = 20
 
 _lock = threading.Lock()
