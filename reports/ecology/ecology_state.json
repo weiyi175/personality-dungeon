@@ -48,7 +48,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "11a8fe25-411f-4449-a5bd-7ca3d7b4be47",
@@ -87,7 +88,8 @@
         "cycle": 0,
         "max_proximity": 0.50666403371613,
         "rounds_survived": 200
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "bb0b5cbc-e63b-46d3-81d4-2ad3f0272823",
@@ -126,7 +128,8 @@
         "cycle": 0,
         "max_proximity": 0.905006359686335,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "041a85d1-948d-4747-b883-b9c445e8346c",
@@ -165,7 +168,8 @@
         "cycle": 0,
         "max_proximity": 0.851487167179977,
         "rounds_survived": 109
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "68bd7b79-8573-435c-8547-086f91222121",
@@ -204,7 +208,8 @@
         "cycle": 0,
         "max_proximity": 0.695858942189158,
         "rounds_survived": 200
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "5e0ddf52-64ca-4eff-9c13-678c8aa9211d",
@@ -243,7 +248,8 @@
         "cycle": 1,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "cc2adae8-1db6-4bb0-92f1-2a3aee5b3e62",
@@ -282,7 +288,8 @@
         "cycle": 2,
         "max_proximity": 1.0,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "8d24bb59-b531-47c4-ad87-ab2195db1c94",
@@ -321,7 +328,8 @@
         "cycle": 0,
         "max_proximity": 0.87218344604877,
         "rounds_survived": 145
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "ee9ea2ac-7550-4a63-b8f2-65e17ed71784",
@@ -360,7 +368,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "62b6ac4c-9385-4cc4-9a69-cedc2d870b5a",
@@ -399,7 +408,8 @@
         "cycle": 1,
         "max_proximity": 0.991879470235825,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "cfea1cde-e587-49fc-9754-843e1f2634ff",
@@ -438,7 +448,8 @@
         "cycle": 2,
         "max_proximity": 0.915547626516321,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "afe7d53b-ef7a-4ee8-ae37-eef5435aab56",
@@ -477,7 +488,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 101
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "9b7353e2-0bed-42bb-87d5-38d35a83b0b7",
@@ -516,7 +528,8 @@
         "cycle": 1,
         "max_proximity": 0.93540713754909,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "1846961c-463a-4e5b-8e2c-ff37847d5665",
@@ -555,7 +568,8 @@
         "cycle": 2,
         "max_proximity": 0.918531880722345,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "f5771367-d862-4431-94aa-1467acae8c17",
@@ -594,7 +608,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "bf8b36f6-2db6-466b-9d1a-14d0f821e957",
@@ -633,7 +648,8 @@
         "cycle": 1,
         "max_proximity": 1.0,
         "rounds_survived": 121
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "c3d70e52-9714-4ab2-9c6b-f31e09ace8de",
@@ -672,7 +688,8 @@
         "cycle": 2,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "6da67ea5-56fc-41fb-aa74-d24b84a1c3a0",
@@ -711,7 +728,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "e97dfc5a-236b-4b82-8639-5c4169c8bc7f",
@@ -750,7 +768,8 @@
         "cycle": 1,
         "max_proximity": 0.940145370737069,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "b76b214a-e1bb-43cb-ba24-8dc56d95833f",
@@ -789,7 +808,8 @@
         "cycle": 2,
         "max_proximity": 0.92013310874024,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "c4eae57f-2e67-4faa-bca6-abff61335cd9",
@@ -828,7 +848,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "a853f785-e430-48bd-98fd-4160dc485ad4",
@@ -867,7 +888,8 @@
         "cycle": 1,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "3d43b9b4-ec0f-4d40-a18a-29f3632a0f68",
@@ -906,7 +928,8 @@
         "cycle": 2,
         "max_proximity": 1.0,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "9592833b-1270-44fb-996e-2084050ea652",
@@ -945,7 +968,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "773154cd-29b9-474a-913d-0057b0514fe4",
@@ -984,7 +1008,8 @@
         "cycle": 1,
         "max_proximity": 0.988474913869202,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "1161f596-c3d3-4bbe-bfe4-4ef4621e66a5",
@@ -1023,7 +1048,8 @@
         "cycle": 2,
         "max_proximity": 0.931565805836457,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "893b5bfd-d905-4ca9-892d-568a6da42319",
@@ -1062,7 +1088,8 @@
         "cycle": 0,
         "max_proximity": 0.990665933373972,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "5cf9f82a-2800-4688-9444-73e27c79fa99",
@@ -1101,7 +1128,8 @@
         "cycle": 1,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "a17fcf03-7c18-4708-a72d-d1faa5739a0d",
@@ -1140,7 +1168,8 @@
         "cycle": 2,
         "max_proximity": 0.985207039231157,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "a9e5ce04-94df-443b-be48-de08ad347c43",
@@ -1179,7 +1208,8 @@
         "cycle": 0,
         "max_proximity": 0.996595209683363,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "4d91fdc1-85aa-4aaa-9859-51d126e34bf6",
@@ -1218,7 +1248,8 @@
         "cycle": 1,
         "max_proximity": 0.889751518214588,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "d75bdacd-9144-4bf2-8b36-e7534ac6326b",
@@ -1257,7 +1288,8 @@
         "cycle": 2,
         "max_proximity": 0.883416313336061,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "d5275726-cf37-4652-a1b8-00957c838b52",
@@ -1296,7 +1328,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "d835d80c-7bc0-4a3f-9756-532dd2ea251a",
@@ -1335,7 +1368,8 @@
         "cycle": 1,
         "max_proximity": 1.0,
         "rounds_survived": 121
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "78128965-c267-4832-878d-5f7196b60cbf",
@@ -1374,7 +1408,8 @@
         "cycle": 2,
         "max_proximity": 0.993408272447649,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "59eccfb4-332b-4028-a80c-3b7739ce1728",
@@ -1413,7 +1448,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 101
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "efabd556-ead5-407d-a7d6-f185c2d28038",
@@ -1452,7 +1488,8 @@
         "cycle": 1,
         "max_proximity": 0.994879847799558,
         "rounds_survived": 101
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "c698b72e-6949-4655-8cfa-991bec708355",
@@ -1491,7 +1528,8 @@
         "cycle": 2,
         "max_proximity": 0.971668934923546,
         "rounds_survived": 101
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "becfe50f-213d-4edb-bbfb-a0d530361260",
@@ -1530,7 +1568,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "e4b229e3-04fd-43ae-8408-ba1c5e383e66",
@@ -1569,7 +1608,8 @@
         "cycle": 1,
         "max_proximity": 0.924321484320389,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "48dc2ded-2cce-4bad-9541-e552011bef43",
@@ -1608,7 +1648,8 @@
         "cycle": 2,
         "max_proximity": 0.965540449385926,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "d8a1fdc4-24d5-44dd-a976-20c2bb97269c",
@@ -1647,7 +1688,8 @@
         "cycle": 0,
         "max_proximity": 0.997391061080605,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "9c2b1232-3503-4c11-84ba-3964ca56c930",
@@ -1686,7 +1728,8 @@
         "cycle": 1,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "4666d1bc-5f48-489b-ae8e-7742dff777d1",
@@ -1725,7 +1768,8 @@
         "cycle": 2,
         "max_proximity": 0.992188888606899,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "8891bc5a-b642-4d1f-b714-b85bb8c1c19a",
@@ -1764,7 +1808,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "3f356250-caad-46ae-ab46-8ce9719adad4",
@@ -1803,7 +1848,8 @@
         "cycle": 1,
         "max_proximity": 0.972599381877816,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "8feecbdf-0bc8-4ed4-bcfb-9a17787bdd00",
@@ -1842,7 +1888,8 @@
         "cycle": 2,
         "max_proximity": 0.925169495095184,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "ffd809d3-6cd1-4e53-ab4c-a0ad515d9de8",
@@ -1881,7 +1928,8 @@
         "cycle": 0,
         "max_proximity": 0.986643251771812,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "84ce5374-8c9b-47ae-afd9-9271d752f6e6",
@@ -1920,7 +1968,8 @@
         "cycle": 1,
         "max_proximity": 1.0,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "d17004e7-16be-440f-bc72-f75d683b73f1",
@@ -1959,7 +2008,8 @@
         "cycle": 2,
         "max_proximity": 0.992188888606899,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "50aabe39-6c80-4fdf-885a-8cd54c5b5bde",
@@ -1998,7 +2048,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "cd844104-7999-4929-b976-1d44706e6c69",
@@ -2037,7 +2088,8 @@
         "cycle": 1,
         "max_proximity": 0.98783168448936,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "d052cee7-0f11-466d-aedc-685f16aa82e1",
@@ -2076,7 +2128,8 @@
         "cycle": 2,
         "max_proximity": 0.887100381866757,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "0c42e324-aabd-47ea-bc63-e10e66c2e397",
@@ -2115,7 +2168,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "83687790-9c0b-43ec-a219-7f7e95cba144",
@@ -2154,7 +2208,8 @@
         "cycle": 1,
         "max_proximity": 0.965638181437355,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "9360b933-5433-43e5-9e5a-d75751893221",
@@ -2193,7 +2248,8 @@
         "cycle": 2,
         "max_proximity": 0.872961070016276,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "bd700168-f195-4b45-aa23-140521937901",
@@ -2232,7 +2288,8 @@
         "cycle": 0,
         "max_proximity": 0.979182429837318,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "1fc80566-1b2e-4dd9-a34f-d8ea23437a8a",
@@ -2271,7 +2328,8 @@
         "cycle": 1,
         "max_proximity": 0.936465455157795,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "ad5896fb-6fc4-4012-9230-fc82cc949295",
@@ -2310,7 +2368,8 @@
         "cycle": 2,
         "max_proximity": 0.967415503928119,
         "rounds_survived": 101
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "bea92626-2ae6-46e2-a1b1-6d02372a5ded",
@@ -2349,7 +2408,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "27e0662a-bdbc-4d99-b4e7-59f7dde5b38d",
@@ -2388,7 +2448,8 @@
         "cycle": 1,
         "max_proximity": 0.92389226325585,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "631e3b80-ddcc-4f98-8d41-5d123a2fa70c",
@@ -2427,7 +2488,8 @@
         "cycle": 2,
         "max_proximity": 0.893738919763907,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "5c929d5c-584f-4dc8-b161-27353eee4942",
@@ -2466,7 +2528,8 @@
         "cycle": 0,
         "max_proximity": 0.986643251771812,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "3676d640-8103-4c04-b9b1-061d283dce73",
@@ -2505,7 +2568,8 @@
         "cycle": 1,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "4d5f604d-4b38-4ee9-8bb9-59c66cef54b2",
@@ -2544,7 +2608,8 @@
         "cycle": 2,
         "max_proximity": 1.0,
         "rounds_survived": 101
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "16cadc8a-288f-4b7e-8809-b734c9384de5",
@@ -2583,7 +2648,8 @@
         "cycle": 0,
         "max_proximity": 0.986643251771812,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "37f44b1a-5435-48fb-87cc-424de7856afd",
@@ -2622,7 +2688,8 @@
         "cycle": 1,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "60eabe44-7317-43bf-bfcc-189b1439d379",
@@ -2661,7 +2728,8 @@
         "cycle": 2,
         "max_proximity": 1.0,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "c332c3b3-d0f2-495f-8c00-887bc81a6dfb",
@@ -2700,7 +2768,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "22a30227-ea92-4df5-8643-7bec74213cbe",
@@ -2739,7 +2808,8 @@
         "cycle": 1,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "f816670d-8c11-43d7-8744-84b634f03ad5",
@@ -2778,7 +2848,8 @@
         "cycle": 2,
         "max_proximity": 1.0,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "1e500382-d521-4abe-9864-24ed252f075f",
@@ -2817,7 +2888,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "41509e90-9656-4f39-8266-39e6ae9cc61c",
@@ -2856,7 +2928,8 @@
         "cycle": 1,
         "max_proximity": 0.977489559995439,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "5df64a2c-55b5-4178-94c0-f768cca9b047",
@@ -2895,7 +2968,8 @@
         "cycle": 2,
         "max_proximity": 0.880762321651327,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "0133c306-bf1d-488d-9a0d-1f6104060c21",
@@ -2934,7 +3008,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "eb0a933f-8f77-446f-9e43-926a610a42ca",
@@ -2973,7 +3048,8 @@
         "cycle": 1,
         "max_proximity": 0.983006997719194,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "fb2b30ae-5fea-4cd2-a835-f93dfc709dbb",
@@ -3012,7 +3088,8 @@
         "cycle": 2,
         "max_proximity": 0.98037287579177,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "09bcbebf-38f5-427e-803c-eb4f11220707",
@@ -3051,7 +3128,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 101
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "a3e5c704-f0b9-4dca-b3e2-bd2ecc213834",
@@ -3090,7 +3168,8 @@
         "cycle": 1,
         "max_proximity": 0.979138737511946,
         "rounds_survived": 101
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "04a5f44b-62e4-48cd-8105-1a97869102ed",
@@ -3129,7 +3208,8 @@
         "cycle": 2,
         "max_proximity": 0.921860476938412,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "85ce1229-8a6a-4ab9-8053-344548967673",
@@ -3168,7 +3248,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "4e7f2ecd-899e-4af5-aa1b-8feed5e3a26b",
@@ -3207,7 +3288,8 @@
         "cycle": 1,
         "max_proximity": 0.936687295336011,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "257093af-baa6-405f-8759-1eb7483c3a10",
@@ -3246,7 +3328,8 @@
         "cycle": 2,
         "max_proximity": 0.99849928907083,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "8acb8caf-791a-48d2-9842-8c9cd51061c7",
@@ -3285,7 +3368,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "b0264623-7184-43e5-9303-d822bdb84778",
@@ -3324,7 +3408,8 @@
         "cycle": 1,
         "max_proximity": 1.0,
         "rounds_survived": 101
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "f3403dff-6e78-42e2-988f-5c6ff33d2f23",
@@ -3363,7 +3448,8 @@
         "cycle": 2,
         "max_proximity": 0.932772861462781,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "e2b77472-da81-42a9-a2ec-076dbcb3d1f5",
@@ -3402,7 +3488,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 101
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "12c722dd-3df0-4575-b36d-a3e5219e901d",
@@ -3441,7 +3528,8 @@
         "cycle": 1,
         "max_proximity": 0.891906739967242,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "1aff3c3f-7ce6-4a24-8dfb-37fb3c4ba26c",
@@ -3480,7 +3568,8 @@
         "cycle": 2,
         "max_proximity": 0.882384354160319,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "454922a1-72c7-49e9-84da-600f66bb19f7",
@@ -3519,7 +3608,8 @@
         "cycle": 0,
         "max_proximity": 0.931054078007543,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "85049755-583e-4e16-a4a9-ae7848f16681",
@@ -3558,7 +3648,8 @@
         "cycle": 1,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "74bad0cf-330b-41a0-895d-663e775ca3d1",
@@ -3597,7 +3688,8 @@
         "cycle": 2,
         "max_proximity": 0.92178153087182,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "761a833d-a259-4c0e-b757-f543832f8bda",
@@ -3636,7 +3728,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "b0934086-2c42-4582-bf0f-305df8b66285",
@@ -3675,7 +3768,8 @@
         "cycle": 1,
         "max_proximity": 0.903567615688423,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "79a18144-621e-4aac-a482-507c893ec347",
@@ -3714,7 +3808,8 @@
         "cycle": 2,
         "max_proximity": 0.965510744530327,
         "rounds_survived": 101
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "f3f86905-a60f-4c0f-89c4-11f3e2938800",
@@ -3753,7 +3848,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "ae2b362b-43d8-4d3f-9f78-8a4be1f02ffa",
@@ -3792,7 +3888,8 @@
         "cycle": 1,
         "max_proximity": 1.0,
         "rounds_survived": 101
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "53e44fe7-7358-4a81-b18a-4847cbb0bdbd",
@@ -3831,7 +3928,8 @@
         "cycle": 2,
         "max_proximity": 1.0,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "d88fa509-40fc-415a-9b50-51652ef94f04",
@@ -3870,7 +3968,8 @@
         "cycle": 0,
         "max_proximity": 0.971599964207501,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "b29d515d-e152-41b0-b3d4-868260537f9f",
@@ -3909,7 +4008,8 @@
         "cycle": 1,
         "max_proximity": 0.897915102998374,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "2776eab3-d1ed-4292-92d5-9b80a265cdff",
@@ -3948,7 +4048,8 @@
         "cycle": 2,
         "max_proximity": 0.873890254010957,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "2ec6c172-c43e-4259-967a-47b0b5af7265",
@@ -3987,7 +4088,8 @@
         "cycle": 0,
         "max_proximity": 0.998964181058668,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "d8d1c0e2-eaea-48de-82a8-73cb00fcbb85",
@@ -4026,7 +4128,8 @@
         "cycle": 1,
         "max_proximity": 0.902513701816844,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "b5f8a805-d656-4a10-959e-61e385bfb852",
@@ -4065,7 +4168,8 @@
         "cycle": 2,
         "max_proximity": 0.968662431458313,
         "rounds_survived": 101
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "96ad01b2-f1a2-44bf-b94f-50f477a503eb",
@@ -4104,7 +4208,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 101
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "feb422dc-dc5f-4830-be68-c7fd88f94279",
@@ -4143,7 +4248,8 @@
         "cycle": 1,
         "max_proximity": 0.990520287670514,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "6e0daa72-0f49-4888-afab-8501c861c663",
@@ -4182,7 +4288,8 @@
         "cycle": 2,
         "max_proximity": 1.0,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "ea244427-b2da-47a4-beb0-b854aecde55e",
@@ -4221,7 +4328,8 @@
         "cycle": 0,
         "max_proximity": 0.931054078007543,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "336a2dd3-d75d-4300-8c36-b98a5cc8b95a",
@@ -4260,7 +4368,8 @@
         "cycle": 1,
         "max_proximity": 0.977790836588637,
         "rounds_survived": 101
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "3ae9fb90-3f86-45f6-a701-9c669f93eda4",
@@ -4299,7 +4408,8 @@
         "cycle": 2,
         "max_proximity": 0.91896869523886,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "5c728421-997f-49d3-a982-ef4955272700",
@@ -4338,7 +4448,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "612146bf-77db-4893-99e2-6b10a09984b2",
@@ -4377,7 +4488,8 @@
         "cycle": 1,
         "max_proximity": 0.971567185584485,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "90fcd87a-f734-4e76-aa3f-4b0ccf790fa1",
@@ -4416,7 +4528,8 @@
         "cycle": 2,
         "max_proximity": 0.988403898450182,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "3b989394-8c89-4855-9676-60610fb70c2a",
@@ -4455,7 +4568,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "474e8fa5-11b1-4b11-b437-d5ff29d038fa",
@@ -4494,7 +4608,8 @@
         "cycle": 1,
         "max_proximity": 1.0,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "71c32a56-43df-42a5-a8ac-7d1971b60ab4",
@@ -4533,7 +4648,8 @@
         "cycle": 2,
         "max_proximity": 1.0,
         "rounds_survived": 101
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "54bd38b3-3e41-4d96-93dd-7a63494c7b8b",
@@ -4572,7 +4688,8 @@
         "cycle": 0,
         "max_proximity": 0.987340451941716,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "fba0ae0a-b7b9-49a2-a4b4-7414f6328481",
@@ -4611,7 +4728,8 @@
         "cycle": 1,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "dd657daf-625a-414a-80ae-799decb22f00",
@@ -4650,7 +4768,8 @@
         "cycle": 2,
         "max_proximity": 1.0,
         "rounds_survived": 101
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "98f75fb2-bb3f-44f0-a636-17d440d6611c",
@@ -4689,7 +4808,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "77cfb310-1388-4276-bd14-90b8424390b1",
@@ -4728,7 +4848,8 @@
         "cycle": 1,
         "max_proximity": 0.902513701816844,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "fab8cc5e-774b-4862-9efd-5bf04a87f408",
@@ -4767,7 +4888,8 @@
         "cycle": 2,
         "max_proximity": 0.92429116329232,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "59473a33-8f11-4d98-a653-93a2726636aa",
@@ -4806,7 +4928,8 @@
         "cycle": 0,
         "max_proximity": 0.999121589293484,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "492bf29b-d914-418d-82cb-f8aa0c498822",
@@ -4845,7 +4968,8 @@
         "cycle": 1,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "971ae3cd-def2-4b93-bca3-f9169b9ad2a0",
@@ -4884,7 +5008,8 @@
         "cycle": 2,
         "max_proximity": 0.896926732813739,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "01722478-3b02-4b70-bacc-1b6e863d1c1b",
@@ -4923,7 +5048,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "428a399c-0350-4fc5-bcf1-edd2565cbf6a",
@@ -4962,7 +5088,8 @@
         "cycle": 1,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "e227d384-b5b8-462d-a574-fbca4a563ad6",
@@ -5001,7 +5128,8 @@
         "cycle": 2,
         "max_proximity": 0.993818841316736,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "efeb7c3c-6f3a-495d-bb54-a609a113e04e",
@@ -5040,7 +5168,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 121
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "21a7b562-c55b-4951-acfb-4c4d1aace105",
@@ -5079,7 +5208,8 @@
         "cycle": 1,
         "max_proximity": 0.971424704507405,
         "rounds_survived": 101
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "e4c1e52d-1224-435f-97b3-41f9d2f8a9aa",
@@ -5118,7 +5248,8 @@
         "cycle": 2,
         "max_proximity": 0.920571771664451,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "dae72d9d-a802-4271-b84a-1477a92b6f1b",
@@ -5157,7 +5288,8 @@
         "cycle": 0,
         "max_proximity": 0.995549662636056,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "c51bee2f-c2a6-4735-9600-1c3a80d9ec45",
@@ -5196,7 +5328,8 @@
         "cycle": 1,
         "max_proximity": 0.967397824894605,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "e1ce2bf3-6891-4d64-a8ef-0e864a01bc35",
@@ -5235,7 +5368,8 @@
         "cycle": 2,
         "max_proximity": 0.921186039385182,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "f709a798-c1c5-4f22-99e8-eae329f1973e",
@@ -5274,7 +5408,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "b848de1d-67c4-4cd7-8e2a-ccb5403d5ba6",
@@ -5313,7 +5448,8 @@
         "cycle": 1,
         "max_proximity": 0.999832848290647,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "b9f65159-21ef-4e97-84f4-b1947b7b03df",
@@ -5352,7 +5488,8 @@
         "cycle": 2,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "0126adec-b80e-44ca-9b39-650c627b9c5c",
@@ -5391,7 +5528,8 @@
         "cycle": 0,
         "max_proximity": 0.986470857250313,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "3b1378c6-71d5-427f-8e92-ba651fab1bff",
@@ -5430,7 +5568,8 @@
         "cycle": 1,
         "max_proximity": 0.915299355019928,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "7f43872f-d8b4-47a3-8f3c-a82917cd4575",
@@ -5469,7 +5608,8 @@
         "cycle": 2,
         "max_proximity": 0.88626467367139,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "6194f444-7094-4021-bc61-dc2e929ede17",
@@ -5508,7 +5648,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "446814a9-642b-4b2b-be78-ed155af02515",
@@ -5547,7 +5688,8 @@
         "cycle": 1,
         "max_proximity": 0.989663522007481,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "15f4a1f7-385d-449d-a307-5a339b280d91",
@@ -5586,7 +5728,8 @@
         "cycle": 2,
         "max_proximity": 0.898508460290381,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "5541dd7a-818c-4221-8a60-e4d3229c3421",
@@ -5625,7 +5768,8 @@
         "cycle": 0,
         "max_proximity": 0.972341501595949,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "0332f978-659b-4d7b-a763-727a39666d6a",
@@ -5664,7 +5808,8 @@
         "cycle": 1,
         "max_proximity": 0.910904377439754,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "5d1e97a0-b843-460c-a54b-18f35691a5c2",
@@ -5703,7 +5848,8 @@
         "cycle": 2,
         "max_proximity": 0.866484020545874,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "b65f0ec7-2bff-4e5d-98c4-d7f76efd00f2",
@@ -5742,7 +5888,8 @@
         "cycle": 0,
         "max_proximity": 0.977572535616172,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "929b82e2-736a-4376-b34a-8e63aedb1fad",
@@ -5781,7 +5928,8 @@
         "cycle": 1,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "eaf15f9b-c03e-4162-a1bb-5bbf5ea876ad",
@@ -5820,7 +5968,8 @@
         "cycle": 2,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "b349ddc6-3295-47ae-91d3-3c22bdbed229",
@@ -5859,7 +6008,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "9b46deb6-5ef9-41cf-877b-6e27131f7fd7",
@@ -5898,7 +6048,8 @@
         "cycle": 1,
         "max_proximity": 0.971924670524368,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "a652c842-b4b9-45ed-a6a7-1e96a3fa5a4a",
@@ -5937,7 +6088,8 @@
         "cycle": 2,
         "max_proximity": 0.969577125527282,
         "rounds_survived": 101
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "c44bcd52-4634-4fc5-ab71-4093d826d2b1",
@@ -5976,7 +6128,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 101
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "6ee253db-ad49-4fec-ba65-f573e682f334",
@@ -6015,7 +6168,8 @@
         "cycle": 1,
         "max_proximity": 0.973307848481488,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "7b5182f8-0b02-4ea1-bffa-380e9a278f2c",
@@ -6054,7 +6208,8 @@
         "cycle": 2,
         "max_proximity": 0.972072206118997,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "514ff98f-9884-4ec1-80ee-dea80c3e664e",
@@ -6093,7 +6248,8 @@
         "cycle": 0,
         "max_proximity": 0.996697637772034,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "693c860e-ca35-4c13-8176-951fe4572bd3",
@@ -6132,7 +6288,8 @@
         "cycle": 1,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "581fa44c-20df-426b-bab7-d0b25e069328",
@@ -6171,7 +6328,8 @@
         "cycle": 2,
         "max_proximity": 1.0,
         "rounds_survived": 101
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "afce0eca-75be-4d03-9af0-22ae52fb5e44",
@@ -6210,7 +6368,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 121
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "d8aaa4be-ba41-4c29-a68d-6a0d31b178d3",
@@ -6249,7 +6408,8 @@
         "cycle": 1,
         "max_proximity": 0.929109712710995,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "485135bd-91a7-444b-968e-91a1d2cd11bc",
@@ -6288,7 +6448,8 @@
         "cycle": 2,
         "max_proximity": 0.886967892094635,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "a983686b-50b0-47e2-88a9-ef1656438516",
@@ -6327,7 +6488,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "a5cdd94c-92f1-4405-9455-6401bb3a2682",
@@ -6366,7 +6528,8 @@
         "cycle": 1,
         "max_proximity": 0.872813210073672,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "58737618-2cc1-44db-97c5-4bfbc21863d7",
@@ -6405,7 +6568,8 @@
         "cycle": 2,
         "max_proximity": 0.877550665524855,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "dc3e1146-fbb0-40bf-b8de-e7087437ce04",
@@ -6444,7 +6608,8 @@
         "cycle": 0,
         "max_proximity": 0.9823278362148,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "04c46a26-2be7-4c89-8012-3037c728981d",
@@ -6483,7 +6648,8 @@
         "cycle": 1,
         "max_proximity": 0.969318403290046,
         "rounds_survived": 101
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "1bc4c00b-2ed3-4f32-859e-5847577fe0db",
@@ -6522,7 +6688,8 @@
         "cycle": 2,
         "max_proximity": 0.966092821062027,
         "rounds_survived": 101
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "f2a71470-ba51-4d7d-ab6a-3c243699018b",
@@ -6561,7 +6728,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "2f64b435-de8f-474a-b30c-389bdba24820",
@@ -6600,7 +6768,8 @@
         "cycle": 1,
         "max_proximity": 1.0,
         "rounds_survived": 101
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "8e02fbb1-4e5c-49c6-a21e-a7869acb0faf",
@@ -6639,7 +6808,8 @@
         "cycle": 2,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "3cb17757-5113-4612-85d4-2f92a2e908e4",
@@ -6678,7 +6848,8 @@
         "cycle": 0,
         "max_proximity": 0.986643251771812,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "a712329c-74b2-4967-9d9c-9954426058cd",
@@ -6717,7 +6888,8 @@
         "cycle": 1,
         "max_proximity": 0.966390180008896,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "5db657eb-c671-499a-9443-93b71ee926b4",
@@ -6756,7 +6928,8 @@
         "cycle": 2,
         "max_proximity": 0.966698774186875,
         "rounds_survived": 101
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "2ce833ee-3ba3-4929-b3ab-f537224330df",
@@ -6795,7 +6968,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "62de534f-9ebd-4c0a-86c5-35f913d27106",
@@ -6834,7 +7008,8 @@
         "cycle": 1,
         "max_proximity": 1.0,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "09f1a1cd-1890-4d69-bc06-451896a02b50",
@@ -6873,7 +7048,8 @@
         "cycle": 2,
         "max_proximity": 1.0,
         "rounds_survived": 121
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "22724c9f-8400-4f5b-ae35-feb9befd2095",
@@ -6912,7 +7088,8 @@
         "cycle": 0,
         "max_proximity": 0.9799385713202,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "044147ad-ba47-4e8c-ab23-5ecfc2c851fb",
@@ -6951,7 +7128,8 @@
         "cycle": 1,
         "max_proximity": 0.984007706256893,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "092600b1-2d4b-4523-a5b4-535bd5e5bb10",
@@ -6990,7 +7168,8 @@
         "cycle": 2,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "b5e63a91-f36e-4b00-b103-7c6b3ae5f7bd",
@@ -7029,7 +7208,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "fc1adc18-ffa1-4dc9-884b-988cea17ade2",
@@ -7068,7 +7248,8 @@
         "cycle": 1,
         "max_proximity": 0.938844116048879,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "607d2bca-4dda-4f26-8bc8-84e94f065d4a",
@@ -7107,7 +7288,8 @@
         "cycle": 2,
         "max_proximity": 0.888411059670745,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "33a7d646-6a41-4822-a81e-e2bf5b857a11",
@@ -7146,7 +7328,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 101
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "a1776346-6bc3-4ca1-b5bc-f6751578ffe3",
@@ -7185,7 +7368,8 @@
         "cycle": 0,
         "max_proximity": 0.995908286556934,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "d7f24569-eba5-4c3f-815f-379d5075431a",
@@ -7224,7 +7408,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 101
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "1eb496ec-1a9c-4978-9a8c-496285ea11f2",
@@ -7263,7 +7448,8 @@
         "cycle": 1,
         "max_proximity": 1.0,
         "rounds_survived": 101
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "56a9dfe4-e653-4901-94ce-389d94a38628",
@@ -7302,7 +7488,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "28d62c8e-0d5c-4e17-ac8b-42c74265cb4f",
@@ -7341,7 +7528,8 @@
         "cycle": 0,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "43720e10-458d-4559-a905-145c7e4e3b28",
@@ -7380,7 +7568,8 @@
         "cycle": 1,
         "max_proximity": 0.81120543223199,
         "rounds_survived": 171
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "6b477b61-9782-436a-b481-95d25a57a646",
@@ -7419,7 +7608,8 @@
         "cycle": 2,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "6eeb909c-dd3c-47ce-ae60-51eabf3ef93c",
@@ -7458,7 +7648,8 @@
         "cycle": 0,
         "max_proximity": 0.638898407347174,
         "rounds_survived": 200
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "24e03b14-098e-4277-9ff0-a9e7a693723d",
@@ -7497,7 +7688,8 @@
         "cycle": 1,
         "max_proximity": 0.983082988693932,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "6763a9ea-d9da-419d-b056-d1992d336f7d",
@@ -7536,7 +7728,8 @@
         "cycle": 2,
         "max_proximity": 0.660001180916985,
         "rounds_survived": 200
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "45c4d024-e7be-46e5-9cbd-3b4adbc37bbd",
@@ -7575,7 +7768,8 @@
         "cycle": 0,
         "max_proximity": 0.792094693766553,
         "rounds_survived": 200
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "3af9a381-a645-46d8-b1d0-33fc1beb3c70",
@@ -7614,7 +7808,8 @@
         "cycle": 1,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "9ff02d13-7dbd-4af3-8dd5-ed7976d0a215",
@@ -7653,7 +7848,8 @@
         "cycle": 2,
         "max_proximity": 1.0,
         "rounds_survived": 61
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "9bd964fa-5f33-4309-a8a0-e3250933f06a",
@@ -7692,7 +7888,8 @@
         "cycle": 0,
         "max_proximity": 0.835409774119073,
         "rounds_survived": 120
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "f6049071-6e20-42ea-9b1d-dd4eaa759900",
@@ -7731,7 +7928,8 @@
         "cycle": 1,
         "max_proximity": 0.988918666306733,
         "rounds_survived": 81
-      }
+      },
+      "seen_scarcity": []
     },
     {
       "run_id": "64536a2e-27bc-42c9-9f99-fa8e7a170a73",
@@ -7770,7 +7968,536 @@
         "cycle": 2,
         "max_proximity": 0.800538408908879,
         "rounds_survived": 67
-      }
+      },
+      "seen_scarcity": []
+    },
+    {
+      "run_id": "57f37027-e5d8-4628-83dc-7356434b367f",
+      "session_id": "57f37027-e5d8-4628-83dc-7356434b367f",
+      "ts": 1782238382.0499465,
+      "archetype": "aggressive",
+      "archetype_soft": [
+        0.7374843195409682,
+        0.05431585802151686,
+        0.20819982243751498
+      ],
+      "personality_9d": [
+        0.0912231802940369,
+        0.307022094726563,
+        -0.105320140719414,
+        -0.301711797714233,
+        0.0487715899944305,
+        0.0732951462268829,
+        0.115477427840233,
+        -0.685455024242401,
+        0.268267512321472
+      ],
+      "score": 57.580452306467,
+      "coins": 25,
+      "score_components": {
+        "fitness": -0.10666666666666669,
+        "advantage": 0.5921586475816426,
+        "weight": 0.57580452306467,
+        "q_before": [
+          0.44,
+          0.44,
+          0.12
+        ]
+      },
+      "outcome": {
+        "cycle": 0,
+        "max_proximity": 1.0,
+        "rounds_survived": 61
+      },
+      "seen_scarcity": [
+        0.44,
+        0.44,
+        0.12
+      ]
+    },
+    {
+      "run_id": "bbf1315a-2566-4112-84b5-8b2e6c879622",
+      "session_id": "bbf1315a-2566-4112-84b5-8b2e6c879622",
+      "ts": 1782238504.0191102,
+      "archetype": "balanced",
+      "archetype_soft": [
+        0.37857425878933043,
+        0.12996143629010898,
+        0.4914643049205605
+      ],
+      "personality_9d": [
+        0.158438086509705,
+        -0.146678447723389,
+        0.439960479736328,
+        -0.254057466983795,
+        -0.310401290655136,
+        0.109984219074249,
+        -0.135085299611092,
+        0.0787869542837143,
+        0.184422254562378
+      ],
+      "score": 92.90655306118546,
+      "coins": 100,
+      "score_components": {
+        "fitness": 0.21333333333333332,
+        "advantage": 0.9290655306118546,
+        "weight": 0.9290655306118546,
+        "q_before": [
+          0.44,
+          0.44,
+          0.12
+        ]
+      },
+      "outcome": {
+        "cycle": 1,
+        "max_proximity": 0.676242439570423,
+        "rounds_survived": 200
+      },
+      "seen_scarcity": [
+        0.44,
+        0.44,
+        0.12
+      ]
+    },
+    {
+      "run_id": "80f31c59-77a9-4da4-9ef5-253229ad00b3",
+      "session_id": "80f31c59-77a9-4da4-9ef5-253229ad00b3",
+      "ts": 1782238561.852307,
+      "archetype": "aggressive",
+      "archetype_soft": [
+        0.7208339392844489,
+        0.10995217136732888,
+        0.16921388934822232
+      ],
+      "personality_9d": [
+        0.545218110084534,
+        0.544350862503052,
+        0.837360382080078,
+        -0.467275083065033,
+        -0.275968134403229,
+        0.59302681684494,
+        -0.349997341632843,
+        0.578842461109161,
+        0.355183482170105
+      ],
+      "score": 58.169200789078026,
+      "coins": 25,
+      "score_components": {
+        "fitness": -0.10666666666666669,
+        "advantage": 0.5921586475816426,
+        "weight": 0.5816920078907802,
+        "q_before": [
+          0.44,
+          0.42,
+          0.14
+        ]
+      },
+      "outcome": {
+        "cycle": 2,
+        "max_proximity": 1.0,
+        "rounds_survived": 81
+      },
+      "seen_scarcity": [
+        0.44,
+        0.42,
+        0.14
+      ]
+    },
+    {
+      "run_id": "8997cae5-ecf8-4160-bf47-f8c3f885454c",
+      "session_id": "8997cae5-ecf8-4160-bf47-f8c3f885454c",
+      "ts": 1782239103.9623575,
+      "archetype": "defensive",
+      "archetype_soft": [
+        0.035170677154431076,
+        0.8973772514953557,
+        0.0674520713502131
+      ],
+      "personality_9d": [
+        -0.36041533946991,
+        -0.18458154797554,
+        0.407281637191772,
+        0.175528541207314,
+        -0.591820478439331,
+        0.370984822511673,
+        -0.956699967384338,
+        1.26833987236023,
+        -0.231810659170151
+      ],
+      "score": 61.09717946014415,
+      "coins": 50,
+      "score_components": {
+        "fitness": -0.06666666666666671,
+        "advantage": 0.6287010919732595,
+        "weight": 0.6109717946014415,
+        "q_before": [
+          0.46,
+          0.4,
+          0.14
+        ]
+      },
+      "outcome": {
+        "cycle": 0,
+        "max_proximity": 0.629163340736713,
+        "rounds_survived": 200
+      },
+      "seen_scarcity": [
+        0.46,
+        0.4,
+        0.14
+      ]
+    },
+    {
+      "run_id": "9830e3f9-f38f-489a-86ef-8b1e1eb41482",
+      "session_id": "9830e3f9-f38f-489a-86ef-8b1e1eb41482",
+      "ts": 1782239166.7796695,
+      "archetype": "defensive",
+      "archetype_soft": [
+        0.14570166978616092,
+        0.6294476794075343,
+        0.22485065080630476
+      ],
+      "personality_9d": [
+        0.030057966709137,
+        -0.154606431722641,
+        0.455098688602448,
+        -0.0535974055528641,
+        -0.410484582185745,
+        0.268462955951691,
+        -0.770235300064087,
+        1.00263690948486,
+        0.0942073464393616
+      ],
+      "score": 61.082371117014645,
+      "coins": 50,
+      "score_components": {
+        "fitness": -0.08666666666666667,
+        "advantage": 0.6102313774449662,
+        "weight": 0.6108237111701464,
+        "q_before": [
+          0.46,
+          0.42,
+          0.12
+        ]
+      },
+      "outcome": {
+        "cycle": 1,
+        "max_proximity": 1.0,
+        "rounds_survived": 101
+      },
+      "seen_scarcity": [
+        0.46,
+        0.42,
+        0.12
+      ]
+    },
+    {
+      "run_id": "a15819fa-4ee7-499e-bf37-2c78a1b00f48",
+      "session_id": "a15819fa-4ee7-499e-bf37-2c78a1b00f48",
+      "ts": 1782239383.2833374,
+      "archetype": "defensive",
+      "archetype_soft": [
+        0.13797128286591004,
+        0.6349837750788804,
+        0.22704494205520948
+      ],
+      "personality_9d": [
+        -0.0272239148616791,
+        -0.424471765756607,
+        0.252794504165649,
+        -0.107415780425072,
+        -0.336169928312302,
+        0.435209482908249,
+        -0.378986418247223,
+        0.580028653144836,
+        -0.014161616563797
+      ],
+      "score": 61.070524442511044,
+      "coins": 50,
+      "score_components": {
+        "fitness": -0.08666666666666667,
+        "advantage": 0.6102313774449662,
+        "weight": 0.6107052444251104,
+        "q_before": [
+          0.46,
+          0.42,
+          0.12
+        ]
+      },
+      "outcome": {
+        "cycle": 2,
+        "max_proximity": 0.849565152744554,
+        "rounds_survived": 199
+      },
+      "seen_scarcity": [
+        0.46,
+        0.42,
+        0.12
+      ]
+    },
+    {
+      "run_id": "4ff3824a-cf18-42f6-a298-2d5e23e99f78",
+      "session_id": "4ff3824a-cf18-42f6-a298-2d5e23e99f78",
+      "ts": 1782271454.3796263,
+      "archetype": "aggressive",
+      "archetype_soft": [
+        0.6949338998490774,
+        0.04107814598335759,
+        0.26398795416756504
+      ],
+      "personality_9d": [
+        0.289723783731461,
+        0.272202610969543,
+        0.219370186328888,
+        -0.494826257228851,
+        -0.200040191411972,
+        0.431753903627396,
+        0.429714679718018,
+        -0.377139091491699,
+        0.628060162067413
+      ],
+      "score": 57.743485049016385,
+      "coins": 25,
+      "score_components": {
+        "fitness": -0.1266666666666667,
+        "advantage": 0.5744813754371616,
+        "weight": 0.5774348504901639,
+        "q_before": [
+          0.46,
+          0.42,
+          0.12
+        ]
+      },
+      "outcome": {
+        "cycle": 0,
+        "max_proximity": 1.0,
+        "rounds_survived": 81
+      },
+      "seen_scarcity": [
+        0.46,
+        0.42,
+        0.12
+      ]
+    },
+    {
+      "run_id": "85130fba-650a-4036-a0db-b5269b949a89",
+      "session_id": "85130fba-650a-4036-a0db-b5269b949a89",
+      "ts": 1782271604.0077035,
+      "archetype": "balanced",
+      "archetype_soft": [
+        0.281786097621074,
+        0.31086643710786993,
+        0.4073474652710561
+      ],
+      "personality_9d": [
+        -0.0782541334629059,
+        -0.154902696609497,
+        0.269210249185562,
+        -0.0637035220861435,
+        -0.0553108751773834,
+        0.603251099586487,
+        0.108641400933266,
+        -0.594760954380035,
+        -0.00299383699893951
+      ],
+      "score": 92.55249048405514,
+      "coins": 100,
+      "score_components": {
+        "fitness": 0.21333333333333332,
+        "advantage": 0.9290655306118546,
+        "weight": 0.9255249048405514,
+        "q_before": [
+          0.48,
+          0.4,
+          0.12
+        ]
+      },
+      "outcome": {
+        "cycle": 1,
+        "max_proximity": 1.0,
+        "rounds_survived": 61
+      },
+      "seen_scarcity": [
+        0.48,
+        0.4,
+        0.12
+      ]
+    },
+    {
+      "run_id": "f68ee2f5-453d-46e1-bb59-1ef611b1e9a8",
+      "session_id": "f68ee2f5-453d-46e1-bb59-1ef611b1e9a8",
+      "ts": 1782272028.476147,
+      "archetype": "aggressive",
+      "archetype_soft": [
+        0.5031538734351418,
+        0.3889927591777785,
+        0.10785336738707958
+      ],
+      "personality_9d": [
+        -0.0225475430488586,
+        0.469642251729965,
+        0.125456094741821,
+        -0.48341292142868,
+        0.361311703920364,
+        0.560317575931549,
+        -0.536415815353394,
+        0.337890088558197,
+        0.228223904967308
+      ],
+      "score": 57.01494865921799,
+      "coins": 25,
+      "score_components": {
+        "fitness": -0.14666666666666667,
+        "advantage": 0.5571977285513195,
+        "weight": 0.5701494865921799,
+        "q_before": [
+          0.48,
+          0.38,
+          0.14
+        ]
+      },
+      "outcome": {
+        "cycle": 2,
+        "max_proximity": 0.78408131439847,
+        "rounds_survived": 200
+      },
+      "seen_scarcity": [
+        0.48,
+        0.38,
+        0.14
+      ]
+    },
+    {
+      "run_id": "f9d8cd29-b85f-4ef0-8cb8-feeb4c9f0229",
+      "session_id": "f9d8cd29-b85f-4ef0-8cb8-feeb4c9f0229",
+      "ts": 1782300110.168017,
+      "archetype": "balanced",
+      "archetype_soft": [
+        0.26038816682380966,
+        0.3152268831861871,
+        0.42438494999000337
+      ],
+      "personality_9d": [
+        -0.0382408201694489,
+        0.0309946089982986,
+        0.153702691197395,
+        -0.0357357710599899,
+        -0.086274579167366,
+        0.174031645059586,
+        -0.162613213062286,
+        0.0911397710442543,
+        0.285442411899567
+      ],
+      "score": 91.81554242312498,
+      "coins": 100,
+      "score_components": {
+        "fitness": 0.1933333333333333,
+        "advantage": 0.9050541253702686,
+        "weight": 0.9181554242312497,
+        "q_before": [
+          0.48,
+          0.38,
+          0.14
+        ]
+      },
+      "outcome": {
+        "cycle": 0,
+        "max_proximity": 0.789309466865281,
+        "rounds_survived": 200
+      },
+      "seen_scarcity": [
+        0.48,
+        0.38,
+        0.14
+      ]
+    },
+    {
+      "run_id": "8b0b5784-0924-4451-91d7-385a0dc189a3",
+      "session_id": "8b0b5784-0924-4451-91d7-385a0dc189a3",
+      "ts": 1782300888.7087572,
+      "archetype": "aggressive",
+      "archetype_soft": [
+        0.5053684952204723,
+        0.27827556733196634,
+        0.2163559374475613
+      ],
+      "personality_9d": [
+        0.10159495472908,
+        0.320284247398376,
+        0.0611805021762848,
+        -0.108250752091408,
+        0.0817722827196121,
+        0.13066677749157,
+        -0.144868075847626,
+        0.0679360553622246,
+        0.0819923505187035
+      ],
+      "score": 56.54868536974702,
+      "coins": 25,
+      "score_components": {
+        "fitness": -0.14666666666666667,
+        "advantage": 0.5571977285513195,
+        "weight": 0.5654868536974702,
+        "q_before": [
+          0.48,
+          0.38,
+          0.14
+        ]
+      },
+      "outcome": {
+        "cycle": 1,
+        "max_proximity": 1.0,
+        "rounds_survived": 81
+      },
+      "seen_scarcity": [
+        0.48,
+        0.38,
+        0.14
+      ]
+    },
+    {
+      "run_id": "ee23c904-e08e-4ef8-a4b6-aa5c7591a6c5",
+      "session_id": "ee23c904-e08e-4ef8-a4b6-aa5c7591a6c5",
+      "ts": 1782301228.2359378,
+      "archetype": "aggressive",
+      "archetype_soft": [
+        0.5020506862451649,
+        0.2844716081779986,
+        0.21347770557683646
+      ],
+      "personality_9d": [
+        0.0450404211878776,
+        0.295844912528992,
+        0.0878309011459351,
+        -0.212108418345451,
+        0.144419729709625,
+        0.212051346898079,
+        -0.215168207883835,
+        0.0677905157208443,
+        0.106101155281067
+      ],
+      "score": 56.04505978958579,
+      "coins": 25,
+      "score_components": {
+        "fitness": -0.16666666666666669,
+        "advantage": 0.5403055746894084,
+        "weight": 0.5604505978958579,
+        "q_before": [
+          0.5,
+          0.36,
+          0.14
+        ]
+      },
+      "outcome": {
+        "cycle": 2,
+        "max_proximity": 0.788166983078525,
+        "rounds_survived": 200
+      },
+      "seen_scarcity": [
+        0.5,
+        0.36,
+        0.14
+      ]
     }
   ],
   "snapshots": [
@@ -8134,28 +8861,54 @@
         0.49695872508969,
         0.8134648016484818
       ]
+    },
+    {
+      "bin_index": 19,
+      "ts": 1782238382.0499835,
+      "counts": {
+        "aggressive": 22,
+        "defensive": 22,
+        "balanced": 6
+      },
+      "proportions": [
+        0.44,
+        0.44,
+        0.12
+      ],
+      "weights": [
+        0.57580452306467,
+        0.6089809549319232,
+        0.9290655306118546
+      ]
+    },
+    {
+      "bin_index": 20,
+      "ts": 1782300888.7088015,
+      "counts": {
+        "aggressive": 25,
+        "defensive": 18,
+        "balanced": 7
+      },
+      "proportions": [
+        0.5,
+        0.36,
+        0.14
+      ],
+      "weights": [
+        0.5654868536974702,
+        0.6304987165507525,
+        0.9155351644590536
+      ]
     }
   ],
   "weights": [
-    0.5717159919354269,
-    0.6131865317694932,
-    0.9290655306118546
+    0.5604505978958579,
+    0.6377661787039832,
+    0.9134389566412967
   ],
   "recent": [
     0,
     1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    0,
-    2,
-    1,
-    0,
-    0,
-    1,
     0,
     1,
     1,
@@ -8191,6 +8944,18 @@
     0,
     0,
     1,
-    1
+    1,
+    0,
+    2,
+    0,
+    1,
+    1,
+    1,
+    0,
+    2,
+    0,
+    2,
+    0,
+    0
   ]
 }

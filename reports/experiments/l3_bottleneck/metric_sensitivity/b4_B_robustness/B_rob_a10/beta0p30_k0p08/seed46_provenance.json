@@ -1,0 +1,520 @@
+{
+  "condition": "beta0p30_k0p08",
+  "beta_state_k": 0.3,
+  "k_base": 0.08,
+  "config": {
+    "players": 300,
+    "rounds": 3000,
+    "burn_in": 1000,
+    "tail": 1000,
+    "memory_kernel": 3,
+    "init_bias": 0.12,
+    "a": 1.0,
+    "b": 0.9,
+    "matrix_cross_coupling": 0.0,
+    "enable_events": true,
+    "events_json": "/home/user/personality-dungeon/docs/personality_dungeon_v1/02_event_templates_v1.json"
+  },
+  "round_diagnostics": {
+    "k_clamped_ratio": 0.0,
+    "mean_effective_k": 0.06848958211591899,
+    "min_effective_k": 0.06427586206896552,
+    "max_effective_k": 0.07976237623762376,
+    "mean_state_dominance": 0.6808611111109024,
+    "mean_state_k_factor": 0.8561197764506857
+  },
+  "event_provenance": {
+    "input_csv": "/tmp/B_rob_a10/beta0p30_k0p08/seed46.csv",
+    "baseline_csv": null,
+    "filter_cycle_level": null,
+    "rounds": 3000,
+    "source_rounds": 3000,
+    "event_rounds": 3000,
+    "non_event_rounds": 0,
+    "derived_cycle_level": 3,
+    "avg_success_rate": 0.32403444444446217,
+    "amplitude_comparison": {
+      "mode": "unavailable",
+      "reason": "need either --baseline-csv or both event and non-event rounds in the same file"
+    },
+    "comparison": {
+      "mode": "unavailable",
+      "reason": "need either --baseline-csv or both event and non-event rounds in the same file"
+    },
+    "envelope_gamma_comparison": null,
+    "world_readonly_leak": {
+      "available": false,
+      "max_readonly_leak_score": null,
+      "mean_readonly_leak_score": null,
+      "readonly_applied_rounds": 0,
+      "readonly_applied_ratio": null
+    },
+    "payoff_static_verification": {
+      "available": false,
+      "threshold_eps": 1e-09,
+      "rounds_checked": 0,
+      "pass_rounds": 0,
+      "fail_rounds": 0,
+      "pass_ratio": null,
+      "payoff_static_pass": null
+    },
+    "difficulty_modulation_summary": {
+      "available": false,
+      "difficulty_obs_rounds": 0,
+      "difficulty_modulation_applied_rounds": 0,
+      "difficulty_modulation_applied_ratio": null,
+      "difficulty_modulation_applied": null,
+      "difficulty_index_mean": null,
+      "difficulty_index_min": null,
+      "difficulty_index_max": null,
+      "event_difficulty_multiplier_mean": null,
+      "event_difficulty_multiplier_min": null,
+      "event_difficulty_multiplier_max": null,
+      "event_difficulty_multiplier_nontrivial_rounds": 0,
+      "event_difficulty_multiplier_nontrivial_ratio": null
+    },
+    "round_correlations": {
+      "event_count_vs_p_amplitude": null,
+      "event_count_vs_w_amplitude": null,
+      "success_rate_vs_p_amplitude": 0.13192384365480048,
+      "success_rate_vs_w_amplitude": 0.11836134198032634,
+      "mean_final_risk_vs_p_amplitude": 0.22140855104209414,
+      "mean_final_risk_vs_w_amplitude": 0.2645281330229435
+    },
+    "event_type_summary": [
+      {
+        "event_type": "Threat",
+        "count": 180662,
+        "success_rate": 0.3254198447930389,
+        "avg_final_risk": 0.669772853700567,
+        "avg_success_prob": 0.32517669520371717,
+        "avg_round_trait_shift_l1_when_present": 14.75830666666666,
+        "corr_with_cycle_level": null,
+        "mean_cycle_level_when_present": null
+      },
+      {
+        "event_type": "Uncertainty",
+        "count": 180355,
+        "success_rate": 0.32209808433367526,
+        "avg_final_risk": 0.6687800786770675,
+        "avg_success_prob": 0.3220320334254561,
+        "avg_round_trait_shift_l1_when_present": 14.75830666666666,
+        "corr_with_cycle_level": null,
+        "mean_cycle_level_when_present": null
+      },
+      {
+        "event_type": "Internal",
+        "count": 180149,
+        "success_rate": 0.3213062520469167,
+        "avg_final_risk": 0.667780063071579,
+        "avg_success_prob": 0.32193002746292165,
+        "avg_round_trait_shift_l1_when_present": 14.75830666666666,
+        "corr_with_cycle_level": null,
+        "mean_cycle_level_when_present": null
+      },
+      {
+        "event_type": "Navigation",
+        "count": 179647,
+        "success_rate": 0.32829938713143,
+        "avg_final_risk": 0.6677562259312273,
+        "avg_success_prob": 0.32813113458965165,
+        "avg_round_trait_shift_l1_when_present": 14.75830666666666,
+        "corr_with_cycle_level": null,
+        "mean_cycle_level_when_present": null
+      },
+      {
+        "event_type": "Resource",
+        "count": 179187,
+        "success_rate": 0.3230535697344115,
+        "avg_final_risk": 0.6687948050190662,
+        "avg_success_prob": 0.3229729572520882,
+        "avg_round_trait_shift_l1_when_present": 14.75830666666666,
+        "corr_with_cycle_level": null,
+        "mean_cycle_level_when_present": null
+      }
+    ],
+    "event_id_summary": [
+      {
+        "event_id": "threat_shadow_stalker",
+        "event_type": "Threat",
+        "count": 90485,
+        "success_rate": 0.3317124385257225,
+        "level3_hits": 0,
+        "avg_final_risk": 0.6683245278813619,
+        "avg_success_prob": 0.33158543162470355,
+        "avg_trait_deltas": {
+          "assertiveness": -0.0028755042272199543,
+          "endurance": -0.19216555230149676,
+          "impulsiveness": 6.763551969939735e-05,
+          "risk_aversion": 0.29761231143288813,
+          "curiosity": 0.20002387135991453,
+          "stability_seeking": -0.1085556722108896,
+          "suspicion": 0.42567895231251335
+        },
+        "mean_cycle_level_when_present": null,
+        "dominant_positive_trait": "suspicion",
+        "dominant_negative_trait": "endurance"
+      },
+      {
+        "event_id": "internal_panic_wave",
+        "event_type": "Internal",
+        "count": 90244,
+        "success_rate": 0.32070830193697086,
+        "level3_hits": 0,
+        "avg_final_risk": 0.6685016218730974,
+        "avg_success_prob": 0.321557431007508,
+        "avg_trait_deltas": {
+          "assertiveness": 8.499180000886475e-05,
+          "endurance": 0.1753160320908085,
+          "randomness": 0.4128949293026828,
+          "risk_aversion": 0.8711209609501466,
+          "stability_seeking": 0.3966517441603608
+        },
+        "mean_cycle_level_when_present": null,
+        "dominant_positive_trait": "risk_aversion",
+        "dominant_negative_trait": null
+      },
+      {
+        "event_id": "uncertainty_ancient_shrine",
+        "event_type": "Uncertainty",
+        "count": 90216,
+        "success_rate": 0.3217832756938902,
+        "level3_hits": 0,
+        "avg_final_risk": 0.6677847486879958,
+        "avg_success_prob": 0.3218365085592131,
+        "avg_trait_deltas": {
+          "curiosity": 2.216901658242526e-06,
+          "optimism": 8.136029085749722e-05,
+          "randomness": 0.8217067925866351,
+          "risk_aversion": 0.6463527533917418,
+          "assertiveness": 8.025184002837604e-05,
+          "endurance": 0.2985837323757019,
+          "stability_seeking": 0.15079032544114923,
+          "suspicion": 0.09653099228530199
+        },
+        "mean_cycle_level_when_present": null,
+        "dominant_positive_trait": "randomness",
+        "dominant_negative_trait": null
+      },
+      {
+        "event_id": "threat_ambush",
+        "event_type": "Threat",
+        "count": 90177,
+        "success_rate": 0.3191057586746066,
+        "level3_hits": 0,
+        "avg_final_risk": 0.6712261262839394,
+        "avg_success_prob": 0.31874606971064356,
+        "avg_trait_deltas": {
+          "assertiveness": 0.0002252237266708808,
+          "endurance": -0.304974550051563,
+          "risk_aversion": 1.0235921576455969,
+          "randomness": 0.00020404315956396694,
+          "suspicion": 0.027280348647683837
+        },
+        "mean_cycle_level_when_present": null,
+        "dominant_positive_trait": "risk_aversion",
+        "dominant_negative_trait": "endurance"
+      },
+      {
+        "event_id": "uncertainty_altar",
+        "event_type": "Uncertainty",
+        "count": 90139,
+        "success_rate": 0.32241316189440755,
+        "level3_hits": 0,
+        "avg_final_risk": 0.6697762589130819,
+        "avg_success_prob": 0.3222277253153363,
+        "avg_trait_deltas": {
+          "curiosity": 0.4830411919369127,
+          "optimism": 0.00018194122410943053,
+          "randomness": 0.0006168251256392924,
+          "risk_aversion": 0.4861116719733011,
+          "endurance": 0.2896063856932618,
+          "suspicion": 0.2426758672718825
+        },
+        "mean_cycle_level_when_present": null,
+        "dominant_positive_trait": "risk_aversion",
+        "dominant_negative_trait": null
+      },
+      {
+        "event_id": "navigation_collapsing_bridge",
+        "event_type": "Navigation",
+        "count": 89993,
+        "success_rate": 0.32206949429400067,
+        "level3_hits": 0,
+        "avg_final_risk": 0.6701651193978091,
+        "avg_success_prob": 0.3217166180928482,
+        "avg_trait_deltas": {
+          "assertiveness": 9.356283266476262e-05,
+          "endurance": 0.1954160879179713,
+          "risk_aversion": 0.18354538686362185,
+          "curiosity": 0.19254719811543006,
+          "stability_seeking": 0.0030694609580744488,
+          "suspicion": 0.4191988265752998
+        },
+        "mean_cycle_level_when_present": null,
+        "dominant_positive_trait": "suspicion",
+        "dominant_negative_trait": null
+      },
+      {
+        "event_id": "internal_resolve_surge",
+        "event_type": "Internal",
+        "count": 89905,
+        "success_rate": 0.3219064568155275,
+        "level3_hits": 0,
+        "avg_final_risk": 0.6670557835266789,
+        "avg_success_prob": 0.32230402884717807,
+        "avg_trait_deltas": {
+          "assertiveness": 0.0005376786608086377,
+          "endurance": 0.09826928424449052,
+          "stability_seeking": 0.17265335632057452,
+          "curiosity": 0.00023202269061787145,
+          "optimism": -0.1467202046604637,
+          "randomness": 0.18551782437014985,
+          "risk_aversion": 0.44016061398140405
+        },
+        "mean_cycle_level_when_present": null,
+        "dominant_positive_trait": "risk_aversion",
+        "dominant_negative_trait": "optimism"
+      },
+      {
+        "event_id": "resource_hidden_treasure",
+        "event_type": "Resource",
+        "count": 89714,
+        "success_rate": 0.3227478431459973,
+        "level3_hits": 0,
+        "avg_final_risk": 0.6688927506634272,
+        "avg_success_prob": 0.32264160013648524,
+        "avg_trait_deltas": {
+          "assertiveness": 0.00017945917025213366,
+          "impulsiveness": -0.0005847470851817909,
+          "optimism": 8.972958512606683e-05,
+          "risk_aversion": 0.410688632766285,
+          "curiosity": 0.29255054952411597,
+          "endurance": 0.09655115143681052,
+          "stability_seeking": -0.0010022961856567612,
+          "suspicion": 0.8166992888511218
+        },
+        "mean_cycle_level_when_present": null,
+        "dominant_positive_trait": "suspicion",
+        "dominant_negative_trait": "stability_seeking"
+      },
+      {
+        "event_id": "navigation_fork",
+        "event_type": "Navigation",
+        "count": 89654,
+        "success_rate": 0.3345528364601691,
+        "level3_hits": 0,
+        "avg_final_risk": 0.665338223948738,
+        "avg_success_prob": 0.3345699056769504,
+        "avg_trait_deltas": {
+          "endurance": 0.30525977647396507,
+          "stability_seeking": 0.0012960938719967828,
+          "suspicion": 0.30535949316256655,
+          "assertiveness": 0.0003677471166930682,
+          "curiosity": 0.0002451647444620397,
+          "randomness": -0.20429183304706378,
+          "risk_aversion": 0.1542501171169538
+        },
+        "mean_cycle_level_when_present": null,
+        "dominant_positive_trait": "suspicion",
+        "dominant_negative_trait": "randomness"
+      },
+      {
+        "event_id": "resource_suspicious_chest",
+        "event_type": "Resource",
+        "count": 89473,
+        "success_rate": 0.3233601198126809,
+        "level3_hits": 0,
+        "avg_final_risk": 0.6686965955532136,
+        "avg_success_prob": 0.3233052068938672,
+        "avg_trait_deltas": {
+          "impulsiveness": 8.404770154124673e-05,
+          "risk_aversion": 1.4344323986004501,
+          "suspicion": 2.4392950946096534,
+          "curiosity": 0.38364869849011385,
+          "stability_seeking": -0.025255551954211242
+        },
+        "mean_cycle_level_when_present": null,
+        "dominant_positive_trait": "suspicion",
+        "dominant_negative_trait": "stability_seeking"
+      }
+    ],
+    "action_success_top5": [
+      {
+        "action_name": "rest_here",
+        "count": 30320,
+        "success_rate": 0.9816952506596306
+      },
+      {
+        "action_name": "steady_breathing",
+        "count": 30012,
+        "success_rate": 0.9624150339864055
+      },
+      {
+        "action_name": "hide",
+        "count": 31385,
+        "success_rate": 0.9151186872709893
+      },
+      {
+        "action_name": "study",
+        "count": 36962,
+        "success_rate": 0.7605107948704074
+      },
+      {
+        "action_name": "test_and_cross",
+        "count": 41384,
+        "success_rate": 0.6779190025130485
+      }
+    ],
+    "top_event_action_pairs": [
+      {
+        "event_id": "resource_hidden_treasure",
+        "event_type": "Resource",
+        "action_name": "careful_extract",
+        "count": 87561,
+        "success_rate": 0.3209191306631948,
+        "level3_hits": 0,
+        "high_amplitude_hits": 83527
+      },
+      {
+        "event_id": "resource_suspicious_chest",
+        "event_type": "Resource",
+        "action_name": "inspect",
+        "count": 80109,
+        "success_rate": 0.3489121072538666,
+        "level3_hits": 0,
+        "high_amplitude_hits": 76306
+      },
+      {
+        "event_id": "threat_shadow_stalker",
+        "event_type": "Threat",
+        "action_name": "observe",
+        "count": 60688,
+        "success_rate": 0.47943580279462167,
+        "level3_hits": 0,
+        "high_amplitude_hits": 57485
+      },
+      {
+        "event_id": "internal_panic_wave",
+        "event_type": "Internal",
+        "action_name": "flee_randomly",
+        "count": 60188,
+        "success_rate": 0.0005648966571409584,
+        "level3_hits": 0,
+        "high_amplitude_hits": 57237
+      },
+      {
+        "event_id": "threat_ambush",
+        "event_type": "Threat",
+        "action_name": "run",
+        "count": 58734,
+        "success_rate": 0.0005788810569687064,
+        "level3_hits": 0,
+        "high_amplitude_hits": 56349
+      }
+    ],
+    "top_event_for_level3": [
+      {
+        "event_id": "threat_shadow_stalker",
+        "event_type": "Threat",
+        "count": 90485,
+        "success_rate": 0.3317124385257225,
+        "level3_hits": 0,
+        "avg_final_risk": 0.6683245278813619,
+        "avg_success_prob": 0.33158543162470355,
+        "avg_trait_deltas": {
+          "assertiveness": -0.0028755042272199543,
+          "endurance": -0.19216555230149676,
+          "impulsiveness": 6.763551969939735e-05,
+          "risk_aversion": 0.29761231143288813,
+          "curiosity": 0.20002387135991453,
+          "stability_seeking": -0.1085556722108896,
+          "suspicion": 0.42567895231251335
+        },
+        "mean_cycle_level_when_present": null,
+        "dominant_positive_trait": "suspicion",
+        "dominant_negative_trait": "endurance"
+      },
+      {
+        "event_id": "internal_panic_wave",
+        "event_type": "Internal",
+        "count": 90244,
+        "success_rate": 0.32070830193697086,
+        "level3_hits": 0,
+        "avg_final_risk": 0.6685016218730974,
+        "avg_success_prob": 0.321557431007508,
+        "avg_trait_deltas": {
+          "assertiveness": 8.499180000886475e-05,
+          "endurance": 0.1753160320908085,
+          "randomness": 0.4128949293026828,
+          "risk_aversion": 0.8711209609501466,
+          "stability_seeking": 0.3966517441603608
+        },
+        "mean_cycle_level_when_present": null,
+        "dominant_positive_trait": "risk_aversion",
+        "dominant_negative_trait": null
+      },
+      {
+        "event_id": "uncertainty_ancient_shrine",
+        "event_type": "Uncertainty",
+        "count": 90216,
+        "success_rate": 0.3217832756938902,
+        "level3_hits": 0,
+        "avg_final_risk": 0.6677847486879958,
+        "avg_success_prob": 0.3218365085592131,
+        "avg_trait_deltas": {
+          "curiosity": 2.216901658242526e-06,
+          "optimism": 8.136029085749722e-05,
+          "randomness": 0.8217067925866351,
+          "risk_aversion": 0.6463527533917418,
+          "assertiveness": 8.025184002837604e-05,
+          "endurance": 0.2985837323757019,
+          "stability_seeking": 0.15079032544114923,
+          "suspicion": 0.09653099228530199
+        },
+        "mean_cycle_level_when_present": null,
+        "dominant_positive_trait": "randomness",
+        "dominant_negative_trait": null
+      },
+      {
+        "event_id": "threat_ambush",
+        "event_type": "Threat",
+        "count": 90177,
+        "success_rate": 0.3191057586746066,
+        "level3_hits": 0,
+        "avg_final_risk": 0.6712261262839394,
+        "avg_success_prob": 0.31874606971064356,
+        "avg_trait_deltas": {
+          "assertiveness": 0.0002252237266708808,
+          "endurance": -0.304974550051563,
+          "risk_aversion": 1.0235921576455969,
+          "randomness": 0.00020404315956396694,
+          "suspicion": 0.027280348647683837
+        },
+        "mean_cycle_level_when_present": null,
+        "dominant_positive_trait": "risk_aversion",
+        "dominant_negative_trait": "endurance"
+      },
+      {
+        "event_id": "uncertainty_altar",
+        "event_type": "Uncertainty",
+        "count": 90139,
+        "success_rate": 0.32241316189440755,
+        "level3_hits": 0,
+        "avg_final_risk": 0.6697762589130819,
+        "avg_success_prob": 0.3222277253153363,
+        "avg_trait_deltas": {
+          "curiosity": 0.4830411919369127,
+          "optimism": 0.00018194122410943053,
+          "randomness": 0.0006168251256392924,
+          "risk_aversion": 0.4861116719733011,
+          "endurance": 0.2896063856932618,
+          "suspicion": 0.2426758672718825
+        },
+        "mean_cycle_level_when_present": null,
+        "dominant_positive_trait": "risk_aversion",
+        "dominant_negative_trait": null
+      }
+    ]
+  }
+}

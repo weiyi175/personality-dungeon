@@ -112,6 +112,25 @@ necessary AND sufficient for the observable steady winding; cross-coupling is ne
 contributory** (cc=0.2/β=0 alone = random walk). The "B4 escape = state-k" claim is now clean and
 provenance-verified. (turning-L3 = 0/3 everywhere — the metric-disagreement persists, as expected.)
 
+## R9 — B robustness pass: escape is necessary, sufficient, k-flat, cc-independent; a-dependent strength (2026-06-21)
+
+Clean cc=0 b4 runs (state-k alone). Winding criterion as R6.
+
+**B1 — necessity & seed-robustness (10 seeds, k=0.08, cc=0):**
+| a | β=0 | β=0.3 |
+|---|---|---|
+| 1.0 | wind+ 0/10 (random walk) | **wind+ 10/10, ratio +8.8 (steady)** |
+| 0.8 | wind+ 0/10 (random walk) | wind+ **7/10**, ratio +3.6 (weaker) |
+
+**B2 — k-threshold (β=0.3 vs β=0 control, cc=0, a=1.0, 3 seeds):** β=0.3 → **3/3 at k=0.06, 0.07, 0.08**
+(ratio +8.3/+9.2/+8.5); β=0 → 0–1/3 random-walk. **No k_c ≥ 0.06** — the earlier "k=0.06 fails" was the
+cross-coupling confound, not a selection threshold.
+
+**Verdict:** state-dependent-k is **necessary** (β=0 → 0/10 both a) and **sufficient & robust** for the
+observable winding escape — **bulletproof at a=1.0 (10/10), k-flat (0.06–0.08), cc-independent** (R8).
+**One honest qualification: a-dependence** — strength weakens at a=0.8 (7/10, ratio 3.6). Not a knife-edge;
+the *why* (and the a-dependence) remain for the bifurcation analysis (Step C). Data: `b4_B_robustness/`.
+
 ## ~~R7 — anti-dominance / lock-in→succession mechanism~~ (RETRACTED 2026-06-21)
 
 > **RETRACTED:** the dominance-level "why" below was **dataset-specific (driven by `a`), not robust.**
