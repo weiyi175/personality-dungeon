@@ -9,6 +9,44 @@
 | 主要互動方式 | 目前以 CLI 執行為主，另有 FastAPI HTTP API 作為核心契約整合層。 |
 | 前端狀態 | 目前未看到獨立的 Godot、React 或其他遊戲前端工程；`architecture_overview.html` 與 `docs/*.html` 主要是說明與研究視覺化文件。 |
 
+### 核心經濟循環（雙循環 · single coin (ii)）
+
+> 遊戲層是收集真人行為資料的載具：玩冒險**賺幣**（雙源）→ 玩 PvP **花幣**。單一幣（採方案 ii）。
+> 完整設計與校準鉤見 [`地牢經濟_R3C隔離_規劃_v1.md` §3](地牢經濟_R3C隔離_規劃_v1.md)。
+
+```mermaid
+flowchart TD
+    subgraph EARN["Loop α · 冒險賺幣 (EARN)"]
+        ADV["🗡 玩一場冒險"]
+        ADV -->|寫遺言| SUB["POST /ecology/submit"]
+        SUB --> ECO["① 生態多樣性幣<br/>neg-freq scarcity · 10–200<br/>archetype-COUPLED (F6, intended)"]
+        ADV -->|存活 rounds| SURV["② 存活幣<br/>0.3 × rounds_survived (≈23/場)<br/>archetype-agnostic baseline"]
+    end
+    ECO --> WALLET["💰 錢包 wallet<br/>單一幣 · 雙源後端權威累加"]
+    SURV --> WALLET
+    WALLET --> TICKET["🎫 門票 (10)"]
+    WALLET --> DEF["🛡 防禦升級 (50)"]
+    subgraph SPEND["Loop β · PvP 花幣 (SPEND)"]
+        TICKET --> CH["挑戰 NPC 地牢"]
+        DEF --> RAID["迎戰來犯"]
+        CH --> RANK["⚔ 零和 Rank 移轉<br/>F2: coin 不直接變 Rank · 只經 gameplay"]
+        RAID --> RANK
+    end
+```
+
+**Firewall（研究隔離）**：研究皇冠＝archetype 分佈，**只**由「寫遺言」構成。PvP loadout 零讀 will（F1）+ PvP 不餵生態 submit（F4）→ 花幣迴路**結構上碰不到**研究讀數；① 生態幣的 archetype 耦合（F6）是 intended 的「逐利→多樣性」那條合法通道。
+
+<details><summary>ASCII 版（同圖）</summary>
+
+```text
+[Loop α 冒險賺幣]  玩冒險 ─┬─ 寫遺言 →/ecology/submit→ ① 生態多樣性幣（scarcity, archetype-COUPLED, F6, 10–200）
+                          └─ 存活 rounds ──────────────→ ② 存活幣（agnostic baseline, 0.3×rounds, ≈23/場）
+                                      兩源「後端權威」一次累加（單一幣 ii）↓
+                                                【錢包】
+[Loop β PvP 花幣]  錢包 ─┬─ 門票(10) ─┬─ 防禦升級(50) → 挑戰/迎戰 → 零和 Rank（F2：coin 不直接變 Rank）
+```
+</details>
+
 ## 2. 目錄結構樹
 
 ```text
