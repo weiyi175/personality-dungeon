@@ -1,0 +1,14 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+device=cuda train=110 val=28 test=35
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:  81%|████████▏ | 162/199 [00:00<00:00, 1608.31it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 1745.94it/s]
+frozen     test_mean_r=0.668  (val=0.645)
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 3099.27it/s]
+ft_top2    test_mean_r=0.682  (val=0.647)
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 2739.94it/s]
+ft_top4    test_mean_r=0.689  (val=0.663)
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 4123.93it/s]
+ft_full    test_mean_r=0.678  (val=0.661)
+
+frozen baseline = 0.668 | best finetune (ft_top4) = 0.689 | delta = +0.021
+best per-trait r: {'impulsiveness': 0.8, 'assertiveness': 0.75, 'optimism': 0.63, 'risk_aversion': 0.61, 'suspicion': 0.67, 'endurance': 0.73, 'randomness': 0.56, 'stability_seeking': 0.68, 'curiosity': 0.79}

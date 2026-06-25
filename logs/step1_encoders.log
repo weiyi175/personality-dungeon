@@ -1,0 +1,27 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+train rows: 12832 (seed=1476, aug=11356)
+
+### encoder=minilm (sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2) — encoding 12832 texts ...
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 2715.28it/s]
+  minilm/none                  mean_r=0.398  mean_MAE=0.358
+  minilm/none/clip             mean_r=0.396  mean_MAE=0.339
+
+### encoder=e5base (intfloat/multilingual-e5-base) — encoding 12832 texts ...
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 2683.84it/s]
+  e5base/none                  mean_r=0.397  mean_MAE=0.305
+  e5base/none/clip             mean_r=0.393  mean_MAE=0.303
+
+### encoder=bgezh (BAAI/bge-base-zh-v1.5) — encoding 12832 texts ...
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 16134.12it/s]
+  bgezh/none                   mean_r=0.376  mean_MAE=0.255
+  bgezh/none/clip              mean_r=0.374  mean_MAE=0.254
+
+=== ranked by mean Pearson r ===
+  0.398  MAE 0.358  minilm/none
+  0.397  MAE 0.305  e5base/none
+  0.396  MAE 0.339  minilm/none/clip
+  0.393  MAE 0.303  e5base/none/clip
+  0.376  MAE 0.255  bgezh/none
+  0.374  MAE 0.254  bgezh/none/clip
+
+wrote /home/user/personality-dungeon/reports/experiments/sbert_quality/step1_results_minilm_e5base_bgezh.json
