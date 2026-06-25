@@ -30,6 +30,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from api.schemas import (
@@ -210,11 +212,25 @@ async def _lifespan(app: FastAPI):
 # FastAPI App
 # ===================================================================
 
+
+class UTF8JSONResponse(JSONResponse):
+    """JSON 回應顯式宣告 charset=utf-8。
+
+    預設的 ``application/json`` 不帶 charset，部分瀏覽器（尤其手機）會用
+    locale 預設編碼解 raw JSON → 中文變 mojibake（`夢` 變 `å¤¢`）。真正的
+    客戶端（Godot）一律以 UTF-8 解 body 不受影響，這純粹是讓 raw-browser
+    檢視也正確。media_type 內已含 charset，Starlette 不會重覆附加。
+    """
+
+    media_type = "application/json; charset=utf-8"
+
+
 app = FastAPI(
     title="Personality Dungeon API",
     description="Contract-locked core↔frontend API",
     version=API_VERSION,
     lifespan=_lifespan,
+    default_response_class=UTF8JSONResponse,
 )
 
 # ===================================================================
@@ -1860,6 +1876,26 @@ async def wallet_credit(req: WalletCreditRequest) -> dict[str, Any]:
 # NOTE: /metrics/events is defined once above (post_metrics_events). A second
 # duplicate definition used to live here but was dead code — FastAPI matches the
 # first registered route, so this one never ran. Removed to avoid confusion.
+
+
+# ===================================================================
+# Web client (Godot HTML5 export) — served by the backend itself so the
+# game and the API share ONE origin through the same tunnel:
+#   - 友人開 https://<tunnel>/play/ → 載入遊戲
+#   - 遊戲打 https://<tunnel>/pvp/... → 同源、免 CORS（見 AppConfig web 分支）
+#   - tunnel 換網址自動跟著對，不必重打包/改設定
+# 掛在所有 API route 之後、且只有 build 目錄存在時才掛（沒打包時不影響後端）。
+# WEB_BUILD_DIR 預設 web_build/（放 Godot 匯出的 index.html 等檔；已 gitignore）。
+# ===================================================================
+
+WEB_BUILD_DIR = os.environ.get("WEB_BUILD_DIR", "web_build")
+if os.path.isdir(WEB_BUILD_DIR):
+    app.mount(
+        "/play",
+        StaticFiles(directory=WEB_BUILD_DIR, html=True),
+        name="play",
+    )
+    log_metric("web_client_mounted", dir=WEB_BUILD_DIR)
 
 
 # ===================================================================
