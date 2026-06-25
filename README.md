@@ -7,7 +7,45 @@
 | 專案定位 | 以 Python 為主的研究型人格地下城模擬器，結合回合制事件壓力、策略演化、人格狀態更新與分析報表。 |
 | 核心目標 | 產出可重現的 time series 與 CSV 結果，用於驗證循環動態、人格耦合、事件模板與多種 payoff / replicator 規則。 |
 | 主要互動方式 | 目前以 CLI 執行為主，另有 FastAPI HTTP API 作為核心契約整合層。 |
-| 前端狀態 | 目前未看到獨立的 Godot、React 或其他遊戲前端工程；`architecture_overview.html` 與 `docs/*.html` 主要是說明與研究視覺化文件。 |
+| 前端狀態 | **Godot 前端**（獨立 repo [`personality-dungeon-client`](https://github.com/weiyi175/personality-dungeon-client)，本地 `/mnt/c/Users/n1166/personality-dungeon`）透過 FastAPI 與後端互動；另有 Godot **web build** 由後端 `/play` 同源服務（友人瀏覽器測試）。`architecture_overview.html`/`docs/*.html` 為說明與研究視覺化。 |
+
+### 兩條主線（研究皇冠 vs 遊戲載具）
+
+| 軌 | 是什麼 | 現況 |
+| --- | --- | --- |
+| **研究皇冠** | **多樣性動力**——生態能否維持共存（diversity）vs 塌成 monoculture；多少 directional 壓力 `g` 會翻（`g*` 預算）。`diversity 才是目標`。 | **sim-complete**：`g*(β)` 曲線（conditional on β）+ controls + ablation。**唯一開放＝真實 β**，gated 在真人收集（乙）。 |
+| **遊戲載具** | 人格地下城 + 跨玩家生態 + PvP 經濟。**存在是為了吸引/留住玩家來產生行為資料**，不是目的本身。 | Inc2/3 經濟 + 雙經濟循環全通；firewall 裁定隔離乾淨。 |
+
+> **firewall**：兩軌結構性隔離——遊戲玩法（PvP/經濟）**不可能**污染多樣性研究讀數（archetype 分佈只由「寫遺言」構成）。詳見 [`地牢經濟_R3C隔離_規劃_v1.md` §2/§10](地牢經濟_R3C隔離_規劃_v1.md)。
+
+### 系統架構（前端 ⟷ 後端 ⟷ 隔離 stores）
+
+```mermaid
+flowchart LR
+    subgraph FE["前端 (Godot, /mnt/c repo)"]
+        GD["桌面 client"]
+        WEB["web build → 後端 /play 同源"]
+    end
+    subgraph BE["FastAPI 後端 (api/)"]
+        SESS["sessions / rl_sessions<br/>回合引擎 + RL"]
+        BIF["personality / bifurcation<br/>9D 推斷 + 分岔"]
+        PTM["player_test / survey<br/>P7-H 人類 study"]
+        ECOM["ecology_tracker<br/>生態 meta-layer (研究讀數)"]
+        GAME["pvp_manager / wallet_manager<br/>遊戲經濟"]
+    end
+    subgraph ST["隔離 stores (互不污染)"]
+        PS[("p7h_real_study")]
+        ES[("reports/ecology")]
+        GS[("reports/pvp · wallet")]
+    end
+    ANA["analysis/ · scripts/<br/>cycle_metrics · β-instrument"]
+    FE -->|HTTP :8001| BE
+    PTM --> PS
+    ECOM --> ES
+    GAME --> GS
+    PS --> ANA
+    ES --> ANA
+```
 
 ### 核心經濟循環（雙循環 · single coin (ii)）
 
@@ -46,6 +84,47 @@ flowchart TD
 [Loop β PvP 花幣]  錢包 ─┬─ 門票(10) ─┬─ 防禦升級(50) → 挑戰/迎戰 → 零和 Rank（F2：coin 不直接變 Rank）
 ```
 </details>
+
+### 資料 store 隔離（firewall 的落地）
+
+| store（OUT_DIR） | 內容 | 隔離理由 | git |
+| --- | --- | --- | --- |
+| `p7h_real_study/` | P7-H 人類 study sessions + survey | 不污染生態/遊戲 | tracked |
+| `reports/ecology/` | 生態提交 + 快照（**研究讀數**：archetype 分佈） | **只由 will-authoring 構成**（F4/F5：PvP 不餵） | tracked |
+| `reports/pvp · wallet/` | 遊戲 Rank / 錢包（runtime state） | 遊戲面，與研究讀數解耦 | gitignored |
+
+> ⚠ 真人判準是 **store-specific**：ecology 真人＝`session_id` ∧ `outcome` 非空（**非** run_id 號）。跨 store 套 run_id 會誤判（見 `研發日誌.md` 更正記錄）。
+
+### API 表面（按領域，`api/server.py`）
+
+| 領域 | 端點（節錄） | 用途 |
+| --- | --- | --- |
+| 回合引擎 | `/sessions/*`、`/rl_sessions/*`、`/event/choose` | 地下城回合 + RL 策略 |
+| 9D / 分岔 | `/personality/infer[_sbert]`、`/bifurcation/*` | 人格推斷 + 分岔偵測（P7-H 機制） |
+| P7-H 人類 study | `/player-test/*`、`/survey/*` | 真人 study 收集 |
+| 生態 meta-layer | `/ecology/{submit,snapshot,assess,scarcity_variation}` | 跨玩家多樣性評分 + **乙 monitor** |
+| 遊戲經濟 | `/pvp/{dungeons,challenge,deploy,defense/upgrade,raid}`、`/wallet[/credit]` | PvP + 雙經濟循環 |
+| 指標 / web | `/metrics/events`、`/play`（Godot web build 同源服務） | 遙測 + 瀏覽器測試 |
+
+### 研究軌狀態
+
+| 線 | 狀態 |
+| --- | --- |
+| P7-H（人格分岔 HCI） | ✅ 封存（max_proximity d≈3.25、`H_counter` 證偽） |
+| 生態 ECO-DP `g*(β)` | ✅ sim-complete（conditional on β；controls + ablation） |
+| β-instrument + 乙（行為版收集） | ✅ instrument 建好驗好；β bound **gated 真人收集**（乙 pilot 就緒，runbook R0 ✅） |
+| 經濟 α\*(κ) whiplash | ✅ sim；真實 α/σ 待行為版 |
+| L3 dynamics | 🚫 SHELVED（負結果＝重新發現既有 finite-N quasi-cycle，改框方法論示範） |
+
+### 關鍵文件地圖
+
+| 檔 | 是什麼 |
+| --- | --- |
+| `SDD.md` | 唯一正式規格 |
+| `研發日誌.md` | 進度日誌（末節＝最新狀態） |
+| `HANDOFF_NEXT_SESSION.md` | 下個 session 接手 prompt + TODO + 反偏離檢查 |
+| `地牢經濟_R3C隔離_規劃_v1.md` | 遊戲經濟 + firewall（§3 循環圖 / §10 重審） |
+| `docs/experiments/ecology_directional_pressure/` | ECO-DP 結果、β-instrument、**乙 pre-reg（§8 pilot→confirm runbook）** |
 
 ## 2. 目錄結構樹
 
